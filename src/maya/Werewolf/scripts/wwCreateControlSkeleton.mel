@@ -1,0 +1,108 @@
+proc string getShortName(string $name) {
+	string $buf[];
+	tokenize $name "|" $buf;
+	int $end = `size $buf` - 1;
+	string $name = $buf[$end];	
+	return $name;
+}
+
+proc int hasTwistBones(string $joint) {
+	$name = getShortName($joint);
+	$childJoint = `listRelatives -c -pa -type joint $joint`;
+	if(size($childJoint) > 0) {
+		$tname = getShortName($childJoint[0]);
+		if(`match ("^" + $name + ".*twist") $tname` != "") {
+			return 1;
+		}
+	}
+	$parentJoint = `listRelatives -p -pa -type joint $joint`;
+	if(size($parentJoint) > 0) {
+		$tname = getShortName($parentJoint[0]);
+		if(`match ("^" + $name + ".*twist") $tname` != "") {
+			return -1;
+		}
+	}
+	return 0;
+}
+
+proc connectTransforms(string $joint, string $boundJoint) {
+	connectAttr -f ($joint+".rotate") ($boundJoint+".rotate");
+	connectAttr -f ($joint+".translate") ($boundJoint+".translate");
+	connectAttr -f ($joint+".scale") ($boundJoint+".scale");
+}
+
+proc connectNonTwist(string $joint, string $boundJoint, int $jointOrient) {
+	string $firstAxis[] = {".rotateY", ".rotateX", ".rotateX"};
+	string $secondAxis[] = {".rotateZ", ".rotateZ", ".rotateY"};
+	connectAttr -f ($joint+$firstAxis[$jointOrient]) ($boundJoint+$firstAxis[$jointOrient]);
+	connectAttr -f ($joint+$secondAxis[$jointOrient]) ($boundJoint+$secondAxis[$jointOrient]);
+}
+
+proc wwCreateTwistSetup(string $joint, string $boundJoint, int $direction, int $jointOrient) {
+	connectNonTwist($joint, $boundJoint, $jointOrient);
+	string $jointOrientArray[] = {".rotateX", ".rotateY", ".rotateZ"};
+	string $twistAxis = $jointOrientArray[$jointOrient];
+	$name = getShortName($boundJoint);
+	string $twistBones[] = {};
+	$realJoint = $boundJoint;
+	$arg = $direction == 1?"-c":"-p";
+	while(true) {
+		$tJoint = `listRelatives $arg -pa -type joint $realJoint`;
+		$tname = getShortName($tJoint[0]);
+		if(`match ("^" + $name + ".*twist") $tname` == "")
+				break;
+		$twistBones[size($twistBones)] = $tJoint[0];
+		$realJoint = $tJoint[0];
+	}
+	int $numTwistBones = size($twistBones);
+	// if just one twistbone do a direct connection
+	if($numTwistBones == 1) {
+		connectAttr -f ($joint + $twistAxis) ($twistBones[0] + $twistAxis);
+	} else {
+		float $weight = 1.0 / $numTwistBones;
+		$twistNode = `createNode multiplyDivide -n ($name + "_twistNode")`;
+		setAttr ($twistNode + ".input2X") $weight;
+		connectAttr -f ($joint + $twistAxis) ($twistNode + ".input1X");
+		for($twistBone in $twistBones)
+			connectAttr -f ($twistNode + ".outputX") ($twistBone + $twistAxis);
+	}
+}
+
+global proc wwCreateControlSkeleton(int $jointOrient) {
+	string $cprefix = "Ctrl_";
+	string $bprefix = "Bound_";
+	string $clprefix = "Control_";
+	string $selection[] = `ls -sl -type joint`;
+	string $root = $selection[0];
+	string $root_name = getShortName($root);
+	string $duplicate[] = `duplicate -n ($cprefix + $root_name) $selection[0]`;
+	// parent the root under world for now
+	// TODO: add an option to select the parent.
+	if(size(`listRelatives -p -pa $duplicate[0]`) != 0)
+		$duplicate = `parent -world $duplicate[0]`;
+	string $ctrl_root = $duplicate[0];
+
+	$boundLayer = `createDisplayLayer -n ($bprefix + $root_name) -number 1 $root`;
+	$ctrlLayer = `createDisplayLayer -n ($clprefix + $root_name) -number 1 $ctrl_root`;
+	setAttr ($boundLayer + ".displayType") 2;
+	setAttr ($boundLayer + ".visibility") 0;
+	connectTransforms($ctrl_root, $root);
+	
+	$jointOrient = `clamp 0 2 $jointOrient`;
+	string $hierarchy[] = `listRelatives -c -ad -pa -type joint $ctrl_root`;
+	for($joint in $hierarchy) {
+		$name = getShortName($joint);
+		if(`match "twist" $name` != "") {
+			removeJoint $joint;
+		} else {
+			$boundJoint = `substitute ("^"+$ctrl_root) $joint $root`;
+			$twist = hasTwistBones($boundJoint);
+			if($twist == 0) {
+				connectAttr -f ($joint+".rotate") ($boundJoint+".rotate");
+			} else {
+				// found a joint with twistbones - spread the rotation among the twistbones
+				wwCreateTwistSetup($joint, $boundJoint, $twist, $jointOrient);
+			}
+		}
+	}
+}

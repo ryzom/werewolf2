@@ -1,0 +1,11 @@
+// Assigns a color value to a NeL billboard
+
+global proc nelAssignBillboardColorRange(vector $min, vector $max) {
+	string $selected[] = `ls -sl`;
+	for($object in $selected) {
+		if(`attributeExists "Billboard" $object`) {
+			vector $color = `rand $min $max`;
+			polyColorPerVertex -r ($color.x) -g ($color.y) -b ($color.z) -a 1 $object;
+		}
+	}
+}

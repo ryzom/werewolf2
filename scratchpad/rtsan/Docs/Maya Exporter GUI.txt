@@ -1,0 +1,20 @@
+* General GUI
+	# a separate NeL menu
+	# exporter option box
+* Shader GUI
+	# override phong shader AETemplate and add NeL section
+	# have Expert and Basic tabs
+* Water GUI
+* MRM GUI
+* Animation GUI
+	* Force animation on specific channels per object
+		# possibly a separate window with name, enable checkbox and enable checkboxes per channel (translate, rotate, scale, morhp targets, texture matrix)
+	* Oversamping sample rate specification. Both global and local
+		# global is probably an option on the export option box
+		# local might be merged with the force animation GUI
+* Instance GUI
+* Zone weld GUI
+* Zone light GUI
+* Zone dependency GUI
+* Cluster GUI
+* Portal GUI

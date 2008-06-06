@@ -1,0 +1,50 @@
+1) Who built it?
+   1.1 Architects and main builders were from Laurelin. Funded by the king and he brought in some of his own people to "oversee" the build.
+2) When was it built?
+   2.1 ~250BT
+3) What's it's purpose?
+   3.1 It's an Inn :D
+   3.2 It's the temporary headquarters for the king :)
+   3.3 It's the seer library (not the one guild has, but an underground one that belongs to rougue seers)
+   3.4 Meeting hall
+   3.5 Is the social center of the village
+   3.6 Courtyard is used for parties / marriages
+   3.7 Is used as temporary banishment for political opponents of the king
+   3.8 Reward for friends / allies of the king
+4) Why was it built?
+   4.1 The old one was damaged in a raid on the village.
+
+Buildings:
+  * Main building
+  	2 floors + a cellar
+  	1st floor = bar area and meeting hall. Private entertainment rooms. Ordinary library.
+  	2nd floor = accomodations. A sittingroom in the hallway with a fireplace.
+  	cellar = wines, cheeses, stuff. A way out - tunnels, interconnected with the guest house.
+  * Stables
+  	1 floor + cellar (hidden)
+  	1st floor = horses, dogs and hawks (hunting cats and other pets stay with the master in his/her room).
+  	cellar = seer stuff. Special seer library for rougue seers + Scribe working room. VEERY hidden. Magically sealed. Berrin's private area, one can't enter without an invitation.
+  * Secondary stables around the courtyard
+  	1 floor - houses horses for guests that are just passing by (a more temporary stop; fast).
+  * Guest house
+  	2 floors + a cellar.
+  	1st floor = rooms for lesser nobles etc.
+  	2nd floor = rooms for the royal family
+  	cellar = wines, some storage, hidden meeting room.
+  * Sauna 
+	by the pond
+  	1 floor. 5 rooms. Separate for men and women. Common vestibule/meeting room (a long table, no fireplace, the warmth comes from the sauna; the biggest room), 2 steamrooms/saunas (3 ppl max at once) + washroom, 2 small dressing-rooms.
+  * Private sauna 
+	by the lake probably, in the forest,more secluded
+  	1 floor. 4 rooms. Sauna (also max 3), washroom, dressing-room, meeting room with a fireplace (bigger than the one public sauna has)
+	king-sized, big, but only for VIP-s 
+  * The maze (hedges)
+  * A small garden for garnishes
+  * A larger garden with rows of apple and plum trees
+  * A house for servants
+  	1 floor. Simple - 1 room.
+  * An entertainment area with shelters etc.
+  * An external underground cellar 
+  	1 room.
+	hillshaped
+  * A chicken coop

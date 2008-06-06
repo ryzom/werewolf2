@@ -1,0 +1,53 @@
+global proc jsCreateScaleJointsMake (string $curve, string $jointStr, string $axis)
+{
+	// tokenize $jointStr
+	string $joints[0];
+	string $curveShape;
+	tokenize ($jointStr, " ", $joints);
+	
+	// create a curveInfo node for the curve
+	$shape = `listRelatives -f -s $curve`;
+	$curveShape = $shape[0];
+	
+	$curveInfo = `createNode curveInfo`;
+	$curveInfo = `rename $curveInfo ($curve + "_info")`;
+
+	connectAttr ($curveShape + ".worldSpace[0]") ($curveInfo + ".inputCurve");
+
+	// now we can get the arclength of the curve
+	$arcLen = `getAttr ($curveInfo + ".arcLength")`;
+
+	// next, create a multiplyDivide node which will create the scale for us
+	$curveScale = `createNode multiplyDivide`;
+	$curveScale = `rename $curveScale ($curve + "_scale")`;
+
+	// set the operation to divide
+	setAttr ($curveScale + ".operation") 2;
+
+	// connect the input1X to the arcLength
+	connectAttr ($curveInfo + ".arcLength") ($curveScale + ".input1X");
+
+	// set the orig arcLength
+	setAttr ($curveScale + ".input2X") $arcLen;
+
+	// now for each of the joints, we're going to create a multiplyDivide node
+	// which will calculate the new TY based on this scale.
+	for ($joint in $joints)
+	{
+		// get the current translation
+		float $tr = `getAttr ($joint + $axis)`;
+
+		// create the multiply divide node
+		$jointScale = `createNode multiplyDivide`;
+		$jointScale = `rename $jointScale ($joint + "_scale")`;
+
+		// connect the $curveScale.outputX to $jointScale.input1X;
+		connectAttr ($curveScale + ".outputX") ($jointScale + ".input1X");
+
+		// set the $jointScale.input2X to the current TX
+		setAttr ($jointScale + ".input2X") $tr;
+
+		// now connect the $jointScale.outputX to the $joint + $axis);
+		connectAttr -f ($jointScale + ".outputX") ($joint + $axis);
+	}
+}

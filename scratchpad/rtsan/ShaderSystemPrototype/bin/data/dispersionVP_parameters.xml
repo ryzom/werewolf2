@@ -1,0 +1,12 @@
+<PropertyMap>
+	<float name="USER.Fresnel">
+		<value>2.0</value>
+		<value>2.0</value>
+		<value>0.1</value>
+	</float>
+	<float name="USER.Eta">
+		<value>1.1</value>
+		<value>1.09</value>
+		<value>1.08</value>
+	</float>
+</PropertyMap>

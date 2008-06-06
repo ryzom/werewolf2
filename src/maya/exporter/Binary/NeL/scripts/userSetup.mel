@@ -1,0 +1,16 @@
+////////////////////////////////
+//  NeL userSetup.mel
+////////////////////////////////
+//
+// Copyright (C) 2004 Henri Kuuste
+//
+// if you have an existing userSetup.mel file you will need to append 
+// this code to have all the NeL Tools available
+// cut and paste the contents of this file into your existing userSetup.mel
+// and restart maya to get the full effect
+
+nelMenu true;
+
+///////////////////////////////////
+// end NeL userSetUp.mel
+///////////////////////////////////

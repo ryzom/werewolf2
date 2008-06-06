@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BillboardLighterPOC", "BillboardLighterPOC\BillboardLighterPOC.vcproj", "{BB73579B-B4AA-41B0-81DB-11311065FAAB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CGBillboardLighter", "CGBillboardLighter\CGBillboardLighter.vcproj", "{4D5E71E9-393E-4D9A-9160-F90AE8A15072}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{BB73579B-B4AA-41B0-81DB-11311065FAAB}.Debug.ActiveCfg = Debug|Win32
+		{BB73579B-B4AA-41B0-81DB-11311065FAAB}.Debug.Build.0 = Debug|Win32
+		{BB73579B-B4AA-41B0-81DB-11311065FAAB}.Release.ActiveCfg = Release|Win32
+		{BB73579B-B4AA-41B0-81DB-11311065FAAB}.Release.Build.0 = Release|Win32
+		{4D5E71E9-393E-4D9A-9160-F90AE8A15072}.Debug.ActiveCfg = Debug|Win32
+		{4D5E71E9-393E-4D9A-9160-F90AE8A15072}.Debug.Build.0 = Debug|Win32
+		{4D5E71E9-393E-4D9A-9160-F90AE8A15072}.Release.ActiveCfg = Release|Win32
+		{4D5E71E9-393E-4D9A-9160-F90AE8A15072}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

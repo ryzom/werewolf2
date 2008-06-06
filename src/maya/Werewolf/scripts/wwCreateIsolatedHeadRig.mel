@@ -1,0 +1,20 @@
+global proc wwCreateIsolatedHeadRig(string $neckJoint, string $headJoint, string $neckControl, string $headControl, string $torsoControl) {
+	// Rename the controls
+	$neckControl = `rename $neckControl "neckControl"`;
+	$headControl = `rename $headControl "headControl"`;
+
+	// Position the controls
+	$pos = `xform -q -t -ws $neckJoint`;
+	xform -a -t $pos[0] $pos[1] $pos[2] $neckControl;
+
+	// Constrain the joints
+	wwCreateDuplicateConstraint $neckJoint { $neckControl } { "orientConstraint" };
+	wwCreateDuplicateConstraint $headJoint { $headControl } { "orientConstraint" };
+	
+	// Parent the neck control
+	parent $neckControl $torsoControl;
+
+	// Constrain the head control
+	$headControlGrp = `group -n ($headControl + "Grp") -r $headControl`;
+	wwCreateDuplicateConstraint $headControlGrp { $neckControl } { "pointConstraint" };
+}

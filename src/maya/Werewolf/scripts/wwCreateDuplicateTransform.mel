@@ -1,0 +1,6 @@
+global proc string wwCreateDuplicateTransform(string $transform, string $name) {
+	$duplicate = `duplicate -name $name $transform`;
+	$dtr = $duplicate[0];
+	delete `listRelatives -c -pa $dtr`;
+	return $dtr;
+}

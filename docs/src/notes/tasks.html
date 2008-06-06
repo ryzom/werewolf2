@@ -1,0 +1,197 @@
+<html>
+	<head>
+		<title>Tasks in Werewolf Tech Demo</title>
+	</head>
+	<body>
+		<p><STRONG>Task List</STRONG></p>
+		<table width="100%" border="1">
+			<tr>
+				<td width="119"><STRONG>Task Name</STRONG></td>
+				<td width="89"><STRONG>Start Point</STRONG></td>
+				<td width="106"><STRONG>Stop Point</STRONG></td>
+				<td width="51"><STRONG>Rank</STRONG></td>
+				<td><STRONG>Purpose</STRONG></td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">C3DSwapTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CWWTask</FONT></td>
+				<td width="106"><FONT size="2">Process Stop</FONT></td>
+				<td width="51"><FONT size="2">10000</FONT></td>
+				<td>
+					<P><FONT size="2">Swaps the 3D buffers. This should be one of the highest ranked 
+							tasks.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119" height="23">
+					<P><FONT size="2">C3DTask</FONT></P>
+				</td>
+				<td width="89" height="23"><FONT size="2">CWWTask</FONT></td>
+				<td width="106" height="23"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51" height="23"><FONT size="2">110</FONT></td>
+				<td height="23">
+					<P><FONT size="2">This handles scene and camera creation. Basic 3D resource 
+							gathering.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CAnimateTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CWWTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">35</FONT></td>
+				<td>
+					<P><FONT size="2">This loads and provides an interface to animation clips and 
+							entity media descriptions.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CBackgroundTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">
+						<P><FONT size="2">CIntroTask</FONT></P>
+					</FONT>
+				</td>
+				<td width="106"><FONT size="2">
+						<P>CIntroTask</P>
+					</FONT>
+				</td>
+				<td width="51"><FONT size="2">59</FONT></td>
+				<td>
+					<P><FONT size="2">When the game type is chosen, this task ends. It simply displays 
+							the background bitmap for the main menu.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CConfigTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CWWTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">10</FONT></td>
+				<td>
+					<P><FONT size="2">Provides a handle, loading, and callback registering mechanism 
+							for the NeL log file system.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CEntityTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CWWTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">24</FONT></td>
+				<td>
+					<P><FONT size="2">Provides a management mechanism for in-game entities.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CGameTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CIntroTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2"></FONT></td>
+				<td>
+					<P><FONT size="2">The game-play state managing task. It is started when a game-play 
+							type is chosen in CIntroTask</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td height="8" width="119">
+					<P><FONT size="2">CGuiTask</FONT></P>
+				</td>
+				<td height="8" width="89"><FONT size="2">CWWTask</FONT></td>
+				<td height="8" width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td height="8" width="51"><FONT size="2">130</FONT></td>
+				<td height="8">
+					<P><FONT size="2">Starts up the GUI subsystem.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CIntroTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CWWTask</FONT></td>
+				<td width="106"><FONT size="2">CIntroTask</FONT></td>
+				<td width="51"><FONT size="2">60</FONT></td>
+				<td>
+					<P><FONT size="2">Displays the main menu and provides input control. When a 
+							game-play type is chosen, this task ends itself.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CLandscapeTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CGameTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">60</FONT></td>
+				<td>
+					<P><FONT size="2">Renders the landscape and does zone cross-checking and loading.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CPacsTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">&nbsp;</FONT></td>
+				<td width="106"><FONT size="2">&nbsp;</FONT></td>
+				<td width="51"><FONT size="2">&nbsp;</FONT></td>
+				<td>
+					<P><FONT size="2">Provides the collision and pathfinding mechanism for in-game 
+							entity navigation.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CResourceTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CWWTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">30</FONT></td>
+				<td>
+					<P><FONT size="2">Provides a mechanism for loading data. Also provides inline CRC 
+							checking and comparison against data stored on the server.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CSkyTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CGameTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">59</FONT></td>
+				<td>
+					<P><FONT size="2">Provides the rendering mechanism for the sky.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CTimeTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">CWWTask</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">20</FONT></td>
+				<td>
+					<P><FONT size="2">Provides a time mechanism. Frame rate and frame delta.</FONT></P>
+				</td>
+			</tr>
+			<tr>
+				<td width="119">
+					<P><FONT size="2">CWWTask</FONT></P>
+				</td>
+				<td width="89"><FONT size="2">main / main.cpp</FONT></td>
+				<td width="106"><FONT size="2"><FONT size="2">Process Stop</FONT></FONT></td>
+				<td width="51"><FONT size="2">70</FONT></td>
+				<td>
+					<P><FONT size="2">The main game state managing task. Global scale.</FONT></P>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

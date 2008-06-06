@@ -1,0 +1,54 @@
+// A GUI to figure out and set Maya units of measurement as they relate
+// to units of measurement inside NeL
+//
+// Author: Jason Oppel June 26, 2005
+// Modified: Henri Kuuste June 27, 2005
+
+// not using global variables here cuz they are 3vi1!
+proc string[] nelLinearUnits() {
+	string $linearUnits[] = { "km", "m", "cm", "mm", "in", "ft", "yd", "mi" };
+	return $linearUnits;
+}
+
+global proc nelSetUnit() {
+	int $unit = `optionMenu -q -sl nelOptMayaUnit` - 1;
+	string $units[] = `nelLinearUnits`;
+	changeLinearUnit($units[$unit]);
+}
+
+proc int nelMaya2NelUnit(string $unit) {
+	string $units[] = `nelLinearUnits`;
+	for($i = 0; $i < `size $units`; $i++) {
+		if($units[$i] == $unit)
+			return $i + 1;
+	}
+	return 1;
+}
+
+
+global proc nelGUIMaya2NelUnits() {
+	if(`window -exists nelGUIMaya2NelUnits`) {
+ 		deleteUI -window "nelGUIMaya2NelUnits";
+		print ("Deleted existing window. \n");
+	};
+	
+	int $curUnit = nelMaya2NelUnit(`currentUnit -q -l`);
+	window -title "Set NeL Unit" -rtf 1 nelGUIMaya2NelUnits;
+
+	columnLayout -adj 1;
+		text -label "1 Maya Unit = how many NeL Units?";
+		text -label " ";
+		optionMenu -label "1 Maya Unit Exports to " -cc "nelSetUnit" nelOptMayaUnit;
+ 			menuItem -label "100 kilometers (~62.1 miles)";
+ 			menuItem -label "100 meters (~109 yards)";
+ 			menuItem -label "1 meter (~1 yard)";
+			menuItem -label "1 decimeter (~4 inches)";
+			menuItem -label "100 inches (8.3 feet)";
+			menuItem -label "100 feet (33.3 yards)";
+			menuItem -label "100 yards";
+			menuItem -label "100 miles";
+
+	optionMenu -e -sl $curUnit nelOptMayaUnit;
+
+	showWindow nelGUIMaya2NelUnits;
+};

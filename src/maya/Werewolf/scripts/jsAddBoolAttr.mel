@@ -1,0 +1,19 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsAddBoolAttr.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//					
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsAddBoolAttr (string $object, string $attr)
+{
+	// adds a message attribute to the object
+	if (!`attributeQuery -exists -node $object $attr`)
+	{
+		addAttr -ln $attr -at bool $object;
+
+	}
+}

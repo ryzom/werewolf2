@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<FORM>
+  <STRUCT>
+    <ATOM Name="Name" Value="gnu"/>
+    <ATOM Name="Description" Value="The gnu from snowballs."/>
+    <ATOM Name="EMT" Value="biped"/>
+    <ARRAY Name="MeshGroups">
+      <STRUCT>
+        <ATOM Name="MeshGroupName" Value="body"/>
+        <ARRAY Name="Meshes">
+          <STRUCT>
+            <ATOM Name="FriendlyName" Value="normal"/>
+            <ATOM Name="MeshName" Value="gnu"/>
+	    <ATOM Name="SkeletonName" Value="main"/>      
+          </STRUCT>
+          <STRUCT>
+            <ATOM Name="FriendlyName" Value="armored"/>
+            <ATOM Name="MeshName" Value="light"/>
+	    <ATOM Name="SkeletonName" Value=""/>      
+          </STRUCT>
+        </ARRAY>
+      </STRUCT>
+    </ARRAY>
+    <ARRAY Name="Skeletons">
+      <STRUCT>
+        <ATOM Name="FriendlyName" Value="main"/>
+        <ATOM Name="Filename" Value="gnu.skel"/>
+      </STRUCT>
+    </ARRAY>
+    <ARRAY Name="AnimationLayers">
+      <STRUCT>
+        <ATOM Name="AnimLayerName" Value="motion"/>
+        <ARRAY Name="AnimationGroups">
+          <STRUCT>
+            <ATOM Name="AnimGroupName" Value="idle"/>
+            <ATOM Name="WrapMode" Value="1"/>
+            <ATOM Name="AnimCycles" Value="0"/>
+            <ATOM Name="Selector" Value="random"/>
+            <ARRAY Name="AnimGroupClips">
+              <STRUCT>
+                <ATOM Name="FriendlyAnimName" Value="gnuidle"/>
+                <ATOM Name="Priority" Value="0"/>
+              </STRUCT>
+            </ARRAY>
+          </STRUCT>
+          <STRUCT>
+            <ATOM Name="AnimGroupName" Value="walk"/>
+            <ATOM Name="WrapMode" Value="1"/>
+            <ATOM Name="AnimCycles" Value="0"/>
+            <ATOM Name="Selector" Value="random"/>
+            <ARRAY Name="AnimGroupClips">
+              <STRUCT>
+                <ATOM Name="FriendlyAnimName" Value="gnuwalk"/>
+                <ATOM Name="Priority" Value="0"/>
+              </STRUCT>
+            </ARRAY>
+          </STRUCT>
+          <STRUCT>
+            <ATOM Name="AnimGroupName" Value="run"/>
+            <ATOM Name="WrapMode" Value="1"/>
+            <ATOM Name="AnimCycles" Value="0"/>
+            <ATOM Name="Selector" Value="random"/>
+            <ARRAY Name="AnimGroupClips">
+              <STRUCT>
+                <ATOM Name="FriendlyAnimName" Value="gnuwalk"/>
+                <ATOM Name="Priority" Value="0"/>
+              </STRUCT>
+            </ARRAY>
+          </STRUCT>
+        </ARRAY>
+      </STRUCT>
+    </ARRAY>
+  </STRUCT>
+</FORM>

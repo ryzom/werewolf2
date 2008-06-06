@@ -1,0 +1,16 @@
+Installeerida tuleks tomcat ja mysql kõigepealt
+mysql'is tuleks teha järgmist:
+CREATE DATABASE jussdb;
+		
+GRANT ALL PRIVILEGES
+ON jussdb.*
+TO 'juss'@'localhost'
+IDENTIFIED BY 'goodpassword';
+
+Kui parooli soovite muuta siis muutke vastav parool ka hibernate.cfg.xml failis, mis asub WEB-INF/classes kataloogis. (JAH! Ma tean et oleks tore kui installer seda automaatselt teeks :D)
+
+Järgmisena tuleks käivitada käsk
+make_conf -m {Maksimaalne uploadi suurus baitides} -t {Tomcati asukoht} -s {kataloog kus asub JUSS'i WEB-INF} -r {Kataloog kuhu panna JUSS'i kasutajate poolt uploaditud andmed}
+
+ehk siis näiteks
+make_conf -m 20000000 -r "C:\server_root" -s "C:\juss distro\Server" -t "C:\Tomcat 5.5"

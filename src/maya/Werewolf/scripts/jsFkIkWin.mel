@@ -1,0 +1,407 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsFkIkWin.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 14, 2002
+//
+//	DESCRIPTION:	This script is used along with jsToggleFkIk, 
+//					jsMakeFkIkConnections, and various others to
+//					display all the fk/ik controls in the current 
+//					scene.  It will allow the user to toggle back
+//					and forth between fk and ik, making for easier
+//					animation.
+//
+//	MODIFIED: Henri Kuuste, March 17, 2005
+//					
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsFkIkWin ()
+{
+	string $win = "jsFkIkWin";
+
+	if (`window -exists $win`)
+	{
+		deleteUI $win;
+	}
+	//print ("Creating UI\n");
+	jsCreateFkIkWin $win;
+	//print ("UI CREATED\n");
+	jsRebuildFkIkList; 
+	
+	//print ("FkIk list rebuilt\n");
+	
+	// set up the scriptJobs
+	
+	scriptJob -e "SetModified" "jsFkIkCheckChars" -p $win;
+	scriptJob -e "timeChanged" "jsFkIkCheckFkIkStatus" -p $win;
+	scriptJob -e "NewSceneOpened" ("deleteUI " + $win) -p $win;
+
+	//print ("set upt script jobs\n");
+	showWindow $win;
+	jsFkIkCheckChars;
+	jsFkIkCheckFkIkStatus;
+}
+
+global proc jsFkIkCheckFkIkStatus ()
+{
+	// check the current frame and see which ikHandles are on or off.  Change
+	// the icon to represent the correct setting
+	global string $gIkButton[];
+	global string $gIkHandle[];
+	
+	for ($x = 0; $x < size($gIkButton); $x++)
+	{
+		// see what the handle is
+		if (`getAttr ($gIkHandle[$x] + ".ikBlend")`)
+		{
+			symbolCheckBox -e -v 1 $gIkButton[$x];	
+		}
+		else
+		{
+			symbolCheckBox -e -v 0 $gIkButton[$x];	
+		}
+	}
+}
+
+global proc jsCreateFkIkWin (string $win)
+{
+
+	window -t "Fk/Ik Attributes" $win;
+	
+	$fr = `formLayout `;
+		//$f = `formLayout -nd 100`;
+		$f = `rowColumnLayout -nc 4 -cw 1 150 -cw 2 40 -cw 3 40 -cw 4 50`;
+		$t = `text -l ("Character") -align "left" -font "boldLabelFont" `;
+		$s = `text -l "Fk/Ik" -w 32 -font "boldLabelFont" `;
+		$b = `text -l "Key" -w 32 -font "boldLabelFont" `;
+		text -l "";
+
+		//formLayout -e
+
+			//-af $b right 21
+			//-af $b top 5
+			
+			//-ac $s right 5 $b
+			//-af $s top 5
+			
+			//-af $t left 5
+			//-af $t top 5
+			//-ac $t right 5 $s
+			//$f;
+	setParent $fr;
+	scrollLayout
+		-cr true
+		-hst 16
+		-vst 16
+		jsFkIkScrollLayout;
+	
+	setParent $fr;
+	//button -l "Reload" jsReloadFkIkButton;
+
+	formLayout -e
+		-af $f top 0
+		-af $f left 5
+		-af $f right 0
+
+		-af jsFkIkScrollLayout left 5
+		-ac jsFkIkScrollLayout top 5 $f
+		-af jsFkIkScrollLayout right 0
+		-af jsFkIkScrollLayout bottom 5
+		$fr;
+	
+}
+
+global proc jsFkIkCheckChars ()
+{
+	// checks the currently hilighted characters to see if they should be in or
+	// out of the current character list.  Note, this will ONLY affect the
+	// characters that are of fk/ik type.  If a character isn't fk/ik, it won't
+	// be affected by this script
+	global string $gCharsInList[];
+	string $curChars[0];
+	string $nonFkIk[0];
+	string $intersector;
+	int $x = 0;
+	
+	// first get the list of the current characters 
+	$curChars = `currentCharacters`;
+	
+	// create a string intersector
+	$intersector = `stringArrayIntersector`;
+
+	// cycle thorugh and see what should be on.
+	// current character should be on.
+	for ($char in $gCharsInList)
+	{
+		stringArrayIntersector -edit -intersect $curChars $intersector;
+		// check and see if the text value of $char is in curChars.  If it is
+		// then we should turn it on, otherwise turn it off.
+		$character = `checkBox -q -l $char`;
+		stringArrayIntersector -edit -intersect $character $intersector;
+		string $intersect[0];
+		$intersect = `stringArrayIntersector -q $intersector`;
+		if (size($intersect) > 0)
+			checkBox -e -v 1 $char;
+		else
+			checkBox -e -v 0 $char;
+
+		stringArrayIntersector -e -reset $intersector;
+	}
+	//delete $intersector;
+}
+
+global proc jsToggleFkIkFix (string $char)
+{
+	// for the current character, fix all the fk transitions.
+	// If there are frames selected in the timeline, it will fix all the fk
+	// transitions in that frame range, otherwise it will just fix the current
+	// frame.
+	
+	// first get the ikHandles
+	string $ikHandle;
+	string $ikExtra;
+	global string $gPlayBackSlider;
+	$ikHandle = `jsFindConnected ($char + ".FK_IK_HANDLE")`;
+	if (`attributeQuery -exists -node $char "FK_IK_EXTRA"`)
+		$ikExtra = `jsFindConnected ($char + ".FK_IK_EXTRA")`;
+	
+	// now get the joints
+	string $joints[0];
+	$joints[0] = `jsFindConnected ($char + ".FK_IK_TOP_JOINT")`;
+	$joints[1] = `jsFindConnected ($char + ".FK_IK_PV_JOINT")`;
+	$joints[2] = `jsFindConnected ($char + ".FK_IK_BOT_JOINT")`;
+
+	// now figure out the range of frames that we're going to be fixing.
+	float $min = 0.0;
+	float $max = 1.0;
+
+	float $range[0];
+	float $curFrame = 0.0;
+	$range = `timeControl -q -ra $gPlayBackSlider`;
+	$curFrame = `currentTime -q`;
+	$min = $range[0];
+	$max = $range[1];
+
+	
+	// find all the keyframes on the $ikHandle for ikBlend within that
+	// frame range.
+	float $keyrames[0];
+	$keyframes = `keyframe -q ($ikHandle + ".ikBlend")`;
+	//print ("checking\n");
+	for ($x = 0; $x < size($keyframes); $x++ )
+	{
+		$key = $keyframes[$x];
+		if (($key >= $min) && ($key <=$max))
+		{
+			// go to that frame
+			currentTime -e $key;
+			
+			// get the value of the fk/ik
+			if (`getAttr ($ikHandle + ".ikBlend")` == 0)
+			{
+				// get the value of the previous key.  If it was 1, we need to
+				// set the value.  If not, we can leave it the way it was.
+				if ($x > 0)
+				{
+					$val = `keyframe -index ($x-1) -q -vc ($ikHandle + ".ikBlend")`;
+					//print ("Previous key: " + $val[0] + "\n");
+					if ($val[0] == 1)
+					{
+						setAttr ($ikHandle + ".ikBlend") 1;
+						setKeyframe -at "ikBlend" $ikHandle;
+
+						if ($ikExtra != "")
+						{
+							setAttr ($ikExtra + ".ikBlend") 1;
+							setKeyframe -at ikBlend $ikExtra;
+						}
+						currentTime -e $key -update 1;
+						//print ("Set it on\n");
+						// key the joints
+						
+						setKeyframe -attribute rotate $joints;
+
+						setAttr ($ikHandle + ".ikBlend") 0;
+						setKeyframe -at "ikBlend" $ikHandle;
+
+						if ($ikExtra != "")
+						{
+							setAttr ($ikExtra + ".ikBlend") 0;
+							setKeyframe -at ikBlend $ikExtra;
+
+						}
+					}
+				}
+			}
+			else
+			{
+				// we're in ik mode.  we need to check the previous key and see
+				// if it was 0.  If it is, then we should fix it so the current
+				// frame of fk joints matches the position for the ik.  This
+				// way we're keeping it with the priority on the ik, not the
+				// fk.
+				if ($x > 0)
+				{
+					$val = `keyframe -index ($x-1) -q -vc ($ikHandle + ".ikBlend")`;
+					if ($val[0] == 0)
+					{
+						setAttr ($ikHandle + ".ikBlend") 1;
+						if ($ikExtra != "")
+							setAttr ($ikExtra + ".ikBlend") 1;
+						
+						//print ("Set it on\n");
+						// key the joints
+						setKeyframe -attribute rotate $joints;
+
+					}
+				}
+
+			}
+			
+		}
+	}
+	currentTime -e $curFrame;
+}
+global proc jsFkIkSetCurCharacters ( string $character, int $onOff)
+{
+	// this script will take the current character and add it or subtract it
+	// from the currentCharacters
+	string $curChars[0];
+	$curChars = `currentCharacters`;
+	$num = size($curChars);
+	if ($onOff == 1)
+	{
+		$curChars[$num++] = $character;
+		$curChars = `stringArrayRemoveDuplicates $curChars`;
+	}
+	else
+	{
+		$curChars = `stringArrayRemoveDuplicates $curChars`;
+		$curChars = `stringArrayRemove { $character } $curChars`; 
+	}
+	// make chars in nonFkIK current
+	setCurrentCharacters $curChars;
+
+}
+global proc jsRebuildFkIkList ()
+{
+	// this proc will remove all the items in the scroll layout and rebuild
+	// them.
+	string $scrollLayout = "jsFkIkScrollLayout";
+	
+	if (`scrollLayout -q -exists $scrollLayout`)
+	{
+		//print ("it exists.. remove the children\n");
+		// remove all of the children of $scrollLayout
+		string $children[0];
+		$children = `scrollLayout -q -ca $scrollLayout`;
+
+		//print ("about to delete children\n");
+		if (size($children) > 0)
+			deleteUI $children;
+		//print ("children deleted\n");
+		setParent $scrollLayout;
+		
+		$height = 32;
+		$width  = 32;
+		
+		global string $gCharsInList[];
+		global string $gIkButton[];
+		global string $gIkHandle[];
+		int $ikb = 0;
+		int $ikh = 0;
+		int $cil = 0;
+		clear $gCharsInList;
+		clear $gIkButton;
+		clear $gIkHandle;
+
+		columnLayout -adj true jsColLayout;
+		// find all the character nodes in the scene which have an attribute
+		// called "FK_IK" on them.
+		string $fkIkChars[0];
+
+		//print ("finding the character nodes\n");
+		$fkIkChars = `jsFindFkIkChars`;
+		
+		//print ("found 'em\n");
+		for ($char in $fkIkChars)
+		{
+			//print ("doing something with " + $char + "\n");
+			// get the main control
+			$mainControl = `jsFindConnected ($char + ".FK_IK_MAIN")`;
+			//print ("found main control: " + $mainControl +"\n");
+			// find the ikHandle
+			$ikHandle = `jsFindConnected ($char + ".FK_IK_HANDLE")`;
+			//print ("found ikHandle: " + $ikHandle +"\n");
+			setParent jsColLayout;
+
+			//print ("set the parent\n");
+			//$f = `formLayout -nd 100`;
+			$f = `rowColumnLayout -nc 4 -cw 1 150 -cw 2 40 -cw 3 40 -cw 4 50`;
+			//$t = `iconTextCheckBox 
+					//-onc ("jsFkIkSetCurCharacters \""+$char+"\" 1")
+					//-ofc ("jsFkIkSetCurCharacters \""+$char+"\" 0")
+					//-image1 "character.xpm" -style "iconAndTextHorizontal" -l ($char) -h $height`;
+		
+			$t = `checkBox -l $char -align "left" 
+						-onc ("jsFkIkSetCurCharacters \""+$char + "\" 1")
+						-ofc ("jsFkIkSetCurCharacters \""+$char + "\" 0")`;
+
+			$gCharsInList[$cil++] = $t;
+
+			$s = `symbolCheckBox 
+					-ofi "out_IkHandleGadget.xpm" 
+					-oni "out_IkHandle.xpm" 
+					-h $height 
+					-w $width
+					-onc ("jsToggleFkIk \""+$mainControl+"\" \"ik\" 0")
+					-offCommand ("jsToggleFkIk \""+$mainControl+"\" \"fk\" 0")
+					`;
+			//$s = `iconTextCheckBox 
+					//-h $height 
+					//-w $width
+					//-l "IK is ON"
+					//-style "textOnly"
+					//-onc ("jsToggleFkIk \""+$mainControl+"\" \"ik\" 0")
+					//-offCommand ("jsToggleFkIk \""+$mainControl+"\" \"fk\" 0")
+					//`;
+					
+			$gIkButton[$ikb++] = ($s);
+			$gIkHandle[$ikh++] = ($ikHandle);
+
+			$b = `iconTextButton 
+					-style "iconOnly" 
+					-image1 "menuIconKeys.xpm" 
+					-h $height 
+					-w $width
+					-c ("jsToggleFkIk \""+$mainControl+"\" \"cur\" 1")
+					`;
+
+			$c = `button 
+					-l "Fix FK"	
+					-c ("jsToggleFkIkFix \"" + $char + "\"")
+					`;
+
+			//connectControl $s ($ikHandle + ".ikBlend");
+			//formLayout -e
+
+				//-af $c right 5
+				//-af $c top 10
+
+				//-af $b top 5
+				//-ac $b right 5 $c
+				
+				//-ac $s right 5 $b
+				//-af $s top 5
+				
+				//-af $t left 5
+				//-af $t top 5
+				//-ac $t right 5 $s
+				//$f;
+			//print ("Edited the form layout \n");
+		}
+	}
+	
+}

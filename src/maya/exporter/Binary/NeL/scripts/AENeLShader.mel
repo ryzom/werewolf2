@@ -1,0 +1,236 @@
+// Adds nel shader controls to a regular shader??? dunno
+
+global proc AENeLAlphaTestControl ( string $nodeName ) {
+	if ( `attributeExists "AlphaTest" $nodeName` ) {
+		if ( `getAttr ($nodeName + ".AlphaTest")` == 0) {
+			editorTemplate -dimControl $nodeName "AlphaTestThreshold" true;
+		} else {
+			editorTemplate -dimControl $nodeName "AlphaTestThreshold" false;
+		}
+	}
+}
+
+global proc AENeLAlphaBlendControl ( string $nodeName ) {
+	if ( `attributeExists "AlphaBlend" $nodeName` ) {
+		if ( `getAttr ($nodeName + ".AlphaBlend")` == 0) {
+			editorTemplate -dimControl $nodeName "BlendSource" true;
+			editorTemplate -dimControl $nodeName "BlendDestination" true;	
+		} else {
+			editorTemplate -dimControl $nodeName "BlendSource" false;
+			editorTemplate -dimControl $nodeName "BlendDestination" false;
+		}
+	}
+}
+
+global proc AENeLLitControl ( string $nodeName ) {
+	if ( `attributeExists "Lit" $nodeName` ) {
+		if ( `getAttr ($nodeName + ".Lit")` == 0) {
+			editorTemplate -dimControl $nodeName "LitVertexColor" true;
+		} else {
+			editorTemplate -dimControl $nodeName "LitVertexColor" false;
+		}
+	}
+}
+
+global proc AENeLTextureCoordGenControl ( string $tex, string $nodeName ) {
+	if ( `attributeExists ($tex + "CoordGen") $nodeName` ) {
+		if ( `getAttr ($nodeName + "." + $tex + "CoordGen")` == 0) {
+			editorTemplate -dimControl $nodeName ($tex + "CoordGenMode") true;
+		} else {
+			editorTemplate -dimControl $nodeName ($tex + "CoordGenMode") false;
+		}
+	}
+}
+
+global proc AENeLEnableTextureAddressingControl ( string $nodeName ) {
+	if ( `attributeExists "EnableTextureAddressing" $nodeName` ) {
+		if ( `getAttr ($nodeName + ".EnableTextureAddressing")` == 0) {
+			editorTemplate -dimControl $nodeName "Tex1AddressingMode" true;
+			editorTemplate -dimControl $nodeName "Tex2AddressingMode" true;
+		} else {
+			editorTemplate -dimControl $nodeName "Tex1AddressingMode" false;
+			editorTemplate -dimControl $nodeName "Tex2AddressingMode" false;
+		}
+	}
+}
+
+global proc int AENeLassignTextureCB( string $fileAttribute, string $filename, string $fileType ) {
+	string $tokenArray[];
+	tokenize($filename, "/", $tokenArray);
+	setAttr $fileAttribute -type "string" $tokenArray[size($tokenArray)-1];
+	return true;
+}
+
+
+global proc AENeLfileTextureBrowser( string $cmd ) {
+	fileBrowser ($cmd, "Open", "image", 0);
+}
+
+global proc AENeLfileTextureNameNew ( string $attrName, string $fileAttribute  ) {
+	string $tokenArray[];
+	tokenize($attrName, ".", $tokenArray);
+	setUITemplate -pst attributeEditorTemplate;
+	columnLayout textureNameColumnLayout;
+		text -l $tokenArray[size($tokenArray)-1];
+		rowLayout -nc 3 textureNameLayout;
+			text -l "";
+			textField textureNameField;
+			tokenize($fileAttribute, ".", $tokenArray);
+			symbolButton -image "navButtonBrowse.xpm" ($tokenArray[size($tokenArray)-1]+"Browser");
+		setParent ..;
+	setParent ..;
+	setUITemplate -ppt;
+	
+    AENeLfileTextureNameReplace $attrName $fileAttribute;
+}
+
+global proc AENeLfileTextureNameReplace ( string $attrName, string $fileAttribute ) {
+	string $tokenArray[];
+	tokenize($attrName, ".", $tokenArray);
+	connectControl -fileName textureNameField $fileAttribute;
+    string $command = "AENeLassignTextureCB "+$fileAttribute;
+	tokenize($fileAttribute, ".", $tokenArray);
+    button -e -c ("AENeLfileTextureBrowser \"" + $command + "\"" ) ($tokenArray[size($tokenArray)-1]+"Browser");
+}
+
+global proc AENeLTextureSlotArg ( int $n, string $tex ) {
+	editorTemplate -beginLayout ("Argument " + $n);
+			editorTemplate -addDynamicControl ($tex + "Arg" + $n + "RGBSource");
+			editorTemplate -addDynamicControl ($tex + "Arg" + $n + "RGBOperand");
+			editorTemplate -addDynamicControl ($tex + "Arg" + $n + "AlphaSource");
+			editorTemplate -addDynamicControl ($tex + "Arg" + $n + "AlphaOperand");
+	editorTemplate -endLayout;
+}
+
+global proc AENeLTextureSlot ( int $n ) {
+	editorTemplate -beginLayout ("Texture Slot " + $n) -collapse true;
+		editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Texture Name" ("Texture" + $n);
+		editorTemplate -suppress ("Texture" + $n);
+		$tex = "Tex" + $n;
+		int $i;
+		editorTemplate -addDynamicControl ($tex + "OperatorRGB");
+		editorTemplate -addDynamicControl ($tex + "OperatorAlpha");
+		for($i = 0; $i < 2; $i++) {
+			AENeLTextureSlotArg $i $tex;
+		}
+		editorTemplate -addDynamicControl ($tex + "ConstantColor");
+		editorTemplate -addDynamicControl ($tex + "ConstantColorAlpha");
+		editorTemplate -addDynamicControl ($tex + "CoordGen") ("AENeLTextureCoordGenControl " + $tex);
+		editorTemplate -addDynamicControl ($tex + "CoordGenMode");
+		editorTemplate -addDynamicControl ($tex + "AddressingMode");		
+	editorTemplate -endLayout;
+}
+
+global proc makeNeLShader ( string $nodeName ) {
+	source nelCreateNelShader.mel;
+	phong2NeL $nodeName;
+}
+
+global proc AENeLMakeShaderButtonNew ( string $nodeName ) {
+	setUITemplate -pst attributeEditorTemplate;
+	rowLayout -nc 1 NeLCreateLayout;
+		button -l "Make NeL Shader" makeNeLShaderButton;
+	setParent ..;
+	setUITemplate -ppt;
+
+	AENeLMakeShaderButtonReplace $nodeName;
+}
+
+global proc AENeLMakeShaderButtonReplace ( string $nodeName ) {
+	string $tokenArray[];
+	tokenize($nodeName, ".", $tokenArray);
+	button -e -c ("makeNeLShader " + $tokenArray[0]) makeNeLShaderButton;
+	if(`attributeExists "NeL" $tokenArray[0]` || `attributeExists "NeLWater" $tokenArray[0]`) {
+		button -e -visible false makeNeLShaderButton;
+	} else {
+		button -e -visible true makeNeLShaderButton;
+	}	
+}
+
+global proc makeNeLWaterShader ( string $nodeName ) {
+	source nelCreateNelWaterShader.mel;
+	phong2NeLWater $nodeName;
+}
+
+global proc AENeLMakeWaterShaderButtonNew ( string $nodeName ) {
+	setUITemplate -pst attributeEditorTemplate;
+	rowLayout -nc 1 NeLCreateLayout;
+		button -l "Make NeL Water Shader" makeNeLWaterShaderButton;
+	setParent ..;
+	setUITemplate -ppt;
+
+	AENeLMakeWaterShaderButtonReplace $nodeName;
+}
+
+global proc AENeLMakeWaterShaderButtonReplace ( string $nodeName ) {
+	string $tokenArray[];
+	tokenize($nodeName, ".", $tokenArray);
+	button -e -c ("makeNeLWaterShader " + $tokenArray[0]) makeNeLWaterShaderButton;
+	if(`attributeExists "NeL" $tokenArray[0]` || `attributeExists "NeLWater" $tokenArray[0]`) {
+		button -e -visible false makeNeLWaterShaderButton;
+	} else {
+		button -e -visible true makeNeLWaterShaderButton;
+	}
+}
+
+global proc AENeLShader ( string $nodeName ) {
+	editorTemplate -beginLayout "NeL" -collapse true;
+		editorTemplate -callCustom "AENeLMakeShaderButtonNew" "AENeLMakeShaderButtonReplace" $nodeName;
+		editorTemplate -callCustom "AENeLMakeWaterShaderButtonNew" "AENeLMakeWaterShaderButtonReplace" $nodeName;
+		editorTemplate -addDynamicControl "ShaderType";
+		editorTemplate -addDynamicControl "Lit" "AENeLLitControl";
+		editorTemplate -addDynamicControl "LitVertexColor";
+		editorTemplate -addDynamicControl "UserColor";
+		editorTemplate -addDynamicControl "UserColorAlpha";
+		editorTemplate -beginLayout "NeL Alpha" -collapse true;
+			editorTemplate -addDynamicControl "AlphaBlend" "AENeLAlphaBlendControl";
+			editorTemplate -addDynamicControl "BlendSource";
+			editorTemplate -addDynamicControl "BlendDestination";
+			editorTemplate -addSeparator;
+			editorTemplate -addDynamicControl "AlphaTest" "AENeLAlphaTestControl";
+			editorTemplate -addDynamicControl "AlphaTestThreshold";
+		editorTemplate -endLayout;
+		editorTemplate -beginLayout "NeL Z Buffer" -collapse true;
+			editorTemplate -addDynamicControl "ZFunction";
+			editorTemplate -addDynamicControl "ZWrite";
+			editorTemplate -addDynamicControl "ZBias";
+		editorTemplate -endLayout;
+		editorTemplate -beginLayout "NeL Textures" -collapse true;
+			editorTemplate -addDynamicControl "EnableTextureAddressing" "AENeLEnableTextureAddressingControl";
+			AENeLTextureSlot 1;
+			AENeLTextureSlot 2;
+			editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Light Map" "LightMap";
+		editorTemplate -endLayout;
+		editorTemplate -beginLayout "NeL Water" -collapse true;
+			editorTemplate -addDynamicControl "WaterPoolId";
+			editorTemplate -addDynamicControl "WaterHeightFactor";
+
+			editorTemplate -addDynamicControl "BumpMapUScale";
+			editorTemplate -addDynamicControl "BumpMapVScale";
+			editorTemplate -addDynamicControl "BumpMapUSpeed";
+			editorTemplate -addDynamicControl "BumpMapVSpeed";
+			
+			editorTemplate -addDynamicControl "DisplacementMapUScale";
+			editorTemplate -addDynamicControl "DisplacementMapVScale";
+			editorTemplate -addDynamicControl "DisplacementMapUSpeed";
+			editorTemplate -addDynamicControl "DisplacementMapVSpeed";
+
+			editorTemplate -beginLayout "NeL Water Textures" -collapse true;
+				editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Environment Map Day" "EnvironmentMapDay";
+				editorTemplate -suppress "EnvironmentMapDay";
+				editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Environment Map Night" "EnvironmentMapNight";
+				editorTemplate -suppress "EnvironmentMapNight";
+				editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Environment Map Day Underwater" "EnvironmentMapDayUnderwater";
+				editorTemplate -suppress "EnvironmentMapDayUnderwater";
+				editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Environment Map Night Underwater" "EnvironmentMapNightUnderwater";
+				editorTemplate -suppress "EnvironmentMapNightUnderwater";
+				editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Bump Map" "BumpMap";
+				editorTemplate -suppress "BumpMap";
+				editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Displacement Map" "DisplacementMap";
+				editorTemplate -suppress "DisplacementMap";
+				editorTemplate -callCustom "AENeLfileTextureNameNew" "AENeLfileTextureNameReplace" "Color Map" "ColorMap";
+				editorTemplate -suppress "ColorMap";
+			editorTemplate -endLayout;
+		editorTemplate -endLayout;
+	editorTemplate -endLayout;
+}

@@ -1,0 +1,240 @@
+// Option box for AssignMRMParams
+
+proc setOptionVars (int	$forceFactorySettings)
+{
+
+	if ($forceFactorySettings || !`optionVar -exists "NeLMRMnLods"`)
+		optionVar -intValue "NeLMRMnLods" 11;
+
+	if ($forceFactorySettings || !`optionVar -exists "NeLMRMDivisor"`)
+		optionVar -intValue "NeLMRMDivisor" 20;
+
+	if ($forceFactorySettings || !`optionVar -exists "NeLMRMFinest"`)
+		optionVar -floatValue "NeLMRMFinest" 5.0;
+
+	if ($forceFactorySettings || !`optionVar -exists "NeLMRMMiddle"`)
+		optionVar -floatValue "NeLMRMMiddle" 20.0;
+
+	if ($forceFactorySettings || !`optionVar -exists "NeLMRMCoarsest"`)
+		optionVar -floatValue "NeLMRMCoarsest" 200.0;
+}
+
+global proc nelAssignMRMAttrsSetup (string $parent, int $forceFactorySettings) {
+	setOptionVars($forceFactorySettings);
+	setParent $parent;
+
+	intSliderGrp
+		-edit
+		-value `optionVar -query "NeLMRMnLods"`
+		"NumberOfLods";
+
+	intSliderGrp
+		-edit
+		-value `optionVar -query "NeLMRMDivisor"`
+		"Divisor";
+
+	floatSliderGrp
+        -edit
+        -value `optionVar -query "NeLMRMFinest"`
+        "DistanceFinest";
+
+	floatSliderGrp
+        -edit
+        -value `optionVar -query "NeLMRMMiddle"`
+        "DistanceMiddle";
+
+	floatSliderGrp
+        -edit
+        -value `optionVar -query "NeLMRMCoarsest"`
+        "DistanceCoarsest";
+
+}
+
+global proc nelAssignMRMAttrsCallback (string $parent, int $doIt)
+{	
+	setParent $parent;
+
+	optionVar -intValue "NeLMRMnLods"
+		`intSliderGrp -query -value "NumberOfLods"`;
+	
+	optionVar -intValue "NeLMRMDivisor"
+		`intSliderGrp -query -value "Divisor"`;
+
+	optionVar -floatValue "NeLMRMFinest"
+		`floatSliderGrp -query -value "DistanceFinest"`;
+
+	optionVar -floatValue "NeLMRMMiddle"
+		`floatSliderGrp -query -value "DistanceMiddle"`;
+
+	optionVar -floatValue "NeLMRMCoarsest"
+		`floatSliderGrp -query -value "DistanceCoarsest"`;
+
+	if ($doIt) 
+	{
+		nelPerformAssignMRMAttrs 0;
+		string $tmpCmd = "nelPerformAssignMRMAttrs 0 ";
+		addToRecentCommandQueue $tmpCmd "Assign MRM Parameters";
+	}
+}
+
+proc nelAssignMRMAttrsOptions ()
+{
+	string $commandName = "nelAssignMRMAttrs";
+	string $callback = ($commandName + "Callback");
+	string $setup = ($commandName + "Setup");
+	//	STEP 1:  Get the option box.
+	//	============================
+	//
+	string $layout = getOptionBox();
+	setParent $layout;
+	//	STEP 2:  Pass the command name to the option box.
+	//	=================================================
+	//
+	setOptionBoxCommandName($commandName);
+	//	STEP 3:  Activate the default UI template.
+	//	==========================================
+	//
+	setUITemplate -pushTemplate DefaultTemplate;
+	//	STEP 4: Create option box contents.
+	//	===================================
+	//
+	waitCursor -state 1;
+	
+	string $parent = `columnLayout -adjustableColumn 1`;
+
+	columnLayout;
+
+	intSliderGrp
+		-field on
+		-label "Number Of Lods"
+		-minValue 1
+		-maxValue 40
+		-fieldMinValue 1
+		-fieldMaxValue 200
+		-value 11
+		"NumberOfLods";
+
+	intSliderGrp
+		-field on
+		-label "Divisor"
+		-minValue 1
+		-maxValue 100
+		-fieldMinValue 1
+		-fieldMaxValue 400
+		-value 20
+		"Divisor";
+
+	floatSliderGrp
+        -field on
+        -label "Distance Finest"
+        -minValue 0.0
+        -maxValue 20.0
+        -fieldMinValue 0.0
+        -fieldMaxValue 100.0
+        -value 5.0
+        "DistanceFinest";
+
+	floatSliderGrp
+        -field on
+        -label "Distance Middle"
+        -minValue 0.0
+        -maxValue 100.0
+        -fieldMinValue 0.0
+        -fieldMaxValue 300.0
+        -value 20.0
+        "DistanceMiddle";
+
+	floatSliderGrp
+        -field on
+        -label "Distance Coarsest"
+        -minValue 0.0
+        -maxValue 500.0
+        -fieldMinValue 0.0
+        -fieldMaxValue 1000.0
+        -value 200.0
+        "DistanceCoarsest";
+	
+	//setParent ..;
+
+	setParent ..;
+	
+	setParent -menu ..;
+
+	waitCursor -state 0;
+	//	Step 5: Deactivate the default UI template.
+	//	===========================================
+	//
+	setUITemplate -popTemplate;
+
+	//	Step 6: Customize the buttons.  
+	//	==============================
+	//
+	string $applyBtn = getOptionBoxApplyBtn();
+	button -edit 
+		-label "Apply"
+		-command ($callback + " " + $parent + " " + 1) 
+		$applyBtn;
+	
+	string $applyAndCloseBtn = getOptionBoxApplyAndCloseBtn();
+	button -edit 
+		-label "Assign MRM Parameters"
+		$applyAndCloseBtn;
+
+	string $saveBtn = getOptionBoxSaveBtn();
+	button -edit 
+		-command ($callback + " " + $parent + " " + 0 + " " +"; hideOptionBox")
+		$saveBtn;
+
+	string $resetBtn = getOptionBoxResetBtn();
+	button -edit 
+		-command ($setup + " " + $parent + " " + 1)
+		$resetBtn;
+
+	//	Step 7: Set the option box title.
+	//	=================================
+	//
+	setOptionBoxTitle("Assign MRM Parameters Options");
+	//	Step 8: Customize the 'Help' menu item text.
+	//	============================================
+	//
+	//	Step 9: Set the current values of the option box.
+	//	=================================================
+	//
+	eval (($setup + " " + $parent + " " + 0));
+	//	Step 10: Show the option box.
+	//	=============================
+	//
+	showOptionBox();
+}
+
+
+proc string assembleAssignCmd() {
+	setOptionVars false;
+	string $cmd = "nelAssignMRMAttrs ";
+
+	$cmd += `optionVar -query "NeLMRMnLods"`;
+	$cmd += " ";
+	$cmd += `optionVar -query "NeLMRMDivisor"`;
+	$cmd += " ";
+	$cmd += `optionVar -query "NeLMRMFinest"`;
+	$cmd += " ";
+	$cmd += `optionVar -query "NeLMRMMiddle"`;
+	$cmd += " ";
+	$cmd += `optionVar -query "NeLMRMCoarsest"`;
+	$cmd += ";";
+	
+	print ($cmd + "\n");
+	return $cmd;
+}
+
+global proc nelPerformAssignMRMAttrs(int $action) {
+	switch($action) {
+		case 0:
+			string $cmd = `assembleAssignCmd`;
+			eval($cmd);
+			break;
+		case 1:
+			nelAssignMRMAttrsOptions();
+			break;
+	}
+}

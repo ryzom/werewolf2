@@ -1,0 +1,178 @@
+==============================================
+Laurelin culture 
+==============================================
+
+NB! Laurelin is some kind of tree in Tolkien's world, we eventually need a new name for the village.
+
+
+1) What level of technology did they have?
+	1.1 Low tech...  Metal working (smiths, jewellers; orichalculum played an important role in the increase of this; a family-trade, could have been more than one, but now there's only Karufin, so a place players can fill)...  8th Century Stuff + Ability to work orichaculum
+2) What do they eat? And what is their favorite foods?
+	2.1 Dairy products
+	2.2 Meat every week
+	2.3 Grain products
+	2.4 Potatoes
+	2.5 Eggs
+	2.6 Specialty plants (yum) not very many of these (1 or two of each kind [fruit / veg]) This is exported (especially the fruits)
+	2.7 Apples, plums, cherries, etc.
+	2.6 rhubarb, Pumpking, beets, carrots, lettuce, etc.
+	2.7 Seasonings (that grow only in the valley), basic herbs, onion, etc.
+	2.8 Specialty Herbs - only grow in the valley...  gives the food that special Laurelin flavor.  Maybe a whole style of cooking around this stuff.
+	2.9 Mushrooms
+	3.0 Birchsap/-syrup
+3) What do they like to do during their free time?
+	3.1 a section of the village just for entertaining tourists
+	3.2 minstrel troupe - stationed in the entertainment district
+	3.3 pro band - stay strictly at the wolf's den
+	3.4 amateur's band - village people get together during special occassions / holiday's etc.
+	3.5 fishing
+	3.6 dancing
+	3.7 hunting isn't allowed since they respect nature too much (not for fun, only for food, and even there there are restrictions)..  there was an.. umm incident with the King's hunting dogs that taught him to respect nature a bit more.
+	3.8 Drinking and carousing (games and competitions are perhaps part of it) - they have really great tasting beer bc of the herbs that are in the forest.  the herbs might compell you to buy more or something.
+	3.9 strolls around the town
+	3.10 camping out in the woods
+	3.11 boating in the lakes
+4) What is their main goal in life (individually)?  What is their general life philosophy?
+	4.1 Keep things the way they are. (before the 2nd curse)
+	4.2 Find your own niche
+	4.3 Get along with everyone
+	4.4 respect the land and wildlife
+	4.5 Don't piss off the wolf gods generally
+	4.6 Get rich, make money, get fat, have lots of kids and die ;)
+	4.7 Honor and dignity (respecting your elders)
+5) What other people do they like / dislike?
+	5.1 Anyone who seeks to change things (dislike)
+	5.2 Viking Mainlanders relationship is strained (dislike)
+	5.3 Pretty good relationship with the Celts (the Celts mainly leave them alone bc of the legends about demons on the island. Tribute for the demon god people? Is there a sect among the Celts that worships Laurelin? Once there was such a sect, at least, the most fanatical ones usually became seers.
+	5.4 Southerners are generally aren't liked too much.  The bridge building folks are a bit better looked upon.
+	5.5 Asians - Interested in the items they bring but they don't understand their language so relations aren't great.  The Laurelin folk are looking to improve them though.
+	5.6 SW Southerners (around the tip of the 3rd wave) - A few slaves are in Laurelin so this desolate land is looked down upon. Wolf's den / magistrate.  Maybe the Blacksmith bought a slave's freedom and made him an apprentice.
+6) Do they have any belief systems?
+	6.1 See gods.txt for a start :)
+	6.2 Gaea worshippers in the sanctuary (in secret).
+	6.3 Wolves are revered / wolf god
+	6.4 Nature itself is revered.
+7) What is their economy like?
+	7.1 Orichalculum was the main source of riches.  A sweet deal was reached by a Magistrate long ago with the clans which made the Laureliners rich.  The blacksmith is one of the only people in the world who knows how to work the metal.
+	7.2 Wood products (finished items mostly since the wood is very difficult to work). Laureliners import wood that's easy to process. They use it for firewood, houses etc. They themselves don't export wood from the valley. The wood of Laurelin is very hard and it has self-mending/recreational powers, so when crafting it you need special chemicals and stuff in order for it to hold the desired form. The wood of Laurelin is very expensive. Tourists greatly desire this magical wood. Laureliners use their own wood very sparingly and hold it very sacred.
+	7.3 Tourism - a few people come to visit the 'magical isle' with good sized parties to see the sights
+	7.4 Food - herbs, fruit and a few vegetables which only grow on the island are exported.  Also prepared foods like, ale, preserved meats, whatever will  keep on the voyage home.  Laurelin has their own unique culinary specialties bc of the unique food that grows there.
+	7.5 Crafting services / consulting - sometimes go to the mainland to help out on construction
+	7.6 Apprenticeships w/craftsmen - the apprentices are chosen very carefully and it costs quite a bit of cash to study under the craftsmen in Laurelin
+	7.7 Locally they spread alot of money between each other so their village looks really nice.
+8) What kinds of services do they have
+	8.1 Apprenticeships w/craftsmen - the apprentices are chosen very carefully and it costs quite a bit of cash to study under the craftsmen in Laurelin
+	8.2 Crafting services / consulting - sometimes go to the mainland to help out on construction
+	8.3 Leisure services - for vacationers (music, guided boat tours up and down the river, tours of the valley (nature walks)
+	8.4 Legal services - Magistrate handles things initially, but it is escalated to the Mage's Guild.  Contracts (the mage's guild rep. is responsible for this; kind of like notaries)
+	8.5 Magic Services - Combat / protective services, Oracle (this was mostly for important ppl in Laurelin.  Folks the rep would want to control or have good relationships with)
+	8.6 Gate keeper - page / servants watch the bridge...  the page asks the battle mage on important matters.
+	8.7 food exports
+9) What is their relationship with nature?
+	9.1 They think everything is connected and they respect nature quite a bit...  penguins are deified ;)
+10) What kind of art do they have?
+	10.1 Music (singing, instruments)
+	10.2 Wood sculpture - carving & turning (very detailed and ornate [they have more time than anyone :P])
+	10.3 Musical Instruments - luthier
+	10.4 Sculpture - a small amount of rock sculpture
+	10.5 Theatre - plays and puppeteers
+	10.6 Metalworking - mostly ornamentation for everyday items 
+11) What kind of music do they have/enjoy?
+	11.1 folksy type stuff - more instrumental, contains history about events in the village and outside
+	11.2 rotating minstrels - they can't stay too long bc the nobles and rich merchants get bored with the same tunes.  these minstrels tell tales about the outside world and skew the villagers perspective about the outside world.  the minstrels sing about anything, battle, dragons, seers, etc.
+	11.3 their own music would be simple and generally about nature... there are a few sad tales about the 1st curse for example, but their tunes are generally happy and pretty simple.
+12) How do they usually travel?
+	12.1 travel outside of the island on boat
+	12.2 travel outside of the valley but still on the island would be on horse.
+	12.3 travel on the river is limited to large vessels since it is rough going.  there is a ship that was built by some rich merchant.  this ship is in dry dock.  Perhaps there is a ship there which got trapped during the earthquake.
+13) What kinds of things are they especially good at?  Do they have any special skills?
+	13.1 woodworking, etc.
+14) What are their weaknesses?
+	14.1 they're people :)
+15) What are their significant holidays or rituals?
+	15.1 bridge festival (secret) - southerns gaea worshippers.
+	15.2 founding festival
+	15.3 1st curse - days of mourning and then some feasts and celebration for the victory
+	15.4 summer solstice - summer festival
+	15.5 winter festival - fertility and crops for the new year
+	15.6 wolf centric festivals
+	15.7 battle festivals - when they repulsed raiders
+	15.8 kings festivals - certain kings (those, who have done something that's important for the villagers, inventing the runes, paving the streets etc; some of the festivals could also be kind of like the Avatar Day in Nikolodean series "Avatar: The Last Airbender" :P)
+	15.9 funerals - everyone wants to go out in style....  so this is more of a community event and a celebratory environment after a bit of depressing stuff.
+16) What are their important writings?
+	16.1 Writings of southern gaea worshippers which are hidden in the basement of the sanctuary
+	16.2 Town history and other writings in the Town Magistrates Office
+	16.3 Legal documents kept in the Magistrate's office
+	16.4 Hermit Mage - Prophecies (a la Nostradamus; all the prophecies the laureliners know about compiled into one book)
+	16.5 Book of the Wolf - how to become a wolf brother, and how to find the brotherhood and how to get powers from the wolf.  People who were around silverfang became enamoured with the powers of the wolf (vargfolk).  Everyone knows this book exists but the sect has gone underground.  Mage's guild representative has this book in his private study now (it is protected by magical forces, atm).  Book has a unique wolf-themed look.
+	16.6 Orichaculum Trade Pact - Stone tablet which contains the details of the contract between the ting and the laurelin people
+	16.7 Werewolf Society Maps - shows the location of the werewolf society (Berrin keeps this)
+	16.8 Orichcalculum Vein Maps - Karufin keeps this.
+	16.9 Secret Way out of the Valley Maps - Werewolf society knows a way out of the valley..  they keep it.
+	16.10 Pirate treasure shipwrecked Maps -  outside the valley near the island a pirate ship went down with all of its treasure.  Kept inside the wolf's den.
+	16.11 Maps of Ruins of Vargfolk - a simpleton who worked for the hermit mage drew maps of items in vargfolk ruins and the location of ruins.  the simpleton lived an extra long while (300-400 years).  He drew crazy drawings of the things he saw in the huge Vargfolk sunning chamber (which also had lots of their writings and some important discoveries for the hermit mage [probably just some common items to the vargfolk])
+17) What are their important relics?
+	17.1 A piece of the old bridge.
+	17.2 Vargfolk relics - found during mining and by whomever (maybe some farmers and children playing).  The don't know what these items are.
+	17.3 Silverfang - Berrin owns this...
+	17.4 Staff of the Hermit Mage - location unknown
+	17.5 Ancient Weapons - Blacksmith owns a lot of collectors item (alot of these are orichaculum and brought back by heros of ancient wars).
+	17.6 
+18) Where did they come from?
+	18.1 Viking mainland near Gormsby
+19) Why did they come here?
+	19.1 The seers wanted to go there and manipulated the Vikings
+20) What kinds of traits do they value?
+	20.1 The simple life (quiet, peaceful and living in harmony)
+	20.2 An honest day's pay for an honest day's work (despite their very high prices in their stores)
+	20.3 tenacity
+	20.4 entertainment skills
+	20.5 skillful workmanship
+21) What is their architecture like?
+	21.1 Low houses
+	21.2 ornate carvings
+	21.3 greenery (grass roof w/vines all about)
+	21.4 old looking (most things look a little unkempt)
+	21.5 mostly wooden structures (excepting the bridge)
+	21.6 quaint / cozy
+22) Do they have a lot of magic?
+	22.1 No, not very much.
+23) What kinds of magic do they like the best?  What kinds to they look upon as lower magics?
+	23.1 Seer magic is looked upon as high magic.
+	23.2 All magic is useful, they don't really look down on any magic at all (beggars can't be choosers in a low magic world).
+24) What is the population in the valley at the height and during the time of the game?
+	27.1 At its height, about 1000 (the miners raised this signifcantly.  about 300-400 in the village itself
+	27.2 During the game, there are only a few people outside the valley, about 150-200 people in the village now
+25) How does their social order work?
+	25.1 Magistrate handles simple matters and is a low level judge
+	26.2 Mage's guild rep. - a higher court that people can appeal to.
+	26.3 Magistrate is also the head law enforcement agent - he can get a posse together
+26) What is their style of dress?
+	26.1 fur and leather are popular.
+	26.2 lots of imported clothes
+	26.3 imported velvet, cotton for good clothes.
+	26.4 linen for work clothes and small amounts of wool.
+	26.5 a small amount of silk they get from the asians from time to time
+	26.6 quite ornate w/nice patterns and trimmings.
+27) What kinds of weapons do they have?  What kinds do they prefer to use / are best with
+	27.1 daggers (everyone)
+	27.2 bows (hunters mostly)
+	27.3 whatever is around - axes mostly.
+	27.4 a few ppl have swords (they aren't too good with them)
+	27.5 there are some really nice weapons and armor in the forest from the military detactment who tried to fight their way out but were slaughtered (this is deep in the forest)
+28) What was womens place in society?
+	28.1 The women are basically equal to men
+29) how much livestock do they have and what kinds?
+	29.1 a few sheep
+	29.2 quite a few goats
+	29.3 (a few) horses
+	29.4 chickens
+	29.5 a few pigs?
+30) Do they have any pets?
+	30.1 hunting dogs (huskies / wolf)
+	30.2 hunting cats (trained lynx)
+	30.3 messenger birds (magistrate has them).
+31) What's the climate like? What seasons do they have? How cold does it get in winter, how warm in summer? Does it snow there?
+	31.1 Kind of like France, a bit like Spain perhaps too; not like Denmark or England or Italy, but rather central France; temperate zone, marine and thus milder climate, the warmer kinf of it
+	31.2 In the Winter there can be a bit of snow in the mountains and in the valley
+	31.3 Switzerland?

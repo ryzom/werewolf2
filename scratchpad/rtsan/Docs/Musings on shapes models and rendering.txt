@@ -1,0 +1,49 @@
+#include <nel/misc/class_id.h>
+#include <3d/shape.h>
+#include <3d/driver.h>
+
+#include <3d/transform_shape.h>
+#include <3d/vertex_buffer.h>
+
+const NLMISC::CClassId MyModelClassId =  NLMISC::CClassId(0xNNNNNNNN, 0xNNNNNNNN);
+
+************************************************************************************************
+What Shapes ( public NL3D::IShape ) have to implement...
+
+	NLMISC_DECLARE_CLASS ?!
+
+	* createInstance
+		NL3D::CMyModel *m = NLMISC::safe_cast<NL3D::CMyModel *>(scene.createModel(MyModelId));
+		m->Shape = this;
+		m->NL3D::ITransformable::setPos, setScale, setRotQuat etc.
+		// do init stuff if needed...
+		return m;
+	* clip
+		// check against the planes given in the pyramid
+	* render
+		// not implemented if you implement traverseRender in the model and it doesn't use Shape::render
+	* getAABBox
+		bbox.setCenter(center);
+		bbox.setHalfSize(halfsize);
+	* getNumTriangles
+		// get the estimated number of triangles for a given distance
+	* serial
+		uint ver = stream.serialVersion(versionNumber);
+		// do .serial*() on all that stuff that's stored
+	* flushTextures
+		driver.setupTexture(texture); // for all the textures
+	* [ profileSceneRender ]
+************************************************************************************************
+
+
+************************************************************************************************
+What Models ( public NL3D::CTransformShape ) have to implement...
+	* registerBasic
+		CScene::registerModel(MyModelClassId, TransformShapeId, CMyModel::creator);
+	* creator
+		return new CMyModel(args);
+	* [ traverseRender ]
+	* [ traverseLodBalancing ] 
+	* [ traverseHrc ]
+	* [ traverseAnimDetail ]	
+************************************************************************************************	

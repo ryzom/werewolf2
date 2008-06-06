@@ -1,0 +1,17 @@
+<PropertyMap>
+	<textureDDS name="USER.decal">
+		<value>data/wall.dds</value>
+	</textureDDS>
+	<textureDDS name="USER.relief">
+		<value>data/wall_relief.dds</value>
+	</textureDDS>
+	<textureDDS name="USER.gloss">
+		<value>data/wall_gloss.dds</value>
+	</textureDDS>
+	<float name="USER.Coeffs">
+		<value>0.04</value>
+		<value>200</value>
+		<value>1</value>
+		<value>0.2</value>
+	</float>
+</PropertyMap>

@@ -1,0 +1,25 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsFindChildJoint.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc string jsFindChildJoint (string $joint)
+{
+	// this script will return the child joint for the selected joint
+	string $return;
+	string $c[0];
+
+	$c = `listRelatives -c -pa $joint`;
+	for ($child in $c)
+	{
+		if ((`nodeType $child` == "joint") && ($return == ""))
+		{
+			$return = $child;
+		}
+	}
+	return $return;
+}

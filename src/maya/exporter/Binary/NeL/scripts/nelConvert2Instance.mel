@@ -1,0 +1,14 @@
+// Converts an object into an instance
+
+global proc nelConvert2Instance() {
+	string $selected[] = `ls -sl`;
+	for($select in $selected) {
+		print ("Adding NeL instance attributes to " + $select + "\n");
+		addAttr -ln "DontAddToScene" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "DontCastShadow" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "DontCastShadowForExterior" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "DontCastShadowForInterior" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "AvoidStaticLightPreCompute" -k 1 -at "bool" -dv 0 $select;
+	}
+	print("Done.\n");
+}

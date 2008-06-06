@@ -1,0 +1,9 @@
+Important JUSS features
+
+1) Ability to enter keywords while viewing the image, without the need to save afterwards.
+2) Keywords by default exported to IPTC/NAA if possible.
+3) Viewing the search results as thumbnails.
+4) Attach a thumbnail to any file - autogeneration options for images and nel models.
+5) Attach medium sized previews to any file - autogeneration options for images and nel models.
+6) Visual indication if a keyword already exists or not while typing it in (different color perhaps).
+7) Search window should provide a list of keywords, but not as a dropdown.

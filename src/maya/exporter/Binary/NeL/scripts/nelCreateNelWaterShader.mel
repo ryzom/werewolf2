@@ -1,0 +1,50 @@
+// Creates a NeL Water Shader (Oooo! Shiny!)
+
+global proc nelCreateNelWaterShader() {
+	$selection = `ls -sl`;
+	$AEpopup = `optionVar -q AEpopupWhenCreatingShaders`;
+	optionVar -intValue AEpopupWhenCreatingShaders 0;
+	int $first = true;
+	string $sh[];
+	for($select in $selection) {
+		if($first) {
+			createAndAssignShader phong $select;
+			$sh = `listRelatives -s -f -ni $select`;
+			$sh = `listConnections ($sh[0] + ".instObjGroups[0]")`;
+			$sh = `listConnections ($sh[0] + ".surfaceShader")`;
+			$sh[0] = `rename $sh[0] "NeLWaterShader"`; 
+			phong2NeLWater($sh[0]);
+			$first = false;
+		} else {
+			assignSG $sh[0] $select;
+		}
+	}
+	optionVar -intValue AEpopupWhenCreatingShaders $AEpopup;
+}
+
+global proc phong2NeLWater(string $sh) {
+	if(!`attributeExists "NeL" $sh` && !`attributeExists "NeLWater" $sh`) {
+		addAttr -ln "NeLWater" -h true -r false -w false -at "bool" -dv true $sh;
+		
+		addAttr -ln "WaterPoolId" -at "long" -dv 0 $sh;
+		addAttr -ln "WaterHeightFactor" -at "float" -dv 1.0 $sh;
+
+		addAttr -ln "BumpMapUScale" -at "float" -smn -1.0 -smx 1.0 -dv 0.01 $sh;
+		addAttr -ln "BumpMapVScale" -at "float" -smn -1.0 -smx 1.0 -dv 0.01 $sh;
+		addAttr -ln "BumpMapUSpeed" -at "float" -smn -1.0 -smx 1.0 -dv 0.01 $sh;
+		addAttr -ln "BumpMapVSpeed" -at "float" -smn -1.0 -smx 1.0 -dv 0.01 $sh;
+		
+		addAttr -ln "DisplacementMapUScale" -at "float" -smn -1.0 -smx 1.0 -dv 0.005 $sh;
+		addAttr -ln "DisplacementMapVScale" -at "float" -smn -1.0 -smx 1.0 -dv 0.005 $sh;
+		addAttr -ln "DisplacementMapUSpeed" -at "float" -smn -1.0 -smx 1.0 -dv 0.005 $sh;
+		addAttr -ln "DisplacementMapVSpeed" -at "float" -smn -1.0 -smx 1.0 -dv 0.005 $sh;
+
+		addAttr -ln "EnvironmentMapDay" -dt "string" $sh;
+		addAttr -ln "EnvironmentMapNight" -dt "string" $sh;
+		addAttr -ln "EnvironmentMapDayUnderwater" -dt "string" $sh;
+		addAttr -ln "EnvironmentMapNightUnderwater" -dt "string" $sh;
+		addAttr -ln "BumpMap" -dt "string" $sh;
+		addAttr -ln "DisplacementMap" -dt "string" $sh;
+		addAttr -ln "ColorMap" -dt "string" $sh;
+	}
+}

@@ -1,0 +1,4 @@
+<script src="data/reliefFP.as" name="relief mapping FP">
+	<function name="getShader" return="string"/>
+	<function name="getType" return="int"/>
+</script>

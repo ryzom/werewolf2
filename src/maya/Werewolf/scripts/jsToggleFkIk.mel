@@ -1,0 +1,132 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsToggleFkIk.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 14, 2002
+//
+//	DESCRIPTION:	This script is intended to toggle between fk and
+//					ik using maya's new fk/ik abilities in 4.0.
+//
+//
+//	INPUTS:		
+//			$controlNode 	The node which has links to the elbow/knee
+//							controls, and is the main control for the
+//							fk/ik setup
+//
+//			$state			What state we're setting when we hit the
+//							button.  Either "fk" or "ik".  If it's set 
+//							to anything else (such as "cur"), it will
+//							leave everything alone.
+//			
+//			$key			Whether or not we're setting a keyframe.
+//
+//
+//	DEPENDENCIES:
+//					The $controlNode must have the following attributes
+//					on it for it to work.  These can be added using
+//					jsMakeFkIkConnections.mel
+//
+//			FK_IK_POLE_VECTOR
+//			FK_IK_ORIG
+//
+//	NOTES:
+//	
+//		Aug 6, 2004 - Fixed setting keyframes by changing the line "SetIKFKKeyframe" to:
+//					  doSetKeyframeArgList 4 { "4","0","0","0","1","0","0","animationList","0" };
+//			
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsToggleFkIk (string $controlNode, string $state, int $key )
+{
+	// Find the appropriate nodes
+	string $poleVector;
+	string $orig;
+	string $ikHandle;
+	string $origPV;
+	string $extraIkHandle;
+	string $origSel[0];
+	
+	$poleVector = `jsFindConnected ($controlNode + ".FK_IK_POLE_VECTOR")`;
+	$orig = `jsFindConnected ($controlNode + ".FK_IK_ORIG")`;
+	$ikHandle = `jsFindConnected ($controlNode + ".ikBlend")`;
+	if ($poleVector != "")
+		$origPV = `jsFindConnected ($poleVector + ".FK_IK_ORIG")`;
+	
+	if (`attributeQuery -exists -node $controlNode  "FK_IK_EXTRA"`)
+		$extraIkHandle = `jsFindConnected ($controlNode + ".FK_IK_EXTRA")`;
+
+	// find the orig selected objects
+	$origSel = `ls -sl`;
+
+	if ($extraIkHandle != "")
+	{
+		select $extraIkHandle $ikHandle;
+	}
+	else
+	{	
+		select $ikHandle;
+	}
+	
+	
+	// check $state to see what to do
+	switch ($state)
+	{
+		case "fk":
+			// switch the mode to fk.
+			
+			// by default, maya uses an optionVar to query the current setting,
+			// then switches it to a new setting.  To get around this, we'll
+			// temporarily set the optionVar to 1, making it "switch" to 0,
+			// even if it's already at 0.
+
+			optionVar -intValue ikFKSwitchState 1;
+			updateIKFKState;
+			break;
+
+		case "ik":
+			// swith the mode to ik.
+
+			// to perform the ik switch, we have to snap the ik control to it's
+			// original position.  We can do this using the jsCopyPos and
+			// jsCopyRot commands
+			
+			// do the orig control
+			jsCopyPos ($orig+" "+ $controlNode);
+			jsCopyRot ($orig+" "+ $controlNode);
+			$r = `getAttr ($controlNode + ".r")`;
+			
+			// check and see if the $poleVector node exists.  If so, copy it's
+			// position first
+			if ($poleVector != "")
+			{
+				jsCopyPos ($origPV +" "+ $poleVector);
+			}
+
+			// now we set the optionVar to 0, making it think it should be
+			// switching to IK mode.
+			optionVar -intValue ikFKSwitchState 0;
+
+			// gotta select the ikHandles
+			select $ikHandle;
+			if ($extraIkHandle != "")
+				select -add  $extraIkHandle;
+
+			updateIKFKState;
+			setAttr ($ikHandle + ".ikBlend") 1;
+			if ($extraIkHandle != "")
+				setAttr ($extraIkHandle + ".ikBlend") 1;
+			break;
+	}
+
+	// now check and see if we should key it
+	if ($key == 1)
+	{
+		doSetKeyframeArgList 4 { "4","0","0","0","1","0","0","animationList","0" };
+	}
+	// select the orig selected objects
+	if (size($origSel) > 0)
+		select $origSel;
+	else
+		select -d;
+}

@@ -1,0 +1,4 @@
+<script src="data/pass_through_vertex.as" name="pass through vertex">
+	<function name="getShader" return="string"/>
+	<function name="getType" return="int"/>
+</script>

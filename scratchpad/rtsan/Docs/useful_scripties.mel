@@ -1,0 +1,102 @@
+global proc createSphericalBB() {
+	int $i;
+	for($i = 0; $i < 200; $i++) {
+		string $shape = `createNode billboardShape`;
+		string $transform[] = `listRelatives -p $shape`;
+		$pos = unit(sphrand(1)) * 2.5;
+		move -a -xyz ($pos.x) ($pos.y) ($pos.z) $transform[0];
+		setAttr ($shape + ".useRadialNormals") 1;
+	}
+}
+
+global proc randomizeOrientation() {
+	$selection = `ls -sl -l`;
+	$selectedShapes = `listRelatives -s -f $selection`;
+	for($shape in $selectedShapes) {
+		setAttr ($shape + ".orientation") `rand -0.7 0.7`;
+	}
+}
+
+
+global proc createABunch(int $num, float $radius, int $createLight) {
+	if($createLight == 1) {
+		$circle = `circle -c 0 0 0 -nr 0 0 1 -sw 360 -r 14 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
+		rotate -r -eu -35.078995 0 0 ;
+		defaultPointLight(1, 1,1,1, 0, 0, 0,0,0, 1);
+		select -tgl $circle ;
+		$minTime = `playbackOptions -query -minTime`;
+		$maxTime = `playbackOptions -query -maxTime`;
+		$path = `pathAnimation -fractionMode true -follow true -followAxis x -upAxis y -worldUpType "vector" -worldUpVector 0 1 0 -inverseUp false -inverseFront false -bank false -startTimeU $minTime -endTimeU $maxTime`;
+		selectKey -add -k -t 1 -t 48 ($path + "_uValue");
+		keyTangent -e -itt linear -ott linear;
+	}
+	$slot = `nelCreateLeafSlot`;
+	$cluster = `nelCreateLeafCluster`;
+	$clusterControl = `listRelatives -p -f $cluster`;
+	$slot = $cluster + $slot;
+	int $i;
+	for($i = 0; $i < $num; $i++) {
+		string $shape = `createNode billboardShape`;
+		string $transform[] = `listRelatives -p $shape`;
+		$pos = rand(<<$radius, $radius, $radius>>, <<-$radius, -$radius, -$radius>>);
+		move -a -xyz ($pos.x) ($pos.y) ($pos.z) $transform[0];
+		setAttr ($shape + ".isLeaf") 1;
+		setAttr ($shape + ".useOrientation") 1;
+		setAttr ($shape + ".orientation") `rand -0.7 0.7`;
+		setAttr	($shape + ".radiusX") `rand 0.4 0.6`;
+		setAttr	($shape + ".radiusY") `rand 0.4 0.6`;
+		connectAttr -f ($slot + ".colorR") ($shape + ".globalBBColorR");
+		connectAttr -f ($slot + ".colorG") ($shape + ".globalBBColorG");
+		connectAttr -f ($slot + ".colorB") ($shape + ".globalBBColorB");
+		connectAttr -f ($slot + ".useBBSizes") ($shape + ".useBBSize");
+		connectAttr -f ($slot + ".useBBColors") ($shape + ".useBBColor");
+		connectAttr -f ($slot + ".BBRadiusX") ($shape + ".globalRadiusX");
+		connectAttr -f ($slot + ".BBRadiusZ") ($shape + ".globalRadiusY");
+		connectAttr -f ($slot + ".Alignment") ($shape + ".alignType");
+		connectAttr -f ($slot + ".useFaceNormal") ($shape + ".faceNormal");
+		connectAttr -f ($slot + ".translucency") ($shape + ".translucency");
+		connectAttr -f ($slot + ".useRadialNormals") ($shape + ".useRadialNormals");
+		connectAttr -f ($slot + ".useBBOrientations") ($shape + ".useOrientation");
+		connectAttr -f ($slot + ".useBBCastShadows") ($shape + ".useCastShadows");
+		connectAttr -f ($slot + ".penumbra") ($shape + ".penumbra");
+		connectAttr -f ($clusterControl[0] + ".Radius") ($shape + ".clusterRadius");
+		connectAttr -f ($clusterControl[0] + ".translate") ($shape + ".clusterCenter");
+		parent $transform[0] $slot;
+	}
+}
+
+global proc connectCaster(string $cluster, int $num) {
+	$selection = `ls -sl -l`;
+	$selectedShapes = `listRelatives -s -f $selection`;
+	for($shape in $selectedShapes) {
+		connectAttr -f ($cluster + ".Radius") ($shape + ".casterSizes[" + $num + "]");
+		connectAttr -f ($cluster + ".translate") ($shape + ".casterPositions[" + $num + "]");
+	}
+}
+
+global proc connectIntersectors(int $num, float $radius) {
+	$selection = `ls -sl -l`;
+	for($shape in $selection) {
+		$myTransform = `listRelatives -p -f $shape`;
+		float $myTr[] = `xform -q -ws -t $myTransform[0]`;
+		$myTrV = <<$myTr[0], $myTr[1], $myTr[2]>>;
+		for($intersector in $selection) {
+			if($shape == $intersector)
+				continue;
+			$intNum = `getAttr -s ($shape + ".intersectSizes")`;
+			if($intNum == $num)
+				break;
+			$intTransform = `listRelatives -p -f $intersector`;
+			float $intTr[] = `xform -q -ws -t $intTransform[0]`;
+			$intTrV = <<$intTr[0], $intTr[1], $intTr[2]>>;
+			$dist = $intTrV - $myTrV;
+			if(`mag $dist` < $radius) {
+				float $radx = `getAttr ($intersector + ".radiusX")`;
+				float $rady = `getAttr ($intersector + ".radiusY")`;
+				float $size = `sqrt ($radx*$radx + $rady*$rady)`;
+				connectAttr -f ($intTransform[0] + ".translate") ($shape + ".intersectPositions[" + $intNum + "]");
+				setAttr ($shape + ".intersectSizes[" + $intNum + "]") $size;
+			}
+		}
+	}
+}

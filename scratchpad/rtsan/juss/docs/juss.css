@@ -1,0 +1,87 @@
+/* CSS by Henri Kuuste. */
+
+body {
+	background: white;	
+}
+
+A:link {
+	color: navy;
+}
+
+A:active {
+	color: #337E3D;
+}
+
+A:visited {
+	color: #3C617E;
+}
+
+A:hover {
+	color: #337E3D;
+}
+
+H1 {
+	border-style: double none double none;
+	text-align: center;
+	background-color: #DDDDDD;
+	color: black;
+}
+
+H2 {
+	margin-top: 2em;
+	text-align: center;
+	border-style: solid none solid none;
+	border-width: thin thin thin thin;
+	border-color: black black black black;
+	background-color: #EAEAEA;
+	color: #115311;
+}
+
+H3 {
+}
+
+H4 {
+	color: #115311;
+	margin: 1em 0em 0em 0em;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+H5 {
+	font-size: 100%;
+	color: navy;
+	margin: 1em 0em 0em 0em;
+	font-weight: normal;
+	font-style: italic;
+}
+
+OL.lvl0 {
+	font-weight: bold;
+	list-style-type: upper-roman;	
+}
+
+.lvl1 {
+	font-weight: normal;
+}
+
+.lvl2 {
+	font-weight: normal;
+}
+
+.indent1 {
+	margin-left: 40px;
+}
+
+.important {
+	font-style: italic;
+	color: rgb(204,0,0);
+}
+
+.comment {
+	color: rgb(240,130,0);
+}
+
+.inline {
+	margin-top: 0;
+	margin-bottom: 0;
+}

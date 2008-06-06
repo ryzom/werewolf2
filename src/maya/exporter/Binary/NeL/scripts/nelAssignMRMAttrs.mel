@@ -1,0 +1,14 @@
+// Assigns a value to some MRM Attributes
+
+global proc nelAssignMRMAttrs(int $nLods, int $divisor, float $finest, float $middle, float $coarsest) {
+	$selection = `ls -sl`;
+	$sh = `listRelatives -s -ni $selection`;
+
+	for($shape in $sh) {
+		setAttr ($shape + ".NumberOfLods") $nLods;
+		setAttr ($shape + ".Divisor") $divisor;
+		setAttr ($shape + ".DistanceFinest") $finest;
+		setAttr ($shape + ".DistanceMiddle") $middle;
+		setAttr ($shape + ".DistanceCoarsest") $coarsest;
+	}
+}

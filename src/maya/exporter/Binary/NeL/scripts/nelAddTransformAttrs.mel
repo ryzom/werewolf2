@@ -1,0 +1,8 @@
+global proc nelAddTransformAttrs() {
+	string $selected[] = `ls -sl -et "transform"`;
+	for($select in $selected) {
+		print ("Adding NeL transform attributes to " + $select + "\n");
+		addAttr -ln "nelExportSpace" -k 0 -at "enum" -en "transform=1:object(preTransform)=2:postTransform=3:world=4" -dv 4 $select;
+	}
+	print("Done.\n");
+}

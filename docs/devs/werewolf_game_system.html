@@ -1,0 +1,685 @@
+<HTML>
+	<HEAD>
+		<META http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<TITLE>Werewolf Game System</TITLE>
+		<LINK href="werewolf.css" rel="stylesheet" type="text/css">
+	</HEAD>
+<BODY>
+	<H1 align="center">Werewolf Game System</H1>
+	<P><H2>Table of Contents</H2>
+	<OL class="lvl0">
+		<LI><A href="#structure">Basic Structure</A></LI>
+		<LI><A href="#skills">Skills</A></LI>
+		<UL class="lvl1">
+			<LI><A href="#initial">Initial</A></LI>
+			<LI><A href="#general">General</A></LI>
+			<LI><A href="#craftsman">Craftsman</A></LI>
+			<LI><A href="#hunter">Hunter</A></LI>
+			<LI><A href="#herbalist">Herbalist/Healer</A></LI>
+			<LI><A href="#werewolf">Werewolf</A></LI>
+			<LI><A href="#seer">Seer</A></LI>
+		</UL>
+		<LI><A href="#abilities">Abilities</A></LI>
+		<LI><A href="#systems">Basic Systems</A></LI>
+		<UL class="lvl1">
+			<LI><A href="#hss">Hierarchical State System</A></LI>
+			<UL class="lvl2">
+				<LI><A href="#state">What are states?</A></LI>
+				<LI><A href="#hss_use">What are states used for?</A></LI>
+				<LI><A href="#hierarchical">A hierarchical system</A></LI>
+				<LI><A href="#calcnprop">Calculation and propagation</A></LI>
+				<LI><A href="#state_features">General state attributes/features</A></LI>
+				<LI><A href="#basic_hss">Basic States and Memory</A></LI>
+				<LI><A href="#state_lang">The State Description Language</A></LI>
+			</UL>
+			<LI><A href="#aems">Agent Emotional Modeling System (AEMS)</A></LI>
+			<UL class="lvl2">
+				<LI><A href="#aemsintro">Introduction</A></LI>
+				<LI><A href="#aems_internals">Internals</A></LI>
+			</UL>		
+			<LI><A href="#health_energy">Health and Energy</A></LI>
+			<LI><A href="#trading">Trading</A></LI>
+			<LI><A href="#crafting">Crafting, Cooking and Magic (stuff dealing with herbalists/healers and seers)</A></LI>
+			<LI><A href="#combat">Combat</A></LI>
+			<LI><A href="#hunting">Hunting</A></LI>
+		</UL>
+		<LI><A href="#ui">User Interface</A></LI>
+		<UL class="lvl1">
+			<LI><A href="#info">Information gathering</A></LI>
+			<LI><A href="#navigation">Navigation</A></LI>
+			<LI><A href="#trade_ui">Trading</A></LI>
+			<LI><A href="#inventory_ui">Inventory</A></LI>
+		</UL>
+	</OL>
+
+	<P><H2><A name="structure">I. Basic Structure</A></H2>
+		Werewolf is a completely skill based system. The werewolf game has four different classes - craftsman, hunter, mage and herbalist. 
+(<span class="comment">I dunno if we'll go for the fully class based system or 
+if these will be purely social classes determined by which skill the character 
+knows the best. This currently describes a class based system.</span>) A player 
+may choose one class right at character creation and start playing that or start 
+as a simple villager with only the <a href="#general">general skills</a> and then 
+choose a class at any time.The player can not switch classes after the choice 
+has been made. Every player gets survival points for each night he/she survives 
+while being logged in. Survival points can then be used to learn skills. Each 
+player can choose from the <a href="#general">general skills</a> and also the 
+<a href="#skills">skills of his/her class</a>. Initially the player is gives 1-2 
+survival points to distribute and some <a href="#initial">initial skills</a>. 
+The server may turn a player into a werewolf or seer at any time if it is needed 
+(<span class="comment">what are the criteria for that?</span>). Also players may 
+become werewolves by getting bitten by another werewolf via the Lycanthropic Bite 
+skill (<span class="comment">Maybe seers could also create/train other seers</span>). 
+Both werewolf and seer are kinda a blessing and a curse. Life continues as usual 
+- you continue to be able to choose from the skills you had before and if you 
+had not chosen a class you still can do so. However the first curse that is common 
+to both is that you suddenly become the target of some other group of individuals 
+(all others for werewolves and werewolves for seers). So already your quiet life 
+is ruined. But that's not all! As a werewolf you suddenly have a new thing called 
+bloodlust. It's a meter that constantly increases - you hafta kill to decrease 
+it. If it gets too high you will loose control and maybe even die (<span class="comment">What 
+will happen exactly?</span>). You may fight it at first and kill chickens, dogs, 
+rats or other creatures, but it is never enough and you will soon hafta lead a 
+double life, since killing humans is what you yearn for. The curse of the seer 
+is somewhat milder (<span class="comment">Or is it? What else could there be to 
+it?</span>), you suddenly have visions of horrible killings (<span class="comment">how 
+do we implement this?</span>) that take up lots of your energy. But wait...wasn't 
+there a blessing to it? Yes...well...you are opened up to a whole new realm of 
+skills. As a werewolf you now can do combat and become physically stronger - no 
+longer the wimp you were! As a seer you can craft magical items and identify werewolves, 
+maybe even do spells!<br>
+All of the 3 classes are simply ways to earn their bread and stay alive. However 
+ideally hunters (who can do combat) will form an organization (which for some 
+obscure reasons will be called &quot;The Police&quot;) to protect the village 
+for the werewolves. How and if the organize this is entirely up to them of course. 
+But it would be cool to have watch schedules, hired guards etc....going around 
+asking other citizens for their monthly payment - and you have taxes :)
+</P>
+<P><H2><A name="skills">II. Skills</A></H2>
+		
+<p>Each skill should cost a certain amount of survival points. Not indicated yet 
+  - because it has to be well balanced. Once all the skills are figured out, costs 
+  should be assigned.<br>
+  Skills can have dependencies - that is they may depend on some other skill or 
+  ability. Each skill can also cost energy and health (note that the cost may 
+  be negative).<br>
+  Once a skill has been learned the player will have something like 15% proficiency 
+  at it. This can be further improved by practicing it (<span class="comment">The 
+  ratio of time to 1% improved skill is yet to be determined</span>). If the skill 
+  is not used often enough it starts to deteriorate (<span class="comment">Again 
+  - at what rate? Should this be influenced by what other skills are used?</span>). 
+  The proficiency at some skill shows how good a chance the character has of succeeding 
+  at it (<span class="comment">This might be influenced also by other factors. 
+  Including certainly what exactly the character is trying to do. Crafting a spoon 
+  is easier than crafting a sword.</span>)</p>
+<H3><A name="initial">Initial</A></H3><div class="indent1">
+			These are skills that every player has from the start. Maybe some could be further developed later on.
+			<H5>Basic combat</H5>
+			This skill gives the player the ability to do very basic combat. The 
+  damage inflicted is small. Maybe they can not deal a fatal blow. (<span class="comment">Dunno 
+  really yet...hafta think this through.</span>)
+  <H5>Use of basic tools</H5>
+			This skill includes things like making a fire, using a knife to cut 
+  things etc. (<span class="comment">What are the other things?</span>)
+  <H5>Reading</H5>
+  			Just so characters can read signs etc.
+  </div>
+		<H3><A name="general">General</A></H3><div class="indent1">
+  <H5>Cooking</H5>
+  A very important skill :) 
+  <H5>Direction sense</H5>
+			If one has this skill the map will show the players orientation without 
+  a compass. And also a compass will appear in the UI even if the player does 
+  not own one. 
+  <H5>Infravision</H5>
+			The player who learns this can see better in the dark than others 
+  (<span class="comment">may have many levels to it</span>).
+  <H5>Writing</H5>
+  			The player can make written notes for others and copy written documents.
+   <H5>Cartography</H5>
+   			Requires: Writing<br>
+  The player can make maps and copy maps. (<span class="comment">How is making 
+  maps implemented?</span>)
+  <H5>Haggle</H5>
+  			This allows the player to get better prices when trading with NPCs.
+	</div>
+		<H3><A name="craftsman">Craftsman</A></H3><div class="indent1">
+  <H5>Crafting</H5>
+			The main skill that defines a craftsman. 
+  <H5>Repair item</H5>
+			This will allow the player to repair damaged item provided he/she 
+  has the tools and resources needed. </div>
+		<H3><A name="hunter">Hunter</A></H3><div class="indent1">
+  <H5>Hunting</H5>
+			This defines the hunter.<br>
+  (<span class="comment">Hafta think about this one too. Tracking, making and 
+  setting traps etc. probably</span>)
+  <H5>Combat</H5>
+			(<span class="comment">Hafta think how this works still...maybe many 
+  skills. This will probably break down to weapon proficiency - longsword, shortsword, 
+  longbow, brawling/barehanded etc.</span>)</div> 
+  		<H3><A name="herbalist">Herbalist/Healer</A></H3><div class="indent1">
+  <H5>Herblore/Alchemy (<span class="comment">dunno what to call this</span>)</H5>
+			This defines the herbalist/healer. 
+  <H5>Heal wounds</H5>
+			This will allow the player to patch up wounds provided s/he has cloth 
+  (<span class="comment">or something similar</span>). It will increase the healing 
+  rate of the wounded player for some period of time. </div>
+		<H3><A name="werewolf">Werewolf</A></H3><div class="indent1">
+  <H5>Combat</H5>
+			(<span class="comment">Hafta think how this works still...maybe many 
+  skills. This will probably break down to weapon proficiency - longsword, shortsword, 
+  longbow, brawling/barehanded etc. Also maybe werewolf specific combat skills 
+  so that hunter/werewolf class would make sense</span>) 
+  <H5>Lycanthropic Bite</H5>
+			This skill allows the werewolf to turn other players into werewolves. 
+  Seers are killed by it - unless they have protection of some sort. This skill 
+  should take a lot of energy and perhaps even reduce the health of the werewolf. 
+  Also the number of times per period of time should be limited.
+  <H5>Resist bloodlust</H5>
+  			This skill will help control the rate at which bloodlust increases. 
+  (<span class="comment">may have different levels</span>) 
+  <H5>Perfect kill</H5>
+  			This skill will allow the werewolf to sattisfy his/her bloodlust more 
+  per kill. (<span class="comment">may have different levels</span>)
+  <H5>Infravision (lower cost than the general skill)</H5>
+			The player who learns this can see better in the dark than others 
+  (<span class="comment">may have many levels to it</span>).</div>
+		<H3><A name="seer">Seer</A></H3><div class="indent1">
+  <H5>Vision</H5>
+  			(<span class="comment">Hafta ponder this skill...there could be many 
+  levels to it.</span>) 
+  <H5>Endure Vision</H5>
+  			Each time one uses the vision skill or has a vision lots of energy 
+  is lost. This skill reduces the amount of energy lost during each vision. 
+  <H5>Cast spell</H5>
+  			This allows the seer to enchant different items, teleport others within 
+  a short range (<span class="comment">the visual range?</span>) etc. Similar 
+  to crafting and cooking in implementation. 
+  </div>
+	</P>
+
+	<P><H2><A name="abilities">III. Abilities</A></H2>
+	(<span class="comment">Need to get some basic abilities here...what they are 
+used for, how they can be increased and decreased, how they are distributed during 
+character creation etc.</span>) </P> 
+<P><H2><A name="systems">IV. Basic Systems</A></H2>
+<H3><A name="hss">Hierarchical State System</A></H3>
+<div class="indent1">
+
+	<H5><A name="state">What are states?</A></H5>
+
+	States are entities that can be attached to any other entities as children 
+  at runtime. These states can access and modify any of the attributes and methods 
+  of the parent entity. Essentially this means what the name implies - an entity 
+  (a character for example) may have temporary conditions (states) that are not 
+  coded into the entity class, but are coded/scripted separately. This allows 
+  for a lot of flexibility. The system is however not limited to representing 
+  conditions - anything that needs to modify some entity in some special way and/or 
+  needs to be temporary can be implemented via HSS. 
+
+  <H5><A name="hss_use">What are states used for?</A></H5>
+
+	Well..the initial idea spawned from how to implement diseases, poisoning etc. 
+  This system turned out to be so general, that it can handle a lot of things.Lycanthropy 
+  for example is also a disease - so being a werewolf is a state. The same goes 
+  for being a seer. Emotions are states (look out of the Emotion System :)). It 
+  could even be used to control morphing animations based on what may happen to 
+  someone or something. Facial expressions may accompany emotions, ppl who eat 
+  too much may become fat. Wounds are states that go on hurting you and bleeding 
+  unless you tie em up (replace with another state or get rid of em for good). 
+  Weather can be controlled by states. The possibilities are endless :) 
+
+  <H5><A name="hierarchical">A hierarchical system</A></H5>
+	
+    The system is hierarchical in a spacial sense. An entity inherits (can look 
+    at) all the states of the parent entity. The parent in the sense of space 
+    (like a character in a zone or a loaf of bread in a box). The inherited states 
+    are not seen as belonging to them, but when the loaf of bread wants to know 
+    the temperature state of the chest it is in and the chest does not have an 
+    explicit temperature state the message propagates to the parent and the info 
+    is taken form there. However the bread is also notified that the info did 
+    not come from its direct parent. States attached to an entity override the 
+    same states on the parent - however one might want to be able to specify if 
+    it overrides anything or not. Also the child states that override the parent 
+    states can still use the parent states to derive its own value. For example 
+    if the parent has temperature and the child has temperature, the latter overrides 
+    but only provides a relative adjustment to the parent temperature. On the 
+    other hand if there are age states on the entity (like the age of a loaf of 
+    bread and another age state for how long it has been in the chest) then they 
+    do not override the parent age states.
+  
+  <H5><A name="calcnprop">Calculation and propagation</A></H5>
+	
+    Now since these states can get data from other states (from their parent 
+    entity or the spacial parent of that entity etc), this brings up message propagation 
+    and state calculation. The state may do anything to it's parent entity during 
+    a calculation cycle or just some of it's own attributes. Calculation of states 
+    only happens on demand and only if the state node is marked dirty. If an entity 
+    is spotted it is usually asked for the relevant states. So states are somehow 
+    tied to operations that can be preformed on the entity. For a sight operation 
+    you might only ask for the states that can affect any of the visual attributes 
+    of the entity. With this in mind, when a state is asked to "do its stuff" 
+    or asked for any of its attributes then then the first thing the state does 
+    is to see if it is dirty. If it is it asks for all of its inputs to calculate. 
+    They go through the same cycle - check -> if dirty ask to calculate children. 
+    Once the inputs are calculated and are no longer dirty the state can calculate 
+    its data based on the inputs and affect the parent entity in any way. In order 
+    for this to work there has to be dirty propagation. That is when one node 
+    changes it is set dirty and sends out a dirty message to all of its outputs 
+    and those in turn do the same. So the dirty messages propagate down the hierarchy 
+    but the calculations happen backwards.<br>
+    For things that lie in a box somewhere that a character can not see this should 
+    be pretty efficient. As the calculations only happen when something happens 
+    (when the character opens the box or the weather outside changes (if anything 
+    depends on the weather)). Based on this there are two input relationships 
+    between states.
+  <UL class="inline">
+    <LI>One is the kind that only calculates again if it is asked - that is the 
+      input node may change as much as it wants, but the actual state that uses 
+      the input only calculates when it gets asked to.</LI>
+    <LI>The other kind is that recalculates whenever the input changes (as in 
+      the connection between humidity of the box and the bread condition in the 
+      box).</LI>
+  </UL>
+	
+	<H5><A name="state_features">General state attributes/features</A></H5>
+	
+    
+  <p>Every state has <strong>delay</strong>, <strong>fade in</strong> and <strong>fade 
+    out</strong> attributes. These can be used to make a state take effect some 
+    time later or to blend from 0-100% during a specified time after taking effect.<br>
+    As the last thing implies - states have <strong>blending</strong>. That is 
+    - they can be blended together in any fashion. During calculation the blending 
+    variable is used to scale down its effects in any way that makes sense for 
+    the state.<br>
+    Every State has a <strong>lifespan</strong> attribute. This means exactly 
+    what the name implies - how long the state lasts. It is set when the state 
+    is created and continuously decreased as it ages. It is not however decreased 
+    at every tick. Rather (as before) it is decreased only when an event happens. 
+    Every time an event happens this is the first thing that is calculated - the 
+    time delta between this and the previous event is subtracted from the lifespan. 
+    When the lifespan is zero the state is destroyed and no other calcualtions 
+    on it are performed. The lifespan can also be modified or &quot;fueled&quot; 
+    during the states existance. For example if a player is already drunk and 
+    then goes on and drinks some more, one does not need to create new states 
+    for it. One would rather increase the lifespan of the states that make up 
+    drunkenness. Keep in mind that this only affects how long some of the states 
+    last (merryness, dizzyness etc.), one should also affect their blending to 
+    make them have greater or lesser effect. An unsigned integer of 32 bits will 
+    probably be used for lifespan and it will be measured in seconds. This gives 
+    ~136 years.If more (longer periods and finer control) is needed, an unsigned 
+    integer of 64 bits could be used and it would be measured in milliseconds. 
+    This gives more control and longer periods than one would ever need. If the 
+    game time is somewhere in the range of 30min-2hrs = 1 day, then it is important 
+    to figure out if an iterval of 1ms has any meaning. Also if intervals over 
+    136 years are needed. It is doubtful that any living being in v1 will live 
+    that long. However if races like elves etc. are included later on, thes intervals 
+    could indeed become handy. Another way to modify this thing is to use flags 
+    to indicate the units used for the lifespan. It will be probably up to the 
+    developers to figure out which one is the best way. (<span class="comment">What 
+    about overflow? Maybe 64 bit signed integers should be used in the first place 
+    instead of 32 bit unsigned ones...or floats (doubles) could be used.</span>)<br>
+    The flags of a state should include an <strong>immortal</strong> flag. When 
+    set the lifespan is completely ignored.</p>
+  <H5><A name="basic_hss">Basic States and Memory</A></H5>
+	
+    An important concept of the state system is to keep states simple and basic. 
+    You would not likely have a fever state for example. You would rather have 
+    a high temperature (damaging health), dizzyness (blurring vision) and headache 
+    (reducing physical and mental performance) state at the same time. Overall 
+    it is up to the implementor to think if a separate state is needed. In some 
+    cases the combining many small states is not enough. One of these cases is 
+    when you need a state to have "memory". Like a rottenness state. It is really 
+    based on temperature, humidity and age. But the these attributes change over 
+    time and are based on the environment. So there needs to be a kind of a memory 
+    as to where it has been. In this case every time the entity with the rotenness 
+    state is put into a new environment it gets a age state that shows how long 
+    it has been in that environment. On every such event the previous age state 
+    for the previous environment is deleted and the timer value taken and used 
+    together with the humidity and temperature of the previous environment. This 
+    number is then added to the previous rotenness value. This is just and example 
+    of how to do things. In the end it is up to the state script writer to define 
+    how exactly it acts.
+  
+  <H5><A name="state_lang">The State Description Language</A></H5>
+	
+	This will likely be a separate scripting language with a possible frontend 
+    depending on how it will work. The initial idea is to use something like python. 
+  </div>
+
+  <H3><A name="aems">Agent Emotional Modeling System (AEMS)</A></H3>
+<div class="indent1"> 
+
+	<H5><A name="aemsintro">Introduction</A></H5>
+	
+    <p>AEMS endeavors to be a relatively simple but realistic method to model the 
+    complexities of human emotion in a computer simulation given limited CPU and 
+    memory resources. AEMS’ models emotion based on the <a href="http://www.kaaj.com/psych/scales/emotion.html">PAD 
+    Emotional State Model</a>. AEMS will allow NPCs (and player characters to 
+    a limited extent) to have emotional reactions that are reasonable and appropriate 
+    for a given situation. Utilizing AMES NPCs will derive emotions with various 
+    influencing factors such as emotional health, environment and past experiences 
+    before arriving at an emotional state. If an NPC has a bad opinion of a player 
+    or NPC his reaction to a given circumstance will likely be different than 
+    if the NPC is interacting with someone they have a good opinion of. NPC's 
+    can even have their own personalities and predispositions towards certain 
+    emotional states. </p>
+  <p>In order to understand AEMS one must also understand how PAD works to model 
+    emotion. PAD model is comprised of three dimensions that combine to create 
+    one’s emotion state: pleasure/displeasure, arousal/nonarousal and dominance/submissiveness. 
+    Each other these three dimensions in AEMS can have a value of -100 to +100 
+    (in PAD the values are +1 to -1) with 0 being neutral, -100 being an extremely 
+    negative value (this would correspond to -1 in PAD) and 100 being an extremely 
+    positive value (this would be +1 in PAD). Pleasure/displeasure refers to the 
+    positive or negative feelings that one is having. Arousal/nonarousal refers 
+    to the level of mental or physical alertness that one is feeling. Dominance/submissiveness 
+    refers to the amount of control that one seeks to excerpt on either themselves 
+    or their environment. Using the three dimensions of state mentioned above 
+    we can effectively model emotions. Below you will find some examples: 
+  <p>(pleasure(+)/displeasure(-), arousal(+)/nonarousal(-), dominance(+)/submissive(-))
+
+<p>(-50, 60, 25) = angry<br>
+(25, 65, 00) = curious<br>
+(-65, -65, -.30) = bored<br>
+(60, 25, 60) = very happy<br>
+(90, 50, -25) = romantic love<br>
+(-75, 75, 40) = violently unhappy<br>
+
+  <p>As you can see one can effectively model a very wide variety of behaviors 
+    in a fairly simple manner using PAD. 
+  <H5><A name="aems_internals">Internals</A></H5>
+<img src="./images/aems.png"><br>
+<i>Figure 1</i>
+	
+  <p>AEMS revolves around an agent's "Current Emotional State." An agent's "Current 
+    Emotional State" can be defined as what the agent is feeling at any given 
+    moment. The agent's Current emotional state is modeled by using the previously 
+    mentioned PAD scale (basically a list of three signed integers). Every other 
+    modifier feeds and influences the agent's Current Emotional State. 
+  <p>When an agent is instantiated a check is made on the agent's "Default Emotional 
+    State" (once again utilizing PAD) which is stored in a DB. This list makes 
+    up the player's basic personality and predisposition of mood. We would use 
+    this value to make a character who is generally very cranky, pleasant, assertive, 
+    depressed or a whole host of other possibilities. After a certain age people 
+    generally become set in their personalities and don't change much. This also 
+    applies to agents in AEMS although given extraordinary circumstances the Default 
+    Emotional State Can Change. Given powerful long term influences or a life 
+    altering event an agent can change their Default Emotional State (or personality 
+    if you like) although this occurance is rare. The agent's Default Emotional 
+    State is then passed on to a sanity check. 
+  <p>The next thing that is referenced after instantiation is the Default Sanity 
+    Level and down to the current sanity level of the agent. The sanity level 
+    (and default sanity level) is expressed by a simple integer with ranges of 
+    -100 to 100 being valid with 0 being perfectly sane. Negative sanity values 
+    indicate depression while positive values indicate psycosis (all the way from 
+    nervous ticks to psychotic episodes) of varying degrees. Depending on the 
+    value of sanity the sanity level is either added or subtracted from all three 
+    values in the agent's Default Emotional State. After processing the resulting 
+    numbers then become the agent's "Current Emotional State." An agent's sanity 
+    state <i>and</i> default sanity state can be influenced by either powerful 
+    and/or long lasting Emotional Modifiers (which you'll read about next). Thus 
+    an agent can improve or degrade their mental health depending on their environment. 
+  <p><img src="./images/ems.png"><br>
+<i>Figure 2</i>
+  <p>During the course of the game events will take place that will effect the 
+    agent emotionally. Events such as the death of loved ones, seeing a shocking 
+    event or even births can dramatically influence an agent's mood and emotional 
+    state. The Emotional Modifier System models these events an captures numerous 
+    qualities about the event and governs how they should affect the agent's mood 
+    and for how long. These Emotional Modifiers are kept in a DB and are referenced 
+    whenever an event occurs to or around a PC. Once again we utilize PAD to generally 
+    model the modifying emotion with a small alteration. Now instead of using 
+    a conventional PAD scale where 100 happiness is elation we use the traditional 
+    PAD characteristics as only modifiers and not an absolute measurement of happiness. 
+    For instance if an agent experienced an event that makes him slightly more 
+    happy then the score for the pleasure/displeasure attribute would have a value 
+    of +10. For instance if an agent experienced an event that makes him slightly 
+    unhappy then the score for the pleasure/displeasure attribute would have a 
+    value of -10. Each event that is entered into the emotions DB it is rated 
+    for all of the PAD attributes in this manner. Therefore, we can see how our 
+    emotional modifiers serve to influence a player's emotion when looking at 
+    Figure 1. The Min/Max attributes can serve to limit the minimum or maximum 
+    Current Emotional State that an agent can feel. One useage of this would if 
+    an agent's spose died. No matter what other positive things happen to the 
+    agent it wouldn't do for them to be happy or in a pleasureable state. In this 
+    scenario we would likely limit an agent's Pleasure/Displeasure PAD attribute 
+    from -100 to -30. Keep in mind that emotional modifiers do not necesarrily 
+    have to be an event. Interaction with a PC or another agent can also be an 
+    Emotional Modifier and impact a player's mood. Players or other agents which 
+    make a bad impression on an agent become transformed into an emotional modifier. 
+    Emotion duration is simply a numerical value that generally describes how 
+    long an emotional modifier will last. Any Emotional Duration with a negative 
+    value will last as long as the agent is alive and values of zero connotate 
+    that the Emotional Modifier should end. Emotional duration is only a number 
+    and in order for it to have meaning we also need a description of what unit 
+    of time we are referencing. Tick interval describes these units in terms of 
+    seconds (a value of 1), hours (a value of 2), days (a value of 3) and years 
+    (a value of 4) via a lookup table. Once it is determined that an emotional 
+    modifier should indeed still affect our agent the PAD values for the agent 
+    are added or subtracted from the Current Sanity Level (depending on the values). 
+    The net of these scores are then either added or subtracted to the Current 
+    Emotional State. If the result of all of these operations do not fall within 
+    the Min/Max range set forth in an emotional modifier the agent's current emotional 
+    state is modified so it complies with this min/max range. Conflicting min/max 
+    ranges are averaged. Thus we finally arrive at an agent's Current Emotional 
+    State! </div>  
+		<H3><A name="health_energy">Health and Energy</A></H3>
+<div class="indent1"> 
+  <p>The player characters physical condition is measured by two things - health 
+    and energy.<br>
+    <H5>Health</H5>
+  <div class="indent1"> Health shows the amount of wounds etc a player has. It 
+    can only be raised on the account of energy or by magical means. Health increases 
+    constantly on the account of energy if the health is below maximum. The ratio 
+    and speed at which it increases is determined by the activity the character 
+    is currently engaged in - so sitting or laying down the health increases faster 
+    and the energy consumption per increased health is less. The ratio and speed 
+    could also be related to character abilities and state - so if the character 
+    has good stamina or if a healer has patched up the wounds it will increase 
+    faster but still take the same amount of energy. Increase only happens when 
+    the player is logged in of course. Health can be decreased by wounds in combat, 
+    poisoning and disease. Some skills may also decrease health (very rare tho). 
+    Things that take energy when energy is present start to take a toll on health 
+    after energy is depleted. (<span class="comment">Can anything else decrease 
+    or increase health?</span>)<br>
+  </div>
+	<H5>Energy</H5><div class="indent1">
+    Energy shows the amount of food the character has in his/her belly :) It can 
+    be raised by consuming food and by magical means. Each food item gives some 
+    ammount of energy. Energy will decrease constantly if health is not full. 
+    Many skills take energy - this should be assessed by the amount of time creating 
+    an item or completing the action would take for example, or the amount of 
+    physical strength it takes etc. Energy is also decreased during combat - if 
+    one gets hit and when one does a combat related action. How much exactly the 
+    last one takes should be related to the combat skill and maybe some other 
+    things (<span class="comment">what are the other things?</span>). How much 
+    energy is lost when one gets hit should be directly related to the amount 
+    of damage. As said before in the health section - the ratio and rate at which 
+    energy is consumed for restoring health is very much dependent on the state, 
+    abilities etc. of the character. Simple activities like sitting, walking etc. 
+    should not affect energy (other then the rate of healing), however running 
+    and other intense physical activities should also reduce energy (slowly). 
+    (<span class="comment">what are the physical activities?</span>)<br></div>
+	<H5>Physical condition</H5>
+  <div class="indent1"> The total physical condition can be derived from a simple 
+    average of the two. The physical condition directly affects movement, agility 
+    in combat etc. The reason for having it this way can be explained by the following 
+    example: Say a character called Igor is wounded in combat. His energy level 
+    goes down because of the activity of combat and the damage too. His movements 
+    are slow and he can not do much damage in combat. Now he eats some porridge. 
+    His energy level is restored. His movements get faster but are still not at 
+    their maximum. So he rests - staying away from any intense activity - perhaps 
+    sitting in the inn and conversing with people or laying down somewhere. His 
+    health is constantly raised on the account of energy. Now his health is full 
+    again but his energy level has dropped considerably - so he is still a bit 
+    weak. Now all he has to do is eat some more and he'll be as good as new :). 
+    (<span class="comment">This system is far from perfect. Suggestions and discussions 
+    are welcome :)</span>)</div>
+  </p>
+</div>
+		<H3><A name="trading">Trading</A></H3>
+<div class="indent1"> 
+  <p>All metal pieces and items are produced by the smith and should be bought 
+    from him or traded with other players who have the item. There should also 
+    be items that can only be purchased from the shop keep. (<span class="comment">What 
+    are these? Maybe a separate list should be kept for both the blacksmith and 
+    shop keep about which items are unique to them.</span>) Things can be bought 
+    from and sold to the shop keep and blacksmith (<span class="comment">Again 
+    maybe a list of things they accept would be good</span>). However they buy 
+    for very low prices and sell for too high prices. This will hopefully encourage 
+    trade and trade deals going between players.<br>
+    The different player classes should be highly dependent on each other. Most 
+    items and activities a player from a certain class does would require stuff 
+    that can only be attained (initially) by one or both of the other classes. 
+    It is still possible to buy everything from everyone, but the prices are set 
+    by the people who make or obtain these items.<br>
+    An example - one wants to make an enchanted sword: The ore, leather and jewel 
+    are obtained by a hunter from the forrest/mine. Wood can be obtained in many 
+    ways, but in the end it should also be the hunter who gets it from the woods 
+    or at least hunters are hired as guards for the craftsmen who fetch it. Now 
+    some of this is blessed/enchanted by a healer/herbalist. Other parts of it 
+    enchanted by a seer (someone must know a seer - their identities are usually 
+    kept secret so here lotsa social interaction comes in). The ore is brought 
+    to the blacksmith to work into the blade and guard. All of it is assembled 
+    by the craftsman. The final product probably goes to the hunter. How the deals 
+    (other than with the blacksmith) are set up between the players is entirely 
+    up to them.<br>
+    Every item should have a numeric value specified. The players never see this 
+    value however it is used in NPC trade. Since there is no clear currency the 
+    NPC can't say &quot;All right I'll give ya 2 gold coins for this spoon&quot;. 
+    The player has to take from the NPC something that is close to value. So they 
+    may trade the spoon for a loaf of bread for example. For this the NPC calculates 
+    the sum of what the PC is offering and also the sum of what the player wants 
+    from him/her. If they are roughly the same or if what the PC is offering is 
+    higher in value - it's a deal. That &quot;roughly&quot; is dependent on many 
+    things. Mostly the haggle skill of the PC. (<span class="comment">What else 
+    does it depend on? Also since players pick the items they want from the NPC 
+    perhaps there should be *some* indication of the value - maybe something like 
+    if the player wants to swap a spoon for a sword the NPC would say &quot;That 
+    is not enough lad/lass!&quot; - Do we need any other indication? Can the player 
+    buy the sword for 4 spoons? How does he know that 4 will be enough - trial 
+    and error? As players live long enough in the world I am sure they will get 
+    more experinced at trade...but the question remains - do we need anything 
+    else to indicate the rough value? Maybe there should be a value estimation 
+    skill - with a semi-random seed per character. So that each chracter guesses 
+    the value differently, but gets the same result on the second guess. The higher 
+    the skill the more accurate the guess. (Similar to the weight estimation in 
+    the <a href="#info">information gathering</a>) This could then be added the 
+    the <a href="#info">information gathering </a> GUI.</span>).<br>
+    NPC trade is used to keep prices on the ground. The maximum price ensures 
+    that PC-PC trade prices do not go higher. Having NPCs sell things that are 
+    not available anywhere else but are needed ensures minimum prices in PC-PC 
+    trade - because they all need those items.</p>
+</div>
+		<H3><A name="crafting">Crafting, Cooking and Magic (stuff dealing with herbalists/healers and seers)</A></H3> 
+<div class="indent1"> 
+  <p>Crafting, cooking and doing magic related stuff are all pretty similar. Each 
+    of these consists of the same components - first the appropriate skill needed 
+    to be able to do the action. Then one needs the knowledge to carry out a specific 
+    action. This knowledge can be obtained in written form and later on maybe 
+    also verbally. The written form is scrolls and the books of other players. 
+    Each player has one - the space in this book is limited. The chance to copy/write 
+    something in this book (learning the action while doing so) is determined 
+    by the level of the players skill and the level of the action s/he is trying 
+    to learn. Then one needs tools to do it and also components/resources. So 
+    say for a wooden spoon one needs a piece of wood, a knife and the crafting 
+    skill at some level. Somewhere in the game system there should be lists for 
+    all of these items. These lists should be simple and easy to change. Each 
+    item in this list would list its difficulty level, the energy (and maybe sometimes 
+    health) needed to create it and the tools and resources needed to create it. 
+    The items would also list their descriptions for each <a href="#info">sensory 
+    operation</a>. So each item should know what is need to create it, but each 
+    item should not know what can be created by using it.</p>
+</div>
+		<H3><A name="combat">Combat</A></H3><div class="indent1"></div>
+		<H3><A name="hunting">Hunting</A></H3><div class="indent1"></div>
+	</P>
+
+	<P>
+<H2><A name="ui">V. User Interface</A></H2>
+		<H3><A name="info">Information gathering</A></H3>
+<div class="indent1"> 
+  <p>The player should be able to preform basic sensory operations on each object. 
+    These would include touch (hands), kick (feet), taste (mouth), listen (ears), 
+    look (eyes). To each such operation each object should have a response. The 
+    primary response should be a textual description of what happened - like if 
+    you eat a mushroom you may get &quot;It was bitter&quot;. The action may also 
+    have sideeffects - so if you tasted a poisonous mushroom you might be poisoned. 
+    Realizing that an action may have several meanings (a touch may feel for texture 
+    or test the items weight for example), the answer to the operation should 
+    be conclusive &quot;It feels leathery and weighs about 2 pounds&quot;. The 
+    weight should be a very rough estimate and semi-random - the seed being dependent 
+    on the character. So one player may see 2 pounds and the other one 3, but 
+    they both get the same result they got before if the action is repeated. Only 
+    scales should give an accurate weight. I think this is easy to do with the 
+    python scripts cyphesis has :)</p>
+</div>
+		<H3><A name="navigation">Navigation</A></H3>
+<div class="indent1"><P>Initially the player has no means to navigate by - only 
+  what he sees. A compass can be bought from the shop keeper for a steep price. 
+  The item shows up in the inventory and at the same time it'll show up in the 
+  HUD. With that now the player can at least tell which direction is which. The 
+  player may also learn the direction sense skill. This skill completely replaces 
+  the compass. No compass shows up in the inventory but the HUD compass is there. 
+  Players may also purchase a map from the store - these are in limited quantities 
+  and cost a fortune. However they can be copied with the cartography skill. These 
+  maps are certainly not complete (not showing all the areas in the woods etc.), 
+  but they are still good for general navigation around the area. The map will 
+  show up in the inventory and the visual range of the map will show up in the 
+  HUD. The player will be marked as a dot on the map. Without a compass or direction 
+  sense skill the map will not show the orientation of the character. If the player 
+  owns a compass or has direction sense however the player will appear as a small 
+  arrow on the map, indicating the direction the character is facing.<br>
+  There might be a small map of the village on the WW website. This map should 
+  not be complete, but enough to get newbs started.</P></div>
+		<H3><A name="trade_ui">Trading</A></H3>
+<div class="indent1"> <P>Trading should be done with the following UI. After the 
+  player acknowledges the trading request of the the other player, he/should see 
+  a screen with his inventory and a place to put his stuff (via drag-n-drop). 
+  That place should also show the stuff the other player has put there. One should 
+  not be able to see the whole inventory of the other player, only what he/she 
+  chooses to show you. <a href="#info">Sensory operations</a> can be preformed 
+  on the item put there - other than those operations of course that actually 
+  use up the item (like eating it) (<span class="comment">How do we specify this?</span>). 
+  Players should be able to talk to each other at the same time and also see what 
+  is going on around them. When the player is happy with the items put in the 
+  common area he/she presses &quot;ok&quot;. After the other player has pressed 
+  &quot;ok&quot; too, a screen appears where they see clearly what they are about 
+  to give and recieve. Both players hafta press &quot;agree&quot;. After that 
+  the trade is complete and the items are transfered to/from their inventories. 
+  (<span class="comment">Should we skip the clarification screen and just have 
+  the both ways agreement (with the addition that if one player pushes &quot;agree&quot; 
+  and the other adds something to the buffer or takes something awya, the &quot;agree&quot; 
+  button will pop up again) on the first screen?</span>)<br>
+  Only the NPC trade UI is different, since players should select what they want 
+  from the NPC - so it should also show the NPC inventory (at least the things 
+  they are willing to offer). A similar UI should be used for containers of all 
+  kinds. But without the buffer area and the need for both sides to agree on it 
+  of course :)</P></div>
+  
+<H3><A name="inventory_ui">Inventory</A></H3>
+<div class="indent1"> 
+  <P>Inventory space should be restricted by item size only. Item weight should 
+    just determine how encumbered the character is. Since there are restrictions 
+    we should also have a way to carry and store more stuff - containers. At first 
+    we should at least have containers that sit on the ground. Portable containers 
+    could be added later on, but the sooner the better. These items (esp magical 
+    ones - that reduce weight etc.) should be quite rare.<br>
+    To deal with items thrown on the ground etc - each item should have a timeout 
+    value attached to it. Actually each item should have two of these. One for 
+    how long it lasts when it is in the inventory of a character - food spoils 
+    etc. Maybe each item should also have a condition attribute to it and this 
+    should depend on how much time has passed since it was created (repaired), 
+    also what has been done with it and how long until it is no more (the timeout 
+    value). The second timeout indicates how long it lasts when it has been thrown 
+    on the ground. Most items will disappear in 24h game time - that is if a player 
+    does not want it during the day a beast will surely have carried it away during 
+    the night :). There should be some logic at least to these values. As I already 
+    mentioned, some items can be mended. So there should be a flag to indicate 
+    this. Also there might be an attribute to indicate how much a repair costs 
+    (some kind of a ratio - like per 10% of recovery). This should be similar 
+    to item creation. That is - it needs energy/health, tools and resources.</P>
+</div>
+
+</BODY>
+</HTML>

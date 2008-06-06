@@ -1,0 +1,69 @@
+// Transfer normals from one set of vertices to another based on a proximity param (threshold)
+
+// try and move the given vertex face towards the center of the face it is related to
+proc vector moveTowardsFaceCenter(string $fv) {
+	string $vertex[] = `polyListComponentConversion -fvf -tv $fv`;
+	float $pos1[] = `xform -q -ws -t $vertex[0]`;
+	string $faces[] = `polyListComponentConversion -fvf -tf $fv`;
+	select -r $faces;
+	string $normalString[] = `polyInfo -fn`;
+	select -cl;
+	tokenize $normalString[0] " " $normalString;
+	vector $normal = <<(float)$normalString[2], (float)$normalString[3], (float)$normalString[4]>>;
+	vector $pos = <<$pos1[0], $pos1[1], $pos1[2]>>;
+	vector $result = (`dot $normal $pos`/`dot $normal $normal`)*$normal;
+
+	$result -= $pos;
+	$result *= 0.2;
+	$result += $pos;
+
+	return $result;
+}
+
+global proc wwModifyTransferVFNormals(string $from[], string $to[], float $threshold) {
+
+	// create a progress window
+	progressWindow
+		-t "Transfering Vertex Face Normals"
+		-pr 0
+		-st "Transfering: 0%"
+		-ii true;
+
+	// convert to vertex faces
+	$from = `polyListComponentConversion -fv -fe -ff -fvf -fuv -tvf $from`;
+	select -r $from;
+	$from = `filterExpand -sm 70`;
+	select -cl;
+
+	// convert to vertex faces
+	$to = `polyListComponentConversion -fv -fe -ff -fvf -fuv -tvf $to`;
+	select -r $to;
+	$to = `filterExpand -sm 70`;
+	select -cl;
+
+	float $fstep = 100.0/(float)`size($to)`;
+	int $step = (($fstep%1.0) < 0.5)?`floor $fstep`:`ceil $fstep`;
+
+	print `size($to)`;
+	print $step;
+
+	for($fv in $to) {
+		if(`progressWindow -q -ic`) break;
+
+		vector $pos = `moveTowardsFaceCenter $fv`;
+		
+		for($fv2 in $from) {
+				vector $pos2 = `moveTowardsFaceCenter $fv2`;
+				vector $diff =  $pos - $pos2;
+				if(`mag $diff` < $threshold) {
+					wwModifyTransferNormal $fv2 $fv;
+					break;
+				}
+		}
+
+		progressWindow -e -s $step;
+		progressWindow -e -st ("Transfering: " + `progressWindow -q -pr` + "%");
+	}
+
+	progressWindow -ep;
+}

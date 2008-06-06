@@ -1,0 +1,9 @@
+// uses nel ig_lighter tool to create lit IGs
+global proc nelCreateLitIGs(string $ig_lighterPath, string $zoneDir, string $IGoutputDir, string $configFile)
+{
+
+	// Example usage: system("E:/Downloads/Werewolf/zoneandIGtools/ig_lighter.exe E:/Downloads/Werewolf/zoneandIGtools/zones E:/Downloads/Werewolf/zoneandIGtools/temp E:/Downloads/Werewolf/zoneandIGtools/ig_lighter.cfg");
+
+	system ("start "+$ig_lighterPath+" "+$zoneDir+" "+$IGoutputDir+" "
+		+$configFile);
+}

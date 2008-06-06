@@ -1,0 +1,33 @@
+// Assigns a color to a NeL tile
+
+global proc nelAssignFillTiles() {
+	string $selection[] = `ls -sl`;
+	for($select in $selection) {
+		string $shapes[] = `listRelatives -s -pa -ni $select`;
+		for($name in $shapes) {
+			if ( `nodeType $name` == "nurbsSurface" ) {
+				$instanceIndex = 0;
+				string $shaders[] = `listConnections ($name + ".instObjGroups[" + $instanceIndex + "]")`;
+				$shaders = `listConnections ($shaders[0] + ".surfaceShader")`;
+				string $painter[] = `listConnections ($shaders[0] + ".color")`;
+				if(size($painter) > 0 && `attributeExists "NumTilesU" $painter[0]`) {
+					$numPatches = `getAttr ($painter[0] + ".NumPatchesU")`;
+					$numTiles = `getAttr ($painter[0] + ".NumTilesU")`;
+					$numPatches *= `getAttr ($painter[0] + ".NumPatchesV")`;
+					$numTiles *= `getAttr ($painter[0] + ".NumTilesV")`;
+					int $i, $j;
+					print ($numPatches + "\n");
+					print ($numTiles + "\n");
+					for($i = 0; $i < $numPatches; $i++) {
+						for($j = 0; $j < $numTiles; $j++) {
+							setAttr ($painter[0]+".pch["+$i+"].tlc["+$j+"]") -type double3 0 0 1;
+							setAttr ($painter[0]+".pch["+$i+"].tl["+$j+"].tl0") 0;
+							setAttr ($painter[0]+".pch["+$i+"].tl["+$j+"].tl1") 0;
+							setAttr ($painter[0]+".pch["+$i+"].tl["+$j+"].tl2") 0;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,29 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsFindFkIkChars.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 14, 2002
+//
+//	DESCRIPTION:	This script finds all the character nodes with
+//					the attribute FK_IK on them & returns a string
+//					array with those names.
+//					
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc string[] jsFindFkIkChars ()
+{
+	string $charNodes[0];
+	string $fkIkChars[0];
+	int $fkIk = 0;
+
+	$charNodes = `ls -type character`;
+	for ($char in $charNodes)
+	{
+		if (`attributeQuery -exists -node $char "FK_IK"`)
+			$fkIkChars[$fkIk++] = $char;
+	}
+	return $fkIkChars;
+}
+

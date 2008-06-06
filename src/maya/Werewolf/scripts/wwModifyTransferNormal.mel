@@ -1,0 +1,6 @@
+// Transfers normal information from one vertex to another
+
+global proc wwModifyTransferNormal(string $from, string $to) {
+	float $normal[] = `polyNormalPerVertex -q -xyz $from`;
+	polyNormalPerVertex -xyz $normal[0] $normal[1] $normal[2] $to;
+}

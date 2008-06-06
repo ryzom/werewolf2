@@ -1,0 +1,8 @@
+<PropertyMap>
+	<textureDDS name="USER.decal">
+		<value>data/horse_textureGL.dds</value>
+	</textureDDS>
+	<textureDDS name="USER.normal">
+		<value>data/horse.TSNM2.dds</value>
+	</textureDDS>
+</PropertyMap>

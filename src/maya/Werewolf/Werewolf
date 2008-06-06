@@ -1,0 +1,11 @@
+// edit this file for your o/s by removing the slashes (//)
+// from in front of the line for your o/s
+//
+// the basic format is:
+// + Werewolf 6.5 "absolute path to Werewolf directory"
+
+// sample windows path
+ + Werewolf 6.5 L:\Werewolf\Werewolf CVS\werewolf\src\maya\Werewolf
+
+// sample linux/irix path
+//+ Werewolf 6.5 /u/user_name/maya/Werewolf

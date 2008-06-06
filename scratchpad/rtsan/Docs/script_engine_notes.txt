@@ -1,0 +1,42 @@
+/////////////////////////////////
+// MUSINGS
+/////////////////////////////////
+
+A script scope with a dict would be needed to handle script arguments and stuff.
+
+
+/////////////////////////////////
+// UCs
+/////////////////////////////////
+UC  1. admin script console
+UC  2. admin script editor
+UC  3. repopulating an area
+       cave of wolves. Respawn only if noone is around.
+UC  4. event based traps
+       open a chest with poison gas inside.
+UC  5. event based reactions (send event from script)
+       open a door and let those inside the room know
+UC  6. time based decay
+       update script on an apple
+UC  7. trigger ghost when decay of corpse reaches a certain stage
+UC  8. casting spells
+       8.1 change the weather for example
+       8.2 heal self
+           doSpell(sob): heal(sob, amount)
+       8.3 fire bolt
+           send event to target.
+       8.4 fireball
+       8.5 ice arrow
+       8.6 wall of force
+           create an inanimate sob with a collision trigger
+       8.7 telekinesis
+           create a controller with a timer on the target
+UC  9. taking damage
+UC 10. scheduler
+UC 11. change the day and weather and whatever
+UC 12. skill increases and decreases
+UC 13. sensory operation reactions
+UC 14. creating items and potions and stuff (create new SOBs based on skills and ingredients)
+UC 15. media control based on properties
+       fat guy
+UC 16. media control based on events

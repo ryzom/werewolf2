@@ -1,0 +1,8 @@
+// Adds an option to make the plug-in export animation even though it doesn't know about any such animation (like for expressions)
+
+global proc nelAddForceAnimationExport() {
+	string $selection[] = `ls -sl -tr -ni`;
+	for($sel in $selection) {
+		addAttr -ln "NelExportAnimation" -at bool -dv true $sel;
+	}
+}

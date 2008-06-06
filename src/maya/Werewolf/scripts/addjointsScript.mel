@@ -1,0 +1,199 @@
+/*  This file downloaded from Highend3d.com
+''  
+''  Highend3d.com File Information:
+''  
+''    Script Name: addJointsScript.mel v0.2
+''    Author: Paul Dreisen
+''    Last Updated: April 9, 2003
+''    Update/Change this file at:
+''    http://www.highend3d.com/maya/mel/?section=utilities#2246
+''  
+''  History:
+''     v on April 7, 2003 by Paul Dreisen
+''  
+''  Please do not alter any information above this line
+''  it is generated dynamically by Highend3d.com and will
+''  be changed automatically on any updates.
+*/
+
+
+
+// build new joints script (c) Paul Dreisen 2002 
+// mailto: pauldryzen@web.de
+// Version 0.2
+/* 	This scripts builds new joints from the selected joint to its first child. 
+		
+		I use this script for character setup (upper arm, lower arm, upper leg...).
+
+
+
+how to: 	First, drag the whole script to your shelf and press the new button, if everything is right... you should see a new window :-)
+		Now select the joint, type the new name in the empty textfield of the window.
+		Choose the number of joints
+		Now press the "GO" button and see what happens ;-)
+		
+LIMITATIONS: you cannot choose the the orientation axis (the default is: YXZ), should be added in the next version
+
+	History:		 V0.1: first version
+				 V0.2: fixed the number of joints problem, added an extraAttribute (inRotateY) to the selected joint, for more flexibility during the setup process. 
+				 (see comment lines for more information)
+
+*/
+
+// start of Script
+
+
+if ( `window -exists jointMaker` )
+    		deleteUI -window jointMaker;
+
+
+window -title "add Joints UI" -wh 320 104 -sizeable 0 jointMaker;
+	$form = `formLayout -nd 100`;
+
+$col = `columnLayout -adj true`;
+	textFieldGrp -label "Enter new joint name" -cw 2 160 jointName; 	intFieldGrp -nf 1 -label "how many Joints?" -v1 8  joints; 	
+setParent $form;
+$b1 = `button -label "Go" -command "addJointsCallback"`;
+$b2 = `button -label "Close" -command "deleteUI jointMaker"`;
+
+formLayout -edit
+	-attachForm $col "top" 5
+	-attachForm $col "left" 5
+	-attachForm $col "right" 5
+	-attachNone $col "bottom"
+
+	-attachNone $b1 "top"
+	-attachForm $b1 "left" 5
+	-attachPosition $b1 "right" 2 50
+	-attachForm $b1 "bottom" 5
+
+	-attachNone $b2 "top"
+	-attachPosition $b2 "left" 2 50 
+	-attachForm $b2 "right" 5
+	-attachForm $b2 "bottom" 5
+$form;
+
+showWindow jointMaker;
+
+
+global proc addJointsCallback() 
+
+{ 	
+	string $jointName = `textFieldGrp -q -text jointName`; 	int $number = `intFieldGrp -q -v1 joints`;  	
+	string $sel[0] = `ls -sl`;
+	string $child[0];
+	string $nJoint[];
+	
+	// add an extra attribute to the selected joint and connect the rotateY to the attribute (inRotateY). 
+	// If you have an Ik-setup you can connect anything to the new attribute without having the problem that the rotations are locked
+
+		addAttr -ln inRotateY -at double -keyable true $sel;
+		connectAttr -f ($sel[0] +".rotateY") ($sel[0] +".inRotateY");
+
+
+	float $n3;
+		// this lists the child of the joint
+
+				$child = `listRelatives -c $sel[0]`;
+			
+			// get worldPosition of the two joints
+	
+				float $cvpos1[]  = `xform -q -a -t -ws $sel[0]`;
+
+				float $cvpos2[]  = `xform -q -a -t -ws $child[0]`;
+
+
+		// create the needed multiplyDivide nodes
+
+		string $multi  = `shadingNode -au multiplyDivide`;
+		string $multi2  = `shadingNode -au multiplyDivide`;
+		string $multi3  = `shadingNode -au multiplyDivide`;
+
+			// settings for nodes
+
+				setAttr ($multi + ".input2Y") -1;
+				setAttr ($multi + ".operation") 1;
+
+					// fixed setting for the rotation divide node
+					
+				setAttr ($multi2 + ".input2Y") ($number -1);	
+				setAttr ($multi2 + ".operation") 2;
+				setAttr ($multi3 + ".input1Y") 1;
+				setAttr ($multi3 + ".input2Y") $number;	
+				setAttr ($multi3 + ".operation") 2;
+
+						
+				float $n3 = `getAttr ($multi3 + ".outputY")`;
+
+
+
+					
+					// make connections
+						connectAttr -f ($sel[0] +".inRotateY") ($multi +".input1Y");
+						connectAttr -f ($sel[0] +".inRotateY") ($multi2 +".input1Y");
+
+	// create a curve to have control over the position of the new joints
+
+		string $baseCurve = `curve -d 1 -p $cvpos1[0] $cvpos1[1] $cvpos1[2] -p $cvpos2[0] $cvpos2[1] $cvpos2[2] -k 0 -k 1` ;
+
+
+
+	// create the additional joints
+
+		for ($i=0;$i<$number+1;$i++)
+			{
+				
+				// V0.2 added this varible to have control over the curveParamter, sometimes it needs to be clamped to the value 1
+				
+				float $cpara = (0 +(($n3 * ($i)))); 
+			
+	
+
+				if ($cpara<1)
+				{
+					float $posi[]=`pointOnCurve -pr $cpara -p $baseCurve`;
+					$nJoint[$i] = `joint -p $posi[0] $posi[1] $posi[2] -n ($jointName+"BIND_"+$i)`;
+				}
+					else  	// if the $cpara value is more than 1, Maya cannot query the world position and prints out  0 0 0, 
+							// to fix this I just enter the value 1 into the $posi[] and everything works fine.
+						{	
+							float $posi[]=`pointOnCurve -pr 1 -p $baseCurve`;
+							$nJoint[$i] = `joint -p $posi[0] $posi[1] $posi[2] -n ($jointName+"BIND_"+$i)`;
+
+						}
+
+							if ($i>0 && $i<$number+1)
+								{
+									//orient the joints (because they only get rotations in y we don´t need to take care for the x and z axis
+										joint -e -zso -oj yxz $nJoint[$i-1];
+											
+								}
+									if ($i>0 && $i<$number)
+									{
+								
+											// this connects all the new joints to the $multi2 node
+													connectAttr -f ($multi2 +".outputY") ($nJoint[$i] +".rotateY");
+									}
+
+										
+			}
+
+
+	// at last connect $sel[0] rotateY to $nJoint[0], to remove the rotation in Y
+
+		connectAttr -f ($multi +".outputY") ($nJoint[0] +".rotateY");
+
+			// now parent the new joints to the selected Joint and delete the unused nodes
+		
+				select $nJoint[0];
+				select -tgl $sel[0];
+				parent;
+				delete $baseCurve;
+				delete $multi3;
+
+
+		
+}
+
+
+// end of script

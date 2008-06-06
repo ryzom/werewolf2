@@ -1,0 +1,22 @@
+//  Convert a Maya LoD to a NeL LoD
+
+global proc nelCreateLod() {
+	string $selected[] = `ls -sl -type "lodGroup"`;
+	for($lod in $selected) {
+		$lodOut = $lod + ".output";
+		string $transforms[] = `listConnections -t transform $lodOut`;
+		for($select in $transforms) {
+			if(!`attributeExists "NeLLod" $select`) {
+				print ("Creating NeL LOD on " + $select + "\n");
+				addAttr -ln "NeLLod" -h true -r false -w false -at "bool" $select;
+				if(!`attributeExists "LodBlendIn" $select`)
+					addAttr -ln "LodBlendIn" -k 1 -at "bool" $select;
+				if(!`attributeExists "LodBlendOut" $select`)
+					addAttr -ln "LodBlendOut" -k 1 -at "bool" $select;
+				if(!`attributeExists "LodBlendLength" $select`)
+					addAttr -ln "LodBlendLength" -k 1 -at "float" $select;
+			}
+		}
+	}
+	print("Done.\n");
+}

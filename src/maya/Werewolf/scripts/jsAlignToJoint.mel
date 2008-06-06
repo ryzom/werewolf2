@@ -1,0 +1,63 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsAlignToJoint.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//					
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsAlignToJoint ( string $control, string $joint)
+{
+	// takes the control, parents it to the joint, sets the translations &
+	// rotations to 0, then parents it back under it's orig parent.
+
+	string $p[0];
+	$p = `listRelatives -f -p $control`;
+
+	// create a blank node and connect it to the control.. this way we can find
+	// it again if there's another node with the same name
+	$empty = `group -empty`;
+	addAttr -ln "ctrl" -at "message" $empty;
+
+	//
+	// BUG:  In 4.0 there's a bug where we can't parent and then unparent the
+	// control, as it will loose all ability to change the rotate order.
+	// Hopefully this is fixed in 4.5, but for now we have to do it with
+	// constraints.
+	//
+	// OLD METHOD:
+	// parent $control $joint;
+
+	// $control =`jsFindConnected ($empty + ".ctrl")`;
+	// catch (`setAttr ($control + ".t") 0 0 0`);
+	// catch (`setAttr ($control + ".r") 0 0 0`);
+	
+	// if ($p[0] != "")
+		// parent $control $p[0];
+	// else
+		// parent -w $control;
+	//
+	// CONSTRAINT METHOD:
+	//
+	// duplicate the control
+	$dup = `duplicate $control`;
+	
+	connectAttr ($dup[0] + ".message") ($empty + ".ctrl");
+	print ("about to parent: " + $dup[0] + " to " + $joint + "\n");
+	parent $dup[0] $joint;
+	$duplicatedControl =`jsFindConnected ($empty + ".ctrl")`;
+	
+	setAttr ($duplicatedControl + ".t") 0 0 0;
+	setAttr ($duplicatedControl + ".r") 0 0 0;
+	select $duplicatedControl $control;
+
+	$pc = `pointConstraint`;
+	$oc = `orientConstraint`;
+
+	delete $pc $oc;
+	delete $duplicatedControl;
+	
+	delete $empty;
+}

@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>Matches</title>
+</head>
+
+<body title="Matching Users">
+	<p>Search criteria:
+		<span jwcid="@Conditional" condition="ognl:searchData">
+			<font color="red">
+				<span jwcid="@Insert" value="ognl:searchData">Search Criteria</span>
+			</font>
+		</span>
+	</p>
+	
+   <table class="data" border="1">
+	   <tr>
+		   <th>User ID</th>
+		   <th>Username</th>
+	   </tr>
+	   <tr jwcid="@Foreach" element="tr" source="ognl:userMatches" value="ognl:user">
+		   <td>
+			   <a href="#"><span jwcid="@Insert" value="ognl:user.userid">test userid</span></a>
+		   </td>
+		   <td>
+			   <span jwcid="@Insert" value="ognl:user.username">test user</span>
+		   </td>
+	   </tr>
+   </table>
+</body>
+</html>

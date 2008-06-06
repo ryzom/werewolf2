@@ -1,0 +1,38 @@
+** Ironic Questions for New Contributors **
+
+Please return this questionnaire to an Ironic Developer.
+
+
+1.What is your favorite game of all time?  What do you like so much about it?
+
+2.How do you feel about working in an environment where the content is mostly not “Open Source” and the code is?
+
+3.What makes you want to join our project?
+
+4.What kind of people do you prefer to work with?
+
+5.Can you tell us a bit about you skills you have and the area in Ironic Studios where you would like to work?  Any links to past work would be great.
+
+6.Describe your “dream job”.
+
+7.Have you worked on any other games or mods?   (Optional: Please present links to the game / mod if you''re so inclined).
+
+8.Describe the qualities that you like most in a supervisor.
+
+9.What are your long range career goals/objectives?
+
+10.Please tell me about past projects / jobs / hobbies you've been involved with in a similar role as you're currently seeking within Ironic.
+
+11.Have you ever worked in a team environment?  What was your role and responsibilities?  How large was the team if it was more than just yourself?
+
+12.How do you feel about working in a team atmosphere with supervision from Ironic Devs concerning your work? This would include submitting work for feedback and critique.
+
+13.What is your favorite style of workflow?  How do you feel about an iterative workflow were you submit your progress very early?  Throughout the process you will submit your work and receive constant feedback about your progress.
+
+14.What kinds of games do you like to play the most (RPGs / RTS / Puzzle Games)?
+
+15.Have you ever played a MMORG such as Everquest or World of Warcraft?  If so, how long did you play and for how many hours / week?  Why did you stop if you're not playing that game any more?  What did you like / dislike about the game?
+
+16.Have you ever played any RPG?  If so please list one or two of your favorites (they can certainly be single player if you choose).  Why did you like it / them so much?
+
+17.If you answered yes to the previous question what are some things that you don't like about present day RPGs?

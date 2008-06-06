@@ -1,0 +1,208 @@
+<HTML>
+	<HEAD>
+		<TITLE></TITLE>
+		<META NAME="GENERATOR" Content="Microsoft Visual Studio 7.0">
+	</HEAD>
+	<BODY>
+		<P align="center"><STRONG><FONT size="5">Building Gui Widgets and Interfaces</FONT></STRONG></P>
+		<P align="center"><STRONG>Revisions</STRONG></P>
+		<OL>
+			<LI>
+				<DIV align="left">05/26/2004<BR>
+					Current Version: Werewolf 0.1 Gunnolf<BR>
+					<EM>Notes</EM><BR>
+					Initial document creation.</DIV>
+			</LI>
+		</OL>
+		<P align="center"><STRONG>The Core Gui System</STRONG></P>
+		<BLOCKQUOTE dir="ltr" style="MARGIN-RIGHT: 0px">
+			<P align="left">Before you can build a Gui widget for the Werewolf system you 
+				must first understand the Gui chain of events. As of 0.1 (Gunnolf build) there 
+				are no widget behaviors, this system is still under active development. There 
+				are&nbsp;several components to each widget in the system:</P>
+		</BLOCKQUOTE>
+		<OL>
+			<LI>
+				<DIV align="left">CGuiTask</DIV>
+			<LI>
+				<DIV align="left">CGuiObjectTask</DIV>
+			<LI>
+				<DIV align="left">CGuiWidgetTask</DIV>
+			<LI>
+				<DIV align="left">CGuiObject</DIV>
+			<LI>
+				<DIV align="left">CGuiWidget</DIV>
+			</LI>
+		</OL>
+		<BLOCKQUOTE dir="ltr" style="MARGIN-RIGHT: 0px">
+			<P align="left">The CGuiTask is the entry point for CGuiObjectTask into the main 
+				task system. While CGuiObjectTask is a full ITask derived object the legacy 
+				system still uses CGuiTask to init(), render(), and release() the 
+				CGuiObjectTask. The only logic contained in CGuiTask is forwarding the event 
+				loop iteration in to CGuiObjectTask.</P>
+			<P align="left">The CGuiObjectTask class has a much larger involvement in the 
+				overall Gui system.&nbsp;For example, it's init() method creates a mouse 
+				listener that can be used to sense events such as clicks and mouse moves. It 
+				also fires up all of the widget tasks, CGuiWidgetTask in our example, but 
+				CGuiButtonTask in practice, for example. In the Gui event loop is very basic. 
+				The following things happen:</P>
+			<OL>
+				<LI>
+					<DIV align="left">init() is called&nbsp;only on the first creation. It creates a 
+						mouse listener and init()'s all of the individual widget's manager tasks.</DIV>
+				<LI>
+					<DIV align="left">render() is called. CGuiObjectTask goes through it's objects 
+						list and calls each of their public render() methods.</DIV>
+				</LI>
+			</OL>
+			<P align="left">The CGuiWidgetTask (CGuiButtonTask, for example) is created as a 
+				utility class in the legacy Gui system, but each task conforms to the ITask 
+				interface and can eventually be added to the main task manager's event loop. 
+				This is done so that advanced behavior on future widgets is capable without 
+				excessive code adjustment. Only the init() method is presently used on any of 
+				the existing tasks. CGuiButtonTask, for example, loads all the materials the 
+				CGuiButton objects will use for diffferent events. The one thing that all 
+				widget tasks must do is: CGuiWidget::XmlRegister(); This introduces this widget 
+				type to the CGuiObjecTask for dynamic widget creation. This registration and 
+				creation mechanism will be covered in the XML section of the document. In 
+				addition to the methods required by ITask, some of these managers also 
+				implement utility methods that will be used by not only their associated 
+				widgets but by other tasks for information on how those widgets work.</P>
+			<P align="left">The CGuiObject class is the absolute basis for the Gui system. 
+				All widgets must inherit from this, or from an object which inherits from it 
+				somewhere in it's ancestor line. For example CGuiBitmap inherits CGuiObject but 
+				CGuiBin inherits from CGuiContainer which inherits CGuiObject. Any widget which 
+				does not base from CGuiObject will not be able to register with the Gui system.</P>
+			<P align="left">To finally create your CGuiWidget object you must implement at a 
+				bare minimum the following:</P>
+			<OL>
+				<LI>
+					<DIV align="left">_render() method. In some cases this may do nothing, such as 
+						for the CGuiContainer class which just sets the base class for widgets that 
+						contain other widgets (such as frames containing buttons.)</DIV>
+				<LI>
+					<DIV align="left">&nbsp;XmlRegister() method.&nbsp;This merely registers your 
+						widget's name and a pointer to it's Create() to CGuiObjectTask for automatic 
+						object generation.</DIV>
+				<LI>
+					<DIV align="left">Create() method. This creates a new object of the widget type 
+						and returns it.</DIV>
+				<LI>
+					<DIV align="left">init() method. The init method performs CGuiObject's init and 
+						then processes the widgets specific information. For example CGuiBitmap 
+						performs CGuiObject's init and then parses out the bitmap filename and loads 
+						the texture.</DIV>
+				</LI>
+			</OL>
+		</BLOCKQUOTE>
+		<P dir="ltr" align="center"><STRONG>The XML Loading System</STRONG></P>
+		<BLOCKQUOTE dir="ltr" style="MARGIN-RIGHT: 0px">
+			<P dir="ltr" align="left">A good example of the XML loading system is the 
+				CIntroTask that displays the main menu and the background. The code for the 
+				error dialog box, in error(), is:</P>
+			<PRE dir="ltr">	CSmartPtr&lt;CGuiXml&gt; xml = CGuiObjectTask::instance().loadXml("error_server.xml");
+	m_ErrorServerFrame = (CGuiFrame *)xml-&gt;get("errorServerFrame");
+	CSmartPtr&lt;CGuiText&gt;  errorServerReason = (CGuiText *)xml-&gt;get("errorServerReason");
+	CGuiObjectTask::instance().addObject((CGuiFrame*)m_ErrorServerFrame);
+	<FONT color=#00cc00>// reason = "This is a test error message."
+</FONT>
+
+	m_ErrorServerReason-&gt;text = reason;
+			</PRE>
+			<P dir="ltr">This loads the menu from the xml file, gets the frame that contains 
+				the whole menu for later use, gets the error message text label widget, and 
+				changes the text on it. The rendered image produced by this code looks like 
+				this:</P>
+		</BLOCKQUOTE>
+		<P dir="ltr" align="center"><img src="errorserver.jpg" alt="Server Error Dialog Box"></P>
+		<BLOCKQUOTE dir="ltr" style="MARGIN-RIGHT: 0px">
+			<P dir="ltr">The XML for this is a tad more complicated:</P>
+		</BLOCKQUOTE>
+		<table border="1">
+			<tr>
+				<td>
+					<PRE dir="ltr">
+&lt;?xml version="1.0" standalone="no" ?&gt;
+&lt;resource&gt;
+	&lt;object class="CGuiFrame" name="errorServerFrame"&gt;
+		&lt;minSize&gt;400,0&lt;/minSize&gt;
+		&lt;position&gt;0,100&lt;/position&gt;
+		&lt;alignment&gt;eAlignUp|eAlignCenterHorizontal&lt;/alignment&gt;
+		&lt;element&gt;
+			&lt;object class="CGuiVBox" name="vbox"&gt;
+				&lt;alignment&gt;eAlignExpandHorizontal|eAlignExpandVertical&lt;/alignment&gt;
+				&lt;element&gt;
+					&lt;object class="CGuiText" name="text"&gt;
+						&lt;alignment&gt;eAlignExpandHorizontal|eAlignExpandVertical&lt;/alignment&gt;
+						&lt;string&gt;Can't connect to TCP server : &lt;/string&gt;
+					&lt;/object&gt;
+					&lt;object class="CGuiText" name="errorServerReason"&gt;
+						&lt;string&gt;file.tga&lt;/string&gt;
+					&lt;/object&gt;
+				&lt;/element&gt;
+			&lt;/object&gt;
+		&lt;/element&gt;
+	&lt;/object&gt;
+&lt;/resource&gt;
+			</PRE>
+			</td>
+		</tr>
+	</table>
+<BLOCKQUOTE dir=ltr style="MARGIN-RIGHT: 0px">
+			<P dir="ltr">The process in creation is more or less this:</P>
+  <OL dir=ltr>
+    <LI>
+    <DIV>CGuiObjectTask::instance().loadXml("myMenuName.xml") is 
+    called.</DIV>
+    <OL>
+      <LI>
+      <DIV>This opens the file as an XML stream.</DIV>
+      <LI>
+      <DIV>A new CGuiXml object is created and the XML stream is assigned to 
+      it.</DIV>
+      <LI>
+      <DIV>Each "object" is found in the stream and CGuiObject is used to 
+      create the object and assign it to the CGuiXml object list.</DIV>
+      <OL>
+        <LI>
+        <DIV>The class and object name is found ("class" 
+        and "name".)</DIV>
+        <LI>
+        <DIV>CGuiObjectTask::instance().create() is used to create an instant of 
+        a Gui widget object via it's string name (see earlier when we used 
+        XmlRegister() to introduce a new widget to the CGuiObjectTask)</DIV>
+        <LI>
+        <DIV>The new object's init() method is called.</DIV></LI></OL>
+      <LI>
+      <DIV>The CGuiXml object containing this menu is returned for 
+      reference.</DIV></LI></OL>
+    <LI>
+    <DIV>CGuiXml::get() is used to get a pointer to an individual 
+    object.</DIV>
+    <LI>
+    <DIV>Logic is processed to attach extra behavior to this object or update 
+    it's attributes.</DIV></LI></OL>
+  <P>This emphasizes&nbsp;two important facts:&nbsp;if a 
+  single XmlRegister() call is left out of the call pipeline your&nbsp;menu will 
+  fail to load and an assertion will be fired off, or if an init() method isn't 
+  coded to read in the widget specific attributes you will recieve erradic 
+  behavior from the widgets.</P></BLOCKQUOTE>
+<P dir=ltr align=center><STRONG>Credits</STRONG></P>
+<BLOCKQUOTE dir=ltr style="MARGIN-RIGHT: 0px">
+<P dir=ltr align=left>Special thanks to the Nevrax team for providing NeL to the 
+public.<BR>Special thanks to the Melting Pot group for developing MTP-Target, a 
+major source of starting code for Werewolf.<BR>Special thanks to the rest of the 
+Werewolf team.</P></BLOCKQUOTE>
+<P dir=ltr align=center><STRONG>References</STRONG></P>
+<BLOCKQUOTE dir=ltr style="MARGIN-RIGHT: 0px">
+  <P dir=ltr align=left>See <A 
+  href="../client/html/index.html">werewolf/docs/src/client/html/index.html</A> 
+  for documentation on the Werewolf/Gui classes discussed here.<BR>See <A 
+  href="http://www.nevrax.org/docs/">www.nevrax.org/docs/</A> for documentation 
+  Nevrax's NeL engine.<BR>See <A 
+  href="http://www.mtp-target.org">www.mtp-target.org</A> for documentation on the MTP-Target 
+game.</P></BLOCKQUOTE>
+<P dir=ltr align=left><EM>Written by Matt Raykowski, The Werewolf Project, 
+05/26/2004.</EM></P>
+	</BODY>
+</HTML>

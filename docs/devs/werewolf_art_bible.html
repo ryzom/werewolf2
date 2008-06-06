@@ -1,0 +1,90 @@
+<HTML>
+	<HEAD>
+		<META http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<TITLE>Werewolf Art Bible</TITLE>
+		<LINK href="werewolf.css" rel="stylesheet" type="text/css">
+	</HEAD>
+<BODY>
+	<H1 align="center">Werewolf Art Bible</H1>
+	<P><H2>Table of Contents</H2>
+	<OL class="lvl0">
+		<LI><A href="#intro">Introduction</A></LI>
+		<LI><A href="#concept">Concept Art</A>
+		<LI><A href="#modelling">Modelling</A>
+		<LI><A href="#rigging">Rigging</A>
+		<LI><A href="#animating">Animating</A>
+		<LI><A href="#texturing">Texturing</A>
+	</OL>
+
+	<P><H2><A name="intro">I. Introduction</A></H2>
+		This document is very rough and is constantly evolving. Check back later for further guidance.<br>
+Also look at the <A href="http://www.ironicentertainment.org/cgi-bin/viewcvs.cgi/*checkout*/werewolf/docs/devs/werewolf_design_doc.html?rev=HEAD&content-type=text/html">design 
+document</A>.</P> 
+<P><H2><A name="concept">II. Concept Art</A></H2>
+		Final pieces of concept art should be as realistic as possible. Artists 
+should pay attention to the proportions etc. so as not to mislead 3D artists.<br>
+It is recommended that an artist provide at least 3 different views of an object 
+- front, side and back. And at least one of these should be colored to provide 
+texture artists with the needed information. Important secondary items and markings 
+may have to be drawn out separately to give a full overview.<br>
+Other then that the artist can provide an arbitrary amout of images of the same 
+object in a style of his/her choosing to best portray the &quot;mood&quot; of 
+the object and to give 3D artists a good feel for it. For animateable things (especially 
+characters) it would be good to see the characters in some extreme actions they 
+might be in (maybe more detials on this later).</P> 
+<P><H2><A name="modelling">III. Modelling</A></H2>
+		Two kinds of meshes are accepted:
+		
+<DIV class="indent1"> <B>1)</B> A medium resolution (1500-2000k triangles per 
+  character for example) mesh that can be simplified for lower polycounts or subdivided 
+  for higher polycounts. It is recommended that the original of this mesh would 
+  mostly be quads, because it is easier for humans to "read" and thus easier to 
+  simplify. Also subdividing quads gives better results. </DIV>
+		
+<DIV class="indent1"> <B>2)</B> NURBS meshes - low and highpoly versions can be 
+  derived directly from this.
+  </DIV>
+		The published meshes should always be triangles. Altho to make the life 
+of texturers, riggers and animators easier - it should be left at quads until 
+the final product.<br>
+Characters should have separate eye and hair meshes - </P> that is, if there is 
+a big hairy area it shoud have a swappable hair mesh. So model your characters 
+bald. 
+<P><H2><A name="rigging">IV. Rigging</A></H2>
+	
+<p>Need a standard here... bipeds, quadrupeds etc. The standards should/could 
+  be derived off of each other...so maybe animations can be combined...like you 
+  could have a quadruped walk animation and you can combine that with some wing 
+  animation to apply it to say a dragon or pegasus. All that needs is probably 
+  that the bone naming be the same for the bones they have in common.<br>
+  Other then that...we need some ways to simplify and unify both the rigging and 
+  animating process. One way is to use the shared weight maps - need a tool for 
+  that. A general rigging system is probably impossible to create as people use 
+  different applications - but we should try to go as far as possible, since this 
+  is the basis for good animation :)<br>
+  Riggers! Orient your local axes correctly! Do NOT make life miserable for animators! 
+  Just to define what is &quot;correctly&quot; here goes: all joint placement 
+  should be handled by the rotation of the parent joint coordinate system. The 
+  x axis should run along the length of the bone and thus define it's direction. 
+  Local translation should only be used for the root joint and for all other joints 
+  restricted to the x axis. Also watch the orientation of those y and z axes - 
+  make sure it makes sense for the current skeleton. Thank you! :)</p>
+  
+<P><H2><A name="animating">V. Animating</A></H2>
+	Dunno what to put here yet... Study reference! Have fun! :)</P>
+	 
+<P><H2><A name="texturing">VI. Texturing</A></H2>
+	Textures should be as close to photorealism as possible - if possible use 
+photos as basis for the textures. Prelighting should be based on the features 
+the model has present and keeping in mind that we might get nice bump mapping 
+and all. Also high resolution meshes might want to use the same textures - so 
+if possible keep the prelighting on separate layers on the original so it is possible 
+to save the textures out both ways. Bump maps and displacement maps are welcome 
+- the latter might be used as a modelling tool to crank up the detail on the medium 
+resolution models. Original layered formats should also be submitted to cvs (or 
+something like that) in the end - only the dimensions should be reduced to the 
+final output size in order to reduce file size. These could also be compressed 
+(rar, bzip, zip, tar etc.). Most published images should be in the DDS format 
+if possible.  Source images should be stored as PSDs.</P> 
+</BODY>
+</HTML>

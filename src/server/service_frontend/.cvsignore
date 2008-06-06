@@ -1,0 +1,8 @@
+ReleaseDebug
+Debug
+*.o
+Makefile
+Makefile.in
+.deps
+.libs
+service_frontend

@@ -1,0 +1,16 @@
+////////////////////////////////
+//  Werewolf userSetup.mel
+////////////////////////////////
+//
+// Copyright (C) 2005 Henri Kuuste
+//
+// if you have an existing userSetup.mel file you will need to append 
+// this code to have all the Werewolf Tools available
+// cut and paste the contents of this file into your existing userSetup.mel
+// and restart maya to get the full effect
+
+wwMenu true;
+
+///////////////////////////////////
+// end Werewolf userSetUp.mel
+///////////////////////////////////

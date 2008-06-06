@@ -1,0 +1,155 @@
+Render Pipeline
+
+CScene::render
+	CScene::beginPartRender
+	CScene::renderPart
+	CScene::endPartRender
+
+CScene::beginPartRender
+	set _IsRendering to true and _RenderedPart to nothing
+
+CScene::renderPart (allows you to choose which parts of the scene to render)
+	if first part to be rendered
+		clear water model list and flare
+		update global time and delta between renders
+		update models
+		setup frustrum and viewport
+		set ClipTrav Camera and quad grid clip manager
+		if doHrcPass - traverse HRC
+		set camera matrices
+		traverse clip
+		traverse animation detail
+		traverse load balancing
+		animate particles
+		traverse lighting
+	traverse render
+	clear shadow casters
+	render flare
+
+update models (CTransform::update)
+	handle some freeze HRC stuff
+		if FreezeHRCStateReady
+			unlink from hrc
+			unlink from update list
+			if isLightable
+				reinsert into lighting quadgrid
+	update local matrix and visibility
+	
+traverse HRC
+	clear moving object list
+	traverse hrc on scene root
+		CTransform::updateWorld (Update the world state according to the parent world state and the local states.)
+			if not root
+				unfreeze if parent not frozen and parent allows unfreezing of children
+				set ancestor/parent skeleton model if one exists
+			if not frozen
+			combine matrix if bound to something & not frozen (why?)
+				recompute the world matrix if not attached to a skeleton in heirarchy	
+					add to moving objects
+			if is lightable and not frozen light setup
+				reset lighting
+					remove from light lists
+					empty the light contribution pointlight list
+			update visibility
+			link with sons of ancestor skeleton model group (?)
+			CTransform::updateClipTravForAncestorSkeleton
+				check for parent obj by traversing hrc w/CClipTrav (this right?)
+					if parent unlink from other objs and link to SonsOfAncestorSkeletonModelGroup (?)
+				no parent, just link to root
+					make sure still in SonsOfAncestorSkeletonModelGroup (link may have changed for some reason (portals, clipManager...)
+						unlink from old models
+						set parent to root
+						update flag on _ClipLinkedInSonsOfAncestorSkeletonModelGroup to false since root is only parent
+
+
+				
+		
+
+traverse clip (CClipTrav)
+	update view matrix (inverted camera matrix), camera position and camera eye vector (J)
+	create view pyramid (frustrum)
+	compute frustrum pyramid in world basis
+	clear lists of the the other traversals
+	for all objects marked visible in the preceding render, reset visibility
+	clear visible clusters
+	find out which cluster the camera is in
+	reassign moving objects to clusters
+	traverse clip on scene root
+		check some visibility stuff
+		clip
+		if visible
+			add to visible list
+			if no ancestor skeleton
+				add to lighting list
+				add to anim detail list
+			add to load balancing list
+			add to render list
+		traverse clip on children
+	unlink the camera from the cluster	
+	load balance skeleton clod (needed before clipping objects with ancestor skeletons because this may change their visibility)
+	traverse clip on objects that have an ancestor skeleton
+	clip shadows
+	update skin render lists (?)
+			
+
+traverse animation detail
+	for each visible model
+		if no ancestor skeleton
+			if skeleton
+				traverse recursively
+			else
+				traverse animation detail
+					update channel mixer
+				CTransform::
+					update world matrix
+				CSkeletonModel::
+				CParticleSystemModel::
+				CMeshBaseInstance::
+				CWaveMakerModel::
+
+
+traverse load balancing
+	CLoadBalancingTrav::traverse
+		Reset all groups and numb of hrc trav passes
+		CTravCameraScene::update (update camera Frustum - Setup the camera mode as a perspective/ortho etc.)
+			setFrustum(-width/2, width/2, -height/2, height/2, znear, zfar, perspective); (?what do these vars mean)
+		Traverse HRC 2x's
+			1. Count num of faces "drawed" (num of faces that were drawn?) (??)
+				CLoadBalancingTrav::traverseVisibilityList 
+					traverse all visible nodes
+						CTransform
+				Reset _SumNbFacePass0 (=The sum of all Pass0 groups.???)
+					For each group computer Ratio and smooth using PolygonBalancingMode
+					get sum of all faces in groups
+			2. Count number of faces that will be drawn
+				CLoadBalancingTrav::traverseVisibilityList
+					traverse all visible nodes
+						CTransform
+animate particles
+
+traverse lighting
+	CLightTrav::traverse
+		skip if lighting system disabled
+		process visible models
+			if model has merged point light reset the lighting (don't know why?).. lots of comments above this I didn't understand
+			make sure lightmapped objs aren't lit by anything else.
+			CLightTrav::LightingManager (The lightingManager, where objects/lights are inserted, and modelContributions are computed.)
+				Init static lighting so that "light will lies into 4*4=16 squares of a quadGrid at max"
+				Set light radius
+				Set attenuation radius for lit objs
+				Set the max num of point lights on an object (3)
+			LightingManager.clearDynamicLight
+			process lit models for static and dynamic lights, recomputer their position and append to appropriate light quadgrid
+			traverse lights to recompute lighting contribution
+
+traverse render
+
+
+render flare
+
+CScene::endPartRender
+	set _IsRendering to false
+	Delete models in the _ToDelete list
+	flushSSSModelRequests (skeleton spawn scripts) (?)
+	_ParticleSystemManager.refreshModels (?)
+	Waiting Instance handling (?)

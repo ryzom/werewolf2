@@ -1,0 +1,213 @@
+global proc wwGUICreateFkIkBackRig () {
+	$win = "wwGUICreateFkIkBackRigWin";
+	
+	if (`window -exists $win`)
+		deleteUI $win;
+
+	wwGUICreateFkIkBackRigWin $win;
+	wwGUICreateFkIkBackRigCB;	
+
+	showWindow $win;
+}
+
+global proc wwGUICreateFkIkBackRigBuildCommands () {
+	global string $gwwGCFIBRCommands[];
+	clear $gwwGCFIBRCommands;
+
+	string $jointOrientArray[] = { "xyz", "yzx", "zxy", "zyx", "yxz", "xzy", "none" };
+	string $secondAxisOrientArray[] = { "xup", "xdown", "yup", "ydown", "zup", "zdown" };
+	
+	string $startJoint;
+	string $endJoint;
+	string $rootJoint;
+	string $headJoint;
+	string $hipControl;
+	string $shoulderControl;
+	string $bodyControl;
+	string $jointOrient;
+	string $secondAxisOrient;
+
+	$startJoint      = `textFieldButtonGrp -q -tx wwGCFIBRStartJointTFBG`;
+	$endJoint        = `textFieldButtonGrp -q -tx wwGCFIBREndJointTFBG`;
+	$rootJoint       = `textFieldButtonGrp -q -tx wwGCFIBRRootJointTFBG`;
+	$headJoint       = `textFieldButtonGrp -q -tx wwGCFIBRHeadJointTFBG`;
+	$hipControl      = `textFieldButtonGrp -q -tx wwGCFIBRHipControlTFBG`;
+	$shoulderControl = `textFieldButtonGrp -q -tx wwGCFIBRShoulderControlTFBG`;
+	$bodyControl     = `textFieldButtonGrp -q -tx wwGCFIBRBodyControlTFBG`;
+	int $axis        = `radioButtonGrp -q -sl wwGCFIBRJointOrientRBG`;
+	int $axis2       = `radioButtonGrp -q -sl wwGCFIBRJointOrient2RBG`;
+	if($axis <= 0) {
+		$axis = $axis2 + 4;
+	}
+	int $sao         = `optionMenuGrp -q -sl wwGCFIBRSecondAxisOrientOMG`;
+	
+	$gwwGCFIBRCommands[0] = ("wwCreateFkIkBackRig \""+$startJoint+"\" \""+$endJoint+"\" \""+ $rootJoint+"\" \""+  $headJoint+"\" \""+$hipControl+"\" \""+$shoulderControl+"\" \""+$bodyControl+"\" \""+$jointOrientArray[$axis-1]+"\" \""+$secondAxisOrientArray[$sao-1]+"\"");
+}
+
+global proc wwGUICreateFkIkBackRigCB () {
+	string $buttonNames[] = { "wwGCFIBRStartJointTFBG", "wwGCFIBREndJointTFBG", "wwGCFIBRRootJointTFBG", "wwGCFIBRHeadJointTFBG", "wwGCFIBRHipControlTFBG", "wwGCFIBRShoulderControlTFBG", "wwGCFIBRBodyControlTFBG" };
+	for ($tfbg in $buttonNames) {
+		textFieldButtonGrp -e 
+			-bc ("jsChooseItem " + $tfbg+"; wwGUICreateFkIkBackRigCheckItems")
+			-cc "wwGUICreateFkIkBackRigCheckItems"
+			$tfbg;
+	}
+	
+	button -e -c "wwGUICreateFkIkBackRigShowScript" wwGCFIBRShowScriptButton;
+	button -e -c "wwGUICreateFkIkBackRigApply" wwGCFIBRApplyButton;
+}
+
+global proc wwGUICreateFkIkBackRigShowScript () {
+	// build the settings
+	wwGUICreateFkIkBackRigBuildCommands;
+
+	global string $gwwGCFIBRCommands[];
+
+	print $gwwGCFIBRCommands;
+}
+
+global proc wwGUICreateFkIkBackRigApply () {
+	// build the settings
+	wwGUICreateFkIkBackRigBuildCommands;
+
+	global string $gwwGCFIBRCommands[];
+	for ($cmd in $gwwGCFIBRCommands)
+		evalEcho $cmd;
+
+}
+global proc wwGUICreateFkIkBackRigCheckItems () {
+	int $sj = 0;
+	int $ej = 0;
+	int $rj = 0;
+	int $hj = 0;
+	int $hc = 0;
+	int $sc = 0;
+	int $bc = 0;
+	global int $wwGCFIBRControlButtons[];
+
+	string $sjObj = `textFieldButtonGrp -q -tx wwGCFIBRStartJointTFBG`;
+	string $ejObj = `textFieldButtonGrp -q -tx wwGCFIBREndJointTFBG`;
+	string $rjObj = `textFieldButtonGrp -q -tx wwGCFIBRRootJointTFBG`;
+	string $hjObj = `textFieldButtonGrp -q -tx wwGCFIBRHeadJointTFBG`;
+	string $hcObj = `textFieldButtonGrp -q -tx wwGCFIBRHipControlTFBG`;
+	string $scObj = `textFieldButtonGrp -q -tx wwGCFIBRShoulderControlTFBG`;
+	string $bcObj = `textFieldButtonGrp -q -tx wwGCFIBRBodyControlTFBG`;
+	
+	// check and see if the objectsExist
+	if (`objExists $sjObj`) $sj = 1;
+	if (`objExists $ejObj`) $ej = 1;
+	if (`objExists $rjObj`) $rj = 1;
+	if (`objExists $hjObj`) $hj = 1;
+	if (`objExists $hcObj`) $hc = 1;
+	if (`objExists $scObj`) $sc = 1;
+	if (`objExists $bcObj`) $bc = 1;
+
+	if (($sj == 1) && ($ej == 1) && ($rj == 1) && ($hj == 1) && ($hc == 1) && ($sc == 1) && ($bc == 1))
+	{
+		$wwGCFIBRControlButtons[0] = 1;
+		$wwGCFIBRControlButtons[1] = 1;
+	}
+	else
+	{
+		$wwGCFIBRControlButtons[0] = 0;
+		$wwGCFIBRControlButtons[1] = 0;
+	}
+	
+	wwGUICreateFkIkBackRigSetButtons;
+}
+
+global proc wwGUICreateFkIkBackRigSetButtons () {
+	global int $wwGCFIBRControlButtons[];
+	string $buttonNames[] = { "wwGCFIBRApplyButton", "wwGCFIBRShowScriptButton" };
+
+	for ($x = 0; $x < size($buttonNames); $x++)
+	{
+		button -e -enable $wwGCFIBRControlButtons[$x] $buttonNames[$x];	
+	}
+	
+}
+
+global proc wwGUICreateFkIkBackRigWin (string $win) {
+	window -t "Fk/Ik Back Rig Setup" $win;
+	
+	$f = `formLayout -nd 100`;
+	$tabs = `tabLayout -innerMarginWidth 20 -innerMarginHeight 5`;
+	setParent $f;
+	$applyButton = `button -l "Apply" -enable 0 wwGCFIBRApplyButton`;
+	$scriptButton = `button -l "Show Script" -enable 0 wwGCFIBRShowScriptButton`;
+	formLayout -e
+		-af $applyButton left 0 
+		-ap $applyButton right 0 50
+		-af $applyButton bottom 0
+
+		-af $scriptButton bottom 0
+		-ap $scriptButton left 0 50
+		-af $scriptButton right 0
+		
+		-af $tabs top 0
+		-af $tabs left 0
+		-af $tabs right 0
+		-ac $tabs bottom 5 $applyButton
+		$f;	
+	
+		// create the tabs
+
+		setParent $tabs;
+		$child1 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested joints for the \nback and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Start Joint:" -bl "Choose" wwGCFIBRStartJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "End Joint:" -bl "Choose" wwGCFIBREndJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Root Joint:" -bl "Choose" wwGCFIBRRootJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Head Joint:" -bl "Choose" wwGCFIBRHeadJointTFBG;
+
+		setParent $tabs;
+		$child2 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested controls for the \nback and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Hip Control:" -bl "Choose" wwGCFIBRHipControlTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Shoulder Control:" -bl "Choose" wwGCFIBRShoulderControlTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Body Control:" -bl "Choose" wwGCFIBRBodyControlTFBG;
+
+		setParent $tabs;
+		$child3 = `columnLayout -adj true`;
+			text -align "left" -l "Please choose the appropriate options.\n";
+			radioButtonGrp -label "Joint Orientation:"
+				-numberOfRadioButtons 4
+				-label1 "XYZ"
+				-label2 "YZX"
+				-label3 "ZXY"
+				-label4 "ZYX"
+				-cw5 160 45 45 45 45
+				-select 1
+				wwGCFIBRJointOrientRBG;
+
+			radioButtonGrp -label " "
+				-numberOfRadioButtons 3
+				-shareCollection wwGCFIBRJointOrientRBG
+				-label1 "YXZ"
+				-label2 "XZY"
+				-label3 "none"
+				-cw4 160 45 45 45
+				wwGCFIBRJointOrient2RBG;
+
+			optionMenuGrp -label "Second Axis World Orientation:"
+				-annotation "Specifies which world axis the second orientation axis should align with."
+				-cw2 160 45
+				wwGCFIBRSecondAxisOrientOMG;
+				menuItem -label "+ x";
+				menuItem -label "- x";
+				menuItem -label "+ y";
+				menuItem -label "- y";
+				menuItem -label "+ z";
+				menuItem -label "- z";
+				menuItem -label "none";
+	
+			text -l "";
+				
+		tabLayout -edit
+ 			-tabLabel $child1 "FK Joints" -tabLabel $child2 "IK Controls"
+			-tabLabel $child3 "Options"
+ 			$tabs;		
+}
+

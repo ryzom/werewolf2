@@ -1,0 +1,25 @@
+// Previews NeLVegBillboards
+
+global int $NeLBBPreviewJob = 10000;
+global int $NeLBBPreviewRunning = false;
+
+global proc nelPreviewBB() {
+	global int $NeLBBPreviewJob;
+	global int $NeLBBPreviewRunning;
+	if(!`pluginInfo -q -l "billboardLighter"`) {
+		loadPlugin "billboardLighter";
+	}
+	if(!$NeLBBPreviewRunning) {
+		$NeLBBPreviewJob = `scriptJob -e "idle" "billboardLighter;"`;
+		$NeLBBPreviewRunning = true;
+	}
+}
+
+global proc nelPreviewBBStop() {
+	global int $NeLBBPreviewJob;
+	global int $NeLBBPreviewRunning;
+	if($NeLBBPreviewRunning) {
+		scriptJob -k $NeLBBPreviewJob;
+		$NeLBBPreviewRunning = false;
+	}
+}

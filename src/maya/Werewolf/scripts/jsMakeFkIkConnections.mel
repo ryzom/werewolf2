@@ -1,0 +1,344 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsMakeFkIkConnections.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 14, 2002
+//
+//	DESCRIPTION:	This script is used along with jsToggleFkIk.mel
+//					to make the necessary connections between an ikHandle
+//					and the control for it.
+//					
+//	MODIFIED: Henri Kuuste, March 17, 2005
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsMakeFkIkConnections ()
+{
+	$win = "jsMakeFkIkConnectionsWin";
+
+	if (`window -exists $win`)
+		deleteUI $win;
+
+	jsCreateJsMakeFkIkConnectionsWin $win;
+	jsCreateJsMakeFkIkConnectionsCB $win;
+
+	showWindow $win;
+}
+global proc jsCreateJsMakeFkIkConnectionsCB (string $win)
+{
+	// make all the callbacks
+	//
+	// "choose" buttons
+	//$buttons = { "jsMainControlTFBG", "jsOrientJointTFBG", "jsPoleVectorTFBG", "jsPosJointTFBG" };
+	$buttons = { "jsMainControlTFBG", "jsOrientJointTFBG", "jsPoleVectorTFBG" };
+
+	for ($tfbg in $buttons)
+	{
+		textFieldButtonGrp -e 
+			-bc ("jsChooseItem " + $tfbg)
+			$tfbg;
+	}
+	
+
+	// make connection button
+	button -e 
+		-c ("jsMakeFkIkConnectionsGo " + $win)
+		jsCreateConnectionsB;
+}
+
+global proc jsChooseItem (string $tfbg)
+{
+	// takes the selected item and adds it to the textFieldButtonGrp
+	$objs = `ls -sl`;
+	
+	string $toAdd;
+	if (size($objs) > 0)
+		$toAdd = $objs[0];
+
+	textFieldButtonGrp -e -tx $toAdd $tfbg;
+}
+
+global proc jsMakeFkIkConnectionsGo (string $win)
+{
+	// this script will make the connections and attributes between the
+	// objects so things will work correctly with jsToggleFkIk
+	string $mainControl;
+	string $mainControlJoint;
+	string $poleVector;
+	string $poleVectorJoint;
+	string $ikHandle;
+	string $charName;
+	string $prefix;
+
+	string $poleVectorAttr = "FK_IK_POLE_VECTOR";
+	string $origAttr       = "FK_IK_ORIG";
+	string $extraIk		   = "FK_IK_EXTRA";
+
+	$mainControl = `jsGetControlFromTFBG jsMainControlTFBG "Main Control"`;
+	$mainControlJoint = `jsGetControlFromTFBG jsOrientJointTFBG "Control Joint"`;
+	
+	// make sure the ikHandle is hooked up
+	if (!`attributeQuery -exists -node $mainControl "ikBlend"`)
+	{
+		$msg = ("You must use the \"Connect to Ik/Fk\" option on the main control and the poleVector control for this script to work.");
+		confirmDialog -m $msg;
+		error $msg;
+	}
+	
+	// check and see if there's an ikHandle driving the $mainControlJoint.  If
+	// so, it needs to have it's ikBlend attribute connected to the
+	// ikBlend attribute of the $ikHandle driving $mainControlJoint
+	$ikHandle = `jsFindConnected ($mainControl + ".ikBlend")`;
+
+	$poleVector = `jsGetControlFromTFBG jsPoleVectorTFBG "Pole Vector"`;
+
+
+	// to find the poleVectorJoint, get the ikHandle which is connected to
+	// $poleVector, and find out the second joint which is part of the
+	// jointList
+
+	$jl = `ikHandle -q -jl $ikHandle`;
+	$poleVectorJoint = $jl[1];
+
+	$charName = `textFieldGrp -q -tx jsCharacterNodeTF`;	
+	$prefix = `textFieldGrp -q -tx jsPrefixTF`;	
+	
+	// check and see if $prefix has a "_" as the last character.  If so, remove
+	// it.. if not, then shaweet..
+	$char  = `substring $prefix (size($prefix)) (size($prefix))`;
+
+	if ($char == "_")
+		$prefix = `substring $prefix 1 (size($prefix)-1)`;
+
+	string $connectedHandle;
+	$connectedHandle = `jsFindIk $mainControlJoint`;
+	
+	print ($connectedHandle + "\n");
+	if ($connectedHandle != "")
+	{
+		addAttr -ln $extraIk -at "message" $mainControl;
+		//$cmd = ("connectAttr \"" + $ikHandle + ".ikBlend\" \"" + $connectedHandle + ".ikBlend\"");
+		//evalEcho $cmd;
+
+		$cmd = ("connectAttr \""+$connectedHandle + ".message\" \""+$mainControl + "." +$extraIk+"\"");
+		evalEcho $cmd;
+	}
+
+	// create the "orig" nodes for each of the objects
+	$mainControlOrig = `jsCreateOrigObj $mainControl $mainControlJoint`;
+	$poleVectorOrig = `jsCreateOrigObj $poleVector $poleVectorJoint`;
+
+	// add the attributes to the mainControl
+	addAttr -ln $poleVectorAttr -at "message" $mainControl;
+	addAttr -ln $origAttr -at "message" $mainControl;
+
+	addAttr -ln $origAttr -at "message" $poleVector;
+
+	// connect the attributes
+	connectAttr ($poleVector + ".message") ($mainControl + "." + $poleVectorAttr);
+	connectAttr ($mainControlOrig + ".message") ($mainControl + "." + $origAttr);
+
+	connectAttr ($poleVectorOrig + ".message") ($poleVector + "." + $origAttr);
+	
+	// make a character group of all the appropriate nodes.
+
+	select $mainControl $poleVector $ikHandle;
+	select -add `ikHandle -q -jl $ikHandle`;	
+
+	if ($connectedHandle != "")
+	{
+		select -add `ikHandle -q -jl $connectedHandle`;
+		select -add $connectedHandle;
+	}
+	ClearCurrentCharacterList;
+	$char = `character -name ($prefix + "_"+$charName) -excludeVisibility -excludeScale`;
+	
+	// create display layers for the ik vs. fk controls.
+	$ikLayer	= `createDisplayLayer -name ($prefix + "_"+$charName + "_ik") -number 1 -empty`;
+	$fkLayer	= `createDisplayLayer -name ($prefix + "_"+$charName + "_fk") -number 1 -empty`;
+
+	// put the ik controls in the ikLayer
+	editDisplayLayerMembers -nr $ikLayer $poleVector $mainControl;
+	editDisplayLayerMembers -nr $fkLayer $jl[0] $jl[1] $mainControlJoint;
+
+	// hook up the connections to the ikBlend attribute.  If ikBlend
+	// is off, then only the fk joints should be selectable, and the ik
+	// controls should be hidden.  If it's on, then the fk joints are set to
+	// reference mode, and the ik controls are selectable.
+	// The best way to do this is with a couple of conditional nodes, as they
+	// should be faster than an expression.
+
+	// first create the conditional nodes.
+	$fkCondition = `createNode condition -name ($prefix + "_" + $charName + "_fkCond")`;
+
+	// set the attributes
+	// for the fkCondition, the input will be the ikHandle ikBlend.  If
+	// the ikBlend is set to 0, then the selection for the fk will be set
+	// to normal.  If ikBlend is 1, then the selection is set to
+	// reference.
+
+	setAttr ($fkCondition + ".secondTerm") 0;
+	connectAttr ($ikHandle + ".ikBlend") ($fkCondition + ".firstTerm");
+
+	string $version = `about -version`;
+	string $break[0];
+	tokenize ($version, " ", $break);
+	if ($break[0] == "4.5" || $break[0] == "6.0" || $break[0] == "6.5" || $break[0] == "7.0")
+		setAttr ($fkCondition + ".colorIfFalseR") 2;
+	else
+		setAttr ($fkCondition + ".color2R") 2;
+
+
+	connectAttr ($fkCondition + ".outColorR") ($fkLayer + ".displayType");
+	
+	// for the ikDisplay Layer it's a bit easier, as we're only dealing with
+	// visibility.
+	connectAttr ($ikHandle + ".ikBlend") ($ikLayer + ".visibility");
+
+	
+	// To make things easier to find, we can use the character node to link to
+	// each of the objects.  This way it will be easier to find them later, and
+	// we can also make an interface that will automatically build based on
+	// whatever character nodes have these items in the scene.
+	
+	// the attributes we'll use are:
+	//	FK_IK			designates this character node as fk_ik
+	//	FK_IK_HANDLE	Ik Handle
+	//	FK_IK_MAIN		main control
+	//	FK_IK_PV		pole vector
+	//	FK_IK_TOP_JOINT	Top joint
+	//	FK_IK_PV_JOINT	pole vector joint
+	//	FK_IK_EXTRA		Extra ik handle
+	//	FK_IK_BOT_JOINT	Bottom joint
+	//	ikBlend	linked to the ikHandle ikBlend
+	//	label			additional label the animator can use
+
+	addAttr -ln "FK_IK" -at message $char;
+	addAttr -ln "FK_IK_HANDLE" -at message $char;
+	addAttr -ln "FK_IK_MAIN" -at message $char;
+	addAttr -ln "FK_IK_PV" -at message $char;
+	addAttr -ln "FK_IK_TOP_JOINT" -at message $char;
+	addAttr -ln "FK_IK_PV_JOINT" -at message $char;
+	if ($connectedHandle != "")
+		addAttr -ln "FK_IK_EXTRA" -at message $char;
+	addAttr -ln "FK_IK_BOT_JOINT" -at message $char;
+	addAttr -ln "ikBlend" -at bool $char;
+	addAttr -ln "label" -dt "string" $char;
+
+	connectAttr ($ikHandle + ".message") ($char + ".FK_IK_HANDLE");
+	connectAttr ($mainControl + ".message") ($char + ".FK_IK_MAIN");
+	connectAttr ($poleVector + ".message") ($char + ".FK_IK_PV");
+	connectAttr ($jl[0] + ".message") ($char + ".FK_IK_TOP_JOINT");
+	connectAttr ($jl[1] + ".message") ($char + ".FK_IK_PV_JOINT");
+	if ($connectedHandle != "")
+		connectAttr ($connectedHandle + ".message") ($char + ".FK_IK_EXTRA");
+	connectAttr ($mainControlJoint + ".message") ($char + ".FK_IK_BOT_JOINT");
+	connectAttr ($ikHandle + ".ikBlend") ($char  + ".ikBlend");
+	setAttr -type "string" ($char  + ".label") $char;
+	deleteUI $win;
+}
+global proc string jsFindIk (string $joint)
+{
+	// will look at the output connections from the joint to find an ikHandle
+	// driving it.
+
+	string $connections[0];
+	$connections = `listConnections ($joint + ".message")`;
+	string $return;
+
+	for ($con in $connections)
+	{
+		if (`nodeType $con` == "ikHandle")
+			$return = $con;
+	}
+
+	return $return;
+}
+global proc string jsCreateOrigObj (string $control, string $target)
+{
+	// first duplicate the control
+	$dup = `duplicate $control`;
+
+	// now delete all the children of the control
+	delete `listRelatives -f -c $dup[0]`;
+
+	// rename the duplicated object
+	$orig = `rename ($dup[0]) ($control + "_ORIG")`;
+
+	parent $orig $target;
+	$objs = `ls -sl`;
+	string $return  = $objs[0];
+
+	return $return;
+
+}
+global proc string jsGetControlFromTFBG (string $tfbg, string $msgTxt)
+{
+	// gets the control from the given textFieldButtonGroup.  Checks to make
+	// sure the node exists first.
+
+	string $return;
+	$return = `textFieldButtonGrp -q -tx $tfbg`;
+
+	// check and make sure $retunr exists
+	if ($return == "")
+	{	
+		$msg = ("You don't have an object chosen for: " + $msgTxt);
+		confirmDialog -m $msg;
+		error ($msg);
+		
+	}	
+
+	if (!`objExists $return`)
+	{
+		$msg = ("The object you entered for: " + $msgTxt+ " doesn't exist in the scene.");
+		
+		confirmDialog -m $msg;
+		error ($msg);
+		
+	}
+	return $return;
+}
+global proc jsCreateJsMakeFkIkConnectionsWin (string $win)
+{
+	window -t "Make Fk/Ik Connections" $win;
+
+	columnLayout -adj true jsCL;
+
+	$f1 = `frameLayout -bs "etchedIn" -l "Main Control" -mw 20 -mh 10 -labelAlign "top" -labelIndent 5`;
+		
+		columnLayout -adj true;
+		text -font "boldLabelFont" -l "Select the main control for your ik system\nand pick the \"choose\" button.\n" -align "left";
+
+		textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Main Control:" -bl "Choose" jsMainControlTFBG;
+
+		text -font "boldLabelFont" -l "\nSelect the joint which the Main Control should\ntry and orient itself with and click the \"choose\" button.\n" -align "left";
+		
+		textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Pos/Orient Joint:" -bl "Choose" jsOrientJointTFBG;
+
+	setParent jsCL;
+	
+	$f2 = `frameLayout -bs "etchedIn" -l "Pole Vector Control" -mw 20 -mh 10 -labelAlign "top" -labelIndent 5`;
+		
+		columnLayout -adj true;
+		text -font "boldLabelFont" -l "Select the Pole Vector control for your ik system\nand pick the \"choose\" button.\n" -align "left";
+
+		textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Pole Vector:" -bl "Choose" jsPoleVectorTFBG;
+
+		//text -font "boldLabelFont" -l "\nSelect the joint which the Pole Vector Control should\ntry and position itself with and click the \"choose\" button.\n" -align "left";
+		
+		//textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Pos Joint:" -bl "Choose" jsPosJointTFBG;
+
+	setParent jsCL;
+	$f3 = `frameLayout -bs "etchedIn" -l "Options" -mw 20 -mh 10 -labelAlign "top" -labelIndent 5`;
+		
+		columnLayout -adj true;
+
+		textFieldGrp -cw 1 90 -cal 1 "left" -adj 2 -l "Prefix:"  -text "l_" jsPrefixTF;
+		textFieldGrp -cw 1 90 -cal 1 "left" -adj 2 -l "Character Node:"  -text "arm" jsCharacterNodeTF;
+
+	setParent jsCL;
+
+	button -l "Create Connections" jsCreateConnectionsB;
+}

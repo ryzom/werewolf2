@@ -1,0 +1,55 @@
+// uses nel ig_lighter tool to create lit IGs
+
+
+proc int lookAtDir( string $filename, string $fileType)
+{
+	//print($filename + "\n");
+	string $contents = system("dir " + `substituteAllString $filename "/" "\\"`);
+	//print($contents + "\n");
+	return 1;
+}
+
+global proc nelSetZoneDir()
+{
+	fileBrowserDialog -m 4 -fc "lookAtDir" -an "Select a directory where .zone files are located.";
+	string $ZoneFilesDir = `pwd`;
+	text -edit -label $ZoneFilesDir ZoneDirLbl;
+}
+
+global proc nelSetIgLighterLoc()
+{
+	string $IgLighterLoc = `fileDialog -dm "*.exe"`;
+	text -edit -label $IgLighterLoc IgLighterLocLbl;
+}
+
+global proc nelSetIgLighterCfgLoc()
+{
+	string $IgLighterCfg = `fileDialog -dm "*.cfg"`;
+	text -edit -label $IgLighterCfg IgLighteriCfgLocLbl;
+}
+
+global proc nelGUICreateLitIGs()
+{
+	// get rid of old window in case any are hanging around
+	if(`window -exists nelIGLighterwindow`)
+	{
+ 		deleteUI -window "nelIGLighterwindow";
+		print ("Deleted existing window \n");
+	}
+	
+	window -title "NeL IG Lighter" nelIGLighterwindow;
+ 		columnLayout -adjustableColumn true;
+			text -font "boldLabelFont" -label "NeL IG Lighter Tool";
+			text -label " ";
+			button -label "IG Lighter Location" -command "nelSetIgLighterLoc";
+			text - label " " IgLighterLocLbl;
+			text -label " ";
+			button -label "IG Lighter Config" -command "nelSetIgLighterCfgLoc";
+			text - label " " IgLighteriCfgLocLbl;
+			text -label " ";
+			button -label "Set Zone Files" -command "nelSetZoneDir";
+			text - label " " ZoneDirLbl;
+					
+	showWindow;	
+	
+}

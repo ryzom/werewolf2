@@ -1,0 +1,36 @@
+/////////////////////////////////
+// WHAt DOES IT DO?
+/////////////////////////////////
+
+Provides a way to add data members to sobs dynamically.
+Data used by states, controllers, views etc to add new behaviour to the sob.
+
+/////////////////////////////////
+// WHAT DOES IT NEED?
+/////////////////////////////////
+
+* A way to access the data fast
+	
+
+
+/////////////////////////////////
+// MODULAR ENTITIES
+/////////////////////////////////
+* Modules
+	* Data
+	* Behaviour
+	* Actions
+
+* Example
+	Motion module
+		[*] motion states (strafe, move, orient, jump)
+		[ ] motion data (velocity, speed, interpolator, etc)
+		[*] motion handlers (server/client handler, motion request handler)
+		[*] motion controllers (dr controller, interactive controller)
+		[*] motion events (move, strafe, orient, jump)
+
+		something has to send the events	- controller
+		something has to handle the events	- handlers
+		something has to store the data		- data container
+		something has to display the data	- view
+

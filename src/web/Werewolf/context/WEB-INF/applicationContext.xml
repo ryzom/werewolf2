@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+
+
+<beans>
+	<bean id="userService" class="com.ironicentertainment.core.UserServiceImpl">
+		<constructor-arg><ref bean="userDao"></ref></constructor-arg>
+	</bean>
+	
+	<bean id="userDaoTarget" class="com.ironicentertainment.core.UserDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	
+	<bean id="userDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.ironicentertainment.core.UserDao</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>hibernateInterceptor</value>
+				<value>userDaoTarget</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Database Stuff -->
+	<!-- define the data source information -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/werewolf"/>
+		<property name="username" value="root"/>
+		<property name="password" value="sp4nky"/>
+	</bean>
+	
+	<!-- set up our hibernate session factory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!-- set the data source to use -->
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+		<!-- customize the hibernate properties -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+			</props>
+		</property>
+		<!-- set the mapping files to use -->
+		<property name="mappingResources">
+			<list>
+				<value>User.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,84 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsFkIkArmRig.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsFkIkArmRig (string $prefix, string $shoulderJoint, string $wristJoint, string $mainControl, string $elbowControl, int $ikWrist, int $ikPosition)
+{
+	string $elbowJoint;
+	string $ikHandle  = ($prefix + "_armIkHandle");
+	string $extraIkHandle  = ($prefix + "_wristIkHandle");
+	
+	// find the elbow joint based on the child of the shoulderJoint.. it must
+	// be the first joint
+	$children = `listRelatives -f -c $shoulderJoint`;
+	for ($child in $children)
+	{
+		if (($elbowJoint == "") && ( `nodeType $child` == "joint"))
+			$elbowJoint = $child;
+	}
+	// See if you need to change the position of the wrist and elbow controls
+	if ($ikPosition == 1)
+	{
+		// Parent the control under the joint and set it's translations and
+		// rotations to 0.  then unparent it.
+		// Align the controls with the respective joints
+		jsAlignToJoint $elbowControl $elbowJoint;
+		jsAlignToJoint $mainControl $wristJoint;
+	
+	}
+	// Generate the ikHandle from the shoulderJoint to the wristJoint
+	string $handleBits[0];
+	$handleBits = (`ikHandle -sj $shoulderJoint -ee $wristJoint -sol "ikRPsolver" -name $ikHandle`);
+	$ikHandle = $handleBits[0];
+	
+	hide $ikHandle;
+	// find the elbow joint
+	//$joints = `ikHandle -q -jl $ikHandle`;
+	//$elbowJoint = $joints[1];
+
+	
+	// Set up the constraints for the elbow and the mainControl
+	pointConstraint $mainControl $ikHandle;
+	orientConstraint $mainControl $ikHandle;
+	poleVectorConstraint $elbowControl $ikHandle;
+
+	// set up the link between the solverEnable stuff
+	select $mainControl $ikHandle;
+	ConnectNodeToIKFK;
+
+	select $elbowControl $ikHandle;
+	ConnectNodeToIKFK;
+
+	// Check and see if there's an ikHandle necessary for the hand
+	if ($ikWrist == 1)
+	{
+		// create the ikHandle
+		string $wristEndJoint = `jsFindChildJoint $wristJoint`;
+		$endHandleBits = (`ikHandle -sj $wristJoint -ee $wristEndJoint -sol "ikRPsolver" -name $extraIkHandle `);
+
+		// Parent the ikHandle under the wrist control
+		$endIkHandle = $endHandleBits[0];
+
+		hide $endIkHandle;
+		
+		parent $endIkHandle $mainControl ;
+
+	}
+
+	// now add the attributes to the main control
+	string $extraIk		  = "FK_IK_EXTRA";
+	
+	jsAddMessageAttr $mainControl $extraIk 0;
+	
+	$cmd = ("connectAttr -f \""+$extraIkHandle+".message\" \""+$mainControl+".FK_IK_EXTRA\"");
+	evalEcho $cmd;
+
+	// Make all the final connections	
+	jsFkIkSetupEverything $mainControl $elbowControl $ikHandle $extraIkHandle $prefix $shoulderJoint $elbowJoint $wristJoint;	
+
+}

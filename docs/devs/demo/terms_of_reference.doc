@@ -1,0 +1,392 @@
+{\rtf1\ansi\ansicpg1252\deff0
+{\fonttbl
+{\f0\fswiss\fcharset0\fprq2\fttruetype Arial;}
+{\f1\froman\fcharset0\fprq2\fttruetype Times New Roman;}
+{\f2\froman\fcharset0\fprq2\fttruetype Symbol;}
+{\f3\fswiss\fcharset0\fprq2\ftnil Dingbats;}
+{\f4\fmodern\fcharset0\fprq1\fttruetype Courier New;}}
+{\colortbl
+\red0\green0\blue0;
+\red255\green255\blue255;}
+{\stylesheet
+{\s1\keepn\sb240\sa120\f0\fs28\lang1033\sbasedon32\snext21Heading;}
+{\s2\fi-430\li720\f0\fs24\lang1033\sbasedon32\snext32Contents 1;}
+{\s3\fi-430\li1440\f0\fs24\lang1033\sbasedon32\snext32Contents 2;}
+{\s4\fi-430\li2160\f0\fs24\lang1033\sbasedon32\snext32Contents 3;}
+{\s9\fi-430\li720\f0\fs24\lang1033\sbasedon32\snext32Lower Roman List;}
+{\s6\tx430\f0\fs24\lang1033\sbasedon28\snext32Numbered Heading 1;}
+{\s7\tx430\f0\fs24\lang1033\sbasedon29\snext32Numbered Heading 2;}
+{\s8\fi-430\li720\f0\fs24\lang1033\snext32Square List;}
+{\*\cs12\sbasedon32Endnote Text;}
+{\s43\tx430\tx1584\f0\fs24\lang1033\sbasedon6\snext32Chapter Heading;}
+{\s5\fi-430\li2880\f0\fs24\lang1033\sbasedon32\snext32Contents 4;}
+{\s10\fi-430\li720\f0\fs24\lang1033\snext32Diamond List;}
+{\s11\fi-430\li720\f0\fs24\lang1033\snext32Numbered List;}
+{\*\cs13\fs20\superEndnote Reference;}
+{\s14\fi-430\li720\f0\fs24\lang1033\snext32Triangle List;}
+{\s15\tx430\f0\fs24\lang1033\sbasedon30\snext32Numbered Heading 3;}
+{\s16\fi-430\li720\f0\fs24\lang1033\snext32Dashed List;}
+{\s17\fi-430\li720\f0\fs24\lang1033\sbasedon11\snext32Upper Roman List;}
+{\s18\sb440\sa60\f0\fs24\b\lang1033\sbasedon32\snext32Heading 4;}
+{\s19\fi-430\li720\f0\fs24\lang1033\snext32Heart List;}
+{\s31\fi-430\li720\f0\fs24\lang1033\snext32Tick List;}
+{\s33\fi-430\li720\f0\fs24\lang1033\sbasedon11\snext32Lower Case List;}
+{\s34\li1440\ri1440\sa120\f0\fs24\lang1033\sbasedon32\snext32Block Text;}
+{\*\cs23\fs20Reference;}
+{\s24\fi-430\li720\f0\fs24\lang1033\sbasedon11\snext32Upper Case List;}
+{\s25\fi-430\li720\f0\fs24\lang1033\snext32Bullet List;}
+{\s26\fi-430\li720\f0\fs24\lang1033\snext32Hand List;}
+{\*\cs27\fs20\sbasedon32Footnote Text;}
+{\s28\sb440\sa60\f0\fs34\b\lang1033\sbasedon32\snext32Heading 1;}
+{\s29\sb440\sa60\f0\fs28\b\lang1033\sbasedon32\snext32Heading 2;}
+{\s20\qc\sb240\sa120\f0\fs32\b\lang1033\sbasedon32\snext32Contents Header;}
+{\s30\sb440\sa60\f0\fs24\b\lang1033\sbasedon32\snext32Heading 3;}
+{\s40\fi-430\li720\f0\fs24\lang1033\snext32Box List;}
+{\s21\sa120\f1\fs24\lang1033\sbasedon32\snext21Text body;}
+{\s22\sb120\sa120\f1\fs24\i\lang1033\sbasedon32\snext22Caption;}
+{\s36\sa120\f1\fs24\lang1033\sbasedon21\snext36List;}
+{\s42\f4\fs24\lang1033\sbasedon32\snext32Plain Text;}
+{\s35\f1\fs24\lang1033\sbasedon32\snext35Index;}
+{\s39\fi-430\li720\f0\fs24\lang1033\snext32Implies List;}
+{\s32\f1\fs24\lang1033Normal;}
+{\s41\fi-430\li720\f0\fs24\lang1033\snext32Star List;}
+{\*\cs37\fs20\superFootnote Reference;}
+{\s38\tx430\tx1584\f0\fs24\lang1033\sbasedon6\snext32Section Heading;}}
+{\*\listtable
+{\list\listtemplateid1131\listsimple{\listlevel\levelnfc0\levelstartat1\levelspace0\levelfollow0{\leveltext\'02\'00.;}{\levelnumbers\'01;}}\listid1040}
+{\list\listtemplateid1132\listsimple{\listlevel\levelnfc23\levelstartat0\levelspace0\levelfollow0\fi-431\li720{\leveltext\'01\'b7 ;}{\levelnumbers;}\f2}\listid1047}}
+{\*\listoverridetable
+{\listoverride\listoverridecount0\listid1040\levelnfc0\levelstartat1\levelspace0\levelfollow0{\leveltext\'02\'00.;}{\levelnumbers\'01;}\ls1}
+{\listoverride\listoverridecount0\listid1047\levelnfc23\levelstartat0\levelspace0\levelfollow0\fi-431\li720{\leveltext\'01\'b7 ;}{\levelnumbers;}\f2\ls2}}
+
+\kerning0\cf0\ftnbj\fet2\ftnstart1\ftnnar\aftnnar\ftnstart1\aftnstart1\aenddoc\revprop0{\info\uc1}\deftab720\viewkind1\paperw12240\paperh15840\margl1440\margr1440\widowctl
+\sectd\sbknone\colsx360\pgncont\ltrsect
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\qc\sb440\sa60\s28\itap0{\s28\f0\fs34\b\lang1033{\*\listtag0}\abinodiroverride\ltrch Ironic Demo}{\s28\f0\fs34\b\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+{\listtext\pard\sb440\sa60 1.	}\pard\plain{\ltrpar\ql\sb440\sa60\s7{\*\abilist\abilistid1040\abilistparentid0\abilistlevel1\abistartat1{\abifieldfont Arial}{\abilistdecimal }{\abilistdelim %L.}{\abiliststyle Numbered List}}{\*\pn\pnql\pnstart1\pnlvlbody\pndec{\pntxtb }{\pntxta .}}\ls1\ilvl0\itap0\tx430{\s7\f0\fs24\b\lang1033{\*\listtag0}\abinodiroverride\ltrch Description}{\s7\f0\fs24\b\lang1033{\*\listtag1041}\par}
+}\pard\plain\ltrpar\ql\s32\sl240\slmult1\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\sl240\slmult1\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch The essence of the demo is a spear throwing contest where players try to heave a spear further than other players. Players have a few basic stats which improve over time. Additionally, players will be able to join guilds where the guilds are able to compete against each other based upon their member's performance.}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\sl240\slmult1\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\sl240\slmult1\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Players will be able to stroll about the scenic forest and stop off for an ale at a small hunting lodge, turned tavern.}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\sl240\slmult1\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\sl240\slmult1\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Players will have their rankings published on a web site and the current distance champion gets to wear a special armor denoting their preeminence among their peers.}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+{\listtext\pard\sb440\sa60 2.	}\pard\plain{\ltrpar\ql\sb440\sa60\s7{\*\abilist\abilistid1040\abilistparentid0\abilistlevel1\abistartat1{\abifieldfont Arial}{\abilistdecimal }{\abilistdelim %L.}{\abiliststyle Numbered List}}{\*\pn\pnql\pnstart1\pnlvlbody\pndec{\pntxtb }{\pntxta .}}\ls1\ilvl0\itap0\tx430{\s7\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Goals}{\s7\f1\fs24\lang1033{\*\listtag1066}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistparentid0\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create a Simple Game Based on NeL}{\s32\f1\fs24\lang1033{\*\listtag1048}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Learn nel and extend it to somehting usable}{\s32\f1\fs24\lang1033{\*\listtag1049}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create a viable art pipeline}{\s32\f1\fs24\lang1033{\*\listtag1050}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create the demo to use as a recruiting tool}{\s32\f1\fs24\lang1033{\*\listtag1051}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create documentation around WW (design docs)}{\s32\f1\fs24\lang1033{\*\listtag1052}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create promotional tools other than the  demo to help us}{\s32\f1\fs24\lang1033{\*\listtag1053}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Attract talent (web site / docs / etc)}{\s32\f1\fs24\lang1033{\*\listtag1054}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create a more vibrant community around nel (hopefully causing nevrax to care about nel more)}{\s32\f1\fs24\lang1033{\*\listtag1055}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create tools to facilitate development}{\s32\f1\fs24\lang1033{\*\listtag1056}\par}
+}{\listtext\pard\fi-431\li720\bullet 	}\pard\plain{\ltrpar\ql\fi-431\li720\s32{\*\abilist\abilistid1047\abilistlevel1\abistartat0{\abifieldfont Symbol}{\abilistdecimal .}{\abilistdelim %L}{\abiliststyle Bullet List}}{\*\pn\pnql\pnstart0\pnlvlblt{\pntxtb\bullet}}\ls2\ilvl0\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Create artwork and style guides to be followed in Werewolf}{\s32\f1\fs24\lang1033{\*\listtag1057}\par}
+}\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Walk-through}{\s32\f1\fs24\lang1033{\*\listtag0}:}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Sign Up}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Web Site}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Detects if server is full}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch login id name email addy}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch reply t}{\s32\f1\fs24\lang1033{\*\listtag0}o}{\s32\f1\fs24\lang1033{\*\listtag0} email}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Log In}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab get patches / updates (the first time no patches up to date exe)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab connected to service and client logs in}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch I}{\s32\f1\fs24\lang1033{\*\listtag0}nitial log}{\s32\f1\fs24\lang1033{\*\listtag0} on}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch customization screen - hairstyle / decals / tattoos / general appearance (body types facial features)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hair color / eye color change - small outfit color change (garish)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch player name}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch create character}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Initial}{\s32\f1\fs24\lang1033{\*\listtag0} log in place}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch plaque or npc - basic commands and how to get around...  tells you where are you... the stuff you can do...  grabbing stuff... spear forest wandering}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch if npc needs to a different model and needs icon to let player know how to get help}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch S}{\s32\f1\fs24\lang1033{\*\listtag0}pear }{\s32\f1\fs24\lang1033{\*\listtag0}T}{\s32\f1\fs24\lang1033{\*\listtag0}hrowing }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch a hit is a hit... targets are std in the range}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch players can setup a target or define areas in the target w/thier own tournies (which have prizes)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch basic spear training through a plaque or npc}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hold in position too long and camera will shake and weakness (players can see this)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch bar increases and you can throw past your max 9could be a great throw or a catastrophic failure}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch furthest throw that hits  a target is the champ (other throws are listed)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch accuracy top 10  lists for different accuracy ranges}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch spear wobbles when thrown}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch canopy collisions in a tree are optional (if we have time)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Client Stuff}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch S}{\s32\f1\fs24\lang1033{\*\listtag0}pear}{\s32\f1\fs24\lang1033{\*\listtag0} Range}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Could hit mouse button or key to go into aiming mode}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch when planed into aiming mode in 3rd person camera is locked into an over the shoulder view and the player is given a crosshair}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch when in first person mode nothing changes except the player is given a crosshair}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch random shake from the start gets worse over time}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch movement makes the shake worse}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch shake is based on skill / accuracy}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\li720\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch  Bar }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab \tab go in sit down on benches and ground}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab \tab use button to sit down}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Bartender (optional \uc1\u8211\'96 1)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab Self-serve bar}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab tap}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab use key kills up a mug}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch click several times player drinks straight from the tap (optional feature 4)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab beer mugs laying around}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch apples to be given to the horse}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch food \uc1\u8211\'96 optional 3 this is linked to whether or not we implement getting fat. gruel in the cauldron}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Horse}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch generally roaming around opposite the spear throwing feild}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch give him}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch pet him}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Pond}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab Stone throwing \uc1\u8211\'96 optional 5}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab Stone skipping  - optional 5}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab wade into the pool \uc1\u8211\'96 optional 5}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch ducks or swans in the pool \uc1\u8211\'96 optional 5}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch (no swimming)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Sign Up Process}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Login Process}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Drink}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Eat}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Pick up spear}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Pull spear out of target}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Open a door}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Close a door}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Talk}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Cheer}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Greet}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Toast}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Laugh}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Pet horse}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Feed horse}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Change clan}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Have a normal state of mind}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Be drunk}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Camera Movement?}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab Yes}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab swing camera about moving the mouse}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Character Creator}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch LH Nav Pane Desciribing the Various areas that the player can manipulate}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Names}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch General Physique}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch height}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch fatness}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch feet}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch size}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hand}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch size}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch tattoos}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch arms / shoulds}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hands}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Head}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hair}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch color}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch style}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch mustaches}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch color}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch style}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch beards}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch color}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch style}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch eye}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch color}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch width which eyes are separated arecontrolled by width of the bridge of the nose}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch height of brow}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch eyebrows}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch style / bushy}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch position is based on brow height}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch nose}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch length}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch bridge length and width}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch ball size}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch crookedness ie broken nose or sharp angles}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch mouth}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch position}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch fullness}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch fullness of upper and lower lips}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch jaws}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch position}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch roundness}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch ears}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch position}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch size }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch lobe size}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch do they stick out from the head (dumbo)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch tattoos}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch head}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch neck}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch textures for the face}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch complextion}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch height of cheek bones}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch scars \uc1\u8211\'96 optional 5}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Clothing}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch bracers  - color of the fur}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch belt color}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch pants}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch scabbard }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch boots and fur of the boots}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Clan specific changes}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch gem in belt}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch sash colors}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab vertex colors(?)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch body armor color and a logo \uc1\u8211\'96 optional 3 \uc1\u8211\'96 it would take some time to create all the metal textures needed}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch color changes}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Player must choose all features, can't just skip to exit (we don't give them any appearance defaults}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Text Box to fill in Character's name}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Change appearance in game}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hair style}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch player gets more muscular as they progress}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch fat characters get slim and then muscular}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Change clothing colors}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch if you can change or join a clan for instance}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch gem in belt}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch sash colors}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab vertex colors(?)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch body armor color and a logo \uc1\u8211\'96 optional 3 \uc1\u8211\'96 it would take some time to create all the metal textures needed}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch color changes}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch bracers  - color of the fur}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch belt color}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch pants}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch scabbard }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch boots and fur of the boots}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch General controls}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch color palette}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch value / brightness}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch click on a list of things that the player might want to change}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch click in 3d on the stuff that you want to change \uc1\u8211\'96 optional 3}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch getting fat \uc1\u8211\'96 optional 3}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab customization screen - hairstyle / decals / tattoos / general appearance (body types facial features)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hair color / eye color change - small outfit color change (garish)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch player name}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch create character}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Login Process}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Login}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Shard selection}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch 60 players not a technical limit just to prevent overcrowding}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Character Selection}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab Click Join or Add}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch If a new add then throw back into character selection after mode after the Add was complete by the character}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Logout}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab Press Esc in the client}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch \tab Quit}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Logout}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Main Menu (Esc -  not mappable)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Graphics Options}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Resolution}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Color depth}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Antialiasing}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Advanced tab activated if any settings are set to 'custom'}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Master Detail}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Environment}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch wind}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch clouds}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch sun flare}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Vegetation}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Realism (low/med/high/custom)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Lansdcape Detail}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Advanced}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Clipping Plane (etc.)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch NPC}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch PC}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Lighting Effects}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Particle Effects}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Water Effects (waves)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch HUD Display (maybe in game)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch fps}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch lag meter}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Game Options}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Window Docking}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch When window requires action}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Blinking}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Color Change}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Sound}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch In Hand indicator}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Sound Options}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch main}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch ambient volume}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch effects}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch music}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch voice volume}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch positional audio}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch hw acceleration}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Input Options}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch mouse}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch mouse sensitivity}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch mouse inversion}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch lock the mouse inside the game window}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch for looking everywhere in windowed mode}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Keyboard Mappings}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Help}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Contents}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Esc to main menu}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Gameplay }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Interacting with the world}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch chatting}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Inventory}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Movement}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Shortcuts / command reference}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Index}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Search}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Logoff}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Quit}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch GUI Discussion}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch windows }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch close}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch minimize}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch dock window}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx3600{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch dragging to an area creates a semi-transparent copy of the object and it will dock with sticky points like the edge of a screen or the edge of a window}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx3600{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch if you drag an object on to another window it will split the windows according to the location (objects on the RH side would get a hor split and on the bottom would get a vert split.}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx3600{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Frames between borders can be drug around and resized}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx3600{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Master frames themselves can be resized}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx3600{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch alt click and dragging into a window will create a tab}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch task bar (only appears if something is minimized)}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch auto-hide}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch windows with activity}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx2880{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch can blink}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx2880{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch text that describes them can change color}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0\tx720\tx2880{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch can make an alert sound}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Compass}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch overylays the view in upper RH corner}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch includes a mini-map}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch In Hand Indicator}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch In upper LH corner}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch configureable in options whether desired in 1st, 3rd or at all}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Aiming Mode}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch Aiming crosshair}{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\abinodiroverride\ltrch semi-circle }{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}
+\pard\plain\ltrpar\ql\s32\itap0{\s32\f1\fs24\lang1033{\*\listtag0}\par}}

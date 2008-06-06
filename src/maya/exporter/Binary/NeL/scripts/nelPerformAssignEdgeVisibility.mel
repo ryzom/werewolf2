@@ -1,0 +1,135 @@
+// Option box for AssignEdgeVisibility
+
+proc setOptionVars (int	$forceFactorySettings) {
+	if ($forceFactorySettings || !`optionVar -exists "NeLCollisionEdgeVisibility"`)
+		optionVar -intValue "NeLCollisionEdgeVisibility" 0;
+}
+
+global proc nelAssignEdgeVisibilitySetup (string $parent, int $forceFactorySettings) {
+	setOptionVars($forceFactorySettings);
+	setParent $parent;
+
+	$value = `optionVar -query "NeLCollisionEdgeVisibility"` + 1;
+	radioButtonGrp
+		-edit
+		-select $value
+		"EdgeVisibilityRBG";
+}
+
+global proc nelAssignEdgeVisibilityCallback (string $parent, int $doIt)
+{	
+	setParent $parent;
+	
+	$value = `radioButtonGrp -query -select "EdgeVisibilityRBG"` - 1;
+	optionVar -intValue "NeLCollisionEdgeVisibility" $value;
+
+	if ($doIt)  {
+		nelPerformAssignEdgeVisibility 0;
+		string $tmpCmd = "nelPerformAssignEdgeVisibility 0 ";
+		addToRecentCommandQueue $tmpCmd "Assign Collision Edge Visibility";
+	}
+}
+
+proc nelAssignEdgeVisibilityOptions ()
+{
+	string $commandName = "nelAssignEdgeVisibility";
+	string $callback = ($commandName + "Callback");
+	string $setup = ($commandName + "Setup");
+	//	STEP 1:  Get the option box.
+	//	============================
+	//
+	string $layout = getOptionBox();
+	setParent $layout;
+	//	STEP 2:  Pass the command name to the option box.
+	//	=================================================
+	//
+	setOptionBoxCommandName($commandName);
+	//	STEP 3:  Activate the default UI template.
+	//	==========================================
+	//
+	setUITemplate -pushTemplate DefaultTemplate;
+	//	STEP 4: Create option box contents.
+	//	===================================
+	//
+	waitCursor -state 1;
+	
+	string $parent = `columnLayout -adjustableColumn 1`;
+
+	columnLayout;
+
+	radioButtonGrp -nrb 2 -label "Edge Visibility" -labelArray2 "Invisible" "Visible" "EdgeVisibilityRBG";
+
+	setParent ..;
+	
+	setParent -menu ..;
+
+	waitCursor -state 0;
+	//	Step 5: Deactivate the default UI template.
+	//	===========================================
+	//
+	setUITemplate -popTemplate;
+
+	//	Step 6: Customize the buttons.  
+	//	==============================
+	//
+	string $applyBtn = getOptionBoxApplyBtn();
+	button -edit 
+		-label "Apply"
+		-command ($callback + " " + $parent + " " + 1) 
+		$applyBtn;
+	
+	string $applyAndCloseBtn = getOptionBoxApplyAndCloseBtn();
+	button -edit 
+		-label "Assign Edge Visibility"
+		$applyAndCloseBtn;
+
+	string $saveBtn = getOptionBoxSaveBtn();
+	button -edit 
+		-command ($callback + " " + $parent + " " + 0 + " " +"; hideOptionBox")
+		$saveBtn;
+
+	string $resetBtn = getOptionBoxResetBtn();
+	button -edit 
+		-command ($setup + " " + $parent + " " + 1)
+		$resetBtn;
+
+	//	Step 7: Set the option box title.
+	//	=================================
+	//
+	setOptionBoxTitle("Assign Collision Edge Visibility Options");
+	//	Step 8: Customize the 'Help' menu item text.
+	//	============================================
+	//
+	//	Step 9: Set the current values of the option box.
+	//	=================================================
+	//
+	eval (($setup + " " + $parent + " " + 0));
+	//	Step 10: Show the option box.
+	//	=============================
+	//
+	showOptionBox();
+}
+
+
+proc string assembleAssignCmd() {
+	setOptionVars false;
+	string $cmd = "nelAssignEdgeVisibility ";
+
+	$cmd += `optionVar -query "NeLCollisionEdgeVisibility"`;
+	$cmd += ";";
+	
+	print ($cmd + "\n");
+	return $cmd;
+}
+
+global proc nelPerformAssignEdgeVisibility(int $action) {
+	switch($action) {
+		case 0:
+			string $cmd = `assembleAssignCmd`;
+			eval($cmd);
+			break;
+		case 1:
+			nelAssignEdgeVisibilityOptions();
+			break;
+	}
+}

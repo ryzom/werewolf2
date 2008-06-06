@@ -1,0 +1,33 @@
+// Converts an object to a slot
+
+global proc string nelCreateSlotBase(string $type) {
+	string $slot = `group -em -r -n ($type + "Slot")`;
+	$slot = "|" + $slot;
+
+	setAttr -lock true -keyable false ($slot + ".tx");
+	setAttr -lock true -keyable false ($slot + ".ty");
+	setAttr -lock true -keyable false ($slot + ".tz");
+	setAttr -lock true -keyable false ($slot + ".rx");
+	setAttr -lock true -keyable false ($slot + ".ry");
+	setAttr -lock true -keyable false ($slot + ".rz");
+	setAttr -lock true -keyable false ($slot + ".sx");
+	setAttr -lock true -keyable false ($slot + ".sy");
+	setAttr -lock true -keyable false ($slot + ".sz");
+
+	addAttr -ln ($type + "Slot") -k 0 -h 1 -at "bool" -dv 1 $slot;
+	addAttr -ln "LodBlendIn" -k 1 -at "bool" $slot;
+	addAttr -ln "LodBlendOut" -k 1 -at "bool" $slot;
+	addAttr -ln "LodBlendLength" -k 1 -at "float" $slot;
+	addAttr -ln "BBRadiusX" -k 1 -at "float" -dv 0.5 $slot;
+	addAttr -ln "BBRadiusZ" -k 1 -at "float" -dv 0.5 $slot;
+	addAttr -ln "useBBSizes" -k 1 -at "bool" -dv 0 $slot;
+	addAttr -ln "useBBColors" -k 1 -at "bool" -dv 0 $slot;
+	addAttr -ln "useBBOrientations" -k 1 -at "bool" -dv 0 $slot;
+	addAttr -ln "useRadialNormals" -k 1 -at "bool" -dv 0 $slot;
+	addAttr -ln "colorR" -k 1 -at "float" -dv 1 $slot;
+	addAttr -ln "colorG" -k 1 -at "float" -dv 1 $slot;
+	addAttr -ln "colorB" -k 1 -at "float" -dv 1 $slot;
+	addAttr -ln "Alignment" -k 1 -at "enum" -en "Auto Aligned:Screen Aligned:View Aligned:Axis Constrained:" -dv 1 $slot;
+
+	return $slot;
+}

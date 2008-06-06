@@ -1,0 +1,67 @@
+/////////////////////////////////
+// UCs
+/////////////////////////////////
+
+_______________________________________________
+UC 1. Running
+_______________________________________________
+Play specific animation when current states match some conditions.
+When state == running
+	1) and moving forward play animation "run_N"
+	2) and moving backward play animation "run_S"
+	3) and moving right play animation "run_E"
+	4) and moving left play animation "run_W"
+	5) and moving forward and right play animation "run_NE"
+	6) and moving forward and left play animation "run_NW"
+	7) and moving backward and right play animation "run_SE"
+	8) and moving backward and left play animation "run_SW"
+
+_______________________________________________
+UC 2. Eating an apple
+_______________________________________________
+Apple has property "amount" (%) which signifies how much of the apple is left. It starts out as 100% and is decreased by biteSize when eaten.
+There are models with data ranges (ranges are arbitrary):
+	* whole		95% - 100%
+	* one bite	75% -  95%
+	* half		40% -  75%
+	* quarter	20% -  40%
+	* core		 5% -  20%
+	* nothing	 0% -   5%
+The correct model is displayed based on the current value of "amount".
+
+_______________________________________________
+UC 3. Rotting apple
+_______________________________________________
+Apple has property "condition" (%) which states how good the condition of the apple is. This deteriorates with time.
+There are textures with data ranges (ranges are arbitrary):
+	* good		80% - 100%
+	* average	50% -  80%
+	* bad		20% -  50%
+	* rotten	 0% -  20%
+The correct texture is displayed based on the current value of "condition".
+
+The same thing can be imagined with just one texture but different UV sets.
+
+_______________________________________________
+UC 4. Fat creatures
+_______________________________________________
+Every creature has property "fat" which accumulates when eating and deteriorates when doing work.
+There are morphs on body meshes that are affected by fat. The morphs values are related to the "fat" property via a normalizing value that is subtracted and a divisor to get the "fat" value (kg) to a [0,100) range.
+
+_______________________________________________
+UC 5. Flaming sword on impact
+_______________________________________________
+There is an event that takes place if one character damages another.
+If the magical flaming sword was equipped and the hit was made with it, the event triggers a flames mesh, GPU effect and animation. The effect fades in a certain amount of time.
+
+_______________________________________________
+UC 6. Shirt on a fat guy
+_______________________________________________
+The idea is the same as in UC4, but this time the morph is on a child SOB EMD (the shirt). So the shirt needs access to the "fat" property on the character.
+
+_______________________________________________
+UC 7. Wounded character
+_______________________________________________
+There is a property "damage" on the character.
+There are decals in the EMD which relate to the "damage" property via data ranges. The decals are blended with the existing texture and material of the character to provide an effect that looks like wounds on the body.
+

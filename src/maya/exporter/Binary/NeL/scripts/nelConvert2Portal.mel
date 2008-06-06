@@ -1,0 +1,13 @@
+// Converts an object to a portal (which lets you peek through clusters, for instance a window)
+
+global proc nelConvert2Portal() {
+	string $selected[] = `ls -sl`;
+	for($select in $selected) {
+		print ("Adding NeL portal attributes to " + $select + "\n");
+		addAttr -ln "NelOcclusionModel" -dt "string" $select;
+		addAttr -ln "NelOpenOcclusionModel" -dt "string" $select;
+		addAttr -ln "NelDynamicPortal" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "NelInstanceName" -dt "string" $select;
+	}
+	print("Done.\n");
+}

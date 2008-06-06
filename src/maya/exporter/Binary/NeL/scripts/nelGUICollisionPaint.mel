@@ -1,0 +1,156 @@
+// GUI for the nel collision painter
+
+global string $nelCollisionMeshToPaint = "col1";
+global int $nelCollisionTypeToPaint = 0;
+global string $nelCollisionPaintCtx = "";
+global int $nelCollisionPaintDelete = 0;
+global int $nelCollisionPaintColorMode = 0;
+global string $nelCollisionPaintColorFunction[] = {
+			"nelGUICollisionPaintRemoveColor",
+			"nelGUICollisionPaintTypeColor",
+			"nelGUICollisionPaintMeshColor" };
+
+global proc nelGUICollisionPaintUI() {
+	global string $nelCollisionMeshToPaint;
+	global int $nelCollisionTypeToPaint;
+	global int $nelCollisionPaintDelete;
+	
+	if ( `window -ex nelGUICollisionPaintWindow` ) {
+		showWindow nelGUICollisionPaintWindow;
+		return;
+	}
+
+	setUITemplate -pushTemplate DefaultTemplate;
+	window -title "NeL Collision Paint Settings" -rtf true nelGUICollisionPaintWindow;
+	columnLayout -adj true column;
+		checkBoxGrp -ncb 1 -l "" -l1 "Delete Coloring" -v1 $nelCollisionPaintDelete -cc1 "$nelCollisionPaintDelete = #1" nelGUICollisionPaintDelete;
+		textFieldGrp -label "Collision Mesh:" -text $nelCollisionMeshToPaint
+				-cc "$nelCollisionMeshToPaint = \`textFieldGrp -q -text nelCollisionPostfix\`"
+				nelCollisionPostfix;
+		optionMenu -label "Type:" -cc "$nelCollisionTypeToPaint = \`optionMenu -q -sl nelCollisionType\` - 1"
+				nelCollisionType;
+			menuItem -label "Interior";
+			menuItem -label "Exterior";
+		optionMenu -e -sl ($nelCollisionTypeToPaint + 1) nelCollisionType;
+		button -label "Globally Color Mesh" -c "nelGUICollisionPaintTypeColor";
+		button -label "Begin Coloring this Mesh" -c "nelGUICollisionPaintMeshColor";
+		button -label "Erase All Coloring for Mesh" -c "nelGUICollisionPaintRemoveColor";
+		button -label "Set Edge to Visible" -c "source nelPerformAssignEdgeVisibility.mel;nelAssignEdgeVisibility 1;";
+		button -label "Set Edge Invisible" -c "source nelPerformAssignEdgeVisibility.mel;nelAssignEdgeVisibility 0;";
+		setParent ..;
+	setParent ..;
+	showWindow nelGUICollisionPaintWindow;
+	setUITemplate -popTemplate;
+	
+}
+
+// This was copied from initContexts.mel
+//
+proc rememberCtxSettings( string $ctxName )
+//
+// This method sees if an optionVar has been defined
+// for the tool.  If it has, the string it contains
+// is evaluated to set the tool settings.  SuperContexts
+// should not be saved this way, since they have no
+// particular settings.
+//
+{
+	if ( `optionVar -exists $ctxName` ){
+		string $cmd = `optionVar -q $ctxName`;
+		catch( `eval($cmd)` );
+	} else {
+		// create an empty option var so that this
+		// will be saved.
+		optionVar -sv $ctxName "";
+	}
+}
+
+global proc nelGUICollisionPaintMask() {
+	setComponentPickMask "Facet" true;
+}
+
+global proc nelGUICollisionPaint() {
+	global string $nelCollisionPaintCtx;
+	if($nelCollisionPaintCtx== "") {
+		$nelCollisionPaintCtx = `eval "artSelectCtx -i1 \"paintVertexColour.xpm\" -ads false nelCollisionPaintCtx"`;
+		rememberCtxSettings $nelCollisionPaintCtx;
+	}
+
+	string $cmd = "artSelectCtx -e";
+	$cmd += " -bsc nelGUICollisionPaintMask";
+	$cmd += " -asc nelGUICollisionPaintApply";
+	$cmd += " " + $nelCollisionPaintCtx;
+	eval $cmd;
+	nelGUICollisionPaintUI; 
+	setToolTo $nelCollisionPaintCtx;
+}
+
+global proc nelGUICollisionPaintApply() {
+	string $selected[] = `filterExpand -sm 34`;
+	if(size($selected) == 0)
+		return;
+	
+	global string $nelCollisionMeshToPaint;
+	global int $nelCollisionTypeToPaint;
+	global int $nelCollisionPaintDelete;
+	global int $nelCollisionPaintColorMode;
+	global string $nelCollisionPaintColorFunction[];
+	
+	if(size(`blindDataType -q -id 25`) < 1) {
+		blindDataType -id 25 -dt "string" -longDataName "nelCollisionMesh" -shortDataName "ncm"
+							 -dt "int" -longDataName "nelCollisionType" -shortDataName "nct";
+	}
+
+	string $cmd = "polyBlindData -id 25 -associationType \"face\"";
+	if($nelCollisionPaintDelete != 0)
+		$cmd += " -del";
+	$cmd += " -sdn \"ncm\" -sd " + $nelCollisionMeshToPaint;
+	for($select in $selected) {
+		$cmd += " " + $select;
+	}
+	eval $cmd;
+	$cmd = "polyBlindData -id 25 -associationType \"face\"";
+	if($nelCollisionPaintDelete != 0)
+		$cmd += " -del";
+	$cmd += "-sdn \"nct\" -ind " + $nelCollisionTypeToPaint;
+	for($select in $selected) {
+		$cmd += " " + $select;
+	}
+	eval $cmd;
+	eval $nelCollisionPaintColorFunction[$nelCollisionPaintColorMode];
+}
+
+global proc nelGUICollisionPaintTypeColor() {
+	global int $nelCollisionPaintColorMode;
+	$nelCollisionPaintColorMode = 1;
+	string $selected[] = `ls -sl -objectsOnly`;
+	for($select in $selected) {
+		int $numFaces[] = `polyEvaluate -f $select`;
+		string $facets = $select + ".f[0:" + $numFaces[0] + "]";
+		polyColorBlindData -ncr 0 -ncg 0 -ncb 0 -ccr 1 -ccg 0 -ccb 0
+			-id 25 -num 1 -m 1 -n "nelCollisionType" -dt "int" -v 1 -cr 0 -cg 0 -cb 1
+			-id 25 -num 1 -m 1 -n "nelCollisionType" -dt "int" -v 0 -cr 0 -cg 1 -cb 0 $facets;
+	}
+}
+
+global proc nelGUICollisionPaintMeshColor() {
+	global string $nelCollisionMeshToPaint;
+	global int $nelCollisionPaintColorMode;
+	$nelCollisionPaintColorMode = 2;
+	string $selected[] = `ls -sl -objectsOnly`;
+	for($select in $selected) {
+		int $numFaces[] = `polyEvaluate -f $select`;
+		string $facets = $select + ".f[0:" + $numFaces[0] + "]";
+		polyColorBlindData -ncr 0 -ncg 0 -ncb 0 -ccr 1 -ccg 0 -ccb 0
+			-id 25 -num 2 -m 1  -n "nelCollisionType" -dt "int" -v 1 -cr 0 -cg 0 -cb 1
+								-n "nelCollisionMesh" -dt "string" -v $nelCollisionMeshToPaint -cr 0 -cg 0 -cb 1
+			-id 25 -num 2 -m 1  -n "nelCollisionType" -dt "int" -v 0 -cr 0 -cg 1 -cb 0
+								-n "nelCollisionMesh" -dt "string" -v $nelCollisionMeshToPaint -cr 0 -cg 1 -cb 0 $facets;
+	}
+}
+
+global proc nelGUICollisionPaintRemoveColor() {
+	global int $nelCollisionPaintColorMode;
+	$nelCollisionPaintColorMode = 0;
+	polyColorBlindData -efc 0;
+}

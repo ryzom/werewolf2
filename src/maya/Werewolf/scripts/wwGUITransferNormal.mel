@@ -1,0 +1,125 @@
+global proc wwGUITransferNormal() {
+	$win = "wwGUITransferNormalWin";
+	if(`window -exists $win`)
+		deleteUI $win;
+	
+	wwCreateTransferNormalWin $win;
+	wwCreateTransferNormalCB $win;
+
+	showWindow $win;
+}
+
+// register callbacks
+global proc wwCreateTransferNormalCB(string $win) {
+	button -e -c "wwTransferNormalGetFrom" wwTransferNormalFromButton;
+	button -e -c "wwTransferNormalGetTo" wwTransferNormalToButton;
+	button -e -c ("deleteUI " + $win) wwTransferNormalCloseButton;
+	button -e -c "wwTransferNormalClear" wwTransferNormalClearButton;
+	button -e -c "wwTransferNormalApply" wwTransferNormalApplyButton;
+	button -e -c ("wwTransferNormalApply;"+"deleteUI " + $win + ";") wwTransferNormalTransferButton;
+}
+
+global proc wwTransferNormalGetFrom() {
+	string $vf[] = `filterExpand -sm 70`;
+	if(size($vf) > 0) {
+		textField -e -tx $vf[0] wwTransferNormalFrom;	
+		return;
+	}
+	string $s[] = `filterExpand -sm 31`;
+	if(size($s) > 0)
+		textField -e -tx $s[0] wwTransferNormalFrom;
+}
+
+global proc wwTransferNormalGetTo() {
+	string $vf[] = `filterExpand -sm 70`;
+	if(size($vf) > 0) {
+		textField -e -tx $vf[0] wwTransferNormalTo;	
+		return;
+	}
+	string $s[] = `filterExpand -sm 31`;
+	if(size($s) > 0)
+		textField -e -tx $s[0] wwTransferNormalTo;
+}
+
+global proc wwTransferNormalClear() {
+	textField -e -tx "" wwTransferNormalFrom;
+	textField -e -tx "" wwTransferNormalTo;	
+}
+
+global proc wwTransferNormalApply() {
+	string $from = `textField -q -tx wwTransferNormalFrom`;
+	string $to = `textField -q -tx wwTransferNormalTo`;
+	wwModifyTransferNormal $from $to;
+}
+
+// create the actual GUI
+global proc wwCreateTransferNormalWin(string $win) {
+	window -t "Transfer Normal" $win;
+	$f = `formLayout -nd 100`;
+	setParent $f;
+	$transferButton = `button -l "Transfer" wwTransferNormalTransferButton`;
+	$applyButton = `button -l  "Apply" wwTransferNormalApplyButton`;
+	$closeButton = `button -l  "Close" wwTransferNormalCloseButton`;
+	$clearButton = `button -l  "Clear" wwTransferNormalClearButton`;
+	$usageLabel = `text -l "Usage:" -font "boldLabelFont"`;
+	$usage = `scrollField -tx "Select the vertex you want to transfer from and the vertex you want to transfer to. The script will transfer the normal with no questions asked." -ed 0 -ww 1`;
+	$labelWidth = 40;
+	$buttonWidth = 40;
+	$fromLabel = `text -l "From: " -font "boldLabelFont" -al right -w $labelWidth`;
+	$from = `textField wwTransferNormalFrom`;
+	$fromButton = `button -l "Get" -w $buttonWidth wwTransferNormalFromButton`;
+	$toLabel = `text -l "To: " -font "boldLabelFont" -al right -w $labelWidth`;
+	$to = `textField wwTransferNormalTo`;
+	$toButton = `button -l "Get" -w $buttonWidth wwTransferNormalToButton`;
+	formLayout -e
+		-af $transferButton left 0
+		-af $transferButton bottom 0
+		-ap $transferButton right 0 25
+		
+		-af $applyButton bottom 0
+		-ac $applyButton left 0 $transferButton
+		-ap $applyButton right 0 50
+
+		-af $clearButton bottom 0
+		-ac $clearButton left 0 $applyButton
+		-ap $clearButton right 0 75
+		
+		-af $closeButton bottom 0
+		-ac $closeButton left 0 $clearButton
+		-af $closeButton right 0
+
+		-ac $toLabel bottom 10 $transferButton
+		-af $toLabel left 0
+		-an $toLabel right
+
+		-af $toButton right 0
+		-ac $toButton bottom 10 $transferButton
+		-an $toButton left
+
+		-ac $to bottom 10 $transferButton
+		-ac $to left 5 $toLabel
+		-ac $to right 5 $toButton
+
+		-ac $fromLabel bottom 5 $to
+		-af $fromLabel left 0
+		-an $fromLabel right
+
+		-af $fromButton right 0
+		-ac $fromButton bottom 5 $to
+		-an $fromButton left
+
+		-ac $from bottom 5 $to
+		-ac $from left 5 $fromLabel
+		-ac $from right 5 $fromButton
+
+		-af $usageLabel top 0
+		-af $usageLabel left 0
+
+		-af $usage left 0
+		-af $usage right 0
+		-ac $usage top 0 $usageLabel
+		-ac $usage bottom 20 $from
+
+		$f;
+	
+}

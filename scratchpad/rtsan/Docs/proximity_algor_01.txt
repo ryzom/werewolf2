@@ -1,0 +1,100 @@
+vector $pos = unionShape.position;
+float $r = ctrl.radius;
+
+$nl = new.translateX - $r;
+$nr = new.translateX + $r;
+$nt = new.translateZ + $r;
+$nb = new.translateZ - $r;
+
+$ol = old.translateX - $r;
+$or = old.translateX + $r;
+$ot = old.translateZ + $r;
+$ob = old.translateZ - $r;
+
+// vertical part of the add
+float $addSV = (($nl > $or) || ($nl < $ol)) ? $nl : $or;
+float $addEV = (($nr > $or) || ($nr < $ol)) ? $nr : $ol;
+// horizontal part of the add
+float $addSH = (($nb > $ot) || ($nb < $ob)) ? $nb : $ot;
+float $addEH = (($nt > $ot) || ($nt < $ob)) ? $nt : $ob;
+float $addSBH = ($addSV == $nl && $addEV != $nr) ? $ol : $nl;
+float $addEBH = ($addEV == $nr && $addSV != $nl) ? $or : $nr;
+
+// vertical part of the remove
+float $remSV = (($ol > $nr) || ($ol < $nl)) ? $ol : $nr;
+float $remEV = (($or > $nr) || ($or < $nl)) ? $or : $nl;
+// horizontal part of the remove
+float $remSH = (($ob > $nt) || ($ob < $nb)) ? $ob : $nt;
+float $remEH = (($ot > $nt) || ($ot < $nb)) ? $ot : $nb;
+float $remSBH = ($remSV == $ol && $remEV != $or) ? $nl : $ol;
+float $remEBH = ($remEV == $or && $remSV != $ol) ? $nr : $or;
+
+
+// color it
+if(($pos.x) >= $addSV && ($pos.x) <= $addEV && ($pos.z) <= $nt && ($pos.z) >= $nb) {
+	unionShape.rgbPP = <<0, 1, 0.5>>;
+} else if(($pos.z) >= $addSH && ($pos.z) <= $addEH && ($pos.x) <= $addEBH && ($pos.x) >= $addSBH) {
+	unionShape.rgbPP = <<0.5, 1, 0>>;
+} else if(($pos.x) >= $remSV && ($pos.x) <= $remEV && ($pos.z) <= $ot && ($pos.z) >= $ob) {
+	unionShape.rgbPP = <<1, 0, 0.5>>;
+} else if(($pos.z) >= $remSH && ($pos.z) <= $remEH && ($pos.x) <= $remEBH && ($pos.x) >= $remSBH) {
+	unionShape.rgbPP = <<1, 0.5, 0>>;
+} else {
+	unionShape.rgbPP = <<0.5, 0.5, 0.5>>;
+}
+
+
+
+
+vector $pos = unionShape.position;
+int $r = ceil(ctrl.radius);
+
+int $nl = ceil(new.translateX) - $r + 1;
+int $nr = ceil(new.translateX) + $r;
+int $nt = ceil(new.translateZ) + $r;
+int $nb = ceil(new.translateZ) - $r + 1;
+
+int $ol = ceil(old.translateX - $r) + 1;
+int $or = ceil(old.translateX + $r);
+int $ot = ceil(old.translateZ + $r);
+int $ob = ceil(old.translateZ) - $r + 1;
+
+// vertical part of the add
+int $addSV = (($nl > $or) || ($nl < $ol)) ? $nl : $or + 1;
+int $addEV = (($nr > $or) || ($nr < $ol)) ? $nr + 1 : $ol;
+// horizontal part of the add
+int $addSH = (($nb > $ot) || ($nb < $ob)) ? $nb : $ot + 1;
+int $addEH = (($nt > $ot) || ($nt < $ob)) ? $nt + 1 : $ob;
+int $addSBH = ($addSV == $nl && $addEV != ($nr+1)) ? $ol : $nl;
+int $addEBH = ($addEV == ($nr+1) && $addSV != $nl) ? $or + 1 : $nr + 1;
+if($addSV == $nl && $addEV == ($nr+1)) {
+	$addSBH = $addEBH = 0;
+}
+
+// vertical part of the remove
+int $remSV = (($ol > $nr) || ($ol < $nl)) ? $ol : $nr + 1;
+int $remEV = (($or > $nr) || ($or < $nl)) ? $or + 1 : $nl;
+// horizontal part of the remove
+int $remSH = (($ob > $nt) || ($ob < $nb)) ? $ob : $nt + 1;
+int $remEH = (($ot > $nt) || ($ot < $nb)) ? $ot + 1 : $nb;
+int $remSBH = ($remSV == $ol && $remEV != ($or + 1)) ? $nl : $ol;
+int $remEBH = ($remEV == ($or + 1) && $remSV != $ol) ? $nr + 1 : $or + 1;
+if($remSV == $ol && $remEV == ($ot + 1)) {
+	$remSBH = $remEBH = 0;
+}
+
+//float $remSBH = ($remSV == $ol) ? $nl : $ol;
+//float $remEBH = ($remEV == $or) ? $nr : $or;
+
+// color it
+if(ceil(($pos.x)) >= $addSV && ceil(($pos.x)) < $addEV && ceil(($pos.z)) < ($nt+1) && ceil(($pos.z)) >= $nb) {
+	unionShape.rgbPP = <<0, 1, 0.5>>;
+} else if(ceil(($pos.z)) >= $addSH && ceil(($pos.z)) < $addEH && ceil(($pos.x)) < $addEBH && ceil(($pos.x)) >= $addSBH) {
+	unionShape.rgbPP = <<0.5, 1, 0>>;
+} else if(ceil(($pos.x)) >= $remSV && ceil(($pos.x)) < $remEV && ceil(($pos.z)) < ($ot+1) && ceil(($pos.z)) >= $ob) {
+	unionShape.rgbPP = <<1, 0, 0.5>>;
+} else if(ceil(($pos.z)) >= $remSH && ceil(($pos.z)) < $remEH && ceil(($pos.x)) < $remEBH && ceil(($pos.x)) >= $remSBH) {
+	unionShape.rgbPP = <<1, 0.5, 0>>;
+} else {
+	unionShape.rgbPP = <<0.5, 0.5, 0.5>>;
+}

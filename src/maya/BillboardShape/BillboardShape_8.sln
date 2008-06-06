@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BillboardShape", "BillboardShape_8.vcproj", "{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Debug|Win32.Build.0 = Debug|Win32
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Release|Win32.ActiveCfg = Release|Win32
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

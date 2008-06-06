@@ -1,0 +1,11 @@
+// edit this file for your o/s by removing the slashes (//)
+// from in front of the line for your o/s
+//
+// the basic format is:
+// + NeL 6.0 "absolute path to NeL directory"
+
+// sample windows path
+// + NeL 6.0 C:\Documents and Settings\Administrator\My Documents\maya\NeL
+
+// sample linux/irix path
+//+ NeL 6.0 /u/user_name/maya/NeL

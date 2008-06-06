@@ -1,0 +1,99 @@
+// Converts a regular shader into a NeL shader
+
+global proc nelConvert2NelShader() {
+	$selection = `ls -sl`;
+	$AEpopup = `optionVar -q AEpopupWhenCreatingShaders`;
+	optionVar -intValue AEpopupWhenCreatingShaders 0;
+	int $first = true;
+	string $sh[];
+	for($select in $selection) {
+		if($first) {
+			createAndAssignShader phong $select;
+			$sh = `listRelatives -s -pa -ni $select`;
+			int $instanceIndex;
+			$instanceParents = `listRelatives -ap -pa $sh`;
+			int $i;
+			for($i = 0; $i < `size($instanceParents)`; $i++) {
+				if($instanceParents[$i] == $select) {
+					$instanceIndex = $i;
+				}
+			}
+			$sh = `listConnections ($sh[0] + ".instObjGroups[" + $instanceIndex + "]")`;
+			$sh = `listConnections ($sh[0] + ".surfaceShader")`;
+			$sh[0] = `rename $sh[0] "NeLShader"`; 
+			phong2NeL($sh[0]);
+			$first = false;
+		} else {
+			assignSG $sh[0] $select;
+		}
+	}
+	optionVar -intValue AEpopupWhenCreatingShaders $AEpopup;
+}
+
+proc createColorAttribute(string $sh, string $name, int $alpha) {
+	addAttr -ln $name -at "float3" -uac $sh;
+	addAttr -ln ($name + "R") -at "float" -p $name $sh;
+	addAttr -ln ($name + "G") -at "float" -p $name $sh;
+	addAttr -ln ($name + "B") -at "float" -p $name $sh;
+	if($alpha) {
+		addAttr -ln ($name + "Alpha") -at "float" -min 0 -max 1 -dv 1 $sh;
+	}
+}
+
+proc createTextureSlot(string $sh, int $n) {
+
+	addAttr -ln ("Texture" + $n) -dt "string" $sh;
+
+	$tex = "Tex"+$n;
+	int $i;
+
+	addAttr -ln ($tex + "OperatorRGB") -at "enum" -dv 1 -en "Replace:Modulate:Add:Add Signed:Interpolate Texture:Interpolate Previous:Interpolate Diffuse:Interpolate Constant:" $sh;
+	$dv = 0;
+	for($i = 0; $i < 2; $i++) {
+		if($i == 1) { $dv = 2; }
+		addAttr -ln ($tex + "Arg" + $i + "RGBSource") -at "enum" -dv $dv -en "Texture:Previous:Diffuse:Constant" $sh;
+		addAttr -ln ($tex + "Arg" + $i + "RGBOperand") -at "enum" -en "Source Color:Inverse Source Color:Source Alpha:Inverse Source Alpha" $sh;
+	}
+
+	addAttr -ln ($tex + "OperatorAlpha") -at "enum" -en "Replace:Modulate:Add:Add Signed:Interpolate Texture:Interpolate Previous:Interpolate Diffuse:Interpolate Constant:" $sh;
+	for($i = 0; $i < 2; $i++) {
+		addAttr -ln ($tex + "Arg" + $i + "AlphaSource") -at "enum" -en "Texture:Previous:Diffuse:Constant" $sh;
+		addAttr -ln ($tex + "Arg" + $i + "AlphaOperand") -at "enum" -en "Source Alpha:Inverse Source Alpha" $sh;
+	}
+
+	createColorAttribute($sh, $tex + "ConstantColor", true);
+	
+	addAttr -ln ($tex + "CoordGen") -at "bool" $sh;
+	addAttr -ln ($tex + "CoordGenMode") -at "enum" -en "Reflect:Object Space:Eye Space:" $sh;
+	addAttr -ln ($tex + "AddressingMode") -at "enum" -en "TextureOff:FetchTexture:PassThrough:CullFragment:OffsetTexture:OffsetTextureScale:DependentARTexture:DependentGBTexture:DP3:DP3Texture2D:DP3CubeMap:DP3ReflectCubeMap:DP3ConstEyeReflectCubeMap:DP3DiffuseCubeMap:DP3DepthReplace:" $sh;
+}
+
+global proc phong2NeL(string $sh) {
+	if(!`attributeExists "NeL" $sh` && !`attributeExists "NeLWater" $sh`) {
+		setAttr ($sh + ".specularColor") -type double3 0 0 0 ;
+		addAttr -ln "NeL" -h true -r false -w false -at "bool" -dv true $sh;
+
+		addAttr -ln ShaderType -at "enum" -en "Normal:Bump (not implemented):User Color (don't think it works):Light Map:Specular:Caustics (not implemented):Per Pixel Lighting:Per Pixel Lighting, No Specular:Cloud:Water:"  $sh;
+		addAttr -ln Lit -at "bool" -dv true $sh;
+		addAttr -ln LitVertexColor -at "bool" $sh;
+//	addAttr -ln Shininess -at "double"  -min 0 -smx 100 -dv 0 $sh;
+
+		addAttr -ln AlphaBlend -at "bool" $sh;
+		addAttr -ln BlendSource -at "enum" -en "One:Zero:Source Alpha:Inverse Source Alpha:Source Color:Inverse Source Color:" $sh;
+		addAttr -ln BlendDestination -at "enum" -en "One:Zero:Source Alpha:Inverse Source Alpha:Source Color:Inverse Source Color:" $sh;
+		addAttr -ln AlphaTest -at "bool" $sh;
+		addAttr -ln AlphaTestThreshold -at "double" -min 0 -max 1 -dv 0.5 $sh;	
+
+		addAttr -ln ZFunction -at "enum" -en "Always:Never:Equal:Not Equal:Less:Less or Equal:Greater:Greater or Equal:" -dv 5 $sh;
+		addAttr -ln ZWrite -at "bool" -dv true $sh;
+		addAttr -ln ZBias -at "double" $sh;
+		
+		createColorAttribute($sh, "UserColor", true);
+	
+		addAttr -ln EnableTextureAddressing -at "bool" -dv false $sh;
+		createTextureSlot($sh, 1);
+		createTextureSlot($sh, 2);
+
+		addAttr -ln "LightMap" -dt "string" $sh;
+	}
+}

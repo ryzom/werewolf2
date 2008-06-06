@@ -1,0 +1,76 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsCopyPos.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 14, 2002
+//
+//	DESCRIPTION:	Depending on the input, will either take the
+//					second object and move it to the position of the 
+//					first, or if nothing is passed will do the same
+//					with the selected objects.
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsCopyPos ( string $inputs )
+{
+	// VARIABLES
+	string $firstObject;
+	string $secondObject;
+	string $selected[0];
+	float  $pos[0];
+
+	// First check and see if there are any $inputs given.  
+	if (size($inputs) > 0)
+	{
+		string $broken[0];
+		tokenize ($inputs, $broken);
+		
+		// we should have two objects there.. check the size
+		if (size($broken) != 2)
+			error ("You need to pass two names to jsCopyPos.\nExample: jsCopyPos nurbsSphere1 nurbsSphere2;");
+
+		// now make sure the objects exist
+		if (!`objExists $broken[0]`)
+			error ($broken[0] + " does not exist in this scene. jsCopyPos needs to be passed object names which exist in the scene.");
+
+		// check the second object
+		if (!`objExists $broken[1]`)
+			error ($broken[1] + " does not exist in this scene. jsCopyPos needs to be passed object names which exist in the scene.");
+		
+		// now assign the variables
+		$firstObject = $broken[0];
+		$secondObject = $broken[1];
+	}
+	else
+	{
+		// no Inputs are given.. go based on the seleciton list
+		$selected= `ls -sl`;
+		
+		// check and see if anything's selected
+		if (size($selected) <= 1)
+		{
+			error ("You haven't selected enough objects, and you haven't passed any options to jsCopyPos.\nYou either need to select two objects, or specify which objects you want to copy the position of.");
+		}
+
+		$firstObject = $selected[0];
+		$secondObject = $selected[1];
+	}
+	
+	// duplicate the $secondObject and pointConstrain it to the $firstObject,
+	// then get the translation value and assign it to the $secondObject.
+
+	$dup = `duplicate $secondObject`;
+
+	select $firstObject $dup[0];
+
+	pointConstraint;
+
+	$pos = `getAttr ($dup[0] + ".t")`;
+
+	setAttr ($secondObject + ".t") $pos[0] $pos[1] $pos[2];
+
+	delete $dup[0];
+	print ("// Result: " + $secondObject + " moved to the position of " + $firstObject + "\n");
+	// finished
+}

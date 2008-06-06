@@ -1,0 +1,9 @@
+// Assigns and restores LeafSlotsAttrs to default values
+
+global proc nelAssignRestoreLeafSlotAttributes(string $slot) {
+	nelAssignRestoreSlotAttribtues $slot;
+
+	setAttr -keyable true ($slot+".useBBCastShadows");
+	setAttr -keyable true ($slot+".useFaceNormal");
+	setAttr -keyable true ($slot+".Translucency");
+}

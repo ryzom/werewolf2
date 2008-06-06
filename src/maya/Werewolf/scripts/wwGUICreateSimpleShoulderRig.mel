@@ -1,0 +1,190 @@
+global proc wwGUICreateSimpleShoulderRig () {
+	$win = "wwGUICreateFootRigWin";
+	
+	if (`window -exists $win`)
+		deleteUI $win;
+
+	wwGUICreateSimpleShoulderRigWin $win;
+	wwGUICreateSimpleShoulderRigCB;	
+
+	showWindow $win;
+}
+
+global proc wwGUICreateSimpleShoulderRigBuildCommands () {
+	global string $gwwGCSSRCommands[];
+	clear $gwwGCSSRCommands;
+	
+	string $prefix;
+	string $clavicleJoint;
+	string $upArmJoint;
+	string $parentJoint;
+	string $shoulderControl;
+
+	$prefix          = `textFieldGrp -q -tx wwGCSSRPrefixTF`; 
+	$clavicleJoint   = `textFieldButtonGrp -q -tx wwGCSSRClavicleJointTFBG`;
+	$upArmJoint      = `textFieldButtonGrp -q -tx wwGCSSRUpArmJointTFBG`;
+	$parentJoint     = `textFieldButtonGrp -q -tx wwGCSSRParentJointTFBG`;
+	$shoulderControl = `textFieldButtonGrp -q -tx wwGCSSRShoulderControlTFBG`;
+	
+	$gwwGCSSRCommands[0] = ("wwCreateSimpleShoulderRig \""+$prefix+"\" \""+ $clavicleJoint+"\" \""+  $upArmJoint+"\" \""+  $parentJoint+"\" \""+$shoulderControl+"\"");
+}
+
+global proc wwGUICreateSimpleShoulderRigCB () {
+	string $buttonNames[] = { "wwGCSSRClavicleJointTFBG", "wwGCSSRUpArmJointTFBG", "wwGCSSRParentJointTFBG", "wwGCSSRShoulderControlTFBG" };
+	for ($tfbg in $buttonNames) {
+		textFieldButtonGrp -e 
+			-bc ("jsChooseItem " + $tfbg+"; wwGUICreateSimpleShoulderRigCheckItems")
+			-cc "wwGUICreateSimpleShoulderRigCheckItems"
+			$tfbg;
+	}
+	
+	textFieldGrp -e -cc "wwGUICreateSimpleShoulderRigCheckItems" wwGCSSRPrefixTF;
+	
+	button -e -c "wwGUICreateSimpleShoulderRigShowScript" wwGCSSRShowScriptButton;
+	button -e -c "wwGUICreateSimpleShoulderRigApply" wwGCSSRApplyButton;
+}
+
+global proc wwGUICreateSimpleShoulderRigShowScript () {
+	// build the settings
+	wwGUICreateSimpleShoulderRigBuildCommands;
+
+	global string $gwwGCSSRCommands[];
+
+	print $gwwGCSSRCommands;
+}
+
+global proc wwGUICreateSimpleShoulderRigApply () {
+	// build the settings
+	wwGUICreateSimpleShoulderRigBuildCommands;
+
+	global string $gwwGCSSRCommands[];
+	for ($cmd in $gwwGCSSRCommands)
+		evalEcho $cmd;
+
+}
+global proc wwGUICreateSimpleShoulderRigCheckItems () {
+	int $cj = 0;
+	int $uaj = 0;
+	int $pj = 0;
+	int $sc = 0;
+	global int $wwGCSSRControlButtons[];
+
+	string $cjObj = `textFieldButtonGrp -q -tx wwGCSSRClavicleJointTFBG`;
+	string $uajObj = `textFieldButtonGrp -q -tx wwGCSSRUpArmJointTFBG`;
+	string $pjObj = `textFieldButtonGrp -q -tx wwGCSSRParentJointTFBG`;
+	string $scObj = `textFieldButtonGrp -q -tx wwGCSSRShoulderControlTFBG`;
+	string $pfIn = `textFieldGrp -q -tx wwGCSSRPrefixTF`;
+	
+	// check and see if the objectsExist
+	if (`objExists $cjObj`) $cj = 1;
+	if (`objExists $uajObj`) $uaj = 1;
+	if (`objExists $pjObj`) $pj = 1;
+	if (`objExists $scObj`) $sc = 1;
+
+	// check and see if the prefix is defined.  If not, try and guess it.
+	if (size($pfIn) == 0)
+	{
+		// try and guess the prefix
+		string $obj;
+		if ($cj == 1)
+			$obj = $cjObj;
+		else if ($uaj == 1)
+			$obj = $uajObj;
+		else if ($pj == 1)
+			$obj = $pjObj;
+		else if ($sc == 1)
+			$obj = $sc;
+
+		if ($obj != "")
+		{
+			string $path[0];
+			tokenize($obj, "|", $path);
+			string $break[0];
+			tokenize ($path[size($path)-1], "_", $break);
+			if (size($break) > 1)	
+			{
+				$pfIn = $break[0];
+				textFieldGrp -e -tx $pfIn wwGCSSRPrefixTF;
+			}
+		}
+	}
+	if (size($pfIn) > 0)    $pf = 1;
+
+	if (($cj == 1) && ($uaj == 1) && ($pj == 1) && ($sc == 1))
+	{
+		$wwGCSSRControlButtons[0] = 1;
+		$wwGCSSRControlButtons[1] = 1;
+	}
+	else
+	{
+		$wwGCSSRControlButtons[0] = 0;
+		$wwGCSSRControlButtons[1] = 0;
+	}
+	
+	wwGUICreateSimpleShoulderRigSetButtons;
+}
+
+global proc wwGUICreateSimpleShoulderRigSetButtons () {
+	global int $wwGCSSRControlButtons[];
+	string $buttonNames[] = { "wwGCSSRApplyButton", "wwGCSSRShowScriptButton" };
+
+	for ($x = 0; $x < size($buttonNames); $x++)
+	{
+		button -e -enable $wwGCSSRControlButtons[$x] $buttonNames[$x];	
+	}
+	
+}
+
+global proc wwGUICreateSimpleShoulderRigWin (string $win) {
+	window -t "Simple Shoulder Rig Setup" $win;
+	
+	$f = `formLayout -nd 100`;
+	$tabs = `tabLayout -innerMarginWidth 20 -innerMarginHeight 5`;
+	setParent $f;
+	$applyButton = `button -l "Apply" -enable 0 wwGCSSRApplyButton`;
+	$scriptButton = `button -l "Show Script" -enable 0 wwGCSSRShowScriptButton`;
+	formLayout -e
+		-af $applyButton left 0 
+		-ap $applyButton right 0 50
+		-af $applyButton bottom 0
+
+		-af $scriptButton bottom 0
+		-ap $scriptButton left 0 50
+		-af $scriptButton right 0
+		
+		-af $tabs top 0
+		-af $tabs left 0
+		-af $tabs right 0
+		-ac $tabs bottom 5 $applyButton
+		$f;	
+	
+		// create the tabs
+
+		setParent $tabs;
+		$child1 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested joints for the \nshoulder and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Clavicle Joint:" -bl "Choose" wwGCSSRClavicleJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Up Arm Joint:" -bl "Choose" wwGCSSRUpArmJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Parent Joint:" -bl "Choose" wwGCSSRParentJointTFBG;
+
+		setParent $tabs;
+		$child2 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested controls for the \nshoulder and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Shoulder Control:" -bl "Choose" wwGCSSRShoulderControlTFBG;
+
+		setParent $tabs;
+		$child3 = `columnLayout -adj true`;
+			text -align "left" -l "Please choose the appropriate options.\n";
+	
+			textFieldGrp -cw 1 90 -cw 2 90 -cal 1 "left" -l "Prefix:"  -text "" wwGCSSRPrefixTF;
+			text -l "";
+				
+		tabLayout -edit
+ 			-tabLabel $child1 "FK Joints" -tabLabel $child2 "IK Controls"
+			-tabLabel $child3 "Options"
+ 			$tabs;
+			
+}
+

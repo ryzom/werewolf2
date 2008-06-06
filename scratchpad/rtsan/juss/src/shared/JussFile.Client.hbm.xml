@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="shared.JussFile" table="files">
+		<id name="id" column="fileID" type="long"/>
+
+		<property name="name" column="name"/>
+		<property name="parent" column="parentID"/>    
+		<property name="size"/>
+		<property name="ancestors" column="ancestors" type="text"/>
+		<property name="mainversion" column="mversionID"/>
+		<property name="version" column="version"/>
+		<property name="folder" column="folder"/>
+		<property name="modtime" type="timestamp"/>
+		<property name="exists" column="exists"/>
+    </class>
+
+</hibernate-mapping>

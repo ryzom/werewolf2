@@ -1,0 +1,11 @@
+Debug
+ReleaseDebug
+releasedebug.pdb
+releasedebug.idb
+stdpragma.h
+*.lo
+*.la
+Makefile
+Makefile.in
+.deps
+.libs

@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BillboardShape", "BillboardShape.vcproj", "{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Debug.ActiveCfg = Debug|Win32
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Debug.Build.0 = Debug|Win32
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Release.ActiveCfg = Release|Win32
+		{FBDA5DD5-8DF9-432B-914A-DBAAD3FA26AB}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

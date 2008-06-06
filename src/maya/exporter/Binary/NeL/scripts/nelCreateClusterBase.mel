@@ -1,0 +1,41 @@
+// Convert and object to a Cluster
+
+global proc string nelCreateClusterBase(string $type) {
+	string $transforms[] = `performSetupLod`;
+	string $transform = `rename $transforms[0] ($type + "Cluster")`;
+
+	string $sphereShape = `createNode renderSphere`;
+	string $temp[] = `listRelatives -p $sphereShape`;
+	string $sphere = $temp[0];
+	string $sphere = `rename $sphere ($transform+"_Control")`;
+	$temp = `listRelatives -s -pa -ni $sphere`;
+	$sphereShape = $temp[0];
+
+	$temp = `parent $transform $sphere`;
+	$transform = $temp[0];
+
+	addAttr -ln "Radius" -at "float" -k 0 -dv 1 $transform;
+	addAttr -ln "DistMax" -at "float" -k 1 -dv 500 $transform;
+	addAttr -ln ($type + "Cluster") -at "bool" -h 1 -k 0 -dv 1 $transform;
+
+	addAttr -ln "Radius" -at "float" -k 1 -dv 1 $sphere;
+	connectAttr -f ($sphere+".Radius") ($sphereShape+".radius");
+
+	addAttr -ln "DistMax" -at "float" -k 1 -dv 500 $sphere;
+	connectAttr -f ($sphere+".DistMax") ($transform+".DistMax");
+	
+	string $expr = $transform+".Radius = "+$sphereShape+".radius * "+$sphere+".sx;";
+	expression -s $expr -o "" -n ($transform + "_radius") -ae 0 -uc all;
+
+	setAttr -lock true -keyable false ($sphere+".rx");
+	setAttr -lock true -keyable false ($sphere+".ry");
+	setAttr -lock true -keyable false ($sphere+".rz");
+	connectAttr -f ($sphere+".scaleX") ($sphere+".scaleY");
+	connectAttr -f ($sphere+".scaleX") ($sphere+".scaleZ");
+	setAttr -keyable false ($sphere+".sy");
+	setAttr -keyable false ($sphere+".sz");
+
+	select -r $sphere;
+
+	return $transform;
+}

@@ -1,0 +1,25 @@
+Player-Player Trading view.
+  The trading view features the inventory of your own SOB. A place to put items that you want to trade. A place where you can see what the other guy has put on the table.
+  One can examine the items the other guy offers, but restrictions apply.  For instance, you might be able to perform only a limited set of sensory actions on an item (view but not taste on food for example).  Or their actions might be resticted to a certain quantity of an item. A buyer could taste test a couple of berries, but he wouldn't be allowed to eat the whole thing.
+  Ideas on how to do restrictions:
+    Global: Actions on an item can be classified as mutable. These actions change the item in some way. Consume it, consume part of it etc.
+    1. By default only allow non-mutable actions. Give players the ability to specify additional mutable actions for each item put on the table.
+    2. Only allow non-mutable actions in the trade view. If the trader wants to give the buyer a sample, he has to trade a single item or whatever for nothing and allow the buyer to do whatever he wants to it in his own inventory.
+    
+Player-AI Trading view.
+  The buyer can see all that the trader has on offer. The buyer sees his own inventory. There is an area to put items that the buyer wants to buy - drag and drop from the seller "inventory". There is another area to put items that the buyer wants to sell. In order to make a deal the other side has to accept - this is based on some rule scripts.
+  AI can be influenced via a mini-game. AI is also influenced if you make a good deal with them (from their point of view).
+  
+Automatic Player-Player Trading view. (stands, shops by players)
+  Same as Player-AI trading.
+  
+GRAND IDEA!
+  Make all trading like Player-AI trading. So that the buyer can select items from what the seller has to offer. The seller of course has fine control over what he is offering. Final decision can be made either by rule scripts (players can use scripts as well) or manually.
+
+Idea:
+Buyer's Lists
+Buyers could create shopping lists.  These shopping lists could either be absolute or relative to what the player has in inventory.  In the aboslute sense the buyer could have on their list 100 elderberries, 10 blueberris and 5 strawberries.  They would hit a "Buy shopping list button" and they would purchase the number of items as listed on their shopping list.  Some items on the list can be flagged as a highly desireable item.  In a relative sense, the client checks the buyer's inventory and purchases the number of goods needed to "top off" the buyers inventory.  When a buyer sees a merchant who is offering something on their list the seller will be illuminated.  If the object in the buyer's list has been flagged as being highly desireable, then the player is notified visibly in a notification window and audibly (if the player chooses).  The seller would be illuminated by default red (player modifiable).
+
+Idea:
+Seller's Lists
+Sellers (whether PC or NPC) can create lists of goods which they are willing to sell.  They can place arbitrary restrictions on objects they are willing to sell.  The seller may not be willing to sell to certain clans or buyers who are not skilled enough to use an object.  An AI controlled NPC wouldn't be willing to sell "The Eternal Hammer of Goblin Smiting" to a low level apprentice warrior.  They can also sell but with modifiers if they so choose.  Members of a certain clan get a discount for instance. :) An AI trader might apply modifiers based on memories and attitude towards the buyer.

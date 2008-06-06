@@ -1,0 +1,78 @@
+// A GUI for a NeL LoD
+
+proc makeCheckBox(string $name, string $control) {
+	rowLayout
+		-nc 3
+		-cw3 140 100 100
+		-adj 3
+		-cal 1 "right"
+		-cat 1 "both" 5
+		-cat 2 "both" 0
+		-cat 3 "both" 0;
+		text -l $name;
+		$ckBox = `checkBox -l ""`;
+		text -l "";
+	setParent ..; // rowLayout
+	connectControl $ckBox $control;
+}
+
+proc makeNeLLodItemUI(string $LodGroup, string $LodItem, int $num) {
+	frameLayout 
+		-label $LodItem
+		-labelAlign "bottom"
+		-borderStyle "etchedOut"
+		-collapsable 1;
+	columnLayout -cal "left" -adj 1;
+		if ($num > 0) {
+			attrFieldSliderGrp
+				-l "Threshold"
+				-min 0
+				-max 200
+				-adj 3
+				-at ($LodGroup + ".threshold[" + ($num - 1) + "]");			
+		}
+		attrFieldSliderGrp
+			-l "Blend Length"
+			-min 0
+			-max 20
+			-adj 3
+			-at ($LodItem+".LodBlendLength");
+		makeCheckBox("Blend In", ($LodItem + ".LodBlendIn"));
+		makeCheckBox("Blend Out", ($LodItem + ".LodBlendOut"));
+	setParent ..; // columnLayout		
+	setParent ..; // frameLayout
+}
+
+global proc nelGUILod() {
+	if(`window -exists NelLODwindow`) {
+ 		deleteUI -window "NelLODwindow";
+		print ("Deleted existing window \n");
+	};
+
+	string $selectedLOD[] = `ls -sl -type "lodGroup"`;
+	
+	if(size($selectedLOD) < 1) {
+		error "Please select LOD Group(s)";
+	}
+	window -title "NeL and Maya LOD" NelLODwindow;
+	$tabs = `tabLayout -scrollable 1 -innerMarginWidth 4 -cr 1`;
+	for($lodGroup in $selectedLOD) {
+		$selectedLODOut = $lodGroup + ".output";
+		$LodObjects= `listConnections -t transform $selectedLODOut`;
+	
+		$tab = `columnLayout -adj 1`;
+		int $x=0;
+		for($lodItem in $LodObjects) {
+			if (!`attributeExists "NeLLod" $lodItem`) {
+				select -r $lodGroup;
+				nelCreateLod;
+			}
+				makeNeLLodItemUI($lodGroup, $lodItem, $x);
+				$x++;
+		}
+		setParent ..; // columnLayout (tab)
+		tabLayout -edit -tabLabel $tab $lodGroup $tabs;
+	}
+	showWindow NelLODwindow;
+};
+

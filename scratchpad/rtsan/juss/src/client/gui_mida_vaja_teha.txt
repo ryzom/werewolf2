@@ -1,0 +1,22 @@
+getConf: gui_loaderFrm;
+openConnection(open project click):	add auth check;
+									update recent history -> to conf;
+folder tree: manage users window under project click;
+
+09.05.2005 - Taimo
+------------------
+Parempoolses aknas kui Upload nuppu klõpsates on valitud
+mingi lokaalselt eksiteeriv fail tuleks seda käsitleda kui
+kasutaja soovi vastava faili uue versiooni uploadimiseks 
+serverisse, mitte avada file-selectorit faili valimiseks 
+mida uploadida. Ilmselt siis peaks hüpikmenüüs olema valikud 
+"Upload" ja "Upload..." - esimene faili uusversiooni
+uploadiks serverisse, teine faili valikuks ja uploadiks.
+
+Parempoolsesse aknasse oleks vaja tekitada veerud faili 
+suurusega, muutmisajaga, versiooniga ... jne, et saada 
+täpset ja kiiret ülevaadet failide kohta. Hea oleks kui 
+neid veerge saaks kasutaja omatahtsi lisada ja eemaldada.
+
+Kui saaks resizemist sujuvamaks, kiiremaks, ilusamaks 
+oleks ÜLIMALT tore :)

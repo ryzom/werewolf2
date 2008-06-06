@@ -1,0 +1,35 @@
+struct Input {
+	float4 tex0			: TEXCOORD0;
+	float4 eyeLightVec	: TEXCOORD1; // light vector from VP
+	float4 normalVec	: TEXCOORD2; // normal from VP
+};
+
+struct Output {
+	float4 color	: COLOR;
+};
+
+
+// method to expand a [0, 1] range vector to the range [-1, 1]
+float3 expand(float3 vector)
+{
+    return 2.0 * (vector - 0.5);
+}
+
+Output main(Input IN,
+			uniform float translucency,
+			uniform sampler2D textureMap) {
+	Output OUT;
+
+	// ambient and diffuse colors
+	const float3 ambient = float3(0.1, 0.1, 0.1);
+	const float3 diffuseColor = float3(1.0, 1.0, 1.0);
+
+	// calculate the regular lambertian diffuse contribution and correct that by a factor to "wrap around corners"
+    float3 NdotL = dot(expand(IN.normalVec), expand(IN.eyeLightVec));
+	NdotL = NdotL * (1 - translucency) + translucency;
+
+	// lighting function (Lambert)
+    float3 diffuse = diffuseColor * (saturate(NdotL) + ambient);
+	OUT.color = float4(diffuse, 1) * tex2D(textureMap, IN.tex0.xy);
+	return OUT;
+}

@@ -1,0 +1,4 @@
+<script src="script.as" name="do nothing">
+	<function name="test" return="void"/>
+</script>
+

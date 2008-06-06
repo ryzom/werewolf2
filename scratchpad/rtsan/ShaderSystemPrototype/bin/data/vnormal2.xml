@@ -1,0 +1,4 @@
+<script src="data/vnormal2.as" name="normal mapping VP v2">
+	<function name="getShader" return="string"/>
+	<function name="getType" return="int"/>
+</script>
