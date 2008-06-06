@@ -1,0 +1,40 @@
+CURRENT PROJECTS:
+Help Elo get started
+Village Layout [concept sketches atm]
+Design Document [in progress]
+General Administration [ never complete ;) ]
+
+FUTURE PROJECTS:
+Architectural Concept Art
+Character Concept Art
+
+DEVELOPER NOTES:
+
+July 27, 2004
+The logging bot didn't work out that great.  He was unstable and cranky (much like Kesil).  I've installed another bot but he isn't 100% configured yet.
+Working on world history with elo and a map.
+Created a crude script that computes population growth for societies over time give a number of factors.
+Got my Intuos!  Time to get drawing! :)
+
+June 26, 2004
+Roughed out the valled structure in Maya
+Still working on a viable concept for the village (Elo has a good kernel for an idea that needs fleshing out)
+A bunch of new infrastructure is in place now (logging bot, cvs bot, new cvs location, cvs web, some nice dev web pages) I think we're all set for all the tools we will need.
+
+May 31, 2004
+Well, it has been way too long since my last update.  A big part of this is because of the large shift in technology we'll be using for Werewolf.  We've dropped the qclient idea and we've decided to use NeL (www.nevrax.org).  The ideas are still the same (utilizing tested tech and creating a simple demo and work our way up to a "real" game) but we're just changing the tech we're using.  As you can imagine such a major shift in tech created a fair bit of chaos so we've been recovering and reorganizing from that.
+
+Currently I'm working on the village (Laurelin) layout on paper and in Maya.  I've also been adding content and updating the design doc, coming up with names of some of the more prominent locations in our game.  Fun stuff. :-)  Expect more frequent updates in the coming months as things evolve.
+
+
+November 10,2003
+Working through some gameplay issues and getting them documented in the design doc.  Gameplay issues/documentation will be the major thing I'll be working on in the coming days.  A few minor formatting tweaks recently made to the docs.  Beefed up the setting description as well based on some comments from other people.  I might need to write a bit more depending on comments/future needs.
+
+November 2,2003
+I've been working a lot on the Design Doc still mostly on the history of Backenbog Hollow which has taken a good bit more time than I thought it would.  The biggest reason for this is because I've added a lot more detail to the history than I thought I originally would.  I think this will be a very good thing for the game though as the more detail I add the more cohesive the game feels.  All of this detail also has added a lot of nice ideas for future gameplay and the future direction of the game looks like it will be a lot of fun.
+
+October 22, 2003
+The design doc is really coming along.  Had some nice discussions with folks on IRC and we're really starting to come up with a great history and plot for Werewolf.
+
+October 21, 2003
+Well, it's looking more and more like we'll be using Qfusion and just adding per pixel lighting since it doesn't look to be a huge project (maybe a week or so to implement).  I've also spoken with the Dime folks and they seem to agree with our approach of using qclient until Dime becomes mature enough for the media team to use.  Good stuff!

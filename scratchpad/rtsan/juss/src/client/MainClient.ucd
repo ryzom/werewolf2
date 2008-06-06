@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="client-aid" size="1722,1760" id="client" metadata="uml2-1.0" initialized="true" zoom="0.5" scrolledY="102" tag="10" key="3230303530343131206A757373">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.0 //@children.3/@sourceConnections.2 //@children.3/@sourceConnections.3" name="CConfig" location="360,470" size="251,301" id="shared/CConfig">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="228,252">
+      <children xsi:type="editmodel:MethodEditModel" name="CConfig" id="shared/CConfig#CConfig(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="CConfig" id="shared/CConfig#CConfig()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="load" id="shared/CConfig#load()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="exists" id="shared/CConfig#exists()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="save" id="shared/CConfig#save()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getStringValue" id="shared/CConfig#getStringValue(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getIntValue" id="shared/CConfig#getIntValue(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDoubleValue" id="shared/CConfig#getDoubleValue(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getBooleanValue" id="shared/CConfig#getBooleanValue(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setValue" id="shared/CConfig#setValue(Ljava.lang.String;Z)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setValue" id="shared/CConfig#setValue(Ljava.lang.String;Ljava.lang.Boolean;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setValue" id="shared/CConfig#setValue(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setValue" id="shared/CConfig#setValue(Ljava.lang.String;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setValue" id="shared/CConfig#setValue(Ljava.lang.String;J)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="shared/CConfig->shared/FileManager" source="//@children.0" target="//@children.4" targetEnd="//@children.0/@sourceConnections.0/@children.2" label="//@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,168" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="-1,41"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.1" name="JussClient" location="690,470" size="510,247" id="client/JussClient">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="487,198">
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/JussClient#init()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getConf" id="client/JussClient#getConf()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getClient" id="client/JussClient#getClient()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getTransferManager" id="client/JussClient#getTransferManager()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="downloadFile" id="client/JussClient#downloadFile(Ljava.lang.Long;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="uploadFile" id="client/JussClient#uploadFile(Ljava.lang.String;Ljava.lang.Long;Lshared.CMetadata;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getConnection" id="client/JussClient#getConnection(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="closeConnection" id="client/JussClient#closeConnection(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="openConnection" id="client/JussClient#openConnection(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="newConnection" id="client/JussClient#newConnection(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="shutdown" id="client/JussClient#shutdown()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/JussClient->shared/CConfig" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.2" label="//@children.1/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" size="42,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,123" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="251,123"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/JussClient->shared/FileManager" source="//@children.1" target="//@children.4" targetEnd="//@children.1/@sourceConnections.1/@children.2" label="//@children.1/@sourceConnections.1/@children.0" sourceEnd="//@children.1/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="22,247" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="361,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/JussClient->client/CConnection" source="//@children.1" target="//@children.3" targetEnd="//@children.1/@sourceConnections.2/@children.2" label="//@children.1/@sourceConnections.2/@children.0" sourceEnd="//@children.1/@sourceConnections.2/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" size="42,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="214,246" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="385,-1"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.3/@sourceConnections.0 //@children.3/@sourceConnections.4" name="ClientDBManager" location="330,889" size="298,481" id="client/ClientDBManager">
+    <children xsi:type="editmodel:CompartmentEditModel" size="154,72">
+      <children xsi:type="editmodel:AttributeEditModel" name="dB_FILE" id="client/ClientDBManager#dB_FILE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="hIBERNATE_CONFIG" id="client/ClientDBManager#hIBERNATE_CONFIG"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dB_URL" id="client/ClientDBManager#dB_URL"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="dB_OPTIONS" id="client/ClientDBManager#dB_OPTIONS"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="275,360">
+      <children xsi:type="editmodel:MethodEditModel" name="ClientDBManager" id="client/ClientDBManager#ClientDBManager(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/ClientDBManager#init()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getModTime" id="client/ClientDBManager#getModTime(Ljava.lang.Long;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="hasData" id="client/ClientDBManager#hasData(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="hasMetadata" id="client/ClientDBManager#hasMetadata(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFolderContents" id="client/ClientDBManager#getFolderContents(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMetadata" id="client/ClientDBManager#getMetadata(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addFile" id="client/ClientDBManager#addFile(Lshared.JussFile;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFile" id="client/ClientDBManager#getFile(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="shutdown" id="client/ClientDBManager#shutdown()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getId" id="client/ClientDBManager#getId(Ljava.lang.Long;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addFileList" id="client/ClientDBManager#addFileList(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeDeadFiles" id="client/ClientDBManager#removeDeadFiles(Ljava.util.List;Ljava.lang.Long;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeFile" id="client/ClientDBManager#removeFile(Lshared.JussFile;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeFile" id="client/ClientDBManager#removeFile(Ljava.lang.Long;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getIdListing" id="client/ClientDBManager#getIdListing(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDatedIdListing" id="client/ClientDBManager#getDatedIdListing(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setMetadata" id="client/ClientDBManager#setMetadata(Lshared.CMetadata;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setMetadataList" id="client/ClientDBManager#setMetadataList(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setFileExists" id="client/ClientDBManager#setFileExists(Lshared.JussFile;Z)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/ClientDBManager->shared/FileManager" source="//@children.2" target="//@children.4" targetEnd="//@children.2/@sourceConnections.0/@children.2" label="//@children.2/@sourceConnections.0/@children.0" sourceEnd="//@children.2/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="159,481" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="138,0"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.2" name="CConnection" location="760,890" size="413,697" id="client/CConnection">
+    <children xsi:type="editmodel:CompartmentEditModel" size="111,36">
+      <children xsi:type="editmodel:AttributeEditModel" name="jUSSFILE" id="client/CConnection#jUSSFILE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mETADATA" id="client/CConnection#mETADATA"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="390,612">
+      <children xsi:type="editmodel:MethodEditModel" name="CConnection" id="client/CConnection#CConnection(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/CConnection#init()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="isConnected" id="client/CConnection#isConnected()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getServer" id="client/CConnection#getServer()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getRoot" id="client/CConnection#getRoot()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getName" id="client/CConnection#getName()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="isValid" id="client/CConnection#isValid()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="login" id="client/CConnection#login(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="checkLogin" id="client/CConnection#checkLogin()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="verifyData" id="client/CConnection#verifyData(Ljava.lang.Long;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getListing" id="client/CConnection#getListing(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createMissingFolders" id="client/CConnection#createMissingFolders(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createMissingFolder" id="client/CConnection#createMissingFolder(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createMissingAncestorFolders" id="client/CConnection#createMissingAncestorFolders(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createMissingAncestorFolders" id="client/CConnection#createMissingAncestorFolders(Lshared.JussFile;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getIdListing" id="client/CConnection#getIdListing(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeDeadFiles" id="client/CConnection#removeDeadFiles(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeDeadFiles" id="client/CConnection#removeDeadFiles(Ljava.util.List;Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeFile" id="client/CConnection#removeFile(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="checkPermission" id="client/CConnection#checkPermission(Ljava.lang.Long;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMetadata" id="client/CConnection#getMetadata(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getMetadataFromServer" id="client/CConnection#getMetadataFromServer(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getDBManager" id="client/CConnection#getDBManager()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="close" id="client/CConnection#close()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFile" id="client/CConnection#getFile(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFilesFromServer" id="client/CConnection#getFilesFromServer(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getJussFilesFromServer" id="client/CConnection#getJussFilesFromServer(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createFolder" id="client/CConnection#createFolder(Ljava.lang.Long;Ljava.lang.String;Lshared.CMetadata;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fileExists" id="client/CConnection#fileExists(Ljava.lang.Long;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fileExists" id="client/CConnection#fileExists(Lshared.JussFile;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setNewFileExists" id="client/CConnection#setNewFileExists(Lshared.JussFile;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="checkIfFilesExist" id="client/CConnection#checkIfFilesExist(Ljava.util.List;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="search" id="client/CConnection#search(Lshared.SearchCriteria;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getErrorMessage" id="client/CConnection#getErrorMessage()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="client/ClientDBManager@dbManager+client/CConnection@" source="//@children.3" target="//@children.2" targetEnd="//@children.3/@sourceConnections.0/@children.2" label="//@children.3/@sourceConnections.0/@children.0" sourceEnd="//@children.3/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="1,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,239" id="client/ClientDBManager@dbManager+client/CConnection@|client/CConnection#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="dbManager" location="298,240" id="client/ClientDBManager@dbManager+client/CConnection@|client/ClientDBManager#dbManager" multiplicityLabel="//@children.3/@sourceConnections.0/@children.2/@children.1" roleLabel="//@children.3/@sourceConnections.0/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - dbManager" location="635,1107" size="65,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="635,1135" size="7,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/CConnection->client/JussClient" source="//@children.3" target="//@children.1" targetEnd="//@children.3/@sourceConnections.1/@children.2" label="//@children.3/@sourceConnections.1/@children.0" sourceEnd="//@children.3/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="206,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="276,247"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="shared/CConfig@conf+client/CConnection@" source="//@children.3" target="//@children.0" targetEnd="//@children.3/@sourceConnections.2/@children.2" label="//@children.3/@sourceConnections.2/@children.0" sourceEnd="//@children.3/@sourceConnections.2/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="1,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="84,-1" id="shared/CConfig@conf+client/CConnection@|client/CConnection#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="conf" location="-1,263" id="shared/CConfig@conf+client/CConnection@|shared/CConfig#conf" multiplicityLabel="//@children.3/@sourceConnections.2/@children.2/@children.1" roleLabel="//@children.3/@sourceConnections.2/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - conf" location="320,711" size="33,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="1" location="346,739" size="7,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/CConnection->shared/CConfig" source="//@children.3" target="//@children.0" targetEnd="//@children.3/@sourceConnections.3/@children.2" label="//@children.3/@sourceConnections.3/@children.0" sourceEnd="//@children.3/@sourceConnections.3/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" size="42,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="117,-1" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="-1,278"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/CConnection->client/ClientDBManager" source="//@children.3" target="//@children.2" targetEnd="//@children.3/@sourceConnections.4/@children.2" label="//@children.3/@sourceConnections.4/@children.0" sourceEnd="//@children.3/@sourceConnections.4/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" location="648,1080" size="42,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-10.0" distanceFromWire="-25.0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,206" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="298,209"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.1 //@children.2/@sourceConnections.0 //@children.0/@sourceConnections.0" name="FileManager" location="351,1389" size="385,337" id="shared/FileManager">
+    <children xsi:type="editmodel:CompartmentEditModel" size="128,126">
+      <children xsi:type="editmodel:AttributeEditModel" name="chunkSize" id="shared/FileManager#chunkSize"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="oVERWRITE" id="shared/FileManager#oVERWRITE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="nEW_VERSION" id="shared/FileManager#nEW_VERSION"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="f_READ" id="shared/FileManager#f_READ"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="f_CREATE" id="shared/FileManager#f_CREATE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="f_WRITE" id="shared/FileManager#f_WRITE"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="f_DELETE" id="shared/FileManager#f_DELETE"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="362,162">
+      <children xsi:type="editmodel:MethodEditModel" name="copyFile" id="shared/FileManager#copyFile(Ljava.io.File;Ljava.io.File;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="copyFile" id="shared/FileManager#copyFile(Ljava.io.File;Ljava.io.File;Lshared.IProgress;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="saveToFile" id="shared/FileManager#saveToFile(Ljava.io.InputStream;Ljava.io.File;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="saveToFile" id="shared/FileManager#saveToFile(Ljava.io.InputStream;Ljava.io.File;Lshared.IProgress;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="saveToStream" id="shared/FileManager#saveToStream(Ljava.io.InputStream;Ljava.io.OutputStream;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="saveToStream" id="shared/FileManager#saveToStream(Ljava.io.InputStream;Ljava.io.OutputStream;Lshared.IProgress;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fixSlashes" id="shared/FileManager#fixSlashes(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteFile" id="shared/FileManager#deleteFile(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteFile" id="shared/FileManager#deleteFile(Ljava.io.File;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=7"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showInterfaceStereotype="true" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

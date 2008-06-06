@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<conf>
+	<MaxUploadSize value="11000000"/>
+	<root value="/home/tp/dev/jussdata/server"/>
+</conf>

@@ -1,0 +1,207 @@
+// Script to create the NeL file menu 
+
+global proc wwMenu(int $dev) {
+	global string $gMainWindow;
+
+	if(`menu -exists wwUIMenu`) {
+		deleteUI -menu "wwUIMenu";
+	}
+
+	menu
+		-label "Werewolf" 
+		-tearOff true 
+		-parent $gMainWindow
+		-allowOptionBoxes true
+		"wwUIMenu";
+
+	menuItem -l "Normal Tools"
+		-p "wwUIMenu"
+		-tearOff true
+		-subMenu true
+		-allowOptionBoxes true
+		"wwNormalToolsMenu";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwPerformUnifyNormals.mel;\rsource wwModifyUnifyNormals.mel;\r\n";
+		}
+		$command += "wwPerformUnifyNormals";
+		menuItem -l "Unify Normals"
+			-ann "Unify the normals of the selected vertices that overlap. In other words assigns the average of those normals to each of the vertices."
+			-echoCommand true
+			-c ($command + " 0")
+			"wwModifyUnifyNormalsItem";
+			menuItem -optionBox true
+				-label "Unify Normals Option Box"
+				-ann "Unify the normals of the selected vertices that overlap. Option Box."
+				-c ($command + " 1")
+				"wwModifyUnifyNormalsOptItem";
+	
+		$command = "";
+		if($dev) {
+			$command += "source wwGUITransferVFNormals.mel;\rsource wwModifyTransferVFNormals.mel;\rsource wwModifyTransferNormal.mel;\n";
+		}
+		$command += "wwGUITransferVFNormals;";
+		menuItem -l "Transfer Vertex Face Normals"
+			-ann "GUI to transfer normals from one set of vertex faces to another."
+			-echoCommand true
+			-c $command
+			"wwGUITransferVFNormalsItem";
+	
+		$command = "";
+		if($dev) {
+			$command += "source wwGUITransferNormals.mel;\rsource wwModifyTransferNormals.mel;\rsource wwModifyTransferNormal.mel;\n";
+		}
+		$command += "wwGUITransferNormals;";
+		menuItem -l "Transfer Normals"
+			-ann "GUI to transfer normals from one set of vertices to another."
+			-echoCommand true
+			-c $command
+			"wwGUITransferNormalsItem";
+	
+		$command = "";
+		if($dev) {
+			$command += "source wwGUITransferNormal.mel;\rsource wwModifyTransferNormal.mel;\r\n";
+		}
+		$command += "wwGUITransferNormal;";
+		menuItem -l "Transfer Normal"
+			-ann "GUI to transfer the normal from a single vertex to another."
+			-echoCommand true
+			-c $command
+			"wwGUITransferNormalItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwModifyNormalsSmoothing.mel;\r\n";
+		}
+		$command += "wwModifyNormalsSmoothing;";
+		menuItem -l "Smooth Normals"
+			-ann "Smooths the normals of the selected (single) mesh by creating a high-rez version and trying to find the closest normal to each vertex."
+			-echoCommand true
+			-c $command
+			"wwModifyNormalsSmoothingItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwPerformSeamlessNormalsSmoothing.mel;\rsource wwModifySeamlessNormalsSmoothing.mel;\r\n";
+		}
+		$command += "wwPerformSeamlessNormalsSmoothing";
+		menuItem -l "Seamless Smooth Normals"
+			-ann "Smooths the normals of the selected meshes by attempting to merge them and then creating a high-rez version and trying to find the closest normal to each vertex."
+			-echoCommand true
+			-c ($command + " 0")
+			"wwModifySeamlessNormalsSmoothingItem";
+			menuItem -optionBox true
+				-label "Seamless Smooth Normals Option Box"
+				-ann "Seamlessly smooth normals. Option Box."
+				-c ($command + " 1")
+				"wwModifySeamlessNormalsSmoothingOptItem";
+	
+	setParent -m ..;
+
+	menuItem -l "Rigging Tools"
+		-p "wwUIMenu"
+		-tearOff true
+		-subMenu true
+		-allowOptionBoxes true
+		"wwRiggingMenu";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwModifyZeroJointOrient.mel;\r\n";
+		}
+		$command += "wwModifyZeroJointOrient;";
+		menuItem -l "Zero Joint Orient"
+			-ann "Zeroes out the joint orient of the end joints in the selected skeleton"
+			-echoCommand true
+			-c $command
+			"wwModifyZeroJointOrientItem";
+		
+		$command = "";
+		if($dev) {
+			$command += "source jsFkIkSetup.mel;\r\n";
+		}
+		$command += "jsFkIkSetup;";
+		menuItem -l "FK/IK Arm Setup"
+			-ann "Creates an FK/IK Arm Setup"
+			-echoCommand true
+			-c $command
+			"jsFkIkSetupItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source jsFkIkWin.mel;\r\n";
+		}
+		$command += "jsFkIkWin;";
+		menuItem -l "FK/IK Control Window"
+			-ann "Displays the FK/IK Control Window"
+			-echoCommand true
+			-c $command
+			"jsFkIkWinItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwGUICreateFootRig.mel; source wwCreateFootRig.mel;\r\n";
+		}
+		$command += "wwGUICreateFootRig;";
+		menuItem -l "Foot Rig"
+			-ann "Create Foot Rig"
+			-echoCommand true
+			-c $command
+			"wwGUICreateFootRigItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwGUICreateFkIkBackRig.mel; source wwCreateFkIkBackRig.mel;\r\n";
+		}
+		$command += "wwGUICreateFkIkBackRig;";
+		menuItem -l "FK/IK Back Rig"
+			-ann "Create FK/IK Back Rig"
+			-echoCommand true
+			-c $command
+			"wwGUICreateFkIkBackRigItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwGUICreateSimpleShoulderRig.mel; source wwCreateSimpleShoulderRig.mel;\r\n";
+		}
+		$command += "wwGUICreateSimpleShoulderRig;";
+		menuItem -l "Simple Shoulder Rig"
+			-ann "Create Simple Shoulder Rig"
+			-echoCommand true
+			-c $command
+			"wwGUICreateSimpleShoulderRigItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source wwGUICreateIsolatedHeadRig.mel; source wwCreateIsolatedHeadRig.mel;\r\n";
+		}
+		$command += "wwGUICreateIsolatedHeadRig;";
+		menuItem -l "Isolated Head Rig"
+			-ann "Create Isolated Head Rig"
+			-echoCommand true
+			-c $command
+			"wwGUICreateIsolatedHeadRigItem";
+
+	setParent -m ..;
+
+	menuItem -l "UV Tools"
+		-p "wwUIMenu"
+		-tearOff true
+		-subMenu true
+		-allowOptionBoxes true
+		"wwUVToolsMenu";
+
+		$command = "";
+		if($dev) {
+			$command += "source uvXfer.mel;\r\n";
+		}
+		$command += "uvXfer";
+		menuItem -l "UV Transfer"
+			-ann "Transfers UVs from one mesh to another. Select the source mesh and then the vertices of the destination mesh."
+			-echoCommand true
+			-c $command
+			"wwUvXfer";
+
+	setParent -m ..;
+}

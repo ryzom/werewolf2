@@ -1,0 +1,147 @@
+/////////////////////////////////////
+// CURRENT
+/////////////////////////////////////
+
+Login:
+CLIENT
+CNetworkTask::cbLGCharList();
+CPreGameTask::handleCharSelectBtn();
+
+SPW -> SERVER
+callbacks:cbSpawn
+	CServerSimulation::userLogin
+
+SPWACK -> CLIENT
+CNetworkTask::cbSpawnAck
+	CClientSimulation::spawnSelf
+
+Logout:
+SERVER
+callbacks::onDisconnectClient
+	CServerSimulation:userLogout
+
+
+/////////////////////////////////////
+// TODO
+/////////////////////////////////////
+
+* Event filtering. Fix canTransition.
+* Implement pooling.
+* Make a grid datastructure/service to keep track of and check proximity.
+* Document controller/handler/view/event flow structure on the wiki. 
+* Document listened-to events on event-listeners in their class details for doxygen. 
+* Login (DONE)
+	CLIENT:
+	* handleCharSelectBtn posts CGameSpawnRequestEvent. (DONE)
+	* CClientEventManager listens to CGameSpawnRequestEvent and sends it to server. (DONE)
+	SERVER:
+	* cbGameEvent serializes the CGameSpawnRequestEvent and posts it. (DONE)
+	* CGameEventManager listens to CGameSpawnRequestEvent and does checks to see if spawn is possible. (DONE)
+		* Check if the player owns the character. (DONE)
+		* Check if character not already in simulation.
+		* Check if player already has another character in simulation?
+		* create/load the SOB and create the SOV.  (DONE)
+	* SOV ctor is called. (DONE)
+		* Add SOB to the location grid. (DONE)
+		* create a CSobSpawnEvent event. (DONE)
+		* Post CSobSpawnEvent. (DONE)
+	* SOV intercepts CSobSpawnEvent  (DONE)
+		* Get the list of SOBs around it. (DONE)
+		* Send CSobSpawnEvent to client that requested spawn. (DONE)
+		* Post CSobAddEvent(spawned SOB) to every SOB around. (DONE) 
+		* Post CSobAddEvent(SOB) to spawned SOB for every SOB around. (DONE)
+	CLIENT:
+	* CSobSpawnEvent is serialized and posted. (DONE)
+	* CClientEventManager listens to CSobSpawnEvent. (DONE)
+		* Create a SOB from CSobSpawnEvent. (DONE)
+		* The new SOB is inserted into the simulation and assigned interactive controllers etc. (DONE)
+	SERVER:
+	* SOV intercepts every CSobAddEvent, adds itself as a listener to the SOB and relays the event to the client. (DONE)
+	CLIENT:
+	* CSobAddEvent is serialized and posted. (DONE)
+	* CClientEventManager or CSomethingCompletelyDifferent listens to CSobAddEvent. (DONE)
+		* Create a SOB from CSobAddEvent. (DONE)
+		* The SOB is inserted into the simulation and assigned network controllers etc. (DONE)
+* Logout
+	CLIENT: 
+	* 1. Logout, 2. disconnect (exit) or 3. drop socket (crash).
+	* Case 1 or 2, CClientEventManager sends CGameUnspawnRequestEvent.
+	* Simulation is flushed.
+	SERVER:
+	* Case 1 or 2, cbGameEvent serializes the event and posts it.
+	* Else the dropped socket callback posts CGameUnspawnRequestEvent. (DONE)
+	* CGameEventManager listens for CGameUnspawnRequestEvent and sends CSobUnspawnEvent. (DONE)
+	* SOV of other SOBs intercepts CSobUnspawnEvent. (DONE)
+		* Remove SOV as listener for this SOB. (DONE)
+		* Send CSobRemoveEvent to client. (DONE)
+	* CGameEventManager listens for CSobUnspawnEvent. (DONE)
+		* Persist the SOB. (DONE)
+		* Remove the sob from the simulation.  (DONE)
+	CLIENT:
+	* CSobRemoveEvent is serialized and posted (DONE)
+	* CClientEventManager or CSomethingCompletelyDifferent listens to CSobRemoveEvent. (DONE)
+		* Remove given SOB from simulation. (DONE)
+* Motion (DONE)
+	SERVER:
+	* CVisibilityController update. (DONE)
+		* Every cell.width/(2*speed) seconds check if cell position changed. (multiplier 2 could be higher for more accurate checks). (DONE)
+			* Register with CVisibilityManager. (DONE)
+	* CVisibilityManager update. (DONE)
+		* For every SOB that changed - get the list of out of range SOBs. (DONE)
+			* For every out of range SOB. (DONE)
+				* Post CSobRemoveEvent(SOB) to the changed SOB. (DONE)
+				* Post CSobRemoveEvent(changed SOB) to the out of range SOB. (DONE)
+		* For every SOB that changed - change grid positions. (DONE)
+		* For every SOB that changed - get the list of new SOBs in range. (DONE)
+			* For every new SOB. (DONE)
+				* Post CSobAddEvent(SOB) to the changed SOB. (DONE)
+				* Post CSobAddEvent(changed SOB) to the new SOB. (DONE)
+	* SOV intercepts CSobRemoveEvent. (DONE)
+		* Remove SOV from the list of listeners for the removed SOB. (DONE)
+		* Relay CSobRemoveEvent to the client. (DONE)
+	* SOV intercepts CSobAddEvent. (DONE)
+		* Add SOV to the list of listeners for the new SOB. (DONE)
+		* Relay CSobAddEvent to the client. (DONE)
+	CLIENT:
+	* CSobRemoveEvent is serialized and posted. (DONE)
+	* CClientEventManager or CSomethingCompletelyDifferent listens to CSobRemoveEvent. (DONE)
+		* Remove given SOB from simulation. (DONE)
+	* CSobAddEvent is serialized and posted. (DONE)
+	* CClientEventManager or CSomethingCompletelyDifferent listens to CSobAddEvent. (DONE)
+		* Create a SOB from CSobAddEvent. (DONE)
+		* The SOB is inserted into the simulation and assigned network controllers etc. (DONE)
+
+/////////////////////////////////////
+// Iterations
+/////////////////////////////////////
+Iteration #0: (DONE)
+	Name standin classes and methods. (DONE)
+	Discuss the plan and work distribution. (DONE)
+Iteration #1: (DONE)
+	Login and Logout with dummy grid implementation. Range check returns all SOBs. (DONE)
+	Implement event filtering. (DONE)
+	This should give us a working system where everyone can see everyone else.
+Iteration #2:
+	Implement pooling.
+	Add grid implementation and motion spawning. (DONE)
+
+/////////////////////////////////////
+// Plan
+/////////////////////////////////////
+
+* event classes (DONE)
+* CClientEventManager (DONE) 
+* handleCharSelectBtn (DONE)
+* cbGameEvent and GVT (DONE)
+* CGameEventManager (DONE)
+* CProximityManager (DONE)
+* delete SPW/SPWACK
+* delete old code
+
+/////////////////////////////////////
+// More stuff TODO
+/////////////////////////////////////
+
+* Send current state with add (DONE)
+* soften the spawn
+

@@ -1,0 +1,11 @@
+CURRENT PROJECTS:
+
+during infra support for team - cvs, web, etc.
+
+FUTURE PROJECTS:
+DEVELOPER NOTES:
+
+27 July 2004 -- turned on cvs mail script (new version of newlog.pl and commit_prep.pl)
+24 June 2004 -- new ciabot_cvs.pl script
+02 July 2004 -- new log_cvs.pl script
+16 July 2004 -- turned back on the old commit mail script

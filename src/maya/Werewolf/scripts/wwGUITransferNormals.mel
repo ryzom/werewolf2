@@ -1,0 +1,123 @@
+global proc wwGUITransferNormals() {
+	$win = "wwGUITransferNormalsWin";
+	if(`window -exists $win`)
+		deleteUI $win;
+	
+	wwCreateTransferNormalsWin $win;
+	wwCreateTransferNormalsCB $win;
+
+	showWindow $win;
+}
+
+// register callbacks
+global proc wwCreateTransferNormalsCB(string $win) {
+	button -e -c "wwTransferNormalsGetFrom" wwTransferNormalsFromButton;
+	button -e -c "wwTransferNormalsGetTo" wwTransferNormalsToButton;
+	button -e -c ("deleteUI " + $win) wwTransferNormalsCloseButton;
+	button -e -c "wwTransferNormalsClear" wwTransferNormalsClearButton;
+	button -e -c "wwTransferNormalsApply" wwTransferNormalsApplyButton;
+	button -e -c ("wwTransferNormalsApply;"+"deleteUI " + $win + ";") wwTransferNormalsTransferButton;
+}
+
+global proc wwTransferNormalsGetFrom() {
+	string $fv[] = `filterExpand -sm 70`;
+	string $s[] = `filterExpand -sm 31`;
+	textField -e -tx (`stringArrayToString $s " "` + " " + `stringArrayToString $fv " "`) wwTransferNormalsFrom;
+}
+
+global proc wwTransferNormalsGetTo() {
+	string $fv[] = `filterExpand -sm 70`;
+	string $s[] = `filterExpand -sm 31`;
+	textField -e -tx (`stringArrayToString $s " "` + " " + `stringArrayToString $fv " "`) wwTransferNormalsTo;
+}
+
+global proc wwTransferNormalsClear() {
+	textField -e -tx "" wwTransferNormalsFrom;
+	textField -e -tx "" wwTransferNormalsTo;	
+}
+
+global proc wwTransferNormalsApply() {
+	string $fromString = `textField -q -tx wwTransferNormalsFrom`;
+	string $toString = `textField -q -tx wwTransferNormalsTo`;
+	string $from[] = `stringToStringArray $fromString  " "`;
+	string $to[] = `stringToStringArray $toString  " "`;
+	float $threshold = `floatSliderGrp -q -v wwTransferNormalsThreshold`;
+	wwModifyTransferNormals $from $to $threshold;
+}
+
+// create the actual GUI
+global proc wwCreateTransferNormalsWin(string $win) {
+	window -t "Transfer Normals" $win;
+	$f = `formLayout -nd 100`;
+	setParent $f;
+	$transferButton = `button -l "Transfer" wwTransferNormalsTransferButton`;
+	$applyButton = `button -l  "Apply" wwTransferNormalsApplyButton`;
+	$closeButton = `button -l  "Close" wwTransferNormalsCloseButton`;
+	$clearButton = `button -l  "Clear" wwTransferNormalsClearButton`;
+	$usageLabel = `text -l "Usage:" -font "boldLabelFont"`;
+	$usage = `scrollField -tx "Select the vertices you want to transfer from and the vertices you want to transfer to. The script will find vertices that match the specified threshold and transfer normal information. Note that every vertex in the 'from' list is traversed. So if some vertices in the 'to' list are close enough to several of the 'from' vertices the results are undefined (probably depends on the oder in which the 'from' vertices were selected tho)" -ed 0 -ww 1`;
+	$labelWidth = 60;
+	$buttonWidth = 40;
+	$threshold = `floatSliderGrp -field on -label "Threshold" -cw 1 ($labelWidth + 5) -max 1.0 -value 0.0001 -pre 6 -fs 0.0001 wwTransferNormalsThreshold`;
+	$fromLabel = `text -l "From: " -font "boldLabelFont" -al right -w $labelWidth`;
+	$from = `textField wwTransferNormalsFrom`;
+	$fromButton = `button -l "Get" -w $buttonWidth wwTransferNormalsFromButton`;
+	$toLabel = `text -l "To: " -font "boldLabelFont" -al right -w $labelWidth`;
+	$to = `textField wwTransferNormalsTo`;
+	$toButton = `button -l "Get" -w $buttonWidth wwTransferNormalsToButton`;
+	formLayout -e
+		-af $transferButton left 0
+		-af $transferButton bottom 0
+		-ap $transferButton right 0 25
+		
+		-af $applyButton bottom 0
+		-ac $applyButton left 0 $transferButton
+		-ap $applyButton right 0 50
+
+		-af $clearButton bottom 0
+		-ac $clearButton left 0 $applyButton
+		-ap $clearButton right 0 75
+		
+		-af $closeButton bottom 0
+		-ac $closeButton left 0 $clearButton
+		-af $closeButton right 0
+
+		-ac $toLabel bottom 10 $transferButton
+		-af $toLabel left 0
+		-an $toLabel right
+
+		-af $toButton right 0
+		-ac $toButton bottom 10 $transferButton
+		-an $toButton left
+
+		-ac $to bottom 10 $transferButton
+		-ac $to left 5 $toLabel
+		-ac $to right 5 $toButton
+
+		-ac $fromLabel bottom 5 $to
+		-af $fromLabel left 0
+		-an $fromLabel right
+
+		-af $fromButton right 0
+		-ac $fromButton bottom 5 $to
+		-an $fromButton left
+
+		-ac $from bottom 5 $to
+		-ac $from left 5 $fromLabel
+		-ac $from right 5 $fromButton
+
+		-af $threshold left 0
+		-af $threshold right 0
+		-ac $threshold bottom 5 $from
+
+		-af $usageLabel top 0
+		-af $usageLabel left 0
+
+		-af $usage left 0
+		-af $usage right 0
+		-ac $usage top 0 $usageLabel
+		-ac $usage bottom 15 $threshold
+
+		$f;
+	
+}

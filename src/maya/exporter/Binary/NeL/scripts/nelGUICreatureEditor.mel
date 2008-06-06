@@ -1,0 +1,378 @@
+global proc nelGUICreateCreatureEditorWin (string $win) {
+	window -title "NeL Creature Editor" $win;
+
+	$f = `formLayout -nd 205`;
+	text -l "Creatures in Scene" nelCreatureInSceneT;
+	textScrollList -nr 10 -ams 0 nelCreatureListTSL;
+	button -l "Add Creature" nelCreatureAddCreatureB;
+	button -l "Remove Creature" nelCreatureRemoveCreatureB;
+	button -l "Refresh" nelCreatureRefreshB;
+	button -l "Export" nelCreatureExportB;
+	button -l "Properties" nelCreaturePropertiesB;
+	separator -hr false nelCreatureCreatureS;
+	text -l "Connected Objects" nelCreatureConnectedT;
+	textScrollList -nr 10 -ams 0 nelCreatureConnectedTSL;
+	button -l "Add Objects" nelCreatureAddObjectB;
+	button -l "Select Hilighted Object" nelCreatureSelectObjectB;
+	button -l "Remove Object" nelCreatureRemoveObjectB;
+	separator -hr false nelCreatureObjectS;
+	text -l "Available Channels" nelCreatureAvailableT;
+	textScrollList -nr 10 -ams 1 nelCreatureAvailableTSL;
+	button -l ">>>" nelCreatureAddAnimatedB;
+	button -l "<<<" nelCreatureRemoveAnimatedB;
+	text -l "Animated Channels" nelCreatureAnimatedT;
+	textScrollList -nr 10 -ams 1 nelCreatureAnimatedTSL;
+
+	formLayout -e
+		// creatures
+		-af nelCreatureInSceneT top 5
+		-af nelCreatureInSceneT left 5
+		-ap nelCreatureInSceneT right 0 45
+
+		-af nelCreatureAddCreatureB left 5
+		-ap nelCreatureAddCreatureB right 0 22
+		-af nelCreatureAddCreatureB bottom 5
+
+		-ap nelCreatureRemoveCreatureB left 0 24
+		-ap nelCreatureRemoveCreatureB right 0 45
+		-af nelCreatureRemoveCreatureB bottom 5
+
+		-af nelCreatureExportB left 5
+		-ap nelCreatureExportB right 0 22
+		-ac nelCreatureExportB bottom 5 nelCreatureRemoveCreatureB
+		-an nelCreatureExportB top
+
+		-ap nelCreaturePropertiesB left 0 24
+		-ap nelCreaturePropertiesB right 0 45
+		-ac nelCreaturePropertiesB bottom 5 nelCreatureRemoveCreatureB
+		-an nelCreaturePropertiesB top
+		
+		-ac nelCreatureRefreshB bottom 5 nelCreaturePropertiesB
+		-af nelCreatureRefreshB left 5
+		-an nelCreatureRefreshB top
+		-ap nelCreatureRefreshB right 0 45
+
+		-ac nelCreatureListTSL top 5 nelCreatureInSceneT
+		-af nelCreatureListTSL left 5
+		-ac nelCreatureListTSL bottom 5 nelCreatureRefreshB
+		-ap nelCreatureListTSL right 0 45
+
+		// separator
+		-ac nelCreatureCreatureS left 5 nelCreatureInSceneT
+		-af nelCreatureCreatureS top 5
+		-af nelCreatureCreatureS bottom 5
+
+		// connected objects
+		-af nelCreatureConnectedT top 5
+		-ac nelCreatureConnectedT left 5 nelCreatureCreatureS
+		-ap nelCreatureConnectedT right 0 95
+
+		-ac nelCreatureAddObjectB left 5 nelCreatureCreatureS
+		-ap nelCreatureAddObjectB right 0 73
+		-af nelCreatureAddObjectB bottom 5
+
+		-ap nelCreatureRemoveObjectB left 0 75
+		-ap nelCreatureRemoveObjectB right 0 95
+		-af nelCreatureRemoveObjectB bottom 5
+	
+		-ac nelCreatureSelectObjectB left 5 nelCreatureCreatureS
+		-an nelCreatureSelectObjectB top 
+		-ap nelCreatureSelectObjectB right 0 95
+		-ac nelCreatureSelectObjectB bottom 5 nelCreatureRemoveObjectB
+
+		-ac nelCreatureConnectedTSL left 5 nelCreatureCreatureS
+		-ac nelCreatureConnectedTSL top 5 nelCreatureConnectedT
+		-ap nelCreatureConnectedTSL right 0 95
+		-ac nelCreatureConnectedTSL bottom 5 nelCreatureSelectObjectB		
+
+		// separator
+		-ac nelCreatureObjectS left 5 nelCreatureConnectedT
+		-af nelCreatureObjectS top 5
+		-af nelCreatureObjectS bottom 5
+
+		// available channels
+		-af nelCreatureAvailableT top 5
+		-ac nelCreatureAvailableT left 5 nelCreatureObjectS
+		-ap nelCreatureAvailableT right 0 145
+
+		-ac nelCreatureAvailableTSL left 5 nelCreatureObjectS
+		-ac nelCreatureAvailableTSL top 5 nelCreatureAvailableT
+		-ap nelCreatureAvailableTSL right 0 145
+		-af nelCreatureAvailableTSL bottom 5
+
+		// channel buttons
+		-ac nelCreatureAddAnimatedB left 5 nelCreatureAvailableT
+		-ap nelCreatureAddAnimatedB right 0 155
+		-ap nelCreatureAddAnimatedB top 0 100
+
+		-ac nelCreatureRemoveAnimatedB left 5 nelCreatureAvailableT
+		-ac nelCreatureRemoveAnimatedB top 5 nelCreatureAddAnimatedB
+		-ap nelCreatureRemoveAnimatedB right 0 155
+
+		// animateable channels
+		-af nelCreatureAnimatedT top 5
+		-ac nelCreatureAnimatedT left 5 nelCreatureAddAnimatedB
+		-af nelCreatureAnimatedT right 5
+
+		-ac nelCreatureAnimatedTSL left 5 nelCreatureAddAnimatedB
+		-ac nelCreatureAnimatedTSL top 5 nelCreatureAnimatedT
+		-af nelCreatureAnimatedTSL right 5
+		-af nelCreatureAnimatedTSL bottom 5
+	$f;
+}
+
+global proc nelGUICreateCreatureEditorWinCB () {
+	// nelCreatureListTSL
+	// 		selected: update the nelCreatureConnectedTSL
+	//			with a list of all connected objects
+	//		double-clicked: rename a creature
+	textScrollList -e
+		-sc "nelGUICreatureEditorShowConnectedObjs"
+		-dcc "nelGUICreatureEditorRenameCreature"
+		nelCreatureListTSL;
+
+	// nelCreatureConnectedTSL
+	//		selected: update the nelCreatureAvailableTSL and
+	//			nelCreatureAnimatedTSL with a list of animated and
+	// 			non-animated channels
+	textScrollList -e
+		-sc "nelGUICreatureEditorShowChannels"
+		nelCreatureConnectedTSL;
+
+	// nelCreatureAddCreatureB
+	// 		clicked: add a new creature node to the scene
+	button -e
+		-c "nelGUICreatureEditorAddNewCreature"
+		nelCreatureAddCreatureB;
+
+	// nelCreatureRemoveCreatureB
+	//		clicked: remove the selected creature
+	button -e
+		-c "nelGUICreatureEditorRemoveCreature"
+		nelCreatureRemoveCreatureB;
+
+	// nelCreatureRefreshB
+	//		clicked: refreshes the listings
+	button -e
+		-c "nelGUICreatureEditorWinUpdate"
+		nelCreatureRefreshB;
+
+	// nelCreatureAddObjectB
+	// 		clicked: connect the selected objects in the scene to the character
+	button -e
+		-c "nelGUICreatureEditorPrepareAddObjects"
+		nelCreatureAddObjectB;
+
+	// nelCreatureRemoveObjectB
+	//		clicked: removes the selected object from the character definition
+	button -e
+		-c "nelGUICreatureEditorRemoveObjects"
+		nelCreatureRemoveObjectB;
+
+	// nelCreatureSelectObjectB
+	//		clicked: select the selected objects from the connection list
+	button -e
+		-c "nelGUICreatureEditorSelectObjects"
+		nelCreatureSelectObjectB;
+}
+
+global proc nelGUICreatureEditorSelectObjects() {
+	string $objects[0];
+	$objects = `textScrollList -q -si nelCreatureConnectedTSL`;
+	string $selList[0];
+	int $x = 0;
+
+	if (size($objects) > 0) {
+		string $ob;
+		for ($ob in $objects) {
+			string $break[0];
+			tokenize ($ob, ".", $break);
+			$selList[$x] = $break[0];
+			$x++;
+		}
+	}
+
+	$selList = stringArrayRemoveDuplicates($selList);
+
+	select $selList;
+}
+
+global proc nelGUICreatureEditorRenameCreature() {
+	string $selected[0];
+	$selected = `textScrollList -q -si nelCreatureListTSL`;
+	string $newName = $selected[0];
+	$result = `promptDialog -m "New Creature Name:" -tx $newName -b "Okay" -b "Cancel" -db "Okay" -cb "Cancel"`;
+	if ($result != "Cancel")
+	{
+		$newName = `promptDialog -q`;
+		$newName = `rename $selected[0] $newName`;
+	}
+	
+	nelGUICreatureEditorWinUpdate;
+	textScrollList -e -si $newName nelCreatureListTSL;
+}
+
+global proc nelGUICreatureEditorAddNewCreature() {
+	$result = `promptDialog -tx "Creature" -m "Enter the name of the new creature:" -b "Okay" -b "Cancel" -db "Okay" -cb "Cancel"`;
+	if($result != "Cancel") {
+		$name = `promptDialog -q`;
+
+		$cmd = ("nelCreateCreature " + $name);
+		evalEcho $cmd;
+	}
+	nelGUICreatureEditorWinUpdate;
+}
+
+global proc nelGUICreatureEditorRemoveCreature () {
+	string $selected[0];
+	$selected = `textScrollList -q -si nelCreatureListTSL`;
+
+	// find out if they want to delete the object, or just remove it's
+	// definition as a creature.
+	string $result;
+	$result = `confirmDialog -m ("Do you want to:\nDELETE " + $selected[0] +"\nor\nREMOVE the creature definition of " + $selected[0] + "?") -b "DELETE" -b "REMOVE" -b "Cancel" -cb "Cancel"`;
+
+	if ($result != "Cancel") {
+		if ($result == "DELETE")
+			delete $selected[0];
+		if ($result == "REMOVE") {
+			// find the shape 
+			$shape = `listRelatives -f $selected[0]`;
+			if (`attributeQuery -exists -node $shape[0] "nelCreature"`)
+				deleteAttr ($shape[0] + ".nelCreature");
+		}
+	}
+
+	nelGUICreatureEditorWinUpdate;
+}
+
+global proc nelGUICreatureEditorPrepareAddObjects () {
+	string $selected[0];
+	string $shapes[0];
+	string $creature;
+	string $connectedObjects[0];
+	string $selectedObjs[0];
+	string $newObjs[0];
+	int $n = 0;
+
+	$selected = `textScrollList -q -si nelCreatureListTSL`;
+	if((size($selected) < 1) || ($selected[0] == ""))
+		return;
+	$shapes = `listRelatives -f -s $selected[0]`;
+	$creature = $shapes[0];
+
+	if (!`attributeQuery -exists -node $creature "nelConnectedObjs"`)
+		addAttr -ln "nelConnectedObjs" -at message -multi -im false $creature;
+	
+	$connectedObjects = `listConnections -p true -s true ($creature + ".nelConnectedObjs")`;
+	
+	$selectedObjs = `ls -sl`;
+	for ($ob in $selectedObjs) {
+		if (!`attributeQuery -exists -node $ob "nelConnectedChracters"`) 
+			addAttr -ln "nelConnectedChracters" -at message -h true $ob;
+		$newObjs[$n] = ($ob + ".nelConnectedChracters");
+		$n++;
+	}
+
+	string $allArray[] = `stringArrayCatenate $connectedObjects $newObjs`;
+	string $shortArray[] = `stringArrayRemoveDuplicates($allArray)`;
+
+	for ($ob in $connectedObjects) {
+		disconnectAttr -na $ob ($creature + ".nelConnectedObjs");
+	}
+
+	for ($short in $shortArray) {
+		connectAttr -na $short ($creature + ".nelConnectedObjs");
+	}
+
+	nelGUICreatureEditorShowConnectedObjs;
+}
+
+global proc nelGUICreatureEditorRemoveObjects () {
+	string $objects[0];
+	string $creatures[0];
+	$objects = `textScrollList -q -si nelCreatureConnectedTSL`;
+	$creatures = `textScrollList -q -si nelCreatureListTSL`;
+	if (size($objects) == 0)
+		error "You haven't selected any objects, try again.\n";
+	if (size($creatures) == 0)
+		error "You haven't selected a creature, try again.\n";
+
+	$shapes = `listRelatives -f -s $creatures[0]`;
+	$creature = $shapes[0];
+
+	for ($object in $objects) {
+		disconnectAttr -na ($object + ".nelConnectedChracters") ($creature + ".nelConnectedObjs");
+	}
+	nelGUICreatureEditorShowConnectedObjs ;
+}
+
+global proc nelGUICreatureEditorShowConnectedObjs () {
+	button -e -enable 1 nelCreatureRemoveCreatureB;
+
+	string $selected[0];
+	string $shapes[0];
+	string $creature;
+	$selected = `textScrollList -q -si nelCreatureListTSL`;
+
+	$shapes = `listRelatives -f -s $selected[0]`;
+	$creature = $shapes[0];
+
+	string $connected[0];
+	if (!`attributeQuery -exists -node $creature "nelConnectedObjs"`)
+		addAttr -ln "nelConnectedObjs" -at message -multi -im false $creature;
+
+	$connected = `listConnections -p false -s true ($creature + ".nelConnectedObjs")`;
+	
+	textScrollList -e -ra nelCreatureConnectedTSL;
+
+	for ($con in $connected) {
+		textScrollList -e -a $con nelCreatureConnectedTSL;
+	}
+}
+
+global proc nelGUICreatureEditorShowChannels() {
+// just for amusement :P
+// actually should list both the animated and non-animated channels that can be used in NeL.
+// so translate, rotate, scale, morph targets and maybe others
+	textScrollList -e -ra nelCreatureAvailableTSL;
+	textScrollList -e -ra nelCreatureAnimatedTSL;
+
+	string $channels[] = { "translation", "scale", "smile", "snarl" };
+	string $animated[] = { "rotation", "r_raiseBrow", "l_raiseBrow", "r_blink", "l_blink", "rollLip", "mouthDown" };
+
+	for($chan in $channels) {
+		textScrollList -e -a $chan nelCreatureAvailableTSL;
+	}
+
+	for($anim in $animated) {
+		textScrollList -e -a $anim nelCreatureAnimatedTSL;
+	}
+}
+
+global proc nelGUICreatureEditorWinUpdate () {
+	textScrollList -e -ra nelCreatureConnectedTSL;
+	textScrollList -e -ra nelCreatureListTSL;
+
+	string $creatures[0];
+	$creatures = `nelListCreatures`;
+	
+	for($creature in $creatures) {
+		$parent = `listRelatives -p $creature`;
+		textScrollList -e -a $parent[0] nelCreatureListTSL;
+	}
+}
+
+global proc nelGUICreatureEditor() {
+	$win = "nelCreatureEditorWin";
+
+	if(`window -exists $win`)
+		deleteUI $win;
+	
+	nelGUICreateCreatureEditorWin $win;
+	nelGUICreateCreatureEditorWinCB;
+
+	showWindow $win;
+
+	nelGUICreatureEditorWinUpdate;
+}

@@ -1,0 +1,3 @@
+void test() {
+	// does nothing
+}

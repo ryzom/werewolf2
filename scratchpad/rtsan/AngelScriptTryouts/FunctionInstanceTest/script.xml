@@ -1,0 +1,5 @@
+<script src="script.as" name="greeter">
+	<function name="greet" return="void">
+		<argument id="0" type="string" name="greeting"/>
+	</function>
+</script>

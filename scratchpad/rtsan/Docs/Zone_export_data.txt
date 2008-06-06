@@ -1,0 +1,40 @@
+CPatchInfo filled by exporter:
+
+	Patch.Vertices
+	Patch.Tangents
+	Patch.Interiors
+
+	OrderS ( = 1 << NbTilesU )
+	OrderT ( = 1 << NbTilesV )
+	BindEdges[0-3].ZoneId ( = zoneId )
+	BaseVertices[0-3] ( used for patch connectivity - make sure they use the same convention on all patches )
+	Tiles.resize (OrderS*OrderT)
+
+	TileColors.resize ((OrderS+1)*(OrderT+1))
+	TileColors[].Color565
+
+	// shading
+	Lumels.resize((OrderS*4)*(OrderT*4), 255)
+
+	// don't smooth flag
+	// clear
+	Flags &= -0xf
+	// set per edge
+	Flags ( |= 1 << edge, where edge is 0-3)
+
+	BindEdges.NPatchs
+	BindEdges.Edge
+	BindEdges.Next
+
+	Tiles[0 - OrderS*OrderT].Tile ( set to 0xffff at first.)
+				.setTileOrient
+				.setTile256Info
+				.setTileSubNoise
+				.setVegetableState
+
+	CPatchInfo::transform
+
+Zone Building
+	
+	CZoneSymmetrisation::build
+	CZone::build

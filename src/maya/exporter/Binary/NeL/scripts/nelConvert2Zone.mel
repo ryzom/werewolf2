@@ -1,0 +1,30 @@
+// Convert an object to a zone (landscape geometry)
+
+global proc nelConvert2ZoneSingle(string $surface) {
+	print ("Adding NeL Zone attributes to " + $surface + "\n");
+	addAttr -ln "ConnectionToNelPatchPainter" -at "message" -h true $surface;
+	addAttr -ln "RealPositionX" -at "short" -min 0 $surface;
+	addAttr -ln "RealPositionY" -at "short" -max 0 $surface;
+	addAttr -ln "NumTilesU" -at "enum" -k 1 -dv 8
+			-en "2=2:4=4:8=8:16=16" $surface;
+	addAttr -ln "NumTilesV" -at "enum" -k 1 -dv 8
+			-en "2=2:4=4:8=8:16=16" $surface;
+}
+
+global proc nelConvert2Zone() {
+	string $selected[] = `ls -sl`;
+	for($select in $selected) {
+		$shapes = `listRelatives -s -pa -ni $select`;
+		int $isNurbs = 0;
+		for($shape in $shapes) {
+			if(`objectType -isType "nurbsSurface" $shape`) {
+				$isNurbs = 1;
+				break;
+			}
+		}
+		if($isNurbs) {
+			nelConvert2ZoneSingle $select;
+		}
+	}
+	print("Done.\n");
+}

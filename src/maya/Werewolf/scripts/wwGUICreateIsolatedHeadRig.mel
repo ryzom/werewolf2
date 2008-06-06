@@ -1,0 +1,154 @@
+global proc wwGUICreateIsolatedHeadRig () {
+	$win = "wwGUICreateIsolatedHeadRigWin";
+	
+	if (`window -exists $win`)
+		deleteUI $win;
+
+	wwGUICreateIsolatedHeadRigWin $win;
+	wwGUICreateIsolatedHeadRigCB;	
+
+	showWindow $win;
+}
+
+global proc wwGUICreateIsolatedHeadRigBuildCommands () {
+	global string $gwwGCIHRCommands[];
+	clear $gwwGCIHRCommands;
+	
+	string $neckJoint;
+	string $headJoint;
+	string $neckControl;
+	string $headControl;
+	string $torsoControl;
+
+	$neckJoint    = `textFieldButtonGrp -q -tx wwGCIHRNeckJointTFBG`;
+	$headJoint    = `textFieldButtonGrp -q -tx wwGCIHRHeadJointTFBG`;
+	$neckControl  = `textFieldButtonGrp -q -tx wwGCIHRNeckControlTFBG`;
+	$headControl  = `textFieldButtonGrp -q -tx wwGCIHRHeadControlTFBG`;
+	$torsoControl = `textFieldButtonGrp -q -tx wwGCIHRTorsoControlTFBG`;
+	
+	$gwwGCIHRCommands[0] = ("wwCreateIsolatedHeadRig \""+$neckJoint+"\" \""+$headJoint+"\" \""+$neckControl+"\" \""+$headControl+"\" \""+$torsoControl+"\"");
+}
+
+global proc wwGUICreateIsolatedHeadRigCB () {
+	string $buttonNames[] = { "wwGCIHRNeckJointTFBG", "wwGCIHRHeadJointTFBG", "wwGCIHRNeckControlTFBG", "wwGCIHRHeadControlTFBG", "wwGCIHRTorsoControlTFBG" };
+	for ($tfbg in $buttonNames) {
+		textFieldButtonGrp -e 
+			-bc ("jsChooseItem " + $tfbg+"; wwGUICreateIsolatedHeadRigCheckItems")
+			-cc "wwGUICreateIsolatedHeadRigCheckItems"
+			$tfbg;
+	}
+	
+	button -e -c "wwGUICreateIsolatedHeadRigShowScript" wwGCIHRShowScriptButton;
+	button -e -c "wwGUICreateIsolatedHeadRigApply" wwGCIHRApplyButton;
+}
+
+global proc wwGUICreateIsolatedHeadRigShowScript () {
+	// build the settings
+	wwGUICreateIsolatedHeadRigBuildCommands;
+
+	global string $gwwGCIHRCommands[];
+
+	print $gwwGCIHRCommands;
+}
+
+global proc wwGUICreateIsolatedHeadRigApply () {
+	// build the settings
+	wwGUICreateIsolatedHeadRigBuildCommands;
+
+	global string $gwwGCIHRCommands[];
+	for ($cmd in $gwwGCIHRCommands)
+		evalEcho $cmd;
+
+}
+global proc wwGUICreateIsolatedHeadRigCheckItems () {
+	int $nj = 0;
+	int $hj = 0;
+	int $nc = 0;
+	int $hc = 0;
+	int $tc = 0;
+	global int $wwGCIHRControlButtons[];
+
+	string $njObj = `textFieldButtonGrp -q -tx wwGCIHRNeckJointTFBG`;
+	string $hjObj = `textFieldButtonGrp -q -tx wwGCIHRHeadJointTFBG`;
+	string $ncObj = `textFieldButtonGrp -q -tx wwGCIHRNeckControlTFBG`;
+	string $hcObj = `textFieldButtonGrp -q -tx wwGCIHRHeadControlTFBG`;
+	string $tcObj = `textFieldButtonGrp -q -tx wwGCIHRTorsoControlTFBG`;
+	
+	// check and see if the objectsExist
+	if (`objExists $njObj`) $nj = 1;
+	if (`objExists $hjObj`) $hj = 1;
+	if (`objExists $ncObj`) $nc = 1;
+	if (`objExists $hcObj`) $hc = 1;
+	if (`objExists $tcObj`) $tc = 1;
+
+	if (($nj == 1) && ($hj == 1) && ($nc == 1) && ($hc == 1) && ($tc == 1))
+	{
+		$wwGCIHRControlButtons[0] = 1;
+		$wwGCIHRControlButtons[1] = 1;
+	}
+	else
+	{
+		$wwGCIHRControlButtons[0] = 0;
+		$wwGCIHRControlButtons[1] = 0;
+	}
+	
+	wwGUICreateIsolatedHeadRigSetButtons;
+}
+
+global proc wwGUICreateIsolatedHeadRigSetButtons () {
+	global int $wwGCIHRControlButtons[];
+	string $buttonNames[] = { "wwGCIHRApplyButton", "wwGCIHRShowScriptButton" };
+
+	for ($x = 0; $x < size($buttonNames); $x++)
+	{
+		button -e -enable $wwGCIHRControlButtons[$x] $buttonNames[$x];	
+	}
+	
+}
+
+global proc wwGUICreateIsolatedHeadRigWin (string $win) {
+	window -t "Isolated Head Rig Setup" $win;
+	
+	$f = `formLayout -nd 100`;
+	$tabs = `tabLayout -innerMarginWidth 20 -innerMarginHeight 5`;
+	setParent $f;
+	$applyButton = `button -l "Apply" -enable 0 wwGCIHRApplyButton`;
+	$scriptButton = `button -l "Show Script" -enable 0 wwGCIHRShowScriptButton`;
+	formLayout -e
+		-af $applyButton left 0 
+		-ap $applyButton right 0 50
+		-af $applyButton bottom 0
+
+		-af $scriptButton bottom 0
+		-ap $scriptButton left 0 50
+		-af $scriptButton right 0
+		
+		-af $tabs top 0
+		-af $tabs left 0
+		-af $tabs right 0
+		-ac $tabs bottom 5 $applyButton
+		$f;	
+	
+		// create the tabs
+
+		setParent $tabs;
+		$child1 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested joints for the \nhead and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Neck Joint:" -bl "Choose" wwGCIHRNeckJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Head Joint:" -bl "Choose" wwGCIHRHeadJointTFBG;
+
+		setParent $tabs;
+		$child2 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested controls for the \nhead and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Neck Control:" -bl "Choose" wwGCIHRNeckControlTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Head Control:" -bl "Choose" wwGCIHRHeadControlTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Torso Control:" -bl "Choose" wwGCIHRTorsoControlTFBG;
+
+		tabLayout -edit
+ 			-tabLabel $child1 "FK Joints" -tabLabel $child2 "IK Controls"
+ 			$tabs;
+			
+}
+

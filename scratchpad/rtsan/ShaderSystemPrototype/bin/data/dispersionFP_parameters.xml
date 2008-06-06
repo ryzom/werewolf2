@@ -1,0 +1,5 @@
+<PropertyMap>
+	<textureDDSCube name="USER.env">
+		<value>data/nvlobby_cube_mipmap.dds</value>
+	</textureDDSCube>
+</PropertyMap>

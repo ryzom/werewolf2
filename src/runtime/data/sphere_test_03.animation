@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<FORM>
+  <STRUCT>
+    <ATOM Name="FriendlyName" Value="sphere_test_03"/>
+    <ATOM Name="Filename" Value="sphere_test_03.anim"/>
+    <ATOM Name="Description" Value="A test animation."/>
+  </STRUCT>
+</FORM>

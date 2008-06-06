@@ -1,0 +1,15 @@
+<PropertyMap>
+	<textureDDS name="USER.decal">
+		<value>data/horse_textureGL.dds</value>
+	</textureDDS>
+	<textureDDS name="USER.normal">
+		<value>data/horse.TSNM2.dds</value>
+	</textureDDS>
+	<textureDDS name="USER.gloss">
+		<value>data/horse_gloss.dds</value>
+	</textureDDS>
+	<float name="USER.LightCoeffs">
+		<value>34</value>
+		<value>0.3</value>
+	</float>
+</PropertyMap>

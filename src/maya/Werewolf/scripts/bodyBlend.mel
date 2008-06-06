@@ -1,0 +1,1590 @@
+// bodyBlend .01 beta
+//
+// July, 2004
+// Developed by Matt Schiller, Michael Hutchinson, Zach Gray, Jeff Knox
+// Copyright 2004.
+//
+// School of Visual Art & Design, Southern Adventist University
+// http://art.southern.edu
+//
+// http://www.fourthdoor.com/scripts
+//
+// Please don't redistribute without permission.
+
+
+//=================================================================
+// INSTALLATION
+//=================================================================
+
+//Copy to your local script path. Run bodyBlend to launch UI.
+
+
+
+
+
+global proc bodyBlend () {
+
+//------------------------------------------------------------------
+//create UI
+//------------------------------------------------------------------
+
+	global string $bodyBlendUI;
+	
+	if (`window -ex $bodyBlendUI`) {
+		deleteUI $bodyBlendUI;
+	}
+	
+	$bodyBlendUI = `window 
+		-t "Body blend V.01" 
+		-width 190 
+		-height 100 
+		-s 1 
+		-bgc .4 .7 1 
+		-rtf true "body_blend"`;
+	
+	columnLayout -cat "left" 5 master;
+	
+//------------------------------------------------------------------
+//character set frame
+//------------------------------------------------------------------
+	
+	string $bindCtrls;
+	string $characterFrameLay;
+	
+	$characterFrameLay = `frameLayout 
+		-width 300
+		-h 72
+		-cll 1
+		-borderStyle "etchedIn"
+		-label "Create"
+		characterFrame`;
+
+	columnLayout characterFrameParent;
+	
+	columnLayout 
+		-cat "left" 14
+	    char_set_col;
+	
+	columnLayout -h 4 -p characterFrameParent;
+	
+	$bindCtrls = `rowColumnLayout
+		-numberOfColumns 2
+		-cat 1 "left" 44
+		-cw 1 115
+		-cat 2 "left" 2
+		-cw 2 20
+		-en 0
+		-p characterFrameParent
+		set_bind_pose_frame`;
+	
+//------------------------------------------------------------------
+//create controls
+//------------------------------------------------------------------
+	
+//set char. set controls
+	string $setBindPoseButton;	
+	string $char_set = `textFieldButtonGrp 
+			-cat 1 "left" 30
+			-cw 1 100
+			-cat 2 "both" 2
+			-cw 2 90
+			-cat 3 "left" 7
+			-cw 3 60
+			-label "Character Set" 
+			-buttonLabel "Set" 
+			-p "char_set_col" `;
+
+//set bind pose controls
+
+	text -label "Set Bind Pose" -p set_bind_pose_frame;
+	$setBindPoseButton = `button -label Set -w 30 -p set_bind_pose_frame`;
+
+//------------------------------------------------------------------
+//setup frame
+//------------------------------------------------------------------  
+
+	string $setupFrame;
+	string $vectorDrivenCol;
+	string $jointDrivenCol;
+	string $matchButtonCol;
+	
+	$setupFrame = `frameLayout 
+		-width 300
+		-h 130
+		-cll 1
+		-en 0
+		-borderStyle "etchedIn"
+		-label "Setup"
+		-p master
+		setupFrame`;
+	
+	columnLayout -h 3;
+		
+	rowColumnLayout 
+		-nc 2
+		-cw 1 87
+		-cw 2 300 
+		setupFrameMaster;
+	
+	columnLayout -p setupFrameMaster -cat "left" 22 buttons;
+	
+	columnLayout -p setupFrameMaster setupFrameParent;
+	
+	columnLayout  -p setupFrameParent -cat "left" 3 drivenRadioCol;
+	
+	string $driverType = `columnLayout  -p setupFrameParent -cat "left" 3 driver_driver`;
+	
+	columnLayout -p setupFrameParent -cat "left" 3 drivenType;
+	
+	$vectorDrivenCol = `columnLayout -p drivenType vectorDrivenCol`;
+	
+	$jointDrivenCol = `columnLayout -vis 0 -p drivenType jointDrivenCol`;
+	
+	$matchButtonCol = `columnLayout -p drivenType matchButtonColumn`;
+
+//------------------------------------------------------------------
+//setup drive controls
+//------------------------------------------------------------------ 
+	
+	string $joinText;
+	string $parentText;
+	string $drivenRadio;
+		
+	$drivenRadio = `radioButtonGrp 	
+			-numberOfRadioButtons 3
+			-cat 1 "left" 0
+			-cw 1 30
+			-cat 2 "left" 5
+			-cw 2 60
+			-cat 3 "left" 2
+			-cw 3 48
+			-cat 4 "left" 2
+			-cw 4 60
+    		-label "Driver"
+    		-labelArray3 "Vector" "Joint" "none"
+			-p drivenRadioCol
+			drivenRadio
+			`;
+	
+	radioButtonGrp -e -sl 1 $drivenRadio;
+	
+	separator -w 183 -p drivenRadioCol;
+	
+	$relTypeRadio = `radioButtonGrp 	
+			-numberOfRadioButtons 2
+			-cat 1 "left" 0
+			-cw 1 55
+			-cat 2 "left" 5
+			-cw 2 60
+			-cat 3 "left" 2
+			-cw 3 48
+    		-label "Relative to"
+    		-labelArray2 "Pose" "Bind Pose"
+			-p drivenRadioCol
+			relTypeRadio
+			`;
+	
+	radioButtonGrp -e -sl 1 $relTypeRadio;
+		
+	columnLayout -h 2 -p driver_driver;
+	
+	$jointText = `textFieldButtonGrp 
+			-cat 1 "left" 0
+			-cw 1 53
+			-cat 2 "both" 3
+			-cw 2 90
+			-cat 3 "both" 8
+			-cw 3 50
+			-label "End Point" 
+			-buttonLabel "Grab"
+			-p driver_driver`;
+			
+	textFieldButtonGrp -e -bc ("grab " + $jointText) $jointText;
+	
+	string $parent = `columnLayout -h 3 -p driver_driver`;
+	
+	$parentText = `textFieldButtonGrp 
+			-cat 1 "left" 0
+			-cw 1 53
+			-cat 2 "both" 3
+			-cw 2 90
+			-cat 3 "both" 8
+			-cw 3 50
+			-label "Parent"
+			-p vectorDrivenCol
+			-buttonLabel "Grab"`;
+			
+	textFieldButtonGrp -e -bc ("grab " + $parentText) $parentText;
+
+//joint driven
+		
+	$jointAxis = `radioButtonGrp 	
+			-numberOfRadioButtons 3
+			-cat 1 "left" 0
+			-cw 1 50
+			-cat 2 "left" 5
+			-cw 2 40
+			-cat 3 "left" 5
+			-cw 3 40
+    		-label "Joint Axis"
+			-p jointDrivenCol
+    		-labelArray3 "X" "Y" "Z"
+			jointAxis`;
+
+//match button 
+	
+		string $matchSpace = `rowLayout 
+			-h 3
+			-w 40
+			-parent $matchButtonCol
+			matchSpace`
+			;
+	
+		string $matchButton = `button 
+					-rs 0
+					-w 185
+					-h 20
+    				-label "Match"
+					-parent $matchButtonCol
+					`;
+	
+//------------------------------------------------------------------
+//setup button controls
+//------------------------------------------------------------------ 
+		
+		string $newButton = `button 
+					-rs 0
+					-w 60
+					-h 20
+    				-label "New"
+					-parent buttons
+					`;
+		
+		//space
+		rowLayout 
+			-h 9
+			-w 30
+			-parent buttons
+			;
+		
+		string $addButton = `button 
+					-rs 0
+					-w 60
+					-h 20
+    				-label "Add"
+					-parent buttons
+					`;	
+	//space
+		rowLayout 
+			-h 9
+			-w 30
+			-parent buttons
+			;
+		
+		string $stackButton = `button 
+					-rs 0
+					-w 60
+					-h 20
+    				-label "Stack"
+					-parent buttons
+					`;
+		
+		//space
+		rowLayout 
+			-h 9
+			-w 30
+			-parent buttons
+			;
+		
+		string $deleteButton = `button 
+					-rs 0
+					-w 60
+					-h 20
+					//-c "editGeo"
+    				-label "Delete"
+					-parent buttons
+					`;
+
+//------------------------------------------------------------------
+//current frame
+//------------------------------------------------------------------ 
+		 
+	string $currentFrame;
+	string $currentColMaster;
+	string $currentVisibleCol;
+	string $visible;
+	
+	$currentFrame = `frameLayout 
+		-width 300
+		-h 220
+		-en 0 
+		-cll 1
+		-borderStyle "etchedIn"
+		-label "Current"
+		-p master
+		currentFrame`;
+		
+	$currentColMaster = `columnLayout currentColMaster`;
+	
+	rowColumnLayout 
+			-width 100 -height 300  
+			-numberOfColumns 2
+			-columnAttach 1 "left" 10 -columnWidth 1 100
+			-columnAttach 2 "both" 10 -columnWidth 2 200
+			 setup_row ;
+	
+	columnLayout -p $currentColMaster -h 5 currenVisSpace;
+	separator -w 300;
+	
+	columnLayout -p $currentColMaster currentVisibleCol;
+	
+		$visible = `checkBoxGrp
+			-cat 1 "left" 9
+			-cw 1 50
+			-cw 2 55
+			-cw 3 45
+			-cw 4 63
+    		-numberOfCheckBoxes 4
+    		-label "Visible:"
+    		-labelArray4 "Target" "Skin" "Relative" "D. Tool"`;
+		
+		separator -w 300;
+		
+		columnLayout -cat left 10 -p $currentColMaster ;
+		
+		separator -w 1;
+		
+		string $editButton = `button -label "Update" -w 270`;
+		separator -w 1;
+		
+		string $bindPoseButton = `button -label "Bind Pose" -w 270`;
+
+		//blend nodes
+		
+		string $blendNodeList;
+		string $targetList;
+		
+		columnLayout -w 140 -parent "setup_row" blendNodes;
+		
+		text "Blend Nodes";
+		
+		$blendNodeList = `textScrollList -w 90 -numberOfRows 8 -allowMultiSelection true
+    	-showIndexedItem 4
+		-parent blendNodes BBblendNodes`;
+		   
+		//targets
+		   
+		 columnLayout -parent "setup_row" targets;
+		
+		text "Targets";
+		
+		$targetList = `textScrollList -w 173 -numberOfRows 8 -allowMultiSelection true
+    	-showIndexedItem 4
+		-parent targets BBtargets`;
+		
+//------------------------------------------------------------------
+//slider frame
+//------------------------------------------------------------------ 
+		
+		//keys
+		
+		columnLayout 
+			 -parent "master" rightSide;
+		
+		string $drivenKeyFrame = `frameLayout 
+		-width 300
+		-height 70
+		-label "Driven Key" 
+		-cll 1
+		-en 0
+		-borderStyle "etchedIn"
+		-parent "rightSide" keys`;
+		
+		
+		columnLayout -parent "keys" 
+			-cat left 13 fourthMaster;
+
+		string $blendSlider = `attrFieldSliderGrp 
+			-min -10.0 
+			-max 10.0
+			-cat 1 "left" 0
+			-label "blend"
+			-en 0
+			-cw 1 60
+			-cw 2 50`;
+		
+		button 
+			-label "Key " 
+			-c ("key " + " " + $targetList + " " + $jointAxis + " " + $jointText)
+			-width 267
+			-parent fourthMaster;	
+		
+//------------------------------------------------------------------
+//refresh button
+//------------------------------------------------------------------ 
+	string $refreshButton;
+	columnLayout -p master;
+	separator -w 1;
+
+	$refreshButton = `button -l Refresh -w 300`; 
+	
+//------------------------------------------------------------------
+//create commands
+//------------------------------------------------------------------
+	
+	textFieldButtonGrp -e -bc ("setCharSet " + $char_set + " " + $bindCtrls + " " + $characterFrameLay + " " + $setupFrame + " " + $currentFrame + " " + $drivenKeyFrame + " " + $blendNodeList + " " + $targetList ) $char_set;
+	
+	button -e -c ("setBindPose " + $char_set)  $setBindPoseButton;
+//------------------------------------------------------------------
+//setup commands
+//------------------------------------------------------------------
+		
+	//driven radio control
+	radioButtonGrp -e -on1 ("visChange " + $matchSpace + " " + $setupFrame + " " + $vectorDrivenCol + " " + $jointDrivenCol + " " + $driverType + " " + $jointText + " " + "1") $drivenRadio;	
+	radioButtonGrp -e -on2 ("visChange " + $matchSpace + " " + $setupFrame + " " + $vectorDrivenCol + " " + $jointDrivenCol + " " + $driverType + " " + $jointText + " " + "0") $drivenRadio;
+	radioButtonGrp -e -on3 ("visChange " + $matchSpace + " " + $setupFrame + " " + $vectorDrivenCol + " " + $jointDrivenCol + " " + $driverType + " " + $jointText + " " + "2") $drivenRadio;
+
+	//new button
+	button -e -c ("duplicateGeo " + $targetList + " " + $blendNodeList + " " + $char_set + " " + $visible + " " + $drivenRadio + " " + $jointText + " " + $jointAxis + " " + $relTypeRadio + " 0") $newButton;
+	
+	//add button 
+	button -e -c ("duplicateGeo " + $targetList + " " + $blendNodeList + " " + $char_set + " " + $visible + " " + $drivenRadio + " " + $jointText + " " + $jointAxis + " " + $relTypeRadio + " 1" ) $addButton;
+
+	//stack button
+	button -e -c ("duplicateGeo " + $targetList + " " + $blendNodeList + " " + $char_set + " " + $visible + " " + $drivenRadio + " " + $jointText + " " + $jointAxis + " " + $relTypeRadio + " 2" ) $stackButton;
+	
+	//delete button
+	button -e -c ("deleteTarget " + $targetList  + " " + $visible  ) $deleteButton;
+
+	//match button
+	button -e -c ("absRel " + $targetList + " " + $jointDrivenCol + " " + $jointText + " " + $parentText + " " + $blendSlider + " " + $jointAxis + " " + $drivenRadio + " " + $char_set + " " + $visible  ) $matchButton;
+	
+	checkBoxGrp -e -cc1 ("visOn " + $targetList + " 1 " + $visible)
+				   -cc2 ("visOn " + $targetList + " 2 " + $visible)
+				   -cc3 ("visOn " + $targetList + " 3 " + $visible) 
+				   -cc4 ("visOn " + $targetList + " 4 " + $visible)   
+				   -v1 1
+				    $visible;
+	
+//------------------------------------------------------------------
+//current command
+//------------------------------------------------------------------
+	
+	button -e -c ("edit " + $targetList + " " + $jointDrivenCol + " " + $jointText + " " + $parentText + " " + $blendSlider + " " + $jointAxis + " " + $drivenRadio + " " + $char_set + " " + $visible  )  $editButton;
+	button -e -c ("goToBind " + $char_set) $bindPoseButton;
+	textScrollList -e -dcc ("goToPose " + $blendNodeList + " " + $targetList + " " + $char_set + " " + $blendSlider) $targetList; 
+	textScrollList -e -sc ("link " + $blendNodeList + " " + $targetList + " " + $char_set + " " + $blendSlider) $targetList; 
+	textScrollList -e -dcc ("selBlendNode " + $blendNodeList) $blendNodeList;    
+	textScrollList -e -sc ("updateTargets " + $blendNodeList + " " + $targetList) $blendNodeList;
+                      
+//------------------------------------------------------------------
+//refresh command
+//------------------------------------------------------------------
+	
+	button -e -c ("refreshUI " + $targetList + " " + $blendNodeList) $refreshButton;
+	
+//------------------------------------------------------------------
+//show window
+//------------------------------------------------------------------
+	
+		window -e -h 549 -w 320 $bodyBlendUI;
+		showWindow $bodyBlendUI;
+}
+
+//------------------------------------------------------------------
+//set the character set proc
+//------------------------------------------------------------------
+
+global proc visChange (string $matchSpace, string $setupFrame, string $column1, string $column2, string $driverType, string $jointText, int $state) {
+	
+	if ($state == 1) {
+	columnLayout -e -vis 1 $column1;
+	columnLayout -e -vis 0 $column2;
+	columnLayout -e -vis 1 $driverType;
+	textFieldButtonGrp -e -l "End Point" $jointText; 
+
+	rowLayout -e -h 3 $matchSpace;
+	}
+	
+	if ($state == 0) {
+	columnLayout -e -vis 0 $column1;
+	columnLayout -e -vis 1 $column2;
+	columnLayout -e -vis 1 $driverType;
+	textFieldButtonGrp -e -l "Joint" $jointText; 
+
+	rowLayout -e -h 9 $matchSpace;
+	}
+	
+	if ($state == 2) {
+	columnLayout -e -vis 0 $driverType;
+	columnLayout -e -vis 0 $column1;
+	columnLayout -e -vis 0 $column2;
+	rowLayout -e -h 52 $matchSpace;
+	}
+	
+	frameLayout -e -w 300 -h 130 $setupFrame;
+	
+}
+	
+//------------------------------------------------------------------
+//set the character set proc
+//------------------------------------------------------------------
+
+global proc setCharSet (string $charSet, string $bindCtrls, string $characterFrameLay,string $setupFrame, string $currentFrame, string $drivenKeyFrame, string $blendNodeList, string $targetList) {
+		
+	$charSet = `textFieldButtonGrp -q -tx $charSet`;
+	
+	if( `objExists $charSet` ) {
+
+		setCurrentCharacters( { $charSet } );
+		rowColumnLayout -e -en 1 $bindCtrls;
+		
+		frameLayout -e -en 1  $setupFrame;
+		frameLayout -e -en 1  $currentFrame;
+		frameLayout -e -en 1  $drivenKeyFrame;
+		
+		if (`attributeExists "number_of_blend_nodes" $charSet`) {
+			textScrollList -e -ra $blendNodeList;
+			textScrollList -e -ra $targetList;
+		
+			int $blendNUM = `getAttr ($charSet + ".number_of_blend_nodes")`;
+						
+			for ($i = 1; $i <= $blendNUM; $i++){
+				
+				string $blendNode = `getAttr ($charSet + ".blend_nodes_" + $i)`;
+				
+				if( `objExists $blendNode` ){
+						
+					textScrollList -e -a $blendNode $blendNodeList;	
+				}
+			}
+		}	
+	}
+	
+	else
+		error ("No Character Set name matches: " + $charSet);	
+}
+
+global proc stack (string $radioDriven) {
+	radioButtonGrp -e -en1 0 $radioDriven;
+	
+}
+
+global proc goToPose (string $blendNodeList, string $targetList, string $char_set, string $blendSlider) {
+	
+	string $target[] = `textScrollList -q -si $targetList`;
+	string $blendNode[] = `textScrollList -q -si $blendNodeList`;
+	
+	if (`attributeExists $target[0] $blendNode[0]`)
+	attrFieldSliderGrp -e -at ($blendNode[0] + "." + $target[0]) $blendSlider;
+
+	$char_set = `textFieldButtonGrp -q -tx $char_set`;
+	
+	pose -apply -name ($target[0] + "_pose") $char_set;
+	
+	setState "iksolver" on;
+	refresh;
+}
+
+global proc link (string $blendNodeList, string $targetList, string $char_set, string $blendSlider) {
+	
+	string $target[] = `textScrollList -q -si $targetList`;
+	string $blendNode[] = `textScrollList -q -si $blendNodeList`;
+	
+	//if (`attributeExists $target[0] $blendNode[0]`)
+	attrFieldSliderGrp -e -at ($blendNode[0] + "." + $target[0]) $blendSlider;
+
+	$char_set = `textFieldButtonGrp -q -tx $char_set`;
+		
+	setState "iksolver" on;
+	refresh;
+}
+
+global proc selBlendNode (string $blendNodeList) {
+	
+	string $blendNode[] = `textScrollList -q -si $blendNodeList`;
+	
+	if( `objExists $blendNode[0]` )
+		select $blendNode[0];
+}
+
+global proc updateTargets (string $blendNodeList, string $targetList) {
+	
+	string $blendNode[] = `textScrollList -q -si $blendNodeList`;
+	if( `objExists $blendNode[0]` ){
+		
+		string $targets[] = `blendShape -q -t $blendNode[0]`;
+		string $selTarget[] = `textScrollList -q -si $targetList`;
+		
+		textScrollList -e -ra $targetList;
+		for ($t in $targets) {
+				textScrollList -e -a $t $targetList;
+			}
+		if ($selTarget[0] != ""){
+			
+			for ($g in $targets){
+				if ($g == $selTarget[0]){
+					//textScrollList -e -da $targetList;
+					textScrollList -e -si $selTarget[0] $targetList;
+				}
+				
+			}	
+		}
+		$selTarget = `textScrollList -q -si $targetList`;
+		if ($selTarget[0] == ""){
+			//if( `objExists $targets[0]` )
+			textScrollList -e -si $targets[0] $targetList;
+		}
+	}
+	//else 
+		//textScrollList -e -ri $blendNode[0] $blendNodeList;
+	
+	
+
+	
+}
+
+
+global proc setBindPose (string $char_set) {
+	
+	$char_set = `textFieldButtonGrp -q -tx $char_set`;
+	
+	if( !`objExists ($char_set + "_bind_pose")` ) {
+	
+		pose -name ($char_set + "_bind_pose") $char_set;
+	}
+	
+}
+
+global proc goToBind (string $char_set) {
+	
+	$char_set = `textFieldButtonGrp -q -tx $char_set`;
+	
+	pose -apply -name ($char_set + "_bind_pose") $char_set;
+	
+	setState "iksolver" on;
+	refresh;
+
+}
+
+global proc refreshUI (string $targetList, string $blendNodeList) {
+	
+	string $allBlendTargets[];
+	string $allBlendNodes[];
+	
+	$allTargets = `textScrollList -q -ai $targetList`;
+	$allBlendNodes = `textScrollList -q -ai $blendNodeList`;
+		
+	for ($i in $allTargets) {
+		if( !`objExists ($i + "_model")` ){
+			textScrollList -e -ri $i $targetList;
+		}
+	}
+	
+	for ($i in $allBlendNodes) {
+		if( !`objExists $i` ){
+			textScrollList -e -ri $i $blendNodeList;
+		}
+	}
+}
+
+global proc deleteTarget (string $targetList, string $visible) {
+	
+	string $target[] = `textScrollList -q -si $targetList`;
+	string $blendNode = `getAttr ($target[0] + "_model.blend_node")`;
+	
+	textScrollList -e -ri $target[0] $targetList;
+	
+	blendShape -e  -tc 0 -rm -t $target[0] 1 $target[0] 1 -t $target[0] 1 $target[0] 1 $blendNode;
+	
+	if (`attributeExists "vector" ($target[0] + "_model")`) 
+		delete ($target[0] + "_distance_tool");
+	
+
+	delete ($target[0] + "_absRel");
+	
+}
+
+global proc editTarget (string $targetList, string $visible) {
+	
+	string $target[] = `textScrollList -q -si $targetList`;
+	string $blendNode = `getAttr ($target[0] + "_model.blend_node")`;
+	
+	blendShape -e  -tc 0 -rm -t $target[0] 1 $target[0] 1 -t $target[0] 1 $target[0] 1 $blendNode;
+	
+	if (`attributeExists "vector" ($target[0] + "_model")`) {
+		delete ($target[0] + "_distance_tool");
+		deleteAttr -attribute "vector" ($target[0] + "_model"); 
+	}
+	
+	if (`attributeExists "joint" ($target[0] + "_model")`) {
+		deleteAttr -attribute "joint" ($target[0] + "_model"); 
+	}
+	
+	//deleteAttr -attribute "relative_to" ($target[0] + "_model"); 
+
+	ungroup ($target[0] + "_absRel");
+	delete $target[0];
+}
+				
+//--//
+
+
+global proc int absRel (string $targetList, string $jointDrivenCol, string $firstPoint, string $parent, string $blendSlider, string $jointAxis, string $drivenRadio, string $charSet, string $visible){
+
+	float $range = .0001;
+	int $verts = -1;
+	
+	int $drivenRadioType = `columnLayout -q -vis $jointDrivenCol`;
+	string $target[] = `textScrollList -q -si $targetList`; 
+	string $joint = `textFieldButtonGrp -q -tx $firstPoint`;
+	string $firstPoint = `textFieldButtonGrp -q -tx $firstPoint`;
+	string $parent = `textFieldButtonGrp -q -tx $parent`;
+	string $modeled;
+	string $skin;
+	string $blendNode;
+	
+	$charSet = `textFieldButtonGrp -q -tx $charSet`;
+	
+	int $jointAxisInt = `radioButtonGrp -q -sl $jointAxis`;
+	int $drivenInt = `radioButtonGrp -q -sl $drivenRadio`;	
+	
+	if ($target[0] == "")
+		error "please select a target in the target list to match";
+	
+	$skin = `getAttr ($target[0] + "_model.skin")`;
+	$modeled = ($target[0] + "_model");
+	$blendNode = `getAttr ($modeled + ".blend_node")`;
+
+		select -cl;
+		int $escape = 0;
+		$verts = `absRelMovePoly $skin $modeled $range`;
+		while (0 >= 1)
+		{
+			$escape++;
+			if ($escape > 1)
+				break;
+		}
+//-----------------------------------------------------------------------------------------------------------
+//create junk group
+//-----------------------------------------------------------------------------------------------------------
+	
+	string $junkGroup;
+
+	if (!`objExists ($target[0] + "_absRel")`){
+		$junkGroup = `group -empty -n ($target[0] + "_absRel")`;
+	}
+	
+//-----------------------------------------------------------------------------------------------------------
+//create relative mesh in bind pose to blend to
+//-----------------------------------------------------------------------------------------------------------
+	float $initial_pos[];
+	if (`attributeExists "stack" ($target[0] + "_model")`)
+				setAttr ($blendNode + ".envelope") 0;
+	
+	pose -apply -name ($charSet + "_bind_pose") $charSet;
+	
+	if (!`attributeExists "none" ($target[0] + "_model")`)
+		$initial_pos = `xform -q -ws -t $firstPoint`;
+ 	
+	string $relTarget[] = `duplicate -rr -rc -n ($target[0] ) $skin`;
+	
+	setAttr -e ($target[0] + "_model.relative") -type "string" $relTarget[0];
+
+		string $shapeNode[] = `listRelatives -s $skin`;
+		string $idNames[] = `listConnections -type "groupId" $shapeNode[0]`;
+		string $tweakNames[];
+		for ($connection in $idNames){
+				$tweakNames = `listConnections -type "tweak" $connection`;
+				if (`size($tweakNames)` >= 1) break;
+		}
+		int $targets[] = `polyEvaluate -v $skin`;
+		select -cl;
+		
+		int $i;
+		for ($i = 0; $i < $targets[0]; $i++){
+			setAttr ($tweakNames[0] + ".vlist[0].vertex[" + $i + "].xVertex") 0;
+			setAttr ($tweakNames[0] + ".vlist[0].vertex[" + $i + "].yVertex") 0;
+			setAttr ($tweakNames[0] + ".vlist[0].vertex[" + $i + "].zVertex") 0;
+		}
+			
+
+//-----------------------------------------------------------------------------------------------------------
+//set up blendshape
+//-----------------------------------------------------------------------------------------------------------	
+		
+	if (!`attributeExists "none" ($target[0] + "_model")`) {
+		
+		if (`attributeExists "stack" ($target[0] + "_model")`)
+					setAttr ($blendNode + ".envelope") 1;
+				
+		if (`objExists $blendNode`) {
+			
+			string $index[] = `blendShape -q -t $blendNode`;
+			int $indexSize = size($index);
+			
+			for ($n = 0; $n < ($indexSize + 1); $n++) {
+				string $openCon[] = `listAttr ($blendNode + ".weight[" + $n + "]")`;
+				
+				if ($openCon[0] == ("weight[" + $n + "]") )
+					blendShape -e -t $skin $n $relTarget[0] 1 $blendNode;
+			}
+		} 
+		
+		else {
+			blendShape -n $blendNode -foc $relTarget[0] $skin ;
+		}
+		
+	//-----------------------------------------------------------------------------------------------------------
+	//find input connections
+	//-----------------------------------------------------------------------------------------------------------
+		
+		if (!`attributeExists "add" ($target[0] + "_model")`) {
+		
+			string $skinCluster[];
+			string $tweakNode[];
+			string $skinShape[];
+			
+			$skinShape = `listRelatives -s $skin`;
+			string $history[] = `listHistory $skinShape`;
+			$skinCluster = `ls -type "skinCluster" $history`;
+			$tweakNode = `listConnections -type tweak $skinShape`;
+			reorderDeformers $skinCluster[0] $tweakNode[0] $blendNode $skinShape[0];
+		}
+		
+	//-----------------------------------------------------------------------------------------------------------
+	//create distance tool for vector driven
+	//-----------------------------------------------------------------------------------------------------------
+		
+		if (`getAttr ($target[0] + "_model.relative_to")` == "Pose")
+		pose -apply -name ($target[0] + "_pose") $charSet;
+		
+		string $disToolShape;
+		string $loc[];
+		string $disToolTemp[];
+		string $disTool;
+		string $temp[];
+		string $firstLocator;
+		string $endLocator;
+		float $point1Pos[];
+		
+		if ($drivenInt == 01) {
+			
+			$point1Pos = `xform -q -t -ws $firstPoint`;
+			
+			$disToolShape = `distanceDimension -sp 1 1 1 -ep 2 2 2`;
+			$loc = `listConnections -t "locator" $disToolShape`;
+			$disToolTemp = `listRelatives -p $disToolShape`;
+			$disTool= `rename $disToolTemp[0] ($target[0] + "_distance") `;
+			$temp = `listRelatives -s $disTool`;
+			$disToolShape = $temp[0];
+			$firstLocator = `rename $loc[0] ($target[0] + "_first_locator") `;
+			$endLocator = `rename $loc[1] ($target[0] + "_end_locator") `;
+		
+			$temp = `pointConstraint $firstPoint $endLocator`; delete $temp;
+			pointConstraint $firstPoint $firstLocator;
+			
+			$distToolGroup = `group -n ($target[0] + "_distance_tool") $endLocator $firstLocator $disTool `;
+			setAttr ($distToolGroup = ".visibility") 0;
+			//parent  $distToolGroup;
+			
+			if ($parent != "")
+				parentConstraint -mo $parent $endLocator;	
+				
+	//-----------------------------------------------------------------------------------------------------------
+	//set up driven key
+	//-----------------------------------------------------------------------------------------------------------
+		
+		attrFieldSliderGrp -e -at ($blendNode + "." + $target[0]) $blendSlider;	
+		setDrivenKeyframe -cd ($disToolShape + ".distance") -v 1  ($blendNode + "." + $target[0]);
+		
+		parent $relTarget[0] ($target[0] + "_model")  $junkGroup;
+		}
+		
+	//-----------------------------------------------------------------------------------------------------------
+	//if joint selected as driver
+	//-----------------------------------------------------------------------------------------------------------
+		
+		if ($drivenInt == 02) {
+			
+			string $axis[] = {"X", "Y", "Z"};
+			int $axisNumb = `radioButtonGrp -q -sl $jointAxis`;
+	
+			setDrivenKeyframe -cd ($joint + ".rotate" + $axis[$axisNumb-1]) -v 1 ($blendNode + "." + $target[0]);
+			attrFieldSliderGrp -e -at ($blendNode + "." + $target[0]) $blendSlider;	
+			
+			parent $relTarget[0] ($target[0] + "_model") $junkGroup;
+	
+		}
+	}
+	//parent $relTarget[0] ($target[0] + "_model")  $junkGroup;
+	
+//-----------------------------------------------------------------------------------------------------------
+//update UI
+//-----------------------------------------------------------------------------------------------------------
+
+	setAttr ($skin + ".visibility") 1;
+	setAttr ($target[0] + "_model.visibility") 0;
+	
+	checkBoxGrp -e -v2 1 -v1 0 $visible;
+	
+	pose -apply -name ($target[0] + "_pose") $charSet;	
+
+	return $verts;
+	
+}
+
+global proc key (string $targetList, string $axis, string $jointText) {
+	
+	string $axi[] = {"X", "Y", "Z"};
+	
+	int $axisNumb = `radioButtonGrp -q -sl $axis`;
+
+	string $target[] = `textScrollList -q -si $targetList`;
+	string $blendNode = `getAttr ($target[0] + "_model" + ".blend_node")`;
+	
+	if (`attributeExists "vector" ($target[0] + "_model")`) 
+		setDrivenKeyframe -cd ($target[0] +  "_distanceShape" + ".distance")  ($blendNode + "." + $target[0]);
+	
+	if (`attributeExists "joint" ($target[0] + "_model")`){			
+		string $joint = `getAttr  ($target[0] + "_model.joint")`;
+		string $axis =  `getAttr  ($target[0] + "_model.axis")`;
+		setDrivenKeyframe -cd ($joint + ".rotate" + $axis) ($blendNode + "." + $target[0]);
+	}
+}
+
+global proc int distanceCheck(string $sourceVertex, string $destVertex, float $range){
+	float $sourcePos[] = `xform -q -ws -t $sourceVertex`;
+	float $destPos[] = `xform -q -ws -t $destVertex`;
+	vector $sourceVector = <<$sourcePos[0],$sourcePos[1],$sourcePos[2]>>;
+	vector $destVector = <<$destPos[0],$destPos[1],$destPos[2]>>;
+	float $dist = `mag ($sourceVector - $destVector) `;
+	int $check = 0;
+	if ($dist > $range)
+		$check = 1;
+	return $check;	
+}
+
+
+
+//converts poly selection to flattened array of vertices
+global proc string[] polyVertexConversion(string $selectedPolyObj){
+	select -r $selectedPolyObj;	
+	PolySelectConvert 3;
+	return `ls -sl -flatten`;
+	select -cl;
+	
+}
+
+//--//
+
+
+global proc connectNode (string $source, string $destination, string $name) { 
+	
+	if (!`attributeExists $name $source`) {
+
+		addAttr -ln $name -dt "string" $source; 
+		addAttr -ln $name -dt "string" $destination; 
+		
+		connectAttr ($source + "." + $name) ($destination + "." + $name);
+	}
+	
+	else
+	error "connection with that name already exists";
+}
+
+global proc string findConnection (string $object, string $connection, int $type) {
+	
+	string $temp[];
+	string $connectedObj[];
+	
+	if (`attributeExists $connection $object`) {
+	
+		if ($type)
+			$temp[0] = `connectionInfo -sourceFromDestination ($object + "." + $connection)`;
+		
+		else
+			$temp = `connectionInfo -destinationFromSource ($object + "." + $connection)`;
+		
+		tokenize $temp[0] "." $connectedObj;
+		
+	}
+		
+	else 
+		error "No attribute exists with that name";
+	
+	return $connectedObj[0];
+}
+	
+//--//
+
+//
+global proc duplicateGeo (string $targetList, string $blendNodetList, string $charSet, string $visible, string $drivenRadio, string $jointText, string $axis, string $relTypeRadio, int $typ) {
+	
+		string $obj[];
+		string $shape[];
+		string $type;
+		string $blendNode[];
+		string $targetName;	
+		string $joint;
+		string $jointAxis[];
+		string $target[];
+		int $drivenType;
+		int $relativeTo;
+		int $axisNumb;
+		
+		$drivenType = `radioButtonGrp -q -sl $drivenRadio`;
+		$relativeTo = `radioButtonGrp -q -sl $relTypeRadio`;
+		$joint = `textFieldButtonGrp -q -text $jointText`;
+		$axisNumb = `radioButtonGrp -q -sl $axis`;
+		$jointAxis = {"X", "Y", "Z"};
+		$target = `textScrollList -q -si $targetList`;
+		
+		
+		if ($drivenType == 2){
+			if ($joint == "")
+				error "Please give a joint name in the joint text field";
+			if ($axisNumb == 0)
+				error "Please select a joint axis";
+		}
+				
+		checkBoxGrp -e -v1 1 -v2 0 -v3 0 $visible;
+		$charSet = `textFieldButtonGrp -q -tx $charSet`;
+		$blendNode = `textScrollList -q -si $blendNodetList`;
+	
+	if ($typ)		
+		if ($blendNode[0] == "")
+			error "Please select a blend node to add target to.";
+
+	if (!$typ) {
+		
+		$obj = `ls -sl`;
+		
+		if ($obj[0] == "") 
+			error "Please select a bound skin";
+		
+		if (size($obj) != 1) 
+			error "Too many objects selected";
+		
+		$shape = `listRelatives -s $obj[0]`;
+		
+		if ($shape[0] != "") 
+			$secondType = `objectType $shape[1]`;
+		else 
+			error "Selection is not geometry";
+				
+		if ($secondType != "mesh" && $secondType != "nurbsSurface") 
+			error "selection is not geometry";
+		
+		if (!`attributeExists "skin" $charSet`){
+			addAttr -ln skin -dt "string" $charSet ;
+			setAttr -e ($charSet + ".skin") -type "string" $obj[0];
+		}
+
+//--------------------------------------------------------------------------------
+// get name of Blend Node		
+//--------------------------------------------------------------------------------
+		
+		string $result = `promptDialog
+    	-title ""
+    	-message "Blend Node Name:"
+    	-button "OK" -button "Cancel"
+    	-defaultButton "OK" -cancelButton "Cancel"
+    	-dismissString "Cancel"`;
+
+    if ($result == "OK") {
+		
+	   	$blendNode[0] = `promptDialog -query -text`;
+		if (`objExists $blendNode[0]`)
+			error "please pick a unique name";
+		
+    }
+	
+}
+	
+//--------------------------------------------------------------------------------
+// get name of target		
+//--------------------------------------------------------------------------------
+
+		$result = `promptDialog
+    	-title ""
+    	-message "Target Name:"
+    	-button "OK" -button "Cancel"
+    	-defaultButton "OK" -cancelButton "Cancel"
+    	-dismissString "Cancel"`;
+
+    if ($result == "OK") {
+		
+		$targetName = `promptDialog -query -text`;
+		if (`objExists $targetName`)
+			error "please pick a unique name";
+		
+    }
+		
+//-----------------------------------------------------------------------------------------------------------
+//create pose
+//-----------------------------------------------------------------------------------------------------------
+	
+	pose -name ($targetName + "_pose") $charSet;
+	
+//--------------------------------------------------------------------------------
+// duplicate object		
+//--------------------------------------------------------------------------------
+	
+	if ($typ)
+		$obj[0] = `getAttr ($target[0] + "_model" + ".skin")`;
+		
+	string $dup[] = `duplicate -rr -rc -n ($targetName + "_model") $obj[0]`;
+	setAttr ($obj[0] + ".visibility") 0;
+	
+	string $attrs[] = `listAttr -k $dup[0]`;
+	for ($attr in $attrs){
+		setAttr -l false ($dup[0] + "." + $attr);	
+	}
+	
+	//add info attr
+
+	addAttr -ln skin -dt "string"  $dup[0];
+	addAttr -ln blend_node -dt "string"  $dup[0];
+	addAttr -ln relative -dt "string" $dup[0];
+	addAttr -ln relative_to -dt "string" $dup[0];
+	
+	
+	if ($relativeTo == 1)
+		setAttr -e ($dup[0] + ".relative_to") -type "string" "Pose";
+	else 
+		setAttr -e ($dup[0] + ".relative_to") -type "string" "Bind Pose";
+
+	if ($drivenType == 1)
+		addAttr -ln "vector" -dt "string" $dup[0];
+		
+	if ($drivenType == 2){
+		addAttr -ln "joint" -dt "string" $dup[0];
+		setAttr -e ($dup[0] + ".joint") -type "string" $joint;
+		addAttr -ln "axis" -dt "string" $dup[0];
+		setAttr -e ($dup[0] + ".axis") -type "string" $jointAxis[$axisNumb - 1];
+	}
+	
+	if ($drivenType == 3)
+		addAttr -ln "none" -dt "string" $dup[0];
+	
+	int $numbBN = 1;
+	
+	if (!$typ){
+		if (!`attributeExists "number_of_blend_nodes" $charSet`){
+			addAttr -ln blend_node_1 -dt "string" $charSet ;
+			addAttr -ln number_of_blend_nodes -at long $charSet;
+			
+			setAttr -e ($charSet + ".number_of_blend_nodes") $numbBN;
+			setAttr -e ($charSet + ".blend_node_1") -type "string" $blendNode;
+		}
+		else {
+			$numbBN = `getAttr ($charSet + ".number_of_blend_nodes")`;
+			$numbBN = $numbBN + 1;
+			addAttr -ln ("blend_nodes_" + $numbBN) -dt "string" $charSet ;
+			setAttr -e ($charSet + ".blend_nodes_" + $numbBN) -type "string" $blendNode;
+			setAttr -e ($charSet + ".number_of_blend_nodes") $numbBN;
+		}
+			
+	}
+	
+	if ($typ){
+		addAttr -ln add -dt "string" $dup[0] ;
+		setAttr -e ($dup[0] + ".add") -type "string" "parallel";
+	}
+	
+	if ($typ == 2){
+		addAttr -ln stack -dt "string" $dup[0] ;
+		setAttr -e ($dup[0] + ".stack") -type "string" "stackified";
+	}
+	
+	setAttr -e ($dup[0] + ".skin") -type "string" $obj[0];
+	setAttr -e ($dup[0] + ".blend_node") -type "string" $blendNode;
+	
+//--------------------------------------------------------------------------------
+// update scroll lists	
+//--------------------------------------------------------------------------------			
+	
+	textScrollList -e -a $targetName $targetList;
+	textScrollList -e -da $targetList;
+	textScrollList -e -si $targetName $targetList;
+
+	if (!$typ)
+	textScrollList -e -a $blendNode[0] $blendNodetList;
+	textScrollList -e -da $blendNodetList;
+	textScrollList -e -si $blendNode[0] $blendNodetList;
+
+		
+}
+
+//--//
+
+global proc int edit (string $targetList, string $jointDrivenCol, string $firstPoint, string $parent, string $blendSlider, string $jointAxis, string $drivenRadio, string $charSet, string $visible){
+
+	float $range = .0001;
+	int $verts = -1;
+	
+	int $drivenRadioType = `columnLayout -q -vis $jointDrivenCol`;
+	string $target[] = `textScrollList -q -si $targetList`; 
+	string $joint = `textFieldButtonGrp -q -tx $firstPoint`;
+	string $firstPoint = `textFieldButtonGrp -q -tx $firstPoint`;
+	float $initial_pos[] = `xform -q -ws -t $firstPoint`;
+	string $parent = `textFieldButtonGrp -q -tx $parent`;
+	string $modeled;
+	string $skin;
+	string $blendNode;
+		
+	$charSet = `textFieldButtonGrp -q -tx $charSet`;
+	
+	int $jointAxisInt = `radioButtonGrp -q -sl $jointAxis`;
+	int $drivenInt = `radioButtonGrp -q -sl $drivenRadio`;	
+		
+	$skin = `getAttr ($target[0] + "_model.skin")`;
+	$modeled = ($target[0] + "_model");
+	$blendNode = `getAttr ($modeled + ".blend_node")`;
+	
+	pose -apply -name ($target[0] + "_pose") $charSet;
+	setAttr ($blendNode + "." + $target[0]) 0;
+	//setAttr ($blendNode + ".envelope") 0;
+
+		select -cl;
+		int $escape = 0;
+		$verts = `absRelMovePoly $skin $modeled $range`;
+		while (0 >= 1)
+		{
+			$escape++;
+			if ($escape > 1)
+				break;
+		}
+	
+//-----------------------------------------------------------------------------------------------------------
+//create relative mesh in bind pose to blend to
+//-----------------------------------------------------------------------------------------------------------
+	pose -apply -name ($charSet + "_bind_pose") $charSet;
+	
+	setAttr ($blendNode + "." + $target[0]) 0;
+	
+	float $initial_pos[] = `xform -q -ws -t $firstPoint`;
+	string $relTarget[] = `duplicate -rr -rc -n ($target[0] + "_temp") $skin`;
+	
+		string $shapeNode[] = `listRelatives -s $skin`;
+		string $idNames[] = `listConnections -type "groupId" $shapeNode[0]`;
+		string $tweakNames[];
+		for ($connection in $idNames){
+				$tweakNames = `listConnections -type "tweak" $connection`;
+				if (`size($tweakNames)` >= 1) break;
+		}
+		int $targets[] = `polyEvaluate -v $skin`;
+		select -cl;
+		
+		int $i;
+		for ($i = 0; $i < $targets[0]; $i++){
+			setAttr ($tweakNames[0] + ".vlist[0].vertex[" + $i + "].xVertex") 0;
+			setAttr ($tweakNames[0] + ".vlist[0].vertex[" + $i + "].yVertex") 0;
+			setAttr ($tweakNames[0] + ".vlist[0].vertex[" + $i + "].zVertex") 0;
+		}
+			
+
+//-----------------------------------------------------------------------------------------------------------
+//set up blendshape
+//-----------------------------------------------------------------------------------------------------------
+	
+	polyTransfer -vc 0 -uv 0 -v 1-ao ($target[0] + "_temp") ($target[0]);
+	delete  ($target[0] + "_temp");
+	
+//-----------------------------------------------------------------------------------------------------------
+//update UI
+//-----------------------------------------------------------------------------------------------------------
+
+	setAttr ($skin + ".visibility") 1;
+	//setAttr ($target[0] + "_model.visibility") 0;
+	
+	//checkBoxGrp -e -v2 1 -v1 0 $visible;
+	
+	pose -apply -name ($target[0] + "_pose") $charSet;	
+	setAttr ($blendNode + ".envelope") 1;
+	
+	return $verts;
+	
+
+	
+}
+
+//--//
+
+global proc grab (string $controlName) { 
+	string $sel[] = `ls -sl`;
+	textFieldButtonGrp -e -tx $sel[0] $controlName;
+}
+
+
+//subtraction skin2 shoulderDown_model_rel1 shoulderDownTwistForward_subtract;
+global proc subtraction(string $original, string $layerOne, string $layerTwo){
+	//string $original = "orig"; 
+	//string $layerOne = "level1"; 
+	//string $layerTwo = "level2_Offset";
+
+	string $originalVerts[] = `polyVertexConversion $original`;
+	string $layerOneVerts[] = `polyVertexConversion $layerOne`;
+	string $layerTwoVerts[] = `polyVertexConversion $layerTwo`;
+
+	int $i;
+	for ($i = 0; $i < size($originalVerts); $i++){
+		//compute the diffence between the first blend and any changes.
+		float $origVertSpace[] = `xform -q -os -t $originalVerts[$i]`; 
+		float $layerOneVertSpace[] = `xform -q -os -t $layerOneVerts[$i]`;
+		vector $origVector = <<$origVertSpace[0],$origVertSpace[1],$origVertSpace[2]>>;
+		vector $layerOneVector = <<$layerOneVertSpace[0],$layerOneVertSpace[1],$layerOneVertSpace[2]>>;
+		
+		vector $layerDifference = ($origVector - $layerOneVector);
+		
+		//subtract the difference(changes) from layer two blend.
+		move -r ($layerDifference.x)  ($layerDifference.y)  ($layerDifference.z)$layerTwoVerts[$i];
+		
+		
+	}
+	
+
+}
+
+//--//
+
+global proc float[] inverseMatrix33( float $m[] )
+{
+	float $d = $m[0]*( ($m[4]*$m[8])-($m[5]*$m[7]) ) - $m[1]*( ($m[3]*$m[8])-($m[6]*$m[5]) ) + $m[2]*( ($m[3]*$m[7])-($m[6]*$m[4]) );
+	if ($d == 0)
+		return {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	
+	float $t[9] = { $m[0], $m[3], $m[6],
+					$m[1], $m[4], $m[7],
+					$m[2], $m[5], $m[8]};
+	/*
+	$m[0], $m[1], $m[2],
+	$m[3], $m[4], $m[5],
+	$m[6], $m[7], $m[8]};
+	*/
+	float $a[9] = {($t[4]*$t[8])-($t[5]*$t[7]), ( -(($t[3]*$t[8])-($t[6]*$t[5])) ), ($t[3]*$t[7])-($t[6]*$t[4]),
+					 ( -(($t[1]*$t[8])-($t[7]*$t[2])) ), ($t[0]*$t[8])-($t[6]*$t[2]), ( -(($t[0]*$t[7])-($t[6]*$t[1])) ),
+					 ($t[1]*$t[5])-($t[4]*$t[2]), ( -(($t[0]*$t[5])-($t[3]*$t[2])) ), ($t[0]*$t[4])-($t[3]*$t[1])};
+	
+	float $mInv[9] = { ($a[0]/$d), ($a[1]/$d), ($a[2]/$d),
+						($a[3]/$d), ($a[4]/$d), ($a[5]/$d),
+						($a[6]/$d), ($a[7]/$d), ($a[8]/$d)};
+	return $mInv;
+}
+
+global proc float[] pointMatrixMult33( float $p[], float $m[] )
+{
+	/*
+	<<$p[0], $p[1], $p[2]>>;
+	
+	$m[0], $m[1], $m[2],
+	$m[3], $m[4], $m[5],
+	$m[6], $m[7], $m[8];
+	*/	
+	float $res[3] = {   $p[0]*$m[0] + $p[1]*$m[3] + $p[2]*$m[6],
+						$p[0]*$m[1] + $p[1]*$m[4] + $p[2]*$m[7],
+						$p[0]*$m[2] + $p[1]*$m[5] + $p[2]*$m[8]};
+	return $res;
+}
+
+global proc int absRelMovePoly(string $sourcePoly, string $destPoly, float $threshold) {
+	/*
+	string $polygon[] = `ls -sl`;
+	string $sourcePoly = $polygon[0];
+	string $destPoly = $polygon[1];
+	*/
+	
+	// arrays and stuff
+	int $numV[] = `polyEvaluate -v $sourcePoly`;
+	int $totalNumVerts = $numV[0];
+	int $numVerts = 0;
+	int $indexArray[] = {};			// Array to hold which vertices need to be moved
+	int $offset = 0;				// Offset to location in various arrays
+	//float $threshold = 0.00001;	// Threshold for the distance check
+	float $relWorldOffset[] = {};	// Relative offset is world space from source vertex to destination vertex
+	float $xAxis[] = {};			// Array containing the local x-Axis for each vertex which fails the distance check
+	float $yAxis[] = {};			// 				"			  y-Axis						"
+	float $zAxis[] = {};			// 				"			  z-Axis						"
+	float $sourceOrigin[] = {};		// Array for the world space locations of each vertex used for calculating the local axes
+	float $xTemp[] = {};			// Helper arrays for calculating local axes	(xTemp - sourceOrigin == x-Axis vector)
+	float $yTemp[] = {};			// ...
+	float $zTemp[] = {};			// ...
+	float $dTemp[] = {};			// Helper arrays for calculating local axes
+	float $sTemp[] = {};			// ...
+	float $os[]    = {};			// Array holding original local space position of each vertex
+	
+	int $k;
+	
+	// Get tweak node
+	string $shapeNode[] = `listRelatives -s $sourcePoly`;
+	string $idNames[] = `listConnections -type "groupId" $shapeNode[0]`;
+	string $tweakNames[];
+	for ($connection in $idNames){
+		$tweakNames = `listConnections -type "tweak" $connection`;
+		if (`size($tweakNames)` >= 1) break;
+	}
+	string $tweakNode = $tweakNames[0];
+	
+	// Get original positions and relative offset from final position
+	$offset = 0;
+	$numVerts = 0;
+	for ($k = 0; $k < $totalNumVerts; $k++)
+	{
+		float $distance;
+		$sTemp = `xform -ws -q -t ($sourcePoly + ".vtx[" + $k + "]")`;
+		$dTemp = `xform -ws -q -t ($destPoly + ".vtx[" + $k + "]")`;
+		$distance = `mag <<$dTemp[0] - $sTemp[0], $dTemp[1] - $sTemp[1], $dTemp[2] - $sTemp[2]>>`;
+
+		if ($distance > $threshold)
+		{
+			$indexArray[$numVerts] = $k;
+			$sourceOrigin[($offset)] = $sTemp[0];
+			$os[($offset)] = `getAttr ($tweakNode + ".vlist[0].vertex[" + $k + "].xVertex")`;
+			$relWorldOffset[($offset++)] = $dTemp[0] - $sTemp[0];
+			$sourceOrigin[($offset)] = $sTemp[1];
+			$os[($offset)] = `getAttr ($tweakNode + ".vlist[0].vertex[" + $k + "].yVertex")`;;
+			$relWorldOffset[($offset++)] = $dTemp[1] - $sTemp[1];
+			$sourceOrigin[($offset)] = $sTemp[2];
+			$os[($offset)] = `getAttr ($tweakNode + ".vlist[0].vertex[" + $k + "].zVertex")`;;
+			$relWorldOffset[($offset++)] = $dTemp[2] - $sTemp[2];
+			
+			
+			$numVerts++;
+		}
+	}
+	//print ("Verts: " + $numVerts + "\n");
+	
+	/* x-Axis */
+	// Move every vertex 1 relative local unit in the x direction
+	$offset = 0;
+	for ($k = 0; $k < $numVerts; $k++)
+	{
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].xVertex") (1 + $os[($offset)]);
+		$offset += 3;
+	}
+	// Get world space location for every vertex and calculate local x-Axis
+	$offset = 0;
+	for ($k = 0; $k < $numVerts; $k++)
+	{
+		$xTemp = `xform -ws -q -t ($sourcePoly + ".vtx[" + $indexArray[$k] + "]")`;
+		$xAxis[($offset)] = $xTemp[0] - $sourceOrigin[($offset++)];
+		$xAxis[($offset)] = $xTemp[1] - $sourceOrigin[($offset++)];
+		$xAxis[($offset)] = $xTemp[2] - $sourceOrigin[($offset++)];
+	}
+	
+	/* y-Axis */
+	// Move every vertex 1 relative local unit in the y direction
+	// And put x back to its original position
+	$offset = 0;
+	for ($k = 0; $k < $numVerts; $k++)
+	{
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].xVertex") ($os[($offset++)]);
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].yVertex") (1 + $os[($offset)]);
+		$offset += 2;
+	}
+	// Get world space location for every vertex and calculate local y-Axis
+	$offset = 0;
+	for ($k = 0; $k < $numVerts; $k++)
+	{
+		$yTemp = `xform -ws -q -t ($sourcePoly + ".vtx[" + $indexArray[$k] + "]")`;
+		$yAxis[($offset)] = $yTemp[0] - $sourceOrigin[($offset++)];
+		$yAxis[($offset)] = $yTemp[1] - $sourceOrigin[($offset++)];
+		$yAxis[($offset)] = $yTemp[2] - $sourceOrigin[($offset++)];
+	}
+	
+	/* z-Axis */
+	// Move every vertex 1 relative local unit in the z direction
+	// And put y back to its original position
+	// (x has not been moved since the y calculations, so it's good to go)
+	$offset = 1;
+	for ($k = 0; $k < $numVerts; $k++)
+	{
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].yVertex") ($os[($offset++)]);
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].zVertex") (1 + $os[($offset)]);
+		$offset += 2;
+	}
+	// Get world space location for every vertex and calculate local z-Axis
+	$offset = 0;
+	for ($k = 0; $k < $numVerts; $k++)
+	{
+		$zTemp = `xform -ws -q -t ($sourcePoly + ".vtx[" + $indexArray[$k] + "]")`;
+		$zAxis[($offset)] = $zTemp[0] - $sourceOrigin[($offset++)];
+		$zAxis[($offset)] = $zTemp[1] - $sourceOrigin[($offset++)];
+		$zAxis[($offset)] = $zTemp[2] - $sourceOrigin[($offset++)];
+	}
+	
+	float $matrix[] = {};
+	$offset = 0;
+	for ($k = 0; $k < $numVerts; $k++)
+	{
+		// find inverse rotation matrix to align vertex coordinate axis with world axis
+		$matrix = {
+		 ($xAxis[($offset)]), ($xAxis[($offset+1)]), ($xAxis[($offset+2)]),
+		 ($yAxis[($offset)]), ($yAxis[($offset+1)]), ($yAxis[($offset+2)]),
+		 ($zAxis[($offset)]), ($zAxis[($offset+1)]), ($zAxis[($offset+2)])
+		 };
+
+		$matrix = `inverseMatrix33 $matrix`;
+		float $relDest[] = {$relWorldOffset[($offset)],
+							$relWorldOffset[($offset+1)],
+							$relWorldOffset[($offset+2)]};
+		float $f[] = `pointMatrixMult33 $relDest $matrix`;
+		
+		//move vertex (in local space) relative to original postion
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].xVertex") ( $f[0] + $os[($offset++)] );
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].yVertex") ( $f[1] + $os[($offset++)] );
+		setAttr ($tweakNode + ".vlist[0].vertex[" + $indexArray[$k] + "].zVertex") ( $f[2] + $os[($offset++)] );
+	}
+	
+	return $numVerts;
+}
+
+//--//
+
+global proc visOn (string $targetList, int $typeGeo, string $checkBox ) {
+	
+	string $GeoType;
+	string $skin;
+	string $relative;
+	int $viState;
+			
+	string $target[] = `textScrollList -q -si $targetList`; 
+	
+	if ($target[0] != "" &&`objExists ($target[0] + "_model")` ) {
+	
+		if ($typeGeo == 1)
+			$GeoType = ($target[0] + "_model");
+		
+		if ($typeGeo == 2){
+			$skin = `getAttr (($target[0] + "_model") + ".skin")`;
+			$GeoType = $skin;
+		}
+		
+		if ($typeGeo == 3){
+				$relative = `getAttr (($target[0] + "_model") + ".relative")`;
+				if ($relative != "") 
+				$GeoType = $relative;
+			
+		}
+		
+		if ($typeGeo == 4){
+				$relative = ($target[0] + "_distance_tool");
+				if ($relative != "") 
+				$GeoType = $relative;
+			
+		}
+		
+		if ($GeoType != "")
+			$viState = `getAttr ($GeoType + ".visibility")`;
+				if ($viState){
+					checkBoxGrp -e ("-v" + $typeGeo) 0 $checkBox; 
+					setAttr ($GeoType + ".visibility") 0;
+				}
+				else{
+					checkBoxGrp -e ("-v" + $typeGeo) 1 $checkBox;
+					setAttr ($GeoType + ".visibility") 1;
+				}
+	}
+
+}	

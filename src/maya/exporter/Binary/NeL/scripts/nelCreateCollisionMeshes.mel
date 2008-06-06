@@ -1,0 +1,23 @@
+global proc nelCreateCollisionMeshes() {
+	string $selected[] = `ls -sl -objectsOnly`;
+	for($select in $selected) {
+		int $numFaces[] = `polyEvaluate -f $select`;
+		string $facets = $select + ".f[0:" + $numFaces[0] + "]";
+		string $meshes[] = `polyQueryBlindData -id 25 -sdn "ncm" -associationType "face" $facets`;
+		$meshes = `stringArrayRemoveDuplicates $meshes`;
+		for($mesh in $meshes) {
+			select -r `polyColorBlindData -q -id 25 -num 2 -m 1 -n "nelCollisionMesh" -dt "string" -v $mesh -cr 0 -cg 0 -cb 0 -n "nelCollisionType" -dt "int" -v 0 -cr 0 -cg 0 -cb 0 $facets`;
+			string $interior = `nelCreateCollisionFromFaces 0`;
+			select -r `polyColorBlindData -q -id 25 -num 2 -m 1 -n "nelCollisionMesh" -dt "string" -v $mesh -cr 0 -cg 0 -cb 0 -n "nelCollisionType" -dt "int" -v 1 -cr 0 -cg 0 -cb 0 $facets`;			
+			string $exterior = `nelCreateCollisionFromFaces 1`;
+			string $cmd = "group -n ";
+			$cmd += $select + "_" + $mesh;
+			$cmd += "-w";
+			if(size($interior) > 0)
+				$cmd += " " + $interior;
+			if(size($exterior) > 0)
+				$cmd += " " + $exterior;
+			eval $cmd;
+		}
+	}
+}

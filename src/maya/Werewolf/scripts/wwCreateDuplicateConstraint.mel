@@ -1,0 +1,25 @@
+global proc wwCreateDuplicateConstraint(string $object, string $targets[], string $constraints[]) {
+	for($target in $targets) {
+		$niceTarget = `endName $target`;
+		$niceObj = `endName $object`;
+
+		$const = `wwCreateDuplicateTransform $object ($niceTarget+"_"+$niceObj+"_const")`;
+
+		if(!`attributeQuery -exists -node $object $niceTarget`)
+			addAttr -min 0 -max 1 -dv 1 -ln ($niceTarget) -at double $object;
+		setAttr -k 1 ($object + "." + $niceTarget);
+
+		select -r $const $object;
+		for($constraint in $constraints) {
+			$cmd = ($constraint);
+			$c = `eval $cmd`;
+			$tc = `getAttr -s ($c[0] + ".tg")` - 1;
+			connectAttr -f ($object + "." + $niceTarget) ($c[0] + "." + $const + "W" + $tc);
+		}
+
+		jsUnlockTransforms $const;
+		hide $const;
+		parent $const $target;
+
+	}
+} 

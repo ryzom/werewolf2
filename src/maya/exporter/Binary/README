@@ -1,0 +1,23 @@
+Copyright (C) 2004 Henri Kuuste
+
+INSTALLING
+
+You can put the NeL folder anywhere you want - just remember where it is.
+
+Copy the modules folder to My Documents\maya\6.5. Edit the file in there so that the path matches your path to the NeL folder just mentioned.
+
+Copy the AETemplates folder to your scripts folder on the Maya install path. You might want to make a backup of the files it overwrites tho.
+
+Also note that the NeL directory contains a userSetup.mel in the scripts folder. If you do not have one already, this is okay. If you do have one tho you will have to append the contents of this one to the existing one.
+If the user setup is read in (if this is the one and only userSetup or just the first one) you should see a NeL menu appear on the main menu bar.
+
+The userSetup,mel has a line with "nelMenu .." on it. The argument to this is an option for a plugin developer menu. So the value "true" gives you a dev menu while "false" gives you the regular one.
+
+And don't forget to load the plugin in your Plugin Manager when you need it :D
+I have also added the closestPointOnMesh plugin. This comes with the Maya devkit, but since many of you do not have the ability to compile it I have included it just in case. If you already have the plugin you can safely ignore this one. In the Plugin Manager both should show up under the NeL module.
+
+You'll find notes on using the stuff on my website under Documents/Developers.
+
+That's it I hope, enjoy :)
+
+RT

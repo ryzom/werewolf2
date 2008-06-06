@@ -1,0 +1,248 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsFkIkSetup.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//	DESCRIPTION:	Builds an interface for quickly building a fk/ik
+//					setup that takes advantage of jsToggleFkIk.mel.
+//					It will also provide all the necessary mel commands
+//					so the user can use this in their own scripts to
+//					automate the setup.
+//					
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsFkIkSetup ()
+{
+	$win = "jsFkIkSetupWin";
+	
+	if (`window -exists $win`)
+		deleteUI $win;
+
+	jsCreateFkIkSetupWin $win;
+	jsCreateFkIkSetupCB;	
+
+	showWindow $win;
+}
+
+global proc jsFkIkScriptBuildCommands ()
+{
+	// this script will build all the commands necessary to complete the fk/ik
+	// settings.
+
+	global string $gFkIkCommands[];
+	clear $gFkIkCommands;
+	
+	// first get each of the objects entered
+	string $prefix;
+	string $shoulderJoint;
+	string $elbowJoint;
+	string $wristJoint;
+	string $wristEndJoint;
+	string $mainControl;
+	string $elbowControl;
+	string $ikHandle;
+	string $ikHandleExtra;
+	int    $ikWrist;
+	int    $ikPosition;
+	int    $fkIkCmd;
+
+	$prefix        = `textFieldGrp -q -tx jsPrefixTF`; 
+	$shoulderJoint = `textFieldButtonGrp -q -tx jsShoulderTFBG`;
+	$wristJoint    = `textFieldButtonGrp -q -tx jsWristTFBG`;
+	$mainControl   = `textFieldButtonGrp -q -tx jsMainControlTFBG`;
+	$elbowControl  = `textFieldButtonGrp -q -tx jsElbowTFBG`;
+	
+	$ikWrist       = `radioButtonGrp -q -sl jsIkWristCtrlRBG`;
+	$ikPosition    = `radioButtonGrp -q -sl jsIkPosCtrlRBG`;
+	
+	$gFkIkCommands[0] = ("jsFkIkArmRig \""+$prefix+"\" \""+ $shoulderJoint+"\" \""+  $wristJoint+"\" \""+  $mainControl+"\" \""+  $elbowControl+"\" "+$ikWrist+" "+ $ikPosition);
+}
+global proc jsCreateFkIkSetupCB ()
+{
+	//  Set up all the callbacks for the ui elements
+
+	// TEXT FIELD BUTTON GROUPS
+	//
+		string $buttonNames[] = { "jsShoulderTFBG", "jsWristTFBG", "jsMainControlTFBG", "jsElbowTFBG" };
+		for ($tfbg in $buttonNames)
+		{
+			textFieldButtonGrp -e 
+				-bc ("jsChooseItem " + $tfbg+"; jsFkIkSetupCheckItems")
+				-cc "jsFkIkSetupCheckItems"
+				$tfbg;
+		}
+	
+	// PREFIX
+		textFieldGrp -e -cc "jsFkIkSetupCheckItems" jsPrefixTF;
+	
+	// radio buttons
+		radioButtonGrp -e -cc "jsFkIkSetupCheckItems" jsIkWristCtrlRBG;
+		radioButtonGrp -e -cc "jsFkIkSetupCheckItems" jsIkPosCtrlRBG;
+
+	// buttons
+		button -e -c "jsFkIkSetupShowScript" jsShowScriptButton;
+		button -e -c "jsFkIkSetupApply"	jsApplyButton;
+}
+
+global proc jsFkIkSetupShowScript ()
+{
+	// build the settings
+	jsFkIkScriptBuildCommands;
+
+	global string $gFkIkCommands[];
+
+	print $gFkIkCommands;
+}
+
+global proc jsFkIkSetupApply ()
+{
+	// build the settings
+	jsFkIkScriptBuildCommands;
+
+	global string $gFkIkCommands[];
+	for ($cmd in $gFkIkCommands)
+		evalEcho $cmd;
+
+}
+global proc jsFkIkSetupCheckItems ()
+{
+	// this proc will check each of the items to see if any of the buttons can
+	// turn on or off
+	int $sj = 0;
+	int $wj = 0;
+	int $mc = 0;
+	int $ec = 0;
+	int $pf = 0;
+	int $r1 = 0;
+	int $r2 = 0;
+	global int $buttons[];
+
+	string $sjObj = `textFieldButtonGrp -q -tx jsShoulderTFBG`;
+	string $wjObj = `textFieldButtonGrp -q -tx jsWristTFBG`;
+	string $mcObj = `textFieldButtonGrp -q -tx jsMainControlTFBG`;
+	string $ecObj = `textFieldButtonGrp -q -tx jsElbowTFBG`;
+	string $pfIn  = `textFieldGrp -q -tx jsPrefixTF`;
+	$r1 		  = `radioButtonGrp -q -sl jsIkWristCtrlRBG`;
+	$r2 		  = `radioButtonGrp -q -sl jsIkPosCtrlRBG`;
+	
+	// check and see if the objectsExist
+	if (`objExists $sjObj`) $sj = 1;
+	if (`objExists $wjObj`) $wj = 1;
+	if (`objExists $mcObj`) $mc = 1;
+	if (`objExists $ecObj`) $ec = 1;
+
+	// check and see if the prefix is defined.  If not, try and guess it.
+	if (size($pfIn) == 0)
+	{
+		// try and guess the prefix
+		string $obj;
+		if ($sj == 1)
+			$obj = $sjObj;
+		else if ($wj == 1)
+			$obj = $wjObj;
+		else if ($mc == 1)
+			$obj = $mc;
+		else if ($ec == 1)
+			$obj = $ec;
+
+		if ($obj != "")
+		{
+			string $path[0];
+			tokenize($obj, "|", $path);
+			string $break[0];
+			tokenize ($path[size($path)-1], "_", $break);
+			if (size($break) > 1)	
+			{
+				$pfIn = $break[0];
+				textFieldGrp -e -tx $pfIn jsPrefixTF;
+			}
+		}
+	}
+	if (size($pfIn) > 0)    $pf = 1;
+
+	if (($sj == 1) && ($wj == 1) && ($mc == 1) && ($ec == 1) && ($pf == 1) &&
+	($r1 > 0) && ($r2 > 0))
+	{
+		$buttons[0] = 1;
+		$buttons[1] = 1;
+	}
+	else
+	{
+		$buttons[0] = 0;
+		$buttons[1] = 0;
+	}
+	
+	jsFkIkSetupSetButtons;
+}
+
+global proc jsFkIkSetupSetButtons ()
+{
+	// this script will say which buttons should be turned on down below
+	global int $buttons[];
+	string $buttonNames[] = { "jsApplyButton", "jsShowScriptButton" };
+
+	for ($x = 0; $x < size($buttonNames); $x++)
+	{
+		button -e -enable $buttons[$x] $buttonNames[$x];	
+	}
+	
+}
+global proc jsCreateFkIkSetupWin (string $win)
+{
+	// this proc will build the fk/ik setup window
+	window -t "Fk/Ik Setup" $win;
+	
+	$f = `formLayout -nd 100`;
+	$tabs = `tabLayout -innerMarginWidth 20 -innerMarginHeight 5`;
+	setParent $f;
+	$applyButton = `button -l "Apply" -enable 0 jsApplyButton`;
+	$scriptButton = `button -l "Show Script" -enable 0 jsShowScriptButton`;
+	formLayout -e
+		-af $applyButton left 0 
+		-ap $applyButton right 0 50
+		-af $applyButton bottom 0
+
+		-af $scriptButton bottom 0
+		-ap $scriptButton left 0 50
+		-af $scriptButton right 0
+		
+		-af $tabs top 0
+		-af $tabs left 0
+		-af $tabs right 0
+		-ac $tabs bottom 5 $applyButton
+		$f;	
+	
+		// create the tabs
+
+		setParent $tabs;
+		$child1 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested joints for the \nFK/IK Arm and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Up Arm Joint:" -bl "Choose" jsShoulderTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Wrist Joint:" -bl "Choose" jsWristTFBG;
+
+
+		setParent $tabs;
+		$child2 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested controls for the \nFK/IK Arm and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Wrist Control:" -bl "Choose" jsMainControlTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Elbow Control:" -bl "Choose" jsElbowTFBG;
+
+		setParent $tabs;
+		$child3 = `columnLayout -adj true`;
+			text -align "left" -l "Please choose the appropriate options.\n";
+	
+			textFieldGrp -cw 1 90 -cw 2 90 -cal 1 "left" -l "Prefix:"  -text "" jsPrefixTF;
+			text -l "";
+			radioButtonGrp -sl 1 -cw 1 150 -cw 2 75 -cw 3 50 -cal 1 "left" -l "Add Ik Control for the wrist?" -numberOfRadioButtons 2 -labelArray2 "Yes" "No" jsIkWristCtrlRBG;
+			radioButtonGrp -sl 1 -cw 1 150 -cw 2 75 -cw 3 50 -cal 1 "left" -l "Auto Position IK Controls?" -numberOfRadioButtons 2 -labelArray2 "Yes" "No" jsIkPosCtrlRBG;
+				
+		tabLayout -edit
+ 			-tabLabel $child1 "FK Joints" -tabLabel $child2 "IK Controls"
+			-tabLabel $child3 "Options"
+ 			$tabs;
+			
+}

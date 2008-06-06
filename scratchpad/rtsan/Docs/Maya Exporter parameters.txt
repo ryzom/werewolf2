@@ -1,0 +1,11 @@
+* Mesh exporter
+	* export LOD
+* UV sets - separate files, current set, as Sets
+* File naming - as prefix, as postfix, ignore
+* Pivot export space
+  Mesh export space
+  Translate export space
+  Rotate export space
+* Animation
+	* per scene
+	* per shape

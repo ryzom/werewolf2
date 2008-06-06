@@ -1,0 +1,21 @@
+global proc string[] nelListCreatures () {
+
+	string $creatures[0];
+	string $locators[0];
+
+	$locators = `ls -type locator`;
+
+	int $cc = 0;
+	for ($loc in $locators) {
+		string $attributes[0];
+		$attributes = `listAttr -ud $loc`;
+		for ($attr in $attributes) {
+			if ($attr == "nelCreature") {
+				$creatures[$cc] = $loc;
+				$cc = $cc+1;
+			}
+		}
+
+	}
+	return $creatures;
+}

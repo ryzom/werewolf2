@@ -1,0 +1,15 @@
+// Converts an object to a cluster (an object from which you cannot see outside, a house or a room for example)
+
+global proc nelConvert2Cluster() {
+	string $selected[] = `ls -sl`;
+	for($select in $selected) {
+		print ("Adding NeL cluster attributes to " + $select + "\n");
+		addAttr -ln "ParentVisible" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "VisibleFromParent" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "ParentAudible" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "AudibleFromParent" -k 1 -at "bool" -dv 0 $select;
+		addAttr -ln "SoundGroup" -dt "string" $select;
+		addAttr -ln "EnvironmentFX" -dt "string" $select;
+	}
+	print("Done.\n");
+}

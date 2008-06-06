@@ -1,0 +1,206 @@
+global proc wwGUICreateFootRig () {
+	$win = "wwGUICreateFootRigWin";
+	
+	if (`window -exists $win`)
+		deleteUI $win;
+
+	wwGUICreateFootRigWin $win;
+	wwGUICreateFootRigCB;	
+
+	showWindow $win;
+}
+
+global proc wwGUICreateFootRigBuildCommands () {
+	global string $gwwGUICreateFootRigCommands[];
+	clear $gwwGUICreateFootRigCommands;
+	
+	string $prefix;
+	string $upLegJoint;
+	string $ankleJoint;
+	string $ballJoint;
+	string $toeJoint;
+	string $footControl;
+	string $kneeControl;
+
+	$prefix        = `textFieldGrp -q -tx wwGCFRPrefixTF`; 
+	$upLegJoint    = `textFieldButtonGrp -q -tx wwGCFRUpLegJointTFBG`;
+	$ankleJoint    = `textFieldButtonGrp -q -tx wwGCFRAnkleJointTFBG`;
+	$ballJoint     = `textFieldButtonGrp -q -tx wwGCFRBallJointTFBG`;
+	$toeJoint      = `textFieldButtonGrp -q -tx wwGCFRToeJointTFBG`;
+	$footControl   = `textFieldButtonGrp -q -tx wwGCFRFootControlTFBG`;
+	$kneeControl   = `textFieldButtonGrp -q -tx wwGCFRKneeControlTFBG`;
+	
+	$gwwGUICreateFootRigCommands[0] = ("wwCreateFootRig \""+$prefix+"\" \""+ $upLegJoint+"\" \""+  $ankleJoint+"\" \""+  $ballJoint+"\" \""+  $toeJoint+"\" \""+$footControl+"\" \""+ $kneeControl+"\"");
+}
+
+global proc wwGUICreateFootRigCB () {
+	string $buttonNames[] = { "wwGCFRUpLegJointTFBG", "wwGCFRAnkleJointTFBG", "wwGCFRBallJointTFBG", "wwGCFRToeJointTFBG", "wwGCFRFootControlTFBG", "wwGCFRKneeControlTFBG" };
+	for ($tfbg in $buttonNames) {
+		textFieldButtonGrp -e 
+			-bc ("jsChooseItem " + $tfbg+"; wwGUICreateFootRigCheckItems")
+			-cc "wwGUICreateFootRigCheckItems"
+			$tfbg;
+	}
+	
+	textFieldGrp -e -cc "wwGUICreateFootRigCheckItems" wwGCFRPrefixTF;
+	
+	button -e -c "wwGUICreateFootRigShowScript" wwGCFRShowScriptButton;
+	button -e -c "wwGUICreateFootRigApply" wwGCFRApplyButton;
+}
+
+global proc wwGUICreateFootRigShowScript () {
+	// build the settings
+	wwGUICreateFootRigBuildCommands;
+
+	global string $gwwGUICreateFootRigCommands[];
+
+	print $gwwGUICreateFootRigCommands;
+}
+
+global proc wwGUICreateFootRigApply () {
+	// build the settings
+	wwGUICreateFootRigBuildCommands;
+
+	global string $gwwGUICreateFootRigCommands[];
+	for ($cmd in $gwwGUICreateFootRigCommands)
+		evalEcho $cmd;
+
+}
+global proc wwGUICreateFootRigCheckItems () {
+	int $ulj = 0;
+	int $aj = 0;
+	int $bj = 0;
+	int $tj = 0;
+	int $fc = 0;
+	int $kc = 0;
+	global int $wwGUICreateFootControlButtons[];
+
+	string $uljObj = `textFieldButtonGrp -q -tx wwGCFRUpLegJointTFBG`;
+	string $ajObj = `textFieldButtonGrp -q -tx wwGCFRAnkleJointTFBG`;
+	string $bjObj = `textFieldButtonGrp -q -tx wwGCFRBallJointTFBG`;
+	string $tjObj = `textFieldButtonGrp -q -tx wwGCFRToeJointTFBG`;
+	string $fcObj = `textFieldButtonGrp -q -tx wwGCFRFootControlTFBG`;
+	string $kcObj = `textFieldButtonGrp -q -tx wwGCFRKneeControlTFBG`;
+	string $pfIn = `textFieldGrp -q -tx wwGCFRPrefixTF`;
+	
+	// check and see if the objectsExist
+	if (`objExists $uljObj`) $ulj = 1;
+	if (`objExists $ajObj`) $aj = 1;
+	if (`objExists $bjObj`) $bj = 1;
+	if (`objExists $tjObj`) $tj = 1;
+	if (`objExists $fcObj`) $fc = 1;
+	if (`objExists $kcObj`) $kc = 1;
+
+	// check and see if the prefix is defined.  If not, try and guess it.
+	if (size($pfIn) == 0)
+	{
+		// try and guess the prefix
+		string $obj;
+		if ($ulj == 1)
+			$obj = $uljObj;
+		else if ($aj == 1)
+			$obj = $ajObj;
+		else if ($bj == 1)
+			$obj = $bjObj;
+		else if ($tj == 1)
+			$obj = $tjObj;
+		else if ($fc == 1)
+			$obj = $fc;
+		else if ($kc == 1)
+			$obj = $kc;
+
+		if ($obj != "")
+		{
+			string $path[0];
+			tokenize($obj, "|", $path);
+			string $break[0];
+			tokenize ($path[size($path)-1], "_", $break);
+			if (size($break) > 1)	
+			{
+				$pfIn = $break[0];
+				textFieldGrp -e -tx $pfIn wwGCFRPrefixTF;
+			}
+		}
+	}
+	if (size($pfIn) > 0)    $pf = 1;
+
+	if (($ulj == 1) && ($aj == 1) && ($bj == 1) && ($tj == 1) && ($fc == 1) && ($kc == 1))
+	{
+		$wwGUICreateFootControlButtons[0] = 1;
+		$wwGUICreateFootControlButtons[1] = 1;
+	}
+	else
+	{
+		$wwGUICreateFootControlButtons[0] = 0;
+		$wwGUICreateFootControlButtons[1] = 0;
+	}
+	
+	wwGUICreateFootRigSetButtons;
+}
+
+global proc wwGUICreateFootRigSetButtons () {
+	global int $wwGUICreateFootControlButtons[];
+	string $buttonNames[] = { "wwGCFRApplyButton", "wwGCFRShowScriptButton" };
+
+	for ($x = 0; $x < size($buttonNames); $x++)
+	{
+		button -e -enable $wwGUICreateFootControlButtons[$x] $buttonNames[$x];	
+	}
+	
+}
+
+global proc wwGUICreateFootRigWin (string $win) {
+	window -t "Foot Rig Setup" $win;
+	
+	$f = `formLayout -nd 100`;
+	$tabs = `tabLayout -innerMarginWidth 20 -innerMarginHeight 5`;
+	setParent $f;
+	$applyButton = `button -l "Apply" -enable 0 wwGCFRApplyButton`;
+	$scriptButton = `button -l "Show Script" -enable 0 wwGCFRShowScriptButton`;
+	formLayout -e
+		-af $applyButton left 0 
+		-ap $applyButton right 0 50
+		-af $applyButton bottom 0
+
+		-af $scriptButton bottom 0
+		-ap $scriptButton left 0 50
+		-af $scriptButton right 0
+		
+		-af $tabs top 0
+		-af $tabs left 0
+		-af $tabs right 0
+		-ac $tabs bottom 5 $applyButton
+		$f;	
+	
+		// create the tabs
+
+		setParent $tabs;
+		$child1 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested joints for the \nLeg/Foot and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Up Leg Joint:" -bl "Choose" wwGCFRUpLegJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Ankle Joint:" -bl "Choose" wwGCFRAnkleJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Ball Joint:" -bl "Choose" wwGCFRBallJointTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Toe Joint:" -bl "Choose" wwGCFRToeJointTFBG;
+
+		setParent $tabs;
+		$child2 = `columnLayout -adj true`;
+			text -align "left" -l "Please select the requested controls for the \nLeg/Foot and click the \"Choose\" button.\n";
+
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Foot Control:" -bl "Choose" wwGCFRFootControlTFBG;
+			textFieldButtonGrp -cw 1 90 -cw 3 46 -cal 1 "left" -adj 2 -l "Knee Control:" -bl "Choose" wwGCFRKneeControlTFBG;
+
+		setParent $tabs;
+		$child3 = `columnLayout -adj true`;
+			text -align "left" -l "Please choose the appropriate options.\n";
+	
+			textFieldGrp -cw 1 90 -cw 2 90 -cal 1 "left" -l "Prefix:"  -text "" wwGCFRPrefixTF;
+			text -l "";
+				
+		tabLayout -edit
+ 			-tabLabel $child1 "FK Joints" -tabLabel $child2 "IK Controls"
+			-tabLabel $child3 "Options"
+ 			$tabs;
+			
+}
+

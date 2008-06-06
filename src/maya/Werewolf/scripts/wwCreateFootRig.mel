@@ -1,0 +1,73 @@
+global proc wwCreateFootRig (string $prefix, string $upLegJoint, string $ankleJoint, string $ballJoint, string $toeJoint, string $footControl, string $kneeControl) {
+	string $footIkHandle = $prefix + "_foot_ikHandle";
+	string $ballIkHandle = $prefix + "_ball_ikHandle";
+	string $toeIkHandle = $prefix + "_toe_ikHandle";
+
+	$pos = `xform -q -t -ws $ankleJoint`;
+	xform -a -t $pos[0] $pos[1] $pos[2] $footControl;
+
+	$children = `listRelatives -c -pa -type joint $upLegJoint`;
+	$kneeJoint = $children[0];
+	$pos = `xform -q -t -ws $kneeJoint`;
+	xform -a -t $pos[0] $pos[1] $pos[2] $kneeControl;
+	
+	string $handleBits[0];
+	$handleBits = `ikHandle -sj $upLegJoint -ee $ankleJoint -sol "ikRPsolver" -name $footIkHandle`;
+	$footIkHandle = $handleBits[0];
+	$handleBits = `ikHandle -sj $ankleJoint -ee $ballJoint -sol "ikRPsolver" -name $ballIkHandle`;
+	$ballIkHandle = $handleBits[0];
+	$handleBits = `ikHandle -sj $ballJoint -ee $toeJoint -sol "ikRPsolver" -name $toeIkHandle`;
+	$toeIkHandle = $handleBits[0];
+	
+	hide $footIkHandle;
+	hide $ballIkHandle;
+	hide $toeIkHandle;
+
+	poleVectorConstraint $kneeControl $footIkHandle;
+	
+	$ballLift = `wwCreateDuplicateTransform $footControl "ballLift"`;
+
+	$duplicate = `duplicate -name ($prefix + "_kneeGroup") $ballLift`;
+	$kneeGroup = $duplicate[0];
+	
+	$pos = `xform -q -t -ws $ballJoint`;
+	xform -a -t $pos[0] $pos[1] $pos[2] $ballLift;
+
+	$duplicate = `duplicate -name "toeWiggle" $ballLift`;
+	$toeWiggle = $duplicate[0];
+
+	$duplicate = `duplicate -name "toeLift" $ballLift`;
+	$toeLift = $duplicate[0];
+	$pos = `xform -q -t -ws $toeJoint`;
+	xform -a -t $pos[0] $pos[1] $pos[2] $toeLift;
+	
+	parent $toeLift $footControl;
+	parent $ballLift $toeLift;
+	parent $toeWiggle $toeLift;
+	parent $footIkHandle $ballLift;
+	parent $ballIkHandle $ballLift;
+	parent $toeIkHandle $toeWiggle;
+
+	addAttr -ln "ballLift" -at double -k 1 $footControl;
+	addAttr -ln "toeLift" -at double -k 1 $footControl;
+	addAttr -ln "toeWiggle" -at double -k 1 $footControl;
+	addAttr -ln "toeTwist" -at double -k 1 $footControl;
+	addAttr -ln "footLean" -at double -k 1 $footControl;
+
+	connectAttr -f ($footControl + ".ballLift") ($ballLift + ".rotateX");
+	connectAttr -f ($footControl + ".toeWiggle") ($toeWiggle + ".rotateX");
+	connectAttr -f ($footControl + ".toeLift") ($toeLift + ".rotateX");
+	connectAttr -f ($footControl + ".toeTwist") ($toeLift + ".rotateZ");
+	connectAttr -f ($footControl + ".footLean") ($ballLift + ".rotateY");
+
+	pointConstraint $footControl $kneeGroup;
+	parent $kneeControl $kneeGroup;
+	connectAttr -f ($footControl + ".rotateZ") ($kneeGroup + ".rotateZ");
+
+	wwModifyLockAndKey $footControl 1 0 "sx sy sz v";
+	wwModifyLockAndKey $kneeControl 1 0 "rx ry rz sx sy sz v";
+
+	select -r $footControl $kneeControl;
+	rename $footControl ($prefix + "_footControl");
+	rename $kneeControl ($prefix + "_kneeControl");
+}

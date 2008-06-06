@@ -1,0 +1,190 @@
+// GUI for the nel tile painter
+
+global string $nelGUITilePaintPainters[];
+global int $nelGUITilePaintFreeSlot = 0;
+global int $nelGUITilePaintSlots = 0;
+global float $nelTileToPaint[] = {65535, 65535, 65535};
+global float $nelTileColorToPaint[] = {1, 1, 1};
+global int $nelbPaintTileColor = 1;
+global int $nelbPaintTile = 1;
+
+proc nelGUITilePaintUI( string $context ) {
+	global float $nelTileToPaint[];
+	global float $nelTileColorToPaint[];
+	global int $nelbPaintTileColor;
+	global int $nelbPaintTile;
+	
+	if ( `window -ex nelGUITilePaintWindow` ) {
+		showWindow nelGUITilePaintWindow;
+		return;
+	}
+
+	setUITemplate -pushTemplate DefaultTemplate;
+	window -title "NeL Tile Paint Settings" -rtf true nelGUITilePaintWindow;
+	columnLayout -adj true column;
+		checkBoxGrp -ncb 2 -l ""
+					-l1 "Paint Tile Index"
+					-v1 $nelbPaintTile
+					-cc1 "$nelbPaintTile = #1"
+					-l2 "Paint Tile Color"
+					-v2 $nelbPaintTileColor
+					-cc2 "$nelbPaintTileColor = #1"
+					nelGUITilePaintWhat;
+		intSliderGrp -field true -l "Tile Index (Layer 0):" -min 0 -max 65535
+					-v $nelTileToPaint[0]
+					-cc "$nelTileToPaint[0] = #1"
+					nelTileIndexL0;
+		intSliderGrp -field true -l "Tile Index (Layer 1):" -min 0 -max 65535
+					-v $nelTileToPaint[1]
+					-cc "$nelTileToPaint[1] = #1"
+					nelTileIndexL1;
+		intSliderGrp -field true -l "Tile Index (Layer 2):" -min 0 -max 65535
+					-v $nelTileToPaint[2]
+					-cc "$nelTileToPaint[2] = #1"
+					nelTileIndexL2;
+		colorSliderGrp -l "Tile Color:"
+					-rgb $nelTileColorToPaint[0] $nelTileColorToPaint[1] $nelTileColorToPaint[2]
+					-cc "$nelTileColorToPaint = \`colorSliderGrp -q -rgb nelTileColor\`"
+					nelTileColor;
+		setParent ..;
+	setParent ..;
+	showWindow nelGUITilePaintWindow;
+	setUITemplate -popTemplate;
+	
+}
+
+global proc nelGUITilePaint( string $context ) {
+	artUserPaintCtx -e
+		-ic "initnelGUITilePaint"
+		-fc "finishnelGUITilePaint"
+		-svc "setnelGUITilePaintValue"
+		-gvc "getnelGUITilePaintValue"
+		-gsc ""
+		-cc ""
+		-tcc ""
+		-gac ""
+		$context;
+
+		nelGUITilePaintUI($context);
+}
+
+global proc string initnelGUITilePaint( string $name )
+{
+	global string $nelGUITilePaintPainters[];
+	global int $nelGUITilePaintFreeSlot;
+	global int $nelGUITilePaintSlots;
+
+	int $slot;
+
+	for ( $slot = $nelGUITilePaintFreeSlot; $slot < $nelGUITilePaintSlots; $slot++ ) {
+		if ( $nelGUITilePaintPainters[$slot] == "" ) {
+			break;
+		}
+	}  
+
+	if ( $slot == $nelGUITilePaintSlots ) {
+		$nelGUITilePaintSlots++;
+		$nelGUITilePaintFreeSlot = $nelGUITilePaintSlots;
+	}
+
+	$gridU = 4;
+	$gridV = 4;
+
+	if ( `nodeType $name` == "nurbsSurface" ) {
+//		print ("Initializing: " + $name + "\n");
+		$instanceIndex = 0;
+		string $shaders[] = `listConnections ($name + ".instObjGroups[" + $instanceIndex + "]")`;
+		$shaders = `listConnections ($shaders[0] + ".surfaceShader")`;
+		string $painter[] = `listConnections ($shaders[0] + ".color")`;
+		if(`attributeExists "NumTilesU" $painter[0]`) {
+			$nelGUITilePaintPainters[$slot] = $painter[0];
+//			print ("Got painter " + $painter[0] + " for surface " + $name + " id " + $slot + "\n");
+			$gridU = `getAttr ($painter[0] + ".NumPatchesU")`;
+			$gridU *= `getAttr ($painter[0] + ".NumTilesU")`;
+			$gridV = `getAttr ($painter[0] + ".NumPatchesV")`;
+			$gridV *= `getAttr ($painter[0] + ".NumTilesV")`;			
+		}
+	}
+
+	return ( "-id " + $slot
+		 + " -grid " + $gridU + " " + $gridV
+		   + " -uv surface");
+}
+
+global proc finishnelGUITilePaint( int $slot ) {
+	global string $nelGUITilePaintPainters[];
+	global int $nelGUITilePaintFreeSlot;
+
+	$nelGUITilePaintPainters[$slot] = "";
+	if ( $slot < $nelGUITilePaintFreeSlot ) {
+		$nelGUITilePaintFreeSlot = $slot;
+	}
+}
+
+global proc setnelGUITilePaintValue(
+	int $slot,
+	int $index,
+	float $val,
+	float $u,
+	float $v
+) {
+	global string $nelGUITilePaintPainters[];
+	global float $nelTileToPaint[];
+	global float $nelTileColorToPaint[];
+	global int $nelbPaintTileColor;
+	global int $nelbPaintTile;
+
+
+	if ( $nelGUITilePaintPainters[$slot] != "" ) {
+		string $painter = $nelGUITilePaintPainters[$slot];
+		$numPatchesU = `getAttr ($painter + ".NumPatchesU")`;
+		$numPatchesV = `getAttr ($painter + ".NumPatchesV")`;
+		$numTilesU = `getAttr ($painter + ".NumTilesU")`;
+		$numTilesV = `getAttr ($painter + ".NumTilesV")`;
+		int $uIndex = $index/($numTilesV * $numPatchesV);
+		int $vIndex = $index - ($uIndex*$numTilesV*$numPatchesV);
+		int $vPatchIndex = $vIndex / $numTilesV;
+		int $uPatchIndex = $uIndex / $numTilesU;
+		int $tileIndex = ($vIndex - ($vPatchIndex*$numTilesV))*$numTilesU + ($uIndex - ($uPatchIndex*$numTilesU));
+		int $patchIndex = $vPatchIndex*$numPatchesU + $uPatchIndex;
+		if ( $val >= 0 ) {
+//			print ("Patch Index: " + $patchIndex + " TileIndex: " + $tileIndex + " for grid index " + $index + "\n");
+//			print ("Value: " + $val + "\n");
+			if($nelbPaintTileColor) {
+				vector $color = <<$nelTileColorToPaint[0], $nelTileColorToPaint[1], $nelTileColorToPaint[2]>>;
+//				vector $color = `rgb_to_hsv <<$nelTileColorToPaint[0], $nelTileColorToPaint[1], $nelTileColorToPaint[2]>>`;
+//				$color = <<($color.x), ($color.y), $val*($color.z)>>;
+//				$color = `hsv_to_rgb $color`;
+				setAttr ($painter + ".pch[" + $patchIndex + "].tlc[" + $tileIndex + "]") -type double3 ($color.x) ($color.y) ($color.z);
+			}
+			if($nelbPaintTile) {
+				setAttr ($painter + ".pch[" + $patchIndex + "].tl[" + $tileIndex + "].tl0") $nelTileToPaint[0];
+				setAttr ($painter + ".pch[" + $patchIndex + "].tl[" + $tileIndex + "].tl1") $nelTileToPaint[1];
+				setAttr ($painter + ".pch[" + $patchIndex + "].tl[" + $tileIndex + "].tl2") $nelTileToPaint[2];
+			}
+		}
+	}
+}
+
+global proc float getnelGUITilePaintValue( int $slot, int $index ) {
+	global string $nelGUITilePaintPainters[];
+
+	if ( $nelGUITilePaintPainters[$slot] != "" ) {
+		string $painter = $nelGUITilePaintPainters[$slot];
+		$numPatchesU = `getAttr ($painter + ".NumPatchesU")`;
+		$numPatchesV = `getAttr ($painter + ".NumPatchesV")`;
+		$numTilesU = `getAttr ($painter + ".NumTilesU")`;
+		$numTilesV = `getAttr ($painter + ".NumTilesV")`;
+		int $vIndex = $index/($numTilesU * $numPatchesU);
+		int $uIndex = $index - ($vIndex*$numTilesU*$numPatchesU);
+		int $vPatchIndex = $vIndex / $numTilesV;
+		int $uPatchIndex = $uIndex / $numTilesU;
+		int $tileIndex = ($uIndex - ($uPatchIndex*$numTilesU))*$numTilesV + ($vIndex - ($vPatchIndex*$numTilesV));
+		int $patchIndex = $vPatchIndex*$numPatchesU + $uPatchIndex;
+		vector $color = `getAttr ($painter + ".pch[" + $patchIndex + "].tlc[" + $tileIndex + "]")`;
+		$color = `rgb_to_hsv $color`;
+		return ($color.z);
+	} else {
+		return 0.0;
+	}
+}

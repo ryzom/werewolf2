@@ -1,0 +1,98 @@
+// Option box for wwModifySeamlessNormalsSmoothing
+
+proc setOptionVars (int $forceFactorySettings) {
+	if($forceFactorySettings || !`optionVar -exists "wwSeamlessNormalsSmoothingThreshold"`)
+		optionVar -floatValue "wwSeamlessNormalsSmoothingThreshold" 0.0001;
+}
+
+global proc wwModifySeamlessNormalsSmoothingSetup (string $parent, int $forceFactorySettings) {
+	setOptionVars($forceFactorySettings);
+	setParent $parent;
+
+	floatSliderGrp
+		-edit
+		-value `optionVar -query "wwSeamlessNormalsSmoothingThreshold"`
+		"Threshold";
+}
+
+global proc wwModifySeamlessNormalsSmoothingCallback (string $parent, int $doIt) {
+	setParent $parent;
+	optionVar -floatValue "wwSeamlessNormalsSmoothingThreshold"
+		`floatSliderGrp -query -value "Threshold"`;
+	
+	if($doIt) {
+		wwPerformSeamlessNormalsSmoothing 0;
+		string $tmpCmd = "wwPerformSeamlessNormalsSmoothing 0";
+		addToRecentCommandQueue $tmpCmd "Seamless Smooth Normals";
+	}
+}
+
+proc wwModifySeamlessNormalsSmoothingOptions() {
+	string $commandName = "wwModifySeamlessNormalsSmoothing";
+	string $callback = ($commandName + "Callback");
+	string $setup = ($commandName + "Setup");
+	string $layout = getOptionBox();
+	setParent $layout;
+	setOptionBoxCommandName($commandName);
+	setUITemplate -pushTemplate DefaultTemplate;
+	waitCursor -state 1;
+
+	string $parent = `columnLayout -adjustableColumn 1`;
+	columnLayout;
+
+	floatSliderGrp
+        -field on
+        -label "Threshold"
+        -value 0.0001
+        "Threshold";
+
+	setParent ..;
+	setParent -menu ..;
+	waitCursor -state 0;
+	setUITemplate -popTemplate;
+
+	string $applyBtn = getOptionBoxApplyBtn();
+	button -edit 
+		-label "Apply"
+		-command ($callback + " " + $parent + " " + 1) 
+		$applyBtn;
+	
+	string $applyAndCloseBtn = getOptionBoxApplyAndCloseBtn();
+	button -edit 
+		-label "Seamless Smooth Normals"
+		$applyAndCloseBtn;
+
+	string $saveBtn = getOptionBoxSaveBtn();
+	button -edit 
+		-command ($callback + " " + $parent + " " + 0 + " " +"; hideOptionBox")
+		$saveBtn;
+
+	string $resetBtn = getOptionBoxResetBtn();
+	button -edit 
+		-command ($setup + " " + $parent + " " + 1)
+		$resetBtn;
+
+	setOptionBoxTitle("Seamless Smooth Normals Options");
+	eval (($setup + " " + $parent + " " + 0));
+	showOptionBox();
+}
+
+proc string assembleModifySeamlessNormalsSmoothingCmd() {
+	setOptionVars false;
+	string $cmd = "wwModifySeamlessNormalsSmoothing ";
+	$cmd += `optionVar -query "wwSeamlessNormalsSmoothingThreshold"`;
+	print ($cmd + "\n");
+	return $cmd;
+}
+
+global proc wwPerformSeamlessNormalsSmoothing(int $action) {
+	switch($action) {
+		case 0:
+			string $cmd = `assembleModifySeamlessNormalsSmoothingCmd`;
+			eval($cmd);
+			break;
+		case 1:
+			wwModifySeamlessNormalsSmoothingOptions();
+			break;
+	}
+}

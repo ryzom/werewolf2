@@ -1,0 +1,22 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsChooseItem.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+
+global proc jsChooseItem (string $tfbg)
+{
+	// takes the selected item and adds it to the textFieldButtonGrp
+	$objs = `ls -sl`;
+	
+	string $toAdd;
+	if (size($objs) > 0)
+		$toAdd = $objs[0];
+
+	textFieldButtonGrp -e -tx $toAdd $tfbg;
+}
+

@@ -1,0 +1,5 @@
+// ???
+
+global proc string nelCreateLeafCluster() {
+	return `nelCreateClusterBase "Leaf"`;
+}

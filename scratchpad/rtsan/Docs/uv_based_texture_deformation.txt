@@ -1,0 +1,104 @@
+===========================
+General
+===========================
+
+Change UVs and re-render the texture to match the changed UVs. Basic linear texture interpolation used. Advanced filtering.
+
+===========================
+UI
+===========================
+	* Command to set a marker before UV changes.
+	* Command to render out new texture from marker to marker or marker to current time.
+	* Command to remove markers.
+	* Command to restore marked state.
+
+===========================
+Implementation
+===========================
+	* Store markers in UV sets
+	* Node feeds into texture UV input	
+	* convertSolidTx
+
+Algorithm:
+	1) Find triangle based on input shading attributes (UVs, triangle vertices, world/object point)
+	2) Find UVs of both marker sets.
+	3) Interpolate FROM set UVs based on distances in the TO set.
+	4) Output new FROM space UV value.
+
+Notes on specific steps:
+	#1
+		Rendering attributes include objectId, pointObj, pointWorld, uvCoord, vertexUvOne, vertexUvTwo, vertexUvThree
+		Could objectId be used to get the object?
+		What would be best for finding the triangle?
+			1) pointObj with spatial hash table
+			2) raytracing via MFnMesh.anyIntersection() using pointObj/pointWorld and some arbitrary other point for the ray origin.
+	#2
+		MFnMesh.getFaceUVSetNames()
+		MFnMesh.getPolygonUV()
+
+This could replace steps 2 and 3:
+	MItMeshPolygon.getPointAtUv()
+	MItMeshPolygon.getUVAtPoint()
+
+	MItMeshPolygon(const MDagPath& polyObject, MObject& component, MStatus* returnStatus)
+	How do we get the MObject for the polygon?
+		1) Iterate over the whole mesh before render and store polygons in a hash table via MItMeshPolygon.polygon()
+
+===========================
+Final
+===========================
+Create a node that changes the UVs before they get to the texture.
+
+_______________
+inputs:
+	pointObj : MFnNumericAttribute, MFnNumericData::k3Float : given by the renderer
+	uvCoord : MFnNumericAttribute, MFnNumericData::k2Float : given by the renderer
+	mesh : MFnMessageAttribute : plug into the mesh
+	source : MFnEnumAttribute : list of UV sets, selected by the user in the attribute editor
+	(optional) precompute : MFnNumericAttribute, MFnNumericData::kInt : this should not be visible to the user, should have a button in the UI instead which changes this value in order to force an update of the precomputed datastructure.
+	(optional) matrixWorldToObject : MFnMatrixAttribute : given by the renderer. Needed for raytrace.
+	(optional) matrixEyeToWorld : MFnMatrixAttribute : given by the renderer. Needed for raytrace.
+	(optional) normalCamera : MFnNumericAttribute, MFnNumericData::k3Float : given by the renderer. Needed for raytrace.
+
+_______________		
+outputs:
+	uvOut : MFnNumericAttribute, MFnNumericData::k2Float : plug into texture.uvCoord
+
+_______________		
+compute:
+	* Get the mesh from the message attribute and put it into a MFnMesh wrapper.
+	* Precompute an octree or spatial hash table for the whole object. (see datastructure notes for more info on this)
+	* The target UV set is always the current UV set. So get this information using MFnMesh.getCurrentUVSetName()
+	* Find polygon id corresponding to the given pointObj. (see search notes for more info on this)
+	* Can use MFnComponentListData with mesh.face to get the polygon component corresponding to a given id. This MObject can then be used to get the MItMeshPolygon for this polygon.
+	* Use MItMeshPolygon.getUVAtPoint() to get the UV of the source set.
+	* Output the new UV value.
+
+_______________		
+Datastructure notes	
+1) Octree
+	* The octree is likely to be quite fast and would not use that much memory either.
+	* It would be constructed from the AABB of the whole mesh, by starting from that as the root node. End conditions for the subdivision would be the following:
+		* node contains only one polygon
+		* node intersects only one polygon
+		* node has reached minimum size
+	* All polygon checks are naturally done agains the polygons of the parent node.
+	* To conserve memory, do not store the polygons of the parent nodes.
+2) Spatial hash table
+	* There are two main points to consider here - the hash value and how to make the datastructure to begin with. The hash table is likely to be the fastest method, if used right, however it also uses the most memory, because of its uniform nature.
+	* The hash value should be thought of as a grid space index of the given object/point. So essentially the hash table is a 3D uniform grid with a pretty small cell size. Cell size should be proportional to the smallest polygon in the mesh - something like 1/3 the size of the smallest polygon. The hash value is then computed by dividing the coordinates by the cell size and flooring them and then combining them in some way to give the final hash key.
+	* The hash table construction is a pita. Most likely one would have to iterate over all polygons (MItMeshPolygon) and get their AABB, which should then be rounded off into grid space. Then all cells in the AABB should be traversed and checked for polygon intersection/containment. If intersection/containment is found, then the polygon id (MItMeshPolygon.index()) is added to that cell. Beware that a cell can contain multiple polygons (esp at edges and such).
+
+_______________		
+Search notes	
+1) Octree
+	* Basic octree search which checks traverses the tree until it gets to a leaf node. If the node contains more than one polygon, do a specific point-in-polygon test on these.
+2) Spatial hash table
+	* This is the fastest and simplest - just calculate the hash value and index the table. If the cell contains more than one polygon, do a specific point-in-polygon test on these.
+3) Raytrace
+	* This method does not require a datastructure on our side. Would be a simple way to try out if the whole idea works before going into complex datastructures. The basic idea is to use MFnMesh.closestIntersection() to find the polygon id. The ray source would be pointObj + normal * epsilon. Where epsilon is a very small number. Normal would be calculated from the renderer attribute normalCamera by using the inverse eye space matrix and the object space matrix. The ray direction would then be -normal. For additional certainty one could then do a specific point-in-polygon test after the raytrace to see if it really matches. If there is no match MFnMesh.anyIntersection() could be used to get all intersections.
+
+_______________		
+Intersection/containment tests
+The tests required are polygon-cube and point-in-polygon. Both of these are described in chapter 7-2 of Graphics Gems V. http://www.acm.org/tog/GraphicsGems/gemsv/ch7-2/
+The polygon-cube test is based on a unit cube centered at the origin, so a matrix would have to be constructed to take both the polygon and the cube into that space. Also note that the intersection test might not take containment into account - if so, add it.

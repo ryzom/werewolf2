@@ -1,0 +1,98 @@
+// Option box for wwModifyUnifyNormals
+
+proc setOptionVars (int $forceFactorySettings) {
+	if($forceFactorySettings || !`optionVar -exists "wwUnifyNormalsThreshold"`)
+		optionVar -floatValue "wwUnifyNormalsThreshold" 0.0001;
+}
+
+global proc wwModifyUnifyNormalsSetup (string $parent, int $forceFactorySettings) {
+	setOptionVars($forceFactorySettings);
+	setParent $parent;
+
+	floatSliderGrp
+		-edit
+		-value `optionVar -query "wwUnifyNormalsThreshold"`
+		"Threshold";
+}
+
+global proc wwModifyUnifyNormalsCallback (string $parent, int $doIt) {
+	setParent $parent;
+	optionVar -floatValue "wwUnifyNormalsThreshold"
+		`floatSliderGrp -query -value "Threshold"`;
+	
+	if($doIt) {
+		wwPerformUnifyNormals 0;
+		string $tmpCmd = "wwPerformUnifyNormals 0";
+		addToRecentCommandQueue $tmpCmd "Unify Normals";
+	}
+}
+
+proc wwModifyUnifyNormalsOptions() {
+	string $commandName = "wwModifyUnifyNormals";
+	string $callback = ($commandName + "Callback");
+	string $setup = ($commandName + "Setup");
+	string $layout = getOptionBox();
+	setParent $layout;
+	setOptionBoxCommandName($commandName);
+	setUITemplate -pushTemplate DefaultTemplate;
+	waitCursor -state 1;
+
+	string $parent = `columnLayout -adjustableColumn 1`;
+	columnLayout;
+
+	floatSliderGrp
+        -field on
+        -label "Threshold"
+        -value 0.0001
+        "Threshold";
+
+	setParent ..;
+	setParent -menu ..;
+	waitCursor -state 0;
+	setUITemplate -popTemplate;
+
+	string $applyBtn = getOptionBoxApplyBtn();
+	button -edit 
+		-label "Apply"
+		-command ($callback + " " + $parent + " " + 1) 
+		$applyBtn;
+	
+	string $applyAndCloseBtn = getOptionBoxApplyAndCloseBtn();
+	button -edit 
+		-label "Unify Normals"
+		$applyAndCloseBtn;
+
+	string $saveBtn = getOptionBoxSaveBtn();
+	button -edit 
+		-command ($callback + " " + $parent + " " + 0 + " " +"; hideOptionBox")
+		$saveBtn;
+
+	string $resetBtn = getOptionBoxResetBtn();
+	button -edit 
+		-command ($setup + " " + $parent + " " + 1)
+		$resetBtn;
+
+	setOptionBoxTitle("Unify Normals Options");
+	eval (($setup + " " + $parent + " " + 0));
+	showOptionBox();
+}
+
+proc string assembleModifyUnifyNormalsCmd() {
+	setOptionVars false;
+	string $cmd = "wwModifyUnifyNormals ";
+	$cmd += `optionVar -query "wwUnifyNormalsThreshold"`;
+	print ($cmd + "\n");
+	return $cmd;
+}
+
+global proc wwPerformUnifyNormals(int $action) {
+	switch($action) {
+		case 0:
+			string $cmd = `assembleModifyUnifyNormalsCmd`;
+			eval($cmd);
+			break;
+		case 1:
+			wwModifyUnifyNormalsOptions();
+			break;
+	}
+}

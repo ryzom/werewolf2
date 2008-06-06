@@ -1,0 +1,249 @@
+/////////////////////////////////
+// CURRENT SYSTEM
+/////////////////////////////////
+********************************************************************************************
+CEntityMedia
+********************************************************************************************
+di	CEntityMedia();
+di	~CEntityMedia();
+d	void readGeorges(const NLMISC::CSmartPtr<NLGEORGES::UForm> &form, const std::string &sheetId);
+d	void serial(NLMISC::IStream &f);
+d	static uint getVersion();
+d	void removed();
+di	CAnimLayer* getAnimLayer(std::string& name);
+di	CMeshGroup* getMeshGroup(std::string& name);
+di	CSkeleton* getSkeleton(std::string& name);
+i	void initInstance(WWCOMMON::ISimulationObj* sob);
+i	void update();
+i	void updateAnimations();
+i	void updateMeshes();
+i	void updateSkeletons();
+i	void showMesh(std::string group, std::string mesh);
+i	void hideMesh(std::string group);
+i	void transform(NLMISC::CMatrix& matrix);
+i	NL3D::UTransform* getTransform();
+i	void playAnimation(std::string layer, std::string group);
+i	CSequenceManager<uint8>* getSlotManager();;
+i	WWCOMMON::ISimulationObj* getOwner();
+_______________________________________________________________________________________________
+d	std::string Name;
+d	std::string Description;
+d	std::string EMT;
+di	skeletonMap m_Skeletons;
+di	meshGroupMap m_MeshGroups;
+di	animLayerMap m_AnimationLayers;
+i	NL3D::UPlayList* PlayList;
+i	CSequenceManager<uint8>* m_SlotManager;
+i	NL3D::UTransform m_Transform;
+i	WWCOMMON::ISimulationObj* m_Owner;
+********************************************************************************************
+CAnimLayer
+********************************************************************************************
+di	CAnimLayer();
+d	CAnimLayer(NLGEORGES::UFormElm *root);
+d	void serial(NLMISC::IStream &f);
+di	CAnimGroup* getAnimGroup(std::string& name);
+i	CEntityMedia* getEMD();
+i	void setEMD(CEntityMedia* emd);
+i	void play(std::string group);
+i	void update();
+i	void updateAnimations();
+_______________________________________________________________________________________________
+d	std::string AnimLayerName;
+di	animGroupMap m_AnimationGroups;
+i	CAnimGroup* m_Playing;
+i	CEntityMedia* m_EMD;
+i	uint8 m_Slots[2];
+i	uint m_CurrentSlotIndex;
+i	bool m_HasSlots;
+********************************************************************************************
+CAnimGroup
+********************************************************************************************
+di	CAnimGroup();
+d	CAnimGroup(NLGEORGES::UFormElm *root);
+di	virtual ~CAnimGroup();
+d	void serial(NLMISC::IStream &f);
+i	void play(uint8 slot);
+i	CAnimationClip* getClip();
+i	CEntityMedia* getEMD();
+i	void setEMD(CEntityMedia* emd);
+i	void update();
+_______________________________________________________________________________________________
+d	std::string AnimGroupName;
+d	NL3D::UPlayList::TWrapMode WrapMode;
+d	uint AnimCycles;
+d	std::string Selector;
+di	std::vector<CAnimClip> AnimClipList;
+i	bool Playing;
+i	ISelector<CAnimClip>* m_Selector;
+i	CEntityMedia* m_EMD;
+********************************************************************************************
+CAnimClip
+********************************************************************************************
+di	CAnimClip();
+d	CAnimClip(NLGEORGES::UFormElm *root);
+d	unsigned int getPriority();
+d	void serial(NLMISC::IStream &f);
+i	CAnimationClip* getClip();
+_______________________________________________________________________________________________
+d	std::string FriendlyClipName;
+d	uint Priority;
+i	CAnimationClip* m_Clip;
+********************************************************************************************
+CMeshGroup
+********************************************************************************************
+di	CMeshGroup();
+d	CMeshGroup(NLGEORGES::UFormElm *root);
+d	void serial(NLMISC::IStream &f);
+i	void showMesh(std::string mesh);
+i	void hideMesh();
+i	void show();
+i	void hide();
+i	bool isVisible();
+i	NL3D::UTransform* getTransform();
+i	CMesh* getMesh();
+i	CEntityMedia* getEMD();
+i	void setEMD(CEntityMedia* emd);
+i	CMesh* getMesh(std::string& name);
+i	void addMesh(CMesh& mesh);
+i	void update();
+i	void updateMeshes();
+i	void setMesh(CMesh* mesh);
+_______________________________________________________________________________________________
+d	std::string MeshGroupName;
+di	meshMap m_Meshes;
+i	CMesh* m_displayedMesh;
+i	CEntityMedia* m_EMD;
+********************************************************************************************
+CMesh
+********************************************************************************************
+di	CMesh();
+d	CMesh(NLGEORGES::UFormElm *root);
+di	~CMesh();
+d	void serial(NLMISC::IStream &f);
+i	bool hasInstance();
+i	bool hasSkeleton();
+i	void hide();
+i	bool show();
+i	NL3D::UInstance* getInstance();
+i	NL3D::USkeleton* getSkeleton();
+i	CEntityMedia* getEMD();
+i	void setEMD(CEntityMedia* emd);
+i	void update();
+_______________________________________________________________________________________________
+d	std::string FriendlyName;
+d	std::string SkeletonName;
+d	std::string MeshName;
+i	CSkeleton* skeleton;
+i	NL3D::UInstance m_instance;
+i	CEntityMedia* m_EMD;
+********************************************************************************************
+CSkeleton
+********************************************************************************************
+di	CSkeleton()
+d	CSkeleton(NLGEORGES::UFormElm *root);
+di	~CSkeleton();
+d	void serial(NLMISC::IStream &f);
+i	void update();
+i	bool hasSkeleton();
+_______________________________________________________________________________________________
+d	std::string FriendlyName;
+d	std::string Filename;
+i	NL3D::USkeleton skeleton;
+
+/////////////////////////////////
+// DEFINITION
+/////////////////////////////////
+
+What is the EMD/EMT system? What does it do?
+
+Abstract:
+The EMD/EMT system governs the media that is related to game entities. It is used for creating the media packages and using them in-game.
+The first part of a system consists of templates that dictate what kind of media would have to be created/specified for a certain type of entity.
+The second part loads the media package into the 
+
+/////////////////////////////////
+// IDEAS
+/////////////////////////////////
+
+>>> What is an EMD?
+	* class to govern the media of an entity and its behaviour
+>>> What is a MeshGroup?
+	* A certain mesh. Like the body or a leg or whatever.
+	* Includes a list of meshes for...what?
+		* different entity dimensions (based on properties)
+>>> What is a Mesh?
+	* A specific mesh instance (.shape)
+	* Can be morphed
+>>> What is an AnimLayer?
+	* A bunch of animations that can not coexist and will replace eachother when played.
+>>> What is an AnimGroup?
+	* A certain animation. Like run, walk etc
+	* Includes a list of AnimClips from which to choose for variation.
+>>> what is an AnimClip?
+	* A specific animation instance (.anim)
+>>> What is a Skeleton?
+	* A specific skeleton instance (.skel)
+>>> what is an AttachmentGroup?
+	* A place to attach stuff with a certain capacity.
+	* Includes a list of attachment points in order to attach several items in the same place (like you can hold several items in the hand provided they are small enough)
+>>> What is an AttachmentPoint?
+	* A specific point to which things can be attached.
+	* Includes a transformation matrix for offset and a transform (bone or mesh).
+
+>>> What triggers animations?
+	* Changes in state - property trigger
+>>> What triggers meshes?
+	* Dimension changes in SOBs (change in Mesh) - property trigger
+	* Equipment changes in SOBs (change in MeshGroup)
+
+>>> How do texture/material changes work?
+>>> What triggers texture changes?
+	* Equipment changes (rings and bracelets for example)
+>>> What triggers material changes?
+	* Equipment changes (shiny rings and bracelets for example - material composite based on texture)
+
+2 stage process.
+
+1) get data
+2) make instances
+
+Instance classes have const pointers to the corresponding data classes and have getters to access the data directly. That way data is not duplicated.
+Instance classes form a hierarchy of IDirtyPropagator nodes. When the lower end changes, the upper end will know about it.
+Instance classes will only populate the things currently needed (cache expensive classes tho, maybe pooling can be used here).
+
+Controller info is held in the EMT. Controllers are applied to meshes as they are instanciated.
+Properties notify server when they have been connected or disconnected.
+On the server properties notify the monitor when they have been changed (this means dirty propagation with known culprit - properties do not currently store dirty state).
+A property monitor would
+1) listen to connection events from the client and make the corresponding connection itself
+2) listen to changes in the connected properties and send corresponding events to the client
+Properties are per SOB and all sob event listeners will get the events sent. Permission checking has to be done to prevent things like stats etc from getting into the wrong hands (filtering at SOV level).
+
+EMT controller info:
+for every piece of media the EMT can store a list of controllers
+<CONTROLLER name="something" type="script">
+	<INIT>
+def doIt(c):
+    c.makeInputConnection(blaa)
+	</INIT>
+	<UPDATE>
+def doIt(c):
+    c.obj.doSomething(blaa)
+	</UPDATE>
+</CONTROLLER>
+<CONTROLLER name="sth" type="script">
+	<INIT script="sth_init.py"/>
+	<UPDATE script="sth_update.py"/>
+</CONTROLLER>
+
+How do we protect script from client side modification? Precompiled scripts and do not allow client scripts to do much really.
+
+EMD child linking. Instances are the ones that are linked.
+Hierarchical skeleton lookup - if not found in current EMD, look at parent, etc..
+There also need to be dirty connections between the EMDs and updates should be hierarchical as well.
+Need equipment UCs to figure all this out.
+
+/////////////////////////////////
+// PROJECTED SYSTEM
+/////////////////////////////////

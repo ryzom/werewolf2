@@ -1,0 +1,45 @@
+// Modifies vertex normals so when stitching together a mesh there is no seam in between the two meshes when
+
+global proc wwModifyUnifyNormals(float $threshold) {
+	string $selection[] = `filterExpand -sm 31`;
+	select -cl;
+	if(size($selection) < 2)
+		error "Bad selection. Select 2 or more vertices";
+
+	while(size($selection) > 0) {
+		$vertex = $selection[0];
+		string $vertices[];
+		$vertices = {};
+		$vertices[size($vertices)] = $vertex;
+		float $pos[] = `xform -q -ws -t $vertex`;
+		float $normalList[] = `polyNormalPerVertex -q -xyz $vertex`;
+		float $normal[] = {$normalList[0], $normalList[1], $normalList[2]};
+		normalize $normal;
+		for($vertex2 in $selection) {
+			if($vertex2 != $vertex) {
+				float $pos2[] = `xform -q -ws -t $vertex2`;
+				vector $diff = <<$pos[0] - $pos2[0], $pos[1] - $pos2[1], $pos[2] - $pos2[2]>>;
+				if(`mag $diff` < $threshold) {
+					$vertices[size($vertices)] = $vertex2;
+					$normalList = `polyNormalPerVertex -q -xyz $vertex2`;
+					float $tempNormal[];
+					$tempNormal[0] = $normalList[0];
+					$tempNormal[1] = $normalList[1];
+					$tempNormal[2] = $normalList[2];
+					normalize $tempNormal;
+					$normal[0] = ($normal[0] + $tempNormal[0]) / 2;
+					$normal[1] = ($normal[1] + $tempNormal[1]) / 2;
+					$normal[2] = ($normal[2] + $tempNormal[2]) / 2;
+					normalize $normal;
+				}
+			}
+		}
+		for($vtx in $vertices) {
+			polyNormalPerVertex -xyz $normal[0] $normal[1] $normal[2] $vtx;
+		}
+		$selection = `stringArrayRemove $vertices $selection`;
+	}
+	changeSelectMode -object;
+	select -cl;
+	
+}

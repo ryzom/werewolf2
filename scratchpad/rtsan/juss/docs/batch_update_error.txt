@@ -1,0 +1,101 @@
+INFO: indexes: [sys_idx_sys_ct_42_43, sys_pk_keywords]
+Apr 30, 2005 7:35:12 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: table found: METADATA
+Apr 30, 2005 7:35:12 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: columns: [creator, modtime, description, grade, fileid]
+Apr 30, 2005 7:35:12 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: foreign keys: []
+Apr 30, 2005 7:35:12 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+INFO: indexes: [sys_pk_metadata]
+Apr 30, 2005 7:35:12 PM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+INFO: schema update complete
+Apr 30, 2005 7:35:12 PM org.hibernate.impl.SessionFactoryImpl checkNamedQueries
+INFO: Checking 0 named queries
+Apr 30, 2005 7:35:12 PM org.hibernate.util.JDBCExceptionReporter logExceptions
+WARNING: SQL Error: 0, SQLState: null
+Apr 30, 2005 7:35:12 PM org.hibernate.util.JDBCExceptionReporter logExceptions
+SEVERE: failed batch
+Apr 30, 2005 7:35:12 PM org.hibernate.event.def.AbstractFlushingEventListener performExecutions
+SEVERE: Could not synchronize database state with session
+org.hibernate.exception.GenericJDBCException: Could not execute JDBC batch update
+	at org.hibernate.exception.ErrorCodeConverter.handledNonSpecificException(ErrorCodeConverter.java:92)
+	at org.hibernate.exception.ErrorCodeConverter.convert(ErrorCodeConverter.java:80)
+	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:43)
+	at org.hibernate.jdbc.AbstractBatcher.executeBatch(AbstractBatcher.java:179)
+	at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:226)
+	at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:137)
+	at org.hibernate.event.def.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:274)
+	at org.hibernate.event.def.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:27)
+	at org.hibernate.impl.SessionImpl.flush(SessionImpl.java:675)
+	at org.hibernate.impl.SessionImpl.managedFlush(SessionImpl.java:293)
+	at org.hibernate.transaction.JDBCTransaction.commit(JDBCTransaction.java:86)
+	at shared.DBManager.commitTransaction(DBManager.java:48)
+	at shared.DBManager.init(DBManager.java:277)
+	at client.ClientDBManager.init(ClientDBManager.java:38)
+	at client.ClientDBManager.<init>(ClientDBManager.java:34)
+	at client.CConnection.init(CConnection.java:40)
+	at client.CConnection.<init>(CConnection.java:35)
+	at client.JussClient.openConnection(JussClient.java:139)
+	at client.gui_mainFrm$1.handleEvent(gui_mainFrm.java:171)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:82)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:796)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:2773)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2432)
+	at client.gui_mainFrm.init(gui_mainFrm.java:127)
+	at client.gui_loaderFrm.load_gui(gui_loaderFrm.java:218)
+	at client.gui_loaderFrm.access$1(gui_loaderFrm.java:142)
+	at client.gui_loaderFrm$1.run(gui_loaderFrm.java:119)
+	at org.eclipse.swt.widgets.Display.runTimer(Display.java:2815)
+	at org.eclipse.swt.widgets.Display.messageProc(Display.java:2197)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:1473)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2430)
+	at client.gui_loaderFrm.main(gui_loaderFrm.java:51)
+Caused by: java.sql.BatchUpdateException: failed batch
+	at org.hsqldb.jdbc.jdbcStatement.executeBatch(Unknown Source)
+	at org.hsqldb.jdbc.jdbcPreparedStatement.executeBatch(Unknown Source)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.executeBatch(NewProxyPreparedStatement.java:1592)
+	at org.hibernate.jdbc.BatchingBatcher.doExecuteBatch(BatchingBatcher.java:57)
+	at org.hibernate.jdbc.AbstractBatcher.executeBatch(AbstractBatcher.java:172)
+	... 29 more
+org.hibernate.exception.GenericJDBCException: Could not execute JDBC batch update
+	at org.hibernate.exception.ErrorCodeConverter.handledNonSpecificException(ErrorCodeConverter.java:92)
+	at org.hibernate.exception.ErrorCodeConverter.convert(ErrorCodeConverter.java:80)
+	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:43)
+	at org.hibernate.jdbc.AbstractBatcher.executeBatch(AbstractBatcher.java:179)
+	at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:226)
+	at org.hibernate.engine.ActionQueue.executeActions(ActionQueue.java:137)
+	at org.hibernate.event.def.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:274)
+	at org.hibernate.event.def.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:27)
+	at org.hibernate.impl.SessionImpl.flush(SessionImpl.java:675)
+	at org.hibernate.impl.SessionImpl.managedFlush(SessionImpl.java:293)
+	at org.hibernate.transaction.JDBCTransaction.commit(JDBCTransaction.java:86)
+	at shared.DBManager.commitTransaction(DBManager.java:48)
+	at shared.DBManager.init(DBManager.java:277)
+	at client.ClientDBManager.init(ClientDBManager.java:38)
+	at client.ClientDBManager.<init>(ClientDBManager.java:34)
+	at client.CConnection.init(CConnection.java:40)
+	at client.CConnection.<init>(CConnection.java:35)
+	at client.JussClient.openConnection(JussClient.java:139)
+	at client.gui_mainFrm$1.handleEvent(gui_mainFrm.java:171)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:82)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:796)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:2773)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2432)
+	at client.gui_mainFrm.init(gui_mainFrm.java:127)
+	at client.gui_loaderFrm.load_gui(gui_loaderFrm.java:218)
+	at client.gui_loaderFrm.access$1(gui_loaderFrm.java:142)
+	at client.gui_loaderFrm$1.run(gui_loaderFrm.java:119)
+	at org.eclipse.swt.widgets.Display.runTimer(Display.java:2815)
+	at org.eclipse.swt.widgets.Display.messageProc(Display.java:2197)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:1473)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2430)
+	at client.gui_loaderFrm.main(gui_loaderFrm.java:51)
+Caused by: java.sql.BatchUpdateException: failed batch
+	at org.hsqldb.jdbc.jdbcStatement.executeBatch(Unknown Source)
+	at org.hsqldb.jdbc.jdbcPreparedStatement.executeBatch(Unknown Source)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.executeBatch(NewProxyPreparedStatement.java:1592)
+	at org.hibernate.jdbc.BatchingBatcher.doExecuteBatch(BatchingBatcher.java:57)
+	at org.hibernate.jdbc.AbstractBatcher.executeBatch(AbstractBatcher.java:172)
+	... 29 more

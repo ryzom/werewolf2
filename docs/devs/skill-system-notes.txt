@@ -1,0 +1,18 @@
+Skill System Summary:
+
+As one advances in a skill tree, skills become increasingly difficult to learn.
+
+Some skill trees compliment each other and the player can learn more quickly if skills in both trees have been learned.  One example would be a player who has learned skills in the Cooking tree and skills in the herbalist tree...  The player would use their knowledge of herbs and such to increase their cooking prowess.
+
+Some skill trees negatively impact one another such as skills learned in a combat tree and others learned in a magical tree.  When is the last time you saw Conan The Magician? :)
+
+Over time, unless the player practices a skill, that skills begin to degrade.  High level skills tend to degrade much more quickly than do lower level ones.  Very basic skills which are in the first level of the skill tree do not degrade at all (or perhaps extremely slowly).
+
+Skills trees are broken down into fine grained skill trees.  For instance, "Cooking" would be it's own skill tree.  In a more monolithic system the Cooking skill would likely go under some sort of craftiing tree. Having monolithic skill trees would require very complicated skill tree relationships.  Note that this approach does not preclude us from presenting the skill tree in a more monolithic fashion for our players (so it is a little more organized looking)
+
+A players attributes can influence how quickly and how a player may learn skills.  For instance, a player with very high intelligence could learn skills more easily and more quickly than a player with low intelligence.
+
+A player with high wisdom stat might be able to perform those tasks better once they are learned than a player with a low wisdom skill.
+
+Time Degradation * Initial Skill Plotting algorithm
+f(x)=(1.05^(x))

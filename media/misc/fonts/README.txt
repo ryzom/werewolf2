@@ -1,0 +1,1 @@
+The materials in this directory were not produced by the Werewolf team.  The copyright for these items therefore belongs to their respective authors.  THEY ARE NOT FREE SOFTWARE!  That said they are free to use (free as in beer).

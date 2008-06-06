@@ -1,0 +1,8 @@
+global proc wwModifyLockAndKey(string $object, int $lock, int $key, string $channelsStr) {
+	string $channels[0];
+	tokenize($channelsStr, " ", $channels);
+
+	for($ch in $channels) {
+		setAttr -lock $lock -keyable $key ($object + "." + $ch);
+	}
+}

@@ -1,0 +1,57 @@
+// At seams where MRM meshes meet which are stitched together make sure the seams will be reduced by the MRM system the same so they will match and appear seamless.  Assigned blind data to ea. vertex make this possible.
+
+global int $interfaceMeshId = 0;
+
+global proc nelAssignInterfaceMeshes () {
+	global int $interfaceMeshId;
+	if (!`pluginInfo -q -l "nearestPointOnMesh"`)
+		loadPlugin "nearestPointOnMesh";
+
+	if (!`pluginInfo -q -l "nearestPointOnMesh"`)
+		error "nearestPointOnMesh plugin is not loaded. Please load the plugin and try again.\n";
+
+	int $bBDExists[] = `blindDataType -q -id 20`;
+	if($bBDExists[0] != 20) {
+		print "No data type exists...creating\n";
+		blindDataType -id 20 -dt "string" -longDataName "interfaceMesh" -shortDataName "im"
+					  -dt "int" -longDataName "interfaceVtxId" -shortDataName "ivi"
+					  -dt "int" -longDataName "interfaceVtxCount" -shortDataName "ivc";
+
+	}
+
+	string $selection[] = `ls -sl`;
+	string $vertexList[] = `filterExpand -sm 31`;
+	string $polyList[] = `filterExpand -sm 12`;
+	string $tokenList[];
+	select -cl;
+	string $interface = "interfaceMesh" + $interfaceMeshId;
+	int $count = 0;
+	int $nVerts = `size($vertexList)`;
+	for($vertex in $vertexList) {
+		polyBlindData -id 20 -at vertex -ldn "interfaceMesh" -sd $interface $vertex;
+		polyBlindData -id 20 -at vertex -ldn "interfaceVtxId" -ind $count $vertex;
+		polyBlindData -id 20 -at vertex -ldn "interfaceVtxCount" -ind $nVerts $vertex;
+		float $pos[] = `xform -q -ws -t $vertex`;
+		for($poly in $polyList) {
+			int $face = `nearestPointOnMesh -ip $pos[0] $pos[1] $pos[2] -q -f $poly`;
+			string $verticesInfo[] = `polyInfo -fv ($poly + ".f[" + $face + "]")`;
+			string $vertices[];
+			tokenize $verticesInfo[0] ":" $vertices;
+			tokenizeList $vertices[1] $vertices;
+			for($vtx in $vertices) {
+				vector $diff;
+				float $vPos[] = `xform -q -ws -t ($poly + ".vtx[" + $vtx + "]")`;
+				$diff = <<$pos[0] - $vPos[0], $pos[1] - $vPos[1], $pos[2] - $vPos[2]>>;
+				float $distance = `mag $diff`;
+				if($distance < 0.001) {
+					polyBlindData -id 20 -at vertex -ldn "interfaceMesh" -sd $interface ($poly + ".vtx[" + $vtx + "]");
+					polyBlindData -id 20 -at vertex -ldn "interfaceVtxId" -ind $count ($poly + ".vtx[" + $vtx + "]");
+					polyBlindData -id 20 -at vertex -ldn "interfaceVtxCount" -ind $nVerts ($poly + ".vtx[" + $vtx + "]");
+				}
+			}
+		}
+		$count++;
+	}
+	$interfaceMeshId++;
+	select -r $selection;
+}

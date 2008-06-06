@@ -1,0 +1,136 @@
+global proc wwCreateFkIkBackRig(string $startJoint, string $endJoint, string $rootJoint, string $headJoint, string $hipControl, string $shoulderControl, string $bodyControl, string $jointOrient, string $secondAxisOrient) {
+	if(!`pluginInfo -q -l "closestPointOnCurve"`) {
+		loadPlugin "closestPointOnCurve";
+	}
+	if(!`pluginInfo -q -l "closestPointOnCurve"`) {
+		error "closestPointOnCurve not loaded. Go get bonus tools or something!";
+		return;
+	}
+
+	string $axis = `substring $jointOrient 1 1`;
+
+	$hipControl = `rename $hipControl "hipControl"`;
+	$shoulderControl = `rename $shoulderControl "shoulderControl"`;
+	$bodyControl = `rename $bodyControl "fullBodyControl"`;
+
+	string $backIkHandle = "back_ikHandle";
+	string $backCurve = "back_controlCurve";
+	string $cluster[0];
+	string $clusterName = "back_cluster1";
+	string $fkJointName = "back_fk";
+	string $backOrientIkHandle = "back_orient_ikHandle";
+
+	// Position IK controls
+	float $pos[] = `xform -q -t -ws $startJoint`;
+	vector $startPos = <<$pos[0], $pos[1], $pos[2]>>;
+	xform -a -t $pos[0] $pos[1] $pos[2] $hipControl;
+
+	$pos = `xform -q -t -ws $endJoint`;
+	vector $endPos = <<$pos[0], $pos[1], $pos[2]>>;
+	xform -a -t $pos[0] $pos[1] $pos[2] $shoulderControl;
+
+	// Create IK Spline
+	string $bits[0];
+	$bits = `ikHandle -sj $startJoint -ee $endJoint -sol "ikSplineSolver" -pcv false -ns 2 -name $backIkHandle`;
+	$backIkHandle = $bits[0];
+	$backCurve = `rename $bits[2] $backCurve`;
+
+	int $i;
+	for($i = 0; $i < 5; $i++) {
+		select -r ($backCurve + ".cv[" + $i + "]");
+		$bits = `newCluster " -envelope 1"`;
+		$cluster[$i] = `rename $bits[1] $clusterName`;
+	}
+
+	// Find all joints that make up the back
+	select -r $endJoint;
+	$fullPath = `ls -sl -l`;
+	string $jointPath = $fullPath[0];
+	select -r $startJoint;
+	$fullPath = `ls -sl -l`;
+	string $regEx = "^"+$fullPath[0]+"|";
+	string $empty = "";
+	$jointPath = `substitute $regEx $jointPath $empty`;
+	string $backJoints[0];
+	tokenize($jointPath, "|", $backJoints);
+	$backJoints[0] = $fullPath[0] + "|" + $backJoints[0];
+	for($i = 1; $i < size($backJoints); $i++) {
+		$backJoints[$i] = $backJoints[$i-1] + "|" + $backJoints[$i];
+	}
+
+	// Scale joints by curve
+	string $backJointString = `stringArrayToString $backJoints " "`;
+	jsCreateScaleJointsMake $backCurve $backJointString (".t" + $axis);
+
+	// Create FK control
+	vector $backVec = $endPos - $startPos;
+	float $backLength = `mag $backVec`;
+	vector $unitBack = $backVec / $backLength;
+	select -cl;
+	string $fkJoints[0];
+	$fkJoints[0] = `joint -p ($startPos.x) ($startPos.y) ($startPos.z) -a -n ($fkJointName+"1")`;
+	vector $jointPos = $startPos + ($unitBack * ($backLength*(1.0/3.0)));
+	float $curvePos[] = `closestPointOnCurve -ip ($jointPos.x) ($jointPos.y) ($jointPos.z) -q -p $backCurve`;
+	$fkJoints[1] = `joint -p $curvePos[0] $curvePos[1] $curvePos[2] -a -n ($fkJointName+"2")`;
+	joint -e -zso -oj $jointOrient -sao $secondAxisOrient $fkJoints[0];
+	$jointPos = $startPos + ($unitBack * ($backLength*(2.0/3.0)));
+	$curvePos = `closestPointOnCurve -ip ($jointPos.x) ($jointPos.y) ($jointPos.z) -q -p $backCurve`;
+	$fkJoints[2] = `joint -p $curvePos[0] $curvePos[1] $curvePos[2] -a -n ($fkJointName+"3")`;
+	joint -e -zso -oj $jointOrient -sao $secondAxisOrient $fkJoints[1];
+	$fkJoints[3] = `joint -p ($endPos.x) ($endPos.y) ($endPos.z) -a -n ($fkJointName+"3_end")`;
+	joint -e -zso -oj $jointOrient -sao $secondAxisOrient $fkJoints[2];
+	wwModifyZeroJointOrient;
+	select -cl;
+
+	// Parent the IK controls
+	parent $fkJoints[0] $bodyControl;
+	parent $hipControl $fkJoints[0];
+	parent $shoulderControl $fkJoints[size($fkJoints)-1];
+	makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -jointOrient $hipControl;
+	makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -jointOrient $shoulderControl;
+	
+	// Parent the clusters
+	parent $cluster[0] $cluster[1] $hipControl;
+	parent $cluster[3] $cluster[4] $shoulderControl;
+	wwCreateDuplicateConstraint $cluster[2] { $hipControl, $shoulderControl } { "parentConstraint" };
+//	parentConstraint -mo -weight 1 $hipControl $shoulderControl $cluster[2];
+
+	// Constrain the root
+	wwCreateDuplicateConstraint $rootJoint { $hipControl } { "parentConstraint" };
+//	parentConstraint -mo -weight 1 $hipControl $rootJoint;
+
+	// Setup twist
+	select -cl;
+	$hipOrientJoint = `joint -p ($startPos.x) ($startPos.y) ($startPos.z) -a -n "hipOrientJoint"`;
+	$shoulderOrientJoint = `joint -p ($endPos.x) ($endPos.y) ($endPos.z) -a -n "shoulderOrientJoint"`;
+	joint -e -zso -oj $jointOrient -sao $secondAxisOrient $hipOrientJoint;
+	$pos = `xform -q -t -ws $headJoint`;
+	joint -p $pos[0] $pos[1] $pos[2] -a -n "shoulderOrientJoint_end";
+	joint -e -zso -oj $jointOrient -sao $secondAxisOrient $shoulderOrientJoint;
+	wwModifyZeroJointOrient;
+	select -cl;
+	// TODO: set rotation orders.
+	$bits = `ikHandle -sj $hipOrientJoint -ee $shoulderOrientJoint -sol "ikSCsolver" -name $backOrientIkHandle`;
+	$backOrientIkHandle = $bits[0];
+	orientConstraint -mo -weight 1 $shoulderControl $shoulderOrientJoint;
+	pointConstraint -mo -weight 1 $shoulderControl $backOrientIkHandle;
+	parent $backOrientIkHandle $hipOrientJoint $hipControl;
+	expression -s ($backIkHandle+".twist = "+$shoulderOrientJoint+".r"+$axis+";")  -o $backIkHandle -ae 1 -uc all ;
+	
+	hide $backOrientIkHandle;
+	hide $hipOrientJoint;
+	hide $backIkHandle;
+	hide $backCurve;
+
+	for($clust in $cluster) {
+		hide $clust;
+	}
+
+	wwModifyLockAndKey $shoulderControl 1 0 "sx sy sz v";
+	wwModifyLockAndKey $hipControl 1 0 "sx sy sz v";
+	wwModifyLockAndKey $bodyControl 1 0 "sx sy sz v";
+
+	for($fkj in $fkJoints) {
+		wwModifyLockAndKey $fkj 1 0 "tx ty tz sx sy sz v";
+	}
+}

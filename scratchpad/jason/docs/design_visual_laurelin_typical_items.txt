@@ -1,0 +1,37 @@
+These items will display typical laurelin items.  These items will display the scope and breadth of the Laurelin visual style and will provide guidance on what is acceptable and what is not acceptable.
+
+Transportation
+	Wagon
+	Sleigh
+	Horse Saddle & Tack
+Buildings
+	Architecture
+		House (Med sized / med ornate)
+		Barn
+		Storage Cellar
+	Interior
+		Fireplace
+		General Floorplan
+Furniture
+	Table
+	Chair
+	Benches
+	Beds
+Household Items
+	Storage Containers
+		Chest
+		Jars
+	Cookware
+		Pot
+Weapons
+	Sword (med ornate)
+	Spears / Pikes 
+	Bow & Arrow
+Clothing
+	Tops
+	Pants
+	Dresses?
+	Ceremonial Dress
+General Tools
+	Ladder
+	Hammers etc

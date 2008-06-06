@@ -1,0 +1,64 @@
+// Create a NeL Billboard
+
+global string $NeLBBCamName = "bbPreviewCam";
+
+proc createNeLBBCam() {
+	global string $NeLBBCamName;
+	string $name[] = `camera -n $NeLBBCamName`;
+	rename $name[0] $NeLBBCamName;
+}
+
+global proc string nelCreateBillboard(string $parentSlot) {
+	global string $NeLBBCamName;
+
+	string $nameArray[] = `polyPlane -w 1 -h 1 -sx 1 -sy 1 -ax 0 1 0 -tx 1 -ch 1 -n billboard`;
+	string $transform = $nameArray[0];
+	string $plane = $nameArray[1];
+	string $parented[] = `parent $transform $parentSlot`;
+	$transform = $parented[0];
+
+	setAttr -lock true -keyable false ($plane+".w");
+	setAttr -lock true -keyable false ($plane+".h");
+	setAttr -lock true -keyable false ($plane+".sw");
+	setAttr -lock true -keyable false ($plane+".sh");
+
+	setAttr -lock true -keyable false ($transform+".sy");
+
+
+	addAttr -ln "Billboard" -at "bool" -dv 1 -h 1 -k 0 $transform;
+	addAttr -ln "Orientation" -at "float" -dv 0 -k 1 $transform;
+	addAttr -ln "ConstraintAxisX" -at "float" -dv 0 -k 1 $transform;
+	addAttr -ln "ConstraintAxisY" -at "float" -dv 0 -k 1 $transform;
+	addAttr -ln "ConstraintAxisZ" -at "float" -dv 1 -k 1 $transform;
+
+	$sh = `listRelatives -s -pa -ni $transform`;
+	$shape = $sh[0];
+
+	setAttr ($shape + ".materialBlend") 3;
+
+	connectAttr -f ($parentSlot + ".useBBColors") ($shape + ".displayColors");
+
+	if(!`objExists ($NeLBBCamName)`) {
+		createNeLBBCam;	
+	}
+	
+	string $aims[] = `aimConstraint -offset 0 0 0 -weight 1 -aimVector 0 1 0 -upVector 0 0 1 -worldUpType "scene" $NeLBBCamName $transform`;
+	string $aim = $aims[0];
+
+	string $expr = "vector $p = <<0, 0, 1>>;\r\n";
+	$expr += "if("+$parentSlot+".useBBOrientations) {\r\n";
+	$expr += "\tvector $axis = <<"+$aim+".aimVectorX, "+$aim+".aimVectorY, "+$aim+".aimVectorZ>>;\r\n";
+	$expr += "\tfloat $orient = "+$transform+".Orientation;\r\n";
+	$expr += "\t$p = `rot $p $axis $orient`;\r\n";
+	$expr += "}\r\n";
+	$expr += "\r\n";
+	$expr += $aim+".upVectorX = ($p.x);\r\n";
+	$expr += $aim+".upVectorY = ($p.y);\r\n";
+	$expr += $aim+".upVectorZ = ($p.z);";
+
+	expression -s $expr -o "" -n ($transform + "_orientation") -ae 0 -uc all;
+
+	return $transform;
+}
+
+

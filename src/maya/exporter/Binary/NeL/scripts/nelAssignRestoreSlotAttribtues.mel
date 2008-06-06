@@ -1,0 +1,14 @@
+// Assigns and restores NeLSlotAttrs to default values
+
+global proc nelAssignRestoreSlotAttribtues(string $slot) {
+	setAttr -keyable true ($slot+".LodBlendIn");
+	setAttr -keyable true ($slot+".LodBlendOut");
+	setAttr -keyable true ($slot+".LodBlendLength");
+	setAttr -keyable true ($slot+".BBRadiusX");
+	setAttr -keyable true ($slot+".BBRadiusZ");
+	setAttr -keyable true ($slot+".useBBSizes");
+	setAttr -keyable true ($slot+".useBBColors");
+	setAttr -keyable true ($slot+".useBBOrientations");
+	setAttr -keyable true ($slot+".useRadialNormals");
+	setAttr -keyable true ($slot+".Alignment");
+}

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="gui" size="2760,2096" id="client" metadata="uml2-1.0" initialized="true" zoom="0.75" scrolledY="76" tag="10" key="3230303530343131206A757373">
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.6/@sourceConnections.5" name="GuiNewProjectFrm" location="960,427" size="266,85" id="client/GuiNewProjectFrm" runTimeClassModel="init(IILorg.eclipse.swt.widgets.Shell;),createSShell(IILorg.eclipse.swt.widgets.Shell;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="243,36">
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/GuiNewProjectFrm#init(IILorg.eclipse.swt.widgets.Shell;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createSShell" id="client/GuiNewProjectFrm#createSShell(IILorg.eclipse.swt.widgets.Shell;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.6/@sourceConnections.8" name="GuiHelpFrm" location="960,540" size="189,103" id="client/GuiHelpFrm" runTimeClassModel="createSShell(II),init(II)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="78,18">
+      <children xsi:type="editmodel:AttributeEditModel" name="sShell" id="client/GuiHelpFrm#sShell"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="166,36">
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/GuiHelpFrm#init(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createSShell" id="client/GuiHelpFrm#createSShell(II)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.6/@sourceConnections.6" name="GuiLogInFrm" location="959,659" size="266,121" id="client/GuiLogInFrm" runTimeClassModel="init(IILorg.eclipse.swt.widgets.Shell;),createSShell(IILorg.eclipse.swt.widgets.Shell;),onCancel(),onLogin()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="243,72">
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/GuiLogInFrm#init(IILorg.eclipse.swt.widgets.Shell;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createSShell" id="client/GuiLogInFrm#createSShell(IILorg.eclipse.swt.widgets.Shell;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onLogin" id="client/GuiLogInFrm#onLogin()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="onCancel" id="client/GuiLogInFrm#onCancel()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.6/@sourceConnections.2" name="GuiImportFileFrm" location="501,1185" size="398,85" id="client/GuiImportFileFrm" runTimeClassModel="createSShell(Ljava.io.File;IILorg.eclipse.swt.widgets.Shell;),init(Ljava.io.File;IIILorg.eclipse.swt.widgets.Shell;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="375,36">
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/GuiImportFileFrm#init(Ljava.io.File;IIILorg.eclipse.swt.widgets.Shell;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createSShell" id="client/GuiImportFileFrm#createSShell(Ljava.io.File;IILorg.eclipse.swt.widgets.Shell;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.5/@sourceConnections.3 //@children.6/@sourceConnections.3" name="GuiStatus" location="280,1009" size="155,103" id="client/GuiStatus" runTimeClassModel="print(Ljava.lang.String;),GuiStatus(Ljava.lang.String;),GuiStatus()">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="132,54">
+      <children xsi:type="editmodel:MethodEditModel" name="GuiStatus" id="client/GuiStatus#GuiStatus()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="GuiStatus" id="client/GuiStatus#GuiStatus(Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="print" id="client/GuiStatus#print(Ljava.lang.String;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="client/GuiStatus@status+client/GuiLoaderFrm@" source="//@children.4" target="//@children.5" targetEnd="//@children.4/@sourceConnections.0/@children.2" label="//@children.4/@sourceConnections.0/@children.0" sourceEnd="//@children.4/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="1,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="status" location="76,0" id="client/GuiStatus@status+client/GuiLoaderFrm@|client/GuiStatus#status" attachSource="true" multiplicityLabel="//@children.4/@sourceConnections.0/@children.1/@children.1" roleLabel="//@children.4/@sourceConnections.0/@children.1/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" + status" location="363,987" size="43,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="330,987" size="19,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="74,139" id="client/GuiStatus@status+client/GuiLoaderFrm@|client/GuiLoaderFrm#"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="client/GuiStatus@status+client/GuiMainFrm@" source="//@children.4" target="//@children.6" targetEnd="//@children.4/@sourceConnections.1/@children.2" label="//@children.4/@sourceConnections.1/@children.0" sourceEnd="//@children.4/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="1,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="status" location="153,16" id="client/GuiStatus@status+client/GuiMainFrm@|client/GuiStatus#status" attachSource="true" multiplicityLabel="//@children.4/@sourceConnections.1/@children.1/@children.1" roleLabel="//@children.4/@sourceConnections.1/@children.1/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - status" location="441,1031" size="41,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="441,1003" size="19,14" fontInfo="Arial-8-0" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,492" id="client/GuiStatus@status+client/GuiMainFrm@|client/GuiMainFrm#"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.4/@sourceConnections.0" name="GuiLoaderFrm" location="282,790" size="149,139" id="client/GuiLoaderFrm" runTimeClassModel="main([Ljava.lang.String;),loadTray(),createSShell(),setPbVal(I),load_gui(I)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="126,90">
+      <children xsi:type="editmodel:MethodEditModel" name="main" id="client/GuiLoaderFrm#main([Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createSShell" id="client/GuiLoaderFrm#createSShell()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setPbVal" id="client/GuiLoaderFrm#setPbVal(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="load_gui" id="client/GuiLoaderFrm#load_gui(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="loadTray" id="client/GuiLoaderFrm#loadTray()"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/GuiLoaderFrm->shared/CConfig" source="//@children.5" target="//@children.8" targetEnd="//@children.5/@sourceConnections.0/@children.2" label="//@children.5/@sourceConnections.0/@children.0" sourceEnd="//@children.5/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" size="42,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="59,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="83,29"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="shared/CConfig@conf+client/GuiLoaderFrm@" source="//@children.5" target="//@children.8" targetEnd="//@children.5/@sourceConnections.1/@children.2" label="//@children.5/@sourceConnections.1/@children.0" sourceEnd="//@children.5/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="1,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="15,-1" id="shared/CConfig@conf+client/GuiLoaderFrm@|client/GuiLoaderFrm#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="conf" location="38,28" id="shared/CConfig@conf+client/GuiLoaderFrm@|shared/CConfig#conf" multiplicityLabel="//@children.5/@sourceConnections.1/@children.2/@children.1" roleLabel="//@children.5/@sourceConnections.1/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" + conf" location="303,584" size="35,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="270,584" size="19,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/GuiLoaderFrm->client/JussClient" source="//@children.5" target="//@children.7" targetEnd="//@children.5/@sourceConnections.2/@children.2" label="//@children.5/@sourceConnections.2/@children.0" sourceEnd="//@children.5/@sourceConnections.2/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" location="258,440" size="49,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="171.99999999999997" distanceFromWire="-48.00000000000008" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="-1,14" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="97,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/GuiLoaderFrm->client/GuiStatus" source="//@children.5" target="//@children.4" targetEnd="//@children.5/@sourceConnections.3/@children.2" label="//@children.5/@sourceConnections.3/@children.0" sourceEnd="//@children.5/@sourceConnections.3/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" location="250,970" size="42,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="9.0" distanceFromWire="26.0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="-1,126" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,11"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/GuiLoaderFrm->client/GuiMainFrm" source="//@children.5" target="//@children.6" targetEnd="//@children.5/@sourceConnections.4/@children.1" label="//@children.5/@sourceConnections.4/@children.2" sourceEnd="//@children.5/@sourceConnections.4/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="149,69" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,431"/>
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.4/@sourceConnections.1 //@children.5/@sourceConnections.4" name="GuiMainFrm" location="492,428" size="418,715" id="client/GuiMainFrm" runTimeClassModel="initSearch(),getId(Lorg.eclipse.swt.widgets.TreeItem;),doFolderRefresh(),addConnection(Ljava.lang.String;Ljava.lang.String;),getFileId(Lorg.eclipse.swt.widgets.TreeItem;),doSearch(),upDateConf(),createSShell(),startTransferTimer(),makeDirectory(),createComposite(Lorg.eclipse.swt.widgets.Composite;),getContext(Lorg.eclipse.swt.widgets.TreeItem;Z),setTab(I),createViewMenu(),init(Lorg.eclipse.swt.widgets.Tray;Lorg.eclipse.swt.widgets.TrayItem;Lorg.eclipse.swt.widgets.Shell;Lshared.CConfig;),doDownload(Lorg.eclipse.swt.widgets.TreeItem;),showMeta(Lorg.eclipse.swt.widgets.TreeItem;),createFileTreeMenu(),createTrayMenu(Lorg.eclipse.swt.widgets.Tray;Lorg.eclipse.swt.widgets.TrayItem;),clear([Lorg.eclipse.swt.widgets.TreeItem;),getContext(Lorg.eclipse.swt.widgets.TreeItem;),clear(Lorg.eclipse.swt.widgets.Tree;),clear(Lorg.eclipse.swt.widgets.TreeItem;),createOptMenu(),upDateMenuLocations(II),createFileMenu(),createCommonRMBMenu(Lorg.eclipse.swt.widgets.Menu;),doFileOpen(),doUpload([Ljava.lang.String;Ljava.io.File;),createFolderTreeMenu(),createHelpMenu(),getConnection(Lorg.eclipse.swt.widgets.TreeItem;),createFolderRMBMenu(Lorg.eclipse.swt.widgets.Menu;),resizeFrm(Lorg.eclipse.swt.graphics.Rectangle;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="82,72">
+      <children xsi:type="editmodel:AttributeEditModel" name="pROJECT" id="client/GuiMainFrm#pROJECT"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="sEARCH" id="client/GuiMainFrm#sEARCH"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="mETA" id="client/GuiMainFrm#mETA"/>
+      <children xsi:type="editmodel:AttributeEditModel" name="tRAFFIC" id="client/GuiMainFrm#tRAFFIC"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="395,612">
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/GuiMainFrm#init(Lorg.eclipse.swt.widgets.Tray;Lorg.eclipse.swt.widgets.TrayItem;Lorg.eclipse.swt.widgets.Shell;Lshared.CConfig;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createFileTreeMenu" id="client/GuiMainFrm#createFileTreeMenu()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="doFileOpen" id="client/GuiMainFrm#doFileOpen()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="doDownload" id="client/GuiMainFrm#doDownload(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="showMeta" id="client/GuiMainFrm#showMeta(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createFolderTreeMenu" id="client/GuiMainFrm#createFolderTreeMenu()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createFolderRMBMenu" id="client/GuiMainFrm#createFolderRMBMenu(Lorg.eclipse.swt.widgets.Menu;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createCommonRMBMenu" id="client/GuiMainFrm#createCommonRMBMenu(Lorg.eclipse.swt.widgets.Menu;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="makeDirectory" id="client/GuiMainFrm#makeDirectory()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="doFolderRefresh" id="client/GuiMainFrm#doFolderRefresh()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createFileMenu" id="client/GuiMainFrm#createFileMenu()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="upDateConf" id="client/GuiMainFrm#upDateConf()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getContext" id="client/GuiMainFrm#getContext(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getContext" id="client/GuiMainFrm#getContext(Lorg.eclipse.swt.widgets.TreeItem;Z)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clear" id="client/GuiMainFrm#clear(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clear" id="client/GuiMainFrm#clear(Lorg.eclipse.swt.widgets.Tree;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clear" id="client/GuiMainFrm#clear(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getFileId" id="client/GuiMainFrm#getFileId(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getId" id="client/GuiMainFrm#getId(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="getConnection" id="client/GuiMainFrm#getConnection(Lorg.eclipse.swt.widgets.TreeItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addConnection" id="client/GuiMainFrm#addConnection(Ljava.lang.String;Ljava.lang.String;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createViewMenu" id="client/GuiMainFrm#createViewMenu()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createOptMenu" id="client/GuiMainFrm#createOptMenu()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createHelpMenu" id="client/GuiMainFrm#createHelpMenu()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createTrayMenu" id="client/GuiMainFrm#createTrayMenu(Lorg.eclipse.swt.widgets.Tray;Lorg.eclipse.swt.widgets.TrayItem;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createSShell" id="client/GuiMainFrm#createSShell()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="initSearch" id="client/GuiMainFrm#initSearch()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="doSearch" id="client/GuiMainFrm#doSearch()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="setTab" id="client/GuiMainFrm#setTab(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createComposite" id="client/GuiMainFrm#createComposite(Lorg.eclipse.swt.widgets.Composite;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="startTransferTimer" id="client/GuiMainFrm#startTransferTimer()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="resizeFrm" id="client/GuiMainFrm#resizeFrm(Lorg.eclipse.swt.graphics.Rectangle;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="upDateMenuLocations" id="client/GuiMainFrm#upDateMenuLocations(II)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="shared/CConfig@conf+client/GuiMainFrm@" source="//@children.6" target="//@children.8" targetEnd="//@children.6/@sourceConnections.0/@children.2" label="//@children.6/@sourceConnections.0/@children.0" sourceEnd="//@children.6/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="1,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,135" id="shared/CConfig@conf+client/GuiMainFrm@|client/GuiMainFrm#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="conf" location="97,14" id="shared/CConfig@conf+client/GuiMainFrm@|shared/CConfig#conf" multiplicityLabel="//@children.6/@sourceConnections.0/@children.2/@children.1" roleLabel="//@children.6/@sourceConnections.0/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - conf" location="408,541" size="33,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="408,569" size="19,14" fontInfo="Arial-8-0" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/GuiMainFrm->client/JussClient" source="//@children.6" target="//@children.7" targetEnd="//@children.6/@sourceConnections.1/@children.2" label="//@children.6/@sourceConnections.1/@children.0" sourceEnd="//@children.6/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,56" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="72,14"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/GuiMainFrm->client/GuiImportFileFrm" source="//@children.6" target="//@children.3" targetEnd="//@children.6/@sourceConnections.2/@children.2" label="//@children.6/@sourceConnections.2/@children.0" sourceEnd="//@children.6/@sourceConnections.2/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" location="709,1160" size="49,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="4.0" distanceFromWire="35.0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="207,715" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="198,0"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/GuiMainFrm->client/GuiStatus" source="//@children.6" target="//@children.4" targetEnd="//@children.6/@sourceConnections.3/@children.2" label="//@children.6/@sourceConnections.3/@children.0" sourceEnd="//@children.6/@sourceConnections.3/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" location="451,1089" size="42,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="25.0" distanceFromWire="9.000000000000007" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,635" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="153,71"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/GuiMainFrm->shared/CConfig" source="//@children.6" target="//@children.8" targetEnd="//@children.6/@sourceConnections.4/@children.2" label="//@children.6/@sourceConnections.4/@children.0" sourceEnd="//@children.6/@sourceConnections.4/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" location="396,625" size="42,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-16.0" distanceFromWire="29.000000000000004" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,234" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="144,24"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/GuiMainFrm->client/GuiNewProjectFrm" source="//@children.6" target="//@children.0" targetEnd="//@children.6/@sourceConnections.5/@children.1" label="//@children.6/@sourceConnections.5/@children.2" sourceEnd="//@children.6/@sourceConnections.5/@children.0" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="418,42" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="80,43"/>
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="client/GuiMainFrm->client/GuiLogInFrm" source="//@children.6" target="//@children.2" targetEnd="//@children.6/@sourceConnections.6/@children.2" label="//@children.6/@sourceConnections.6/@children.0" sourceEnd="//@children.6/@sourceConnections.6/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="417,340" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="-3,109"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/GuiMainFrm->client/GuiHelpAboutFrm" source="//@children.6" target="//@children.9" targetEnd="//@children.6/@sourceConnections.7/@children.2" label="//@children.6/@sourceConnections.7/@children.0" sourceEnd="//@children.6/@sourceConnections.7/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="418,440" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,42"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/GuiMainFrm->client/GuiHelpFrm" source="//@children.6" target="//@children.1" targetEnd="//@children.6/@sourceConnections.8/@children.2" label="//@children.6/@sourceConnections.8/@children.0" sourceEnd="//@children.6/@sourceConnections.8/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«access»" size="49,14" fontInfo="Arial-8-0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="418,163" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="-1,51"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showStaticAttributes="true" showProtectedMethods="true" showPublicMethods="true" showPackageMethods="true" showPrivateMethods="true" showStaticMethods="true" showProtectedInnerClasses="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.5/@sourceConnections.2 //@children.6/@sourceConnections.1" name="JussClient" location="269,470" size="107,29" id="client/JussClient" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="130,198"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="client/JussClient->shared/CConfig" source="//@children.7" target="//@children.8" targetEnd="//@children.7/@sourceConnections.0/@children.2" label="//@children.7/@sourceConnections.0/@children.0" sourceEnd="//@children.7/@sourceConnections.0/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«import»" location="339,512" size="42,14" fontInfo="Arial-8-0" automaticRelocationAllowed="false" locationOnWireFromSource="-3.9999999999999996" distanceFromWire="39.0" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,29" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="64,0"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.5/@sourceConnections.0 //@children.6/@sourceConnections.0 //@children.7/@sourceConnections.0 //@children.6/@sourceConnections.4 //@children.5/@sourceConnections.1" name="CConfig" location="258,549" size="144,29" id="shared/CConfig" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="113,252"/>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.6/@sourceConnections.7" name="GuiHelpAboutFrm" location="959,826" size="277,85" id="client/GuiHelpAboutFrm" runTimeClassModel="init(IILorg.eclipse.swt.widgets.Shell;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="254,36">
+      <children xsi:type="editmodel:MethodEditModel" name="init" id="client/GuiHelpAboutFrm#init(IILorg.eclipse.swt.widgets.Shell;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="createSShell" id="client/GuiHelpAboutFrm#createSShell(IILorg.eclipse.swt.widgets.Shell;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" showMethodsParameterNames="true" showMethodsParameterKinds="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=7"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="10,10" gridOrigin="0,0" rulerUnit="pixel">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" showInterfaceStereotype="true" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

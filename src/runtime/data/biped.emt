@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<FORM>
+  <STRUCT>
+    <ATOM Name="Name" Value="biped"/>
+    <ATOM Name="Description" Value="A generic bipedal character."/>
+    <ARRAY Name="Parents">
+    </ARRAY>
+    <ARRAY Name="MeshGroups">
+      <STRUCT>
+        <ATOM Name="MeshGroupName" Value="body"/>
+        <ATOM Name="Description" Value="The meshes used for the main body of the character."/>
+        <ARRAY Name="Meshes">
+          <STRUCT>
+            <ATOM Name="FriendlyName" Value="normal"/>
+            <ATOM Name="Description" Value="The mesh used when the character does not have anything special on."/>
+          </STRUCT>
+          <STRUCT>
+            <ATOM Name="FriendlyName" Value="armored"/>
+            <ATOM Name="Description" Value="The mesh used when the character has armor on."/>
+          </STRUCT>
+        </ARRAY>
+      </STRUCT>
+    </ARRAY>
+    <ARRAY Name="AnimationLayers">
+      <STRUCT>
+        <ATOM Name="AnimLayerName" Value="motion"/>
+        <ARRAY Name="AnimationGroups">
+          <STRUCT>
+            <ATOM Name="AnimGroupName" Value="idle"/>
+            <ATOM Name="Description" Value="The clips used when the character is just hanging out."/>
+          </STRUCT>
+          <STRUCT>
+            <ATOM Name="AnimGroupName" Value="walk"/>
+            <ATOM Name="Description" Value="The clips used when the character is walking normally."/>
+          </STRUCT>
+          <STRUCT>
+            <ATOM Name="AnimGroupName" Value="run"/>
+            <ATOM Name="Description" Value="The clips used when the character is running normally."/>
+          </STRUCT>
+        </ARRAY>
+      </STRUCT>
+    </ARRAY>
+  <STRUCT>
+</FORM>

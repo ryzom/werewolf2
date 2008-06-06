@@ -1,0 +1,53 @@
+CURRENT PROJECTS:
+NeL exporter prototype for Maya.
+Demo concept art
+Character concept art (stalled for a bit)
+
+FUTURE PROJECTS:
+Character modeling and animation for the demo. (waiting for my own box to get repaired)
+Architectural Concept Art (waiting for the village map)
+
+DEVELOPER NOTES:
+
+October 9, 2004
+	Well..it's been a while. I have been dealing with concept art for the demo. Managed to complete the concept art for the main character. Will move on to 3D with the character as soon as I get my own box back (tis broken). Atm working on the tavern design for the demo, which is almost done (at least the exterior).
+
+July 12, 2004
+	Fixed a major bug in the skeletal export system - it should now work just fine :) Added MRM support. No WYSIWYG in Maya and no Interface Meshes and Blend Shapes yet. Those are on my TODO :)
+	Sadly I screwed up my hand a bit with all this coding and some cel animation...taking a break :(
+	
+July 06, 2004
+	Worked on animation exporting a bit more. Added oversampling to all transforms and unified it with the bone animation export I had - since bones are just transforms. Found that Maya has their animCurve interpolation code freely available. Will investigate how I could fit that into NeL to make their beziers work nicely :) But Maya still has animation network setups I can not handle easily (like choice and blend nodes...not to mention driven objects and expressions). So I guess oversampling isn't that temporary. Should give the user the ability to control oversampling options - among those - on which object/channel it should be done.
+
+July 01, 2004
+	Worked a bit more on skinning and skeleton export. Now it should not care which pose the skeleton is in when exporting - the defaults are set to the bind pose. Also implemented a quick linear oversampling of the quaternion rotation on bones. So I can see skeletal animation.
+	Started on exporting the standard lod stuff. Got basics done. Will try to make it more specific (skinning, blendShapes all the materials etc.) in the coming days.
+
+July 01, 2004
+	It's 2 am..or something like that. Completed the skeleton and skinning export. Had some weird problems and even stranger fixes. But it works on a basic level for now. Also did basic blend shapes aka morphing export. Lots of trouble with animation - it has a half-finished bezier implementation (no tangent length) and it only allows vector components to be keyed at the same time. Think we have to modify NeL, bc this is a real pita for animators. Many seem to be using oversampling - I will not go that way...if then only temporarily.
+	Most items on my prototype exporter are now complete. I still need to do LOD and try MRM...perhaps then also Water, landscape, collisions etc. It would be nice to prototype and learn all that before making a clean version.
+	Got VC7 now..will try to make the project with that soon.
+	Got a bunch of photos for textures and reference some days back. Will have to develop some films and clean it up. Hope I got some good material from that :)
+
+June 26, 2004
+Well..I have prototyped basic mesh (vertex, normal, uv set) and material export. Now moving have been looking into animation. This seems to be quite a mess in NeL :( No VC7 yet..prototyping on VC6 which is not that good atm.
+
+June 17, 2004
+Much has happened. But I am finally back and free to do lots of stuff :) The art side hasn't gone too well recently, so I am mainly practicing that and trying to get back into coding. Will start actually coding as soon as I get VC7.
+
+December 4, 2003
+Started on the game system. This will be part of the plan for Werewolf version 1.
+
+December 1, 2003
+Started on an art bible...hope it is of some use...
+
+November 12, 2003
+Seems like we'll be using Dime as the client for Werewolf, so I am stepping out of any programming stuff that was planned for qclient. 
+
+October 26, 2003
+DPM/SKM loading came to a grinding halt. I got it loading the model and all, but the model looks like a disco freakshow...vertices flailing all over the place and very colorful :). So until other dpm models are tested I am doing some other stuff. The logo got done:
+http://purple.worldforge.org/~rtsan/concept/rough/werewolf_logo_rough_07_orange.jpg
+Slowly moving towards a GUI design. :)
+
+October 25, 2003
+Character concept art is advancing slowly. Still stuck at Berrin. Luckily he is nearly finished - just the final painting and a few attitude images to do. Currently resting my hand and doing some coding - trying to find out how to load dpm into qfusion so we could later also load skm.

@@ -1,0 +1,21 @@
+global proc nelConvert2CollisionMesh() {
+	string $selected[] = `ls -sl`;
+	for($select in $selected) {
+		print("Creating collision mesh from " + $select + "\n");
+		addAttr -ln "NelCollisionMesh" -k 0 -at "bool" -h 1 -dv 1 $select;
+		addAttr -ln "CollisionType" -k 1 -at "enum" -en "Interior:Exterior:" $select;
+		// make sure the faces have a z-up normal
+		string $normals[] = `polyInfo -fn $select`;
+		float $z[] = { 0, 0, 1 };
+		for($normalString in $normals) {
+			string $tokens[];
+			tokenize $normalString " :	" $tokens;
+			float $normal[] = { (float)$tokens[2], (float)$tokens[3], (float)$tokens[4] };
+			if(`dotProduct $normal $z 1` < 0) {
+				string $face = $select + ".f[" + $tokens[1] + "]";
+				polyNormal -nm 0 $face;
+			}
+		}
+	}
+	print("Done.\n");
+}

@@ -1,0 +1,40 @@
+global proc string nelCreateCollisionFromFaces(int $type) {
+	string $selectedShapes[] = `ls -sl -objectsOnly`;
+	if(size($selectedShapes) < 1)
+		return "";
+	string $selectedTransforms[] = `listRelatives -p $selectedShapes[0]`;
+	string $selectedTransform = $selectedTransforms[0];
+	// the general name of the new object
+	$collision_name = $selectedTransform + ($type == 1 ? "_exterior" : "_interior");
+	// duplicate the object
+	string $selectedFacesArray[] = `filterExpand -sm 34`;
+	string $selectedFaces = `stringArrayToString $selectedFacesArray " "`;
+	string $duplicate[] = `duplicate -rr -n $collision_name $selectedTransform`;
+	string $collision = $duplicate[0];
+	// select the same faces on the duplicate and delete the others
+	select -cl;
+	$newSelectedFaces = $selectedFaces;
+	$regExp = $selectedTransform  + "\\.";
+	$replace = $collision + ".";
+	do {
+		$selectedFaces = $newSelectedFaces;
+		$newSelectedFaces = `substitute $regExp $selectedFaces $replace`;
+	} while(`strcmp $newSelectedFaces $selectedFaces` != 0);
+	select -r `stringToStringArray $newSelectedFaces " "`;
+	int $numFaces[] = `polyEvaluate -f $collision`;
+	$allFaces = $collision + ".f[0:" + $numFaces[0] + "]";
+	select -tgl $allFaces;
+	delete `filterExpand -sm 34`;
+	select $collision;
+	// convert to a collision mesh of the given type
+	nelConvert2CollisionMesh;
+	setAttr ($collision + ".CollisionType") $type;
+	// add to collision layer
+	$layerName = $selectedTransform + ($type == 1?"_exterior":"_interior") + "_col";
+	if(size(`ls -type "displayLayer" $layerName`) > 0) {
+		editDisplayLayerMembers $layerName $collision;
+	} else {
+		createDisplayLayer -number 1 -n $layerName $collision;
+	}
+	return $collision;
+}

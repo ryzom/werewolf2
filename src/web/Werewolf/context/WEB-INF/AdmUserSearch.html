@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title>Test Search Page</title>
+</head>
+<body>
+	<p>Use thsi form to locate users. When you find a user you want
+	   <a href="#" jwcid="@PageLink" page="Login">login</a> and modify it.
+   </p>
+	
+	<form jwcid="@Form" listener="ognl:listeners.formSubmit">
+		<table>
+			<tr>
+				<th>Name</th>
+				<td><input type="text" jwcid="@TextField" value="ognl:username" size="30" maxlength="100"/></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+					<input type="submit" alt="Search" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

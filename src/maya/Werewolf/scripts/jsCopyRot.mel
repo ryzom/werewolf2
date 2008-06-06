@@ -1,0 +1,93 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsCopyRot.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 14, 2002
+//
+//	DESCRIPTION:	This script will copy the rotation of one object
+//					to another.  If there are any keys on the object, 
+//					it will attempt to figure out the previous values
+//					so it can evaluate the orientation correctly.
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+global proc jsCopyRot ( string $inputs )
+{
+	// VARIABLES
+	string $firstObject;
+	string $secondObject;
+	string $selected[0];
+	float  $pos[0];
+
+	// First check and see if there are any $inputs given.  
+	if (size($inputs) > 0)
+	{
+		string $broken[0];
+		tokenize ($inputs, $broken);
+		
+		// we should have two objects there.. check the size
+		if (size($broken) != 2)
+			error ("You need to pass two names to jsCopyPos.\nExample: jsCopyPos nurbsSphere1 nurbsSphere2;");
+
+		// now make sure the objects exist
+		if (!`objExists $broken[0]`)
+			error ($broken[0] + " does not exist in this scene. jsCopyPos needs to be passed object names which exist in the scene.");
+
+		// check the second object
+		if (!`objExists $broken[1]`)
+			error ($broken[1] + " does not exist in this scene. jsCopyPos needs to be passed object names which exist in the scene.");
+		
+		// now assign the variables
+		$firstObject = $broken[0];
+		$secondObject = $broken[1];
+	}
+	else
+	{
+		// no Inputs are given.. go based on the seleciton list
+		$selected= `ls -sl`;
+		
+		// check and see if anything's selected
+		if (size($selected) <= 1)
+		{
+			error ("You haven't selected enough objects, and you haven't passed any options to jsCopyPos.\nYou either need to select two objects, or specify which objects you want to copy the position of.");
+		}
+
+		$firstObject = $selected[0];
+		$secondObject = $selected[1];
+	}
+
+	// Now we have the two objects.  The next step is to get the proper
+	// orientation of the first object in the space of the second object.
+	// We could probably do this with matrix math, but since I don't know any
+	// of that stuff, we'll just do it an old fashioned way. :)
+
+	// first duplicate the $secondObject and orientConstrain it to the
+	// $firstObject
+
+	$dup = `duplicate $secondObject`;
+	
+	$duplicated = $dup[0];
+	
+	// orientConstrain $duplicated to $firstObject
+	select $firstObject $duplicated;
+	orientConstraint;
+	
+	// get the rotation values of $duplicated and put them on $secondObject
+	float $r[0];
+
+	$r = `getAttr ($duplicated + ".r")`;
+	
+	print ("object rotation: " + $r[0] + " " + $r[1] + " " + $r[2] + "\n");
+	$cmd = ("setAttr \""+$secondObject + ".r\" " +  $r[0]+" "+ $r[1]+" "+ $r[2]);
+	evalEcho $cmd;
+	$r = `getAttr ($secondObject + ".r")`;
+	print ("object rotation: " + $r[0] + " " + $r[1] + " " + $r[2] + "\n");
+
+	// delete $duplicated
+	delete $duplicated;
+
+	print ("// Result: " + $secondObject + " rotated to the orientation of " + $firstObject + "\n");
+	// finished
+	
+}

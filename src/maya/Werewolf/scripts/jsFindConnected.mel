@@ -1,0 +1,20 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsFindConnected.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+
+global proc string jsFindConnected (string $objAttr)
+{
+	// finds the connected object when passed a message attribute 
+	string $connections[0];
+	string $return;
+	$connections = `listConnections -s true -p false $objAttr`;
+
+	$return = $connections[0];
+	return $return;
+}

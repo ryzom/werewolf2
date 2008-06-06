@@ -1,0 +1,20 @@
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+//	SCRIPT:	jsAddStringAttr.mel
+//	AUTHOR:	Jason Schleifer
+//			oy_vay@hotmail.com
+//	DATE:	May 25, 2002
+//
+//					
+//-----------------------------------------------------------------//
+//-----------------------------------------------------------------//
+
+global proc jsAddStringAttr (string $object, string $attr)
+{
+	// adds a message attribute to the object
+	if (!`attributeQuery -exists -node $object $attr`)
+	{
+		addAttr -ln $attr -dt "string" $object;
+
+	}
+}

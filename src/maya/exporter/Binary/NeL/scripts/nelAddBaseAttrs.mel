@@ -1,0 +1,11 @@
+// Converts a maya object to a NeL shape file
+
+global proc nelAddBaseAttrs() {
+	string $selected[] = `ls -sl`;
+	for($select in $selected) {
+		print ("Adding NeL attributes to " + $select + "\n");
+		addAttr -ln "exportShape" -k 1 -at "bool" -dv 1 $select;
+		addAttr -ln "NelType" -k 1 -at "enum" -en "Normal:Cluster:Portal:" $select;
+	}
+	print("Done.\n");
+}

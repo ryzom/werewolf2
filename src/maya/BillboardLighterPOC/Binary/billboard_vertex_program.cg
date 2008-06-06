@@ -1,0 +1,50 @@
+// define inputs from application
+struct appin
+{
+    float4 Position     : POSITION;
+	float4 Normal		: NORMAL;
+	float4 Color0		: COLOR0; // contains shadowing info
+	float4 Center		: COLOR1; // contains the center of the spherical volume
+	float4 tex0			: TEXCOORD0;
+};
+
+// define outputs from vertex shader
+struct vertout
+{
+	float4 Color0		: COLOR0;
+    float4 HPosition    : POSITION;
+	float4 tex0			: TEXCOORD0; 
+};
+
+vertout main(appin IN, 
+             uniform float4x4 ModelViewProj,
+			 uniform float4x4 ModelViewIT,
+             uniform float4 LightVec,
+             uniform float translucency,
+			 uniform float useFaceNormal)
+{
+    vertout OUT;
+
+	// project a normal from the center of the given spherical volume - center in COLOR1
+	float4 normal = ((1 - useFaceNormal)*IN.Position + (useFaceNormal * IN.Normal)) - IN.Center;
+	normal = normalize(normal);
+
+	// light vector in model space
+	float4 light = LightVec - IN.Position;
+	light = normalize(light);
+
+	// calculate the regular lambertian diffuse contribution and correct that by a factor to "wrap around corners"
+    float3 NdotL = dot(light, normal);
+	NdotL = NdotL * (1 - translucency) + translucency;
+	
+	// lighting function (Lambert)
+    float3 diffuse = IN.Color0 * saturate(NdotL);
+	OUT.Color0 = float4(diffuse, 1);
+
+	// set the position in clip space
+	OUT.HPosition = mul(ModelViewProj, IN.Position);
+	
+	OUT.tex0.xy = IN.tex0.xy;
+
+	return OUT;
+}

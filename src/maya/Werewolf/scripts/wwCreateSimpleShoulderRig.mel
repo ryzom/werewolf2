@@ -1,0 +1,25 @@
+global proc wwCreateSimpleShoulderRig(string $prefix, string $clavicleJoint, string $upArmJoint, string $parentJoint, string $shoulderControl) {
+	string $shoulderIkHandle = $prefix + "_shoulder_ikHandle";
+	$shoulderControl = `rename $shoulderControl ($prefix + "_shoulderControl")`;
+	string $shoulderControlGrp = $prefix + "_shoulderCtrlGrp";
+
+	// Position the control
+	$pos = `xform -q -t -ws $clavicleJoint`;
+	xform -a -t $pos[0] $pos[1] $pos[2] $shoulderControl;
+
+	// Create the IK
+	string $bits[0];	
+	$bits = `ikHandle -sj $clavicleJoint -ee $upArmJoint -sol "ikRPsolver" -name $shoulderIkHandle`;
+	$shoulderIkHandle = $bits[0];
+
+	// Parent the IK
+	parent $shoulderIkHandle $shoulderControl;
+	
+	// Parent constrain the shoulder control
+	$shoulderControlGrp = `group -n ($shoulderControl + "Grp") -r $shoulderControl`;
+	wwCreateDuplicateConstraint $shoulderControlGrp { $parentJoint } { "parentConstraint" };
+
+	hide $shoulderIkHandle;
+
+	wwModifyLockAndKey $shoulderControl 1 0 "tx ty tz sx sy sz v";
+}

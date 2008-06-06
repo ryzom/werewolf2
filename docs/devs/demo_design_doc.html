@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Kunnusta Demo</title>
+  <link href="werewolf.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	
+<h1>Werewolf Tech Demo</h1>
+
+<h3>Summary</h3>
+<p>The Werewolf Tech Demo is a simple spear throwing technology demo that will show 
+  off the capabilities of the <a href=http://www.nevrax.org">NeL</a> MMORG framework 
+  as implemented by the team at Ironic Entertainment. The demo is meant to be 
+  a visually pleasing, a relatively fun gaming experience which will require a 
+  minimal amount of balancing while still testing our technology's implementation. 
+  The essence of the demo is a spear throwing contest where players try to heave 
+  a spear further than other players. Players have a few basic stats which improve 
+  over time. Additionally, players will be able to join guilds where the guilds 
+  are able to compete against each other based upon their member's performance. 
+  Players will have their rankings published on a web site and the current distance 
+  champion gets to wear a special armor denoting their preeminence among their 
+  peers. 
+<p>
+<div class="image">
+	<img alt="Spear Champion"
+ src="../../media/concept-artwork/players/demo character/old_warrior_rough_01.jpg">
+</div>
+
+<h5>Setting</h5>
+The setting is on a somewhat large island in the middle of a very large lake. 
+On the island resides a large forest of primarily fir trees although there are 
+other types of trees too. On the island there is a little laft style hunting lodge 
+where the players can rest and drink some ale. If there is time we may implement 
+a bar keep to keep the ales coming. In back of the house there is a small pond 
+where the players can sit around and watch the other players compete in the spear 
+throwing contest. 
+<h4>Feature Set</h4>
+<h5>Client</h5>
+<ul>
+  <li>Basic chat
+  <li>Player keyboard and mouse input control
+  <li>3D Rendered World
+  <li>Player controllable camera
+  <li>Static and Animated (skinned as well as keyframed) Mesh display Mesh and
+  <li>UV Textured Meshes
+  <li>Morph Targets
+  <li>Water Shaders
+  <li>Water Caustics
+  <li>Vertex Programs
+  <li>Fragment Programs(?)
+  <li>Advanced Vegetation Rendering System (similar in quality to <a href="http://www.idvinc.com/">SpeedTree</a>)
+  <li>Admin Client and client admin tools
+</ul>
+
+<h5>Server Architecture</h5>
+<ul>
+  <li>Login Service
+  <li>Welcome Service
+  <li>DB Connectivity (users, characters, guilds, character stats, rankings)
+  <li>Persistance
+  <li>Server Admin Tools (logging / reporting tools / DB maint)
+  <li>Chat Service
+  <li>Highest Score =P
+</ul>
+
+
+<h5><a name="demomilest">Demo Development Roadmap</a></h5>
+
+<p>Milestone 001
+<ul>
+  <li>Concept artwork (character and architectural)
+begins as well as subject research. A rough map of of the area in which
+the demo will occur should be drawn.</li>
+  <li>Documenation describing the
+general look and feel of the game, gameplay description, art guidelines
+as well as hardware requirements.</li>
+  <li>Client visual GUI concept complete.</li>
+  <li>Pre-alpha version of the Maya Exporter is to be complete
+(without
+landscape export functionality [landscape export dev will occur after
+the demo]).
+  <li>Client framework is up including GUI functionality,
+keyboard control and the ability to render basic scenes (i.e.
+snowballs) via a controllable camera.</li>
+  <li>Basic documentation with respect to the
+Demo is complete (this doesn't include recruitment tools, web site
+etc.). 
+</ul>
+
+Milestone 002
+<ul>
+  <li>Concept artwork completed near the begnining of
+this phase.
+    <li>Modeling of meshes begins as does texture painting and
+skinning begins.
+    <li>Work on nonpersistent basic server services begins
+(i.e. login services, basic connectivity and chat).
+    <li>Client is able to
+connect to the server, login, and perform basic movement, chat and
+logout.</li>
+    <li>Server database design and prototype is complete.
+    <li>Matte
+painting may also begin at this phase.
+</ul>
+
+Milestone 003
+<ul>
+  <li>Client now has advanced GUI features including an
+on screen HUD as conceptualized in Milestone 001 although functionality
+attached to widgets has not been implemented (buttons may contain stubs
+for actions associated with buttons).</li>
+  <li>DB is connected to appropriate
+server services. Initial data /character persistence is achieved.</li>
+  <li>Environmental artwork is approximately half complete (i.e.
+landscape,
+forest and laft house art assets).</li>
+  <li>Basic Male Warrior is largely
+complete (modeled, textured and skinned) with some very basic
+animations complete (walk, run and sit).</li>
+  <li>Maya exporter bug
+squashing.<br>
+</ul>
+
+Milestone 004 (Closed Alpha Testing)
+<ul>
+  <li>Client now has all major functionality required
+from the game.
+  <li>Environmental assets are approximately two thirds
+complete.
+  <li>Clan functionality is integrated into the servers and
+clients.
+  <li>Clan artwork (crests etc.) are completed.</li>
+  <li>Recruiting web site is begun as well as recruiting documents and portfolios.
+  <li>Promotional materials are readied for sponsorship
+requests.
+  <li>Character avatar is complete.&nbsp; (If there is time a
+female avatar may be created.)</li>
+  <li>Team members test the game and Demo Parties become a regular
+event where the team plays the demo for fun and also to spot bugs.<br>
+</ul>
+
+Milestone 005 (Closed Alpha Testing Continues)
+<ul>
+  <li>Client and server are functionally complete.
+  <li>All art assets have been completed.
+  <li>Limited alpha
+released to certain a small circle of trusted testers.
+  <li>All matte
+paintings are complete.
+  <li>Server and client QA, bug squashing and stress testing.&nbsp; The stress test&nbsp; includes network subsystems, rendering subsystems, DB subsystems&nbsp; Coding teams will coordinate and optimize their respective subsections (optimization will likely include media).&nbsp; These stress tests will likely constitute a small group of outside testers.
+</ul>
+
+Milestone 006 (Closed Beta)
+<ul>
+  <li>Beta testers group is expanded to include people from outside the team.
+  <li>More testing and refactoring of code and environmental assets.
+</ul>
+
+Milestone 007 (Open Beta)
+<ul>
+  <li>Beta testing is open to anyone who would like to test.
+  <li>Web portal
+for players to visit and use to log in to the demo.
+  <li>Web site for the demo is complete (with forums) as
+is the recruiting area of the web site. <span style="font-style: italic;"></span>
+  <li><span style="font-style: italic;">Operation Pimp Werewolf</span> begins now...&nbsp; Spread the word to all the old familiar places where developers hang out concerning the demo.
+</ul>
+
+Milestone 007 (Release of the Demo)
+<ul>
+  <li>Release demo and buy each other massive quantities of beer and consume said beer.
+  <li>Drink more beer so we don't have to think about all the bugs the players are abusing.
+  <li>Evangelize the demo and ramp up newcomers.
+</ul>
+
+Milestone 009
+<ul>
+  <li>Bug squashing and postmortem.
+  <li>v1.1 release (if required)
+</ul>
+
+<p>
+<hr>
+<i>Copyright 2005 by some crazy guys you never heard of.  Unauthorized use is strictly prohibited.  Not to mention the fact that we'll find you stab you with a viking style spear.</i>
+</body>
+</html>

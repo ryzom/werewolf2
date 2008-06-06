@@ -1,0 +1,44 @@
+// Takes a mesh, creates a duplicate and smooths the dupe.  Then uses that smoothing data on the low res mesh making for nicer normals. ;)
+
+global proc wwModifySeamlessNormalsSmoothing(float $threshold) {
+	if (!`pluginInfo -q -l "closestPointOnMesh"`)
+		error "closestPointOnMesh plugin is not loaded. Please load the plugin and try again.\n";
+	string $selection[] = `ls -sl`;
+	string $meshes[];
+	for($node in $selection) {
+		$shapes = `listRelatives -s -pa $node`;
+		for($shape in $shapes) {
+			if(`objectType -isType "mesh" $shape`)
+				$meshes[size($meshes)] = $node;
+		}
+	}
+	if ((size($meshes) < 1))
+		error "Bad selection. Select one or more meshes.";
+
+	string $smoothed[] = `duplicate -rr`;
+	string $high_rez;
+	if(size($smoothed) > 1) {
+		string $united[] = `polyUnite -ch 0 $smoothed`;
+		$high_rez = $united[0];
+		polyMergeVertex  -d $threshold -ch 0 $high_rez;
+	} else {
+		$high_rez = $smoothed[0];
+	}
+	polyNormal -normalMode 2 -ch 0 $high_rez;
+	polySmooth  -mth 0 -dv 2 -c 1 -kb 1 -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1 $high_rez;
+	for($mesh in $meshes) {
+		int $numVertices[] = `polyEvaluate -v $mesh`;
+		float $pos[];
+		int $i;
+		string $vtx;
+		float $normal[];
+		for ($i = 0; $i < $numVertices[0]; $i++) {
+			$vtx = $mesh + ".vtx[" + $i + "]";
+			$pos = `xform -q -ws -t $vtx`;
+			$normal = `closestPointOnMesh -ip $pos[0] $pos[1] $pos[2] -q -nr $high_rez`;
+			polyNormalPerVertex -xyz $normal[0] $normal[1] $normal[2] $vtx;
+		}
+	}
+	delete $high_rez;
+	select -r $selection;
+}

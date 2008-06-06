@@ -1,0 +1,17 @@
+// Convert a regular mesh to an MRM mesh
+
+global proc nelConvert2MRM() {
+	$selection = `ls -sl`;
+	$sh = `listRelatives -s -f -ni $selection`;
+
+	for($shape in $sh) {
+		addAttr -ln "MRM" -h true -r false -w false -at "bool" $shape;
+		
+		addAttr -ln "NumberOfLods" -at "long" -min 0 -smx 20 -dv 11 $shape;
+		addAttr -ln "Divisor" -at "long" -min 1 -smx 100 -dv 20 $shape;
+		addAttr -ln "SkinReduction" -at "enum" -dv 1 -en "Min:Max:Best" $shape;
+		addAttr -ln "DistanceFinest" -at "float" -dv 5 $shape;
+		addAttr -ln "DistanceMiddle" -at "float" -dv 30 $shape;
+		addAttr -ln "DistanceCoarsest" -at "float" -dv 200 $shape;
+	}
+}

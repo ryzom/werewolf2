@@ -1,0 +1,29 @@
+* Measuring:
+	* time between sending and getting the message
+* Factors
+	* Message size
+	* FPS
+	* # broadcasters
+	* # pre-listeners
+	* # event handlers
+	* # post-listeners
+	* # total listeners
+	* # filters
+	* message sending frequency
+
+* Highly accurate timer - ability to run several at once (a clock or a lot of timers) (GetTickCount()?)
+* Sources
+	* Constant
+	* Range function
+
+
+Test case:
+
+	Set fps: 500
+	Set num broadcasters: 100
+	Set num listeners: 100
+	Set message interval: random 1ms..500ms
+	Set num messages: 100 per broadcaster
+	Set run time: 10s
+	For message size in 2..100, 2
+		Send messages

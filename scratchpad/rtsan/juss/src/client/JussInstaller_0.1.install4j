@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install4j version="3.1.4">
+  <directoryPresets config="../.." />
+  <application name="Java Unified Sharing System" distributionSourceDir="" applicationId="0363-1080-9710-6449" mediaDir="." mediaFilePattern="%SHORT_NAME%_%VERSION%" compression="6" shortName="JUSS" publisher="The JUSS Team" publisherWeb="http://ats.cs.ut.ee/oop2005/juss" version="0.1" allPathsRelative="true" backupOnSave="false" autoSave="false" macSignature="????" javaMinVersion="1.4" javaMaxVersion="" allowBetaVM="true">
+    <searchSequence>
+      <registry />
+      <envVar name="JAVA_HOME" />
+      <envVar name="JDK_HOME" />
+    </searchSequence>
+    <variables />
+  </application>
+  <files>
+    <mountPoints>
+      <mountPoint name="" id="13" location="lib" mode="755" />
+      <mountPoint name="" id="19" location="classes" mode="755" />
+      <mountPoint name="" id="1" location="" mode="755" />
+    </mountPoints>
+    <entries>
+      <dirEntry mountPoint="13" file="../../WEB-INF/lib" overwrite="4" shared="false" mode="644" dontUninstall="false" excludeSuffixes="" dirMode="755">
+        <exclude>
+          <entry location="cos.jar" launcher="false" />
+          <entry location="CVS" launcher="false" />
+          <entry location="mysql-connector-java-3.0.11-stable-bin.jar" launcher="false" />
+        </exclude>
+      </dirEntry>
+      <dirEntry mountPoint="19" file="../../WEB-INF/classes" overwrite="1" shared="false" mode="644" dontUninstall="false" excludeSuffixes="" dirMode="755">
+        <exclude>
+          <entry location="client/gui/.cvsignore" launcher="false" />
+          <entry location="client/gui/test" launcher="false" />
+          <entry location="client/gui_mida_vaja_teha.txt" launcher="false" />
+          <entry location="client/images/.cvsignore" launcher="false" />
+          <entry location="client/images/temp" launcher="false" />
+          <entry location="client/images/toolbar" launcher="false" />
+          <entry location="client.conf.xml" launcher="false" />
+          <entry location="connection.sample.xml" launcher="false" />
+          <entry location="CVS" launcher="false" />
+          <entry location="hibernate.cfg.xml" launcher="false" />
+          <entry location="INstall.install4j" launcher="false" />
+          <entry location="JUSSInstaller.exe" launcher="false" />
+          <entry location="server" launcher="false" />
+          <entry location="server.sample.conf.xml" launcher="false" />
+          <entry location="SESSIONS.ser" launcher="false" />
+          <entry location="shared/JussFile.hbm.xml" launcher="false" />
+          <entry location="tldCache.ser" launcher="false" />
+        </exclude>
+      </dirEntry>
+      <fileEntry mountPoint="1" file="../../APACHE_2.0_LICENSE" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../libswt-atk-gtk-3064.so" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../libswt-gnome-gtk-3064.so" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../libswt-gtk-3064.so" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../libswt-mozilla-gtk-3064.so" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../libswt-pi-gtk-3064.so" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../LICENSE" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../swt-awt-win32-3064.dll" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+      <fileEntry mountPoint="1" file="../../swt-win32-3064.dll" overwrite="4" shared="false" mode="644" dontUninstall="false" />
+    </entries>
+    <components />
+  </files>
+  <launchers>
+    <launcher name="Juss_0.1" id="2" external="false" excludeFromMenu="false" menuName="" icnsFile="" pngIcon16File="images/juss16.png" pngIcon32File="images/juss32.png" macServiceDependencies="" allowUserChangeServiceStartType="true">
+      <executable name="Juss_0.1" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="error.log" redirectStdout="false" stdoutFile="output.log" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="">
+        <versionInfo include="false" fileVersion="" companyName="" fileDescription="" legalCopyright="" productVersion="" internalName="" />
+      </executable>
+      <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="">
+        <text>
+          <statusLine x="20" y="20" text="" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+          <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+        </text>
+      </splashScreen>
+      <java mainClass="client.GuiLoaderFrm" vmParameters="" arguments="" allowVMPassthroughParameters="true" minVersion="" maxVersion="" preferredVM="" allowBetaVM="false">
+        <searchSequence>
+          <registry />
+          <envVar name="JAVA_HOME" />
+          <envVar name="JDK_HOME" />
+        </searchSequence>
+        <classPath>
+          <archive location="lib/antlr-2.7.5H3.jar" failOnError="false" />
+          <archive location="lib/asm-attrs.jar" failOnError="false" />
+          <archive location="lib/asm.jar" failOnError="false" />
+          <archive location="lib/cglib-2.1.jar" failOnError="false" />
+          <archive location="lib/c3p0-0.8.5.jar" failOnError="false" />
+          <archive location="lib/commons-codec-1.3.jar" failOnError="false" />
+          <archive location="lib/commons-collections-2.1.1.jar" failOnError="false" />
+          <archive location="lib/commons-httpclient-3.0-rc1.jar" failOnError="false" />
+          <archive location="lib/commons-logging-1.0.4.jar" failOnError="false" />
+          <archive location="lib/dom4j-1.5.2.jar" failOnError="false" />
+          <archive location="lib/ehcache-1.1.jar" failOnError="false" />
+          <archive location="lib/hibernate3.jar" failOnError="false" />
+          <archive location="lib/hsqldb.jar" failOnError="false" />
+          <archive location="lib/jaxen-1.1-beta-5.jar" failOnError="false" />
+          <archive location="lib/jface.jar" failOnError="false" />
+          <archive location="lib/jta.jar" failOnError="false" />
+          <archive location="lib/swt_win.jar" failOnError="false" />
+          <archive location="lib/xerces-2.6.2.jar" failOnError="false" />
+          <directory location="classes" failOnError="false" />
+          <archive location="lib/log4j-1.2.9.jar" failOnError="false" />
+        </classPath>
+        <nativeLibraryDirectories>
+          <directory name="." />
+        </nativeLibraryDirectories>
+      </java>
+      <includedFiles />
+    </launcher>
+    <launcher name="Juss_0.1 New GUI" id="23" external="false" excludeFromMenu="false" menuName="" icnsFile="" pngIcon16File="images/juss16.png" pngIcon32File="images/juss32.png" macServiceDependencies="" allowUserChangeServiceStartType="true">
+      <executable name="Juss_0.1_new" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="error.log" redirectStdout="false" stdoutFile="output.log" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="">
+        <versionInfo include="false" fileVersion="" companyName="" fileDescription="" legalCopyright="" productVersion="" internalName="" />
+      </executable>
+      <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="">
+        <text>
+          <statusLine x="20" y="20" text="" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+          <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+        </text>
+      </splashScreen>
+      <java mainClass="client.gui.Initializer" vmParameters="" arguments="" allowVMPassthroughParameters="true" minVersion="" maxVersion="" preferredVM="" allowBetaVM="false">
+        <searchSequence>
+          <registry />
+          <envVar name="JAVA_HOME" />
+          <envVar name="JDK_HOME" />
+        </searchSequence>
+        <classPath>
+          <archive location="lib/antlr-2.7.5H3.jar" failOnError="false" />
+          <archive location="lib/asm-attrs.jar" failOnError="false" />
+          <archive location="lib/asm.jar" failOnError="false" />
+          <archive location="lib/cglib-2.1.jar" failOnError="false" />
+          <archive location="lib/c3p0-0.8.5.jar" failOnError="false" />
+          <archive location="lib/commons-codec-1.3.jar" failOnError="false" />
+          <archive location="lib/commons-collections-2.1.1.jar" failOnError="false" />
+          <archive location="lib/commons-httpclient-3.0-rc1.jar" failOnError="false" />
+          <archive location="lib/commons-logging-1.0.4.jar" failOnError="false" />
+          <archive location="lib/dom4j-1.5.2.jar" failOnError="false" />
+          <archive location="lib/ehcache-1.1.jar" failOnError="false" />
+          <archive location="lib/hibernate3.jar" failOnError="false" />
+          <archive location="lib/hsqldb.jar" failOnError="false" />
+          <archive location="lib/jaxen-1.1-beta-5.jar" failOnError="false" />
+          <archive location="lib/jface.jar" failOnError="false" />
+          <archive location="lib/jta.jar" failOnError="false" />
+          <archive location="lib/swt_win.jar" failOnError="false" />
+          <archive location="lib/xerces-2.6.2.jar" failOnError="false" />
+          <directory location="classes" failOnError="false" />
+          <archive location="lib/log4j-1.2.9.jar" failOnError="false" />
+        </classPath>
+        <nativeLibraryDirectories>
+          <directory name="." />
+        </nativeLibraryDirectories>
+      </java>
+      <includedFiles />
+    </launcher>
+    <launcher name="Juss_0.1 linux" id="25" external="false" excludeFromMenu="false" menuName="" icnsFile="" pngIcon16File="images/juss16.png" pngIcon32File="images/juss32.png" macServiceDependencies="" allowUserChangeServiceStartType="true">
+      <executable name="Juss_0.1" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="error.log" redirectStdout="false" stdoutFile="output.log" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="">
+        <versionInfo include="false" fileVersion="" companyName="" fileDescription="" legalCopyright="" productVersion="" internalName="" />
+      </executable>
+      <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="">
+        <text>
+          <statusLine x="20" y="20" text="" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+          <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+        </text>
+      </splashScreen>
+      <java mainClass="client.GuiLoaderFrm" vmParameters="" arguments="" allowVMPassthroughParameters="true" minVersion="" maxVersion="" preferredVM="" allowBetaVM="false">
+        <searchSequence>
+          <registry />
+          <envVar name="JAVA_HOME" />
+          <envVar name="JDK_HOME" />
+        </searchSequence>
+        <classPath>
+          <archive location="lib/antlr-2.7.5H3.jar" failOnError="false" />
+          <archive location="lib/asm-attrs.jar" failOnError="false" />
+          <archive location="lib/asm.jar" failOnError="false" />
+          <archive location="lib/cglib-2.1.jar" failOnError="false" />
+          <archive location="lib/c3p0-0.8.5.jar" failOnError="false" />
+          <archive location="lib/commons-codec-1.3.jar" failOnError="false" />
+          <archive location="lib/commons-collections-2.1.1.jar" failOnError="false" />
+          <archive location="lib/commons-httpclient-3.0-rc1.jar" failOnError="false" />
+          <archive location="lib/commons-logging-1.0.4.jar" failOnError="false" />
+          <archive location="lib/dom4j-1.5.2.jar" failOnError="false" />
+          <archive location="lib/ehcache-1.1.jar" failOnError="false" />
+          <archive location="lib/hibernate3.jar" failOnError="false" />
+          <archive location="lib/hsqldb.jar" failOnError="false" />
+          <archive location="lib/jaxen-1.1-beta-5.jar" failOnError="false" />
+          <archive location="lib/jface.jar" failOnError="false" />
+          <archive location="lib/jta.jar" failOnError="false" />
+          <archive location="lib/xerces-2.6.2.jar" failOnError="false" />
+          <directory location="classes" failOnError="false" />
+          <archive location="lib/swt_linux.jar" failOnError="false" />
+          <archive location="lib/swt-pi.jar" failOnError="false" />
+          <archive location="lib/swt-mozilla.jar" failOnError="false" />
+          <archive location="lib/log4j-1.2.9.jar" failOnError="false" />
+        </classPath>
+        <nativeLibraryDirectories>
+          <directory name="." />
+        </nativeLibraryDirectories>
+      </java>
+      <includedFiles />
+    </launcher>
+    <launcher name="Juss_0.1 New GUI linux" id="27" external="false" excludeFromMenu="false" menuName="" icnsFile="" pngIcon16File="images/juss16.png" pngIcon32File="images/juss32.png" macServiceDependencies="" allowUserChangeServiceStartType="true">
+      <executable name="Juss_0.1_new" type="1" iconSet="true" iconFile="" executableDir="." redirectStderr="true" stderrFile="error.log" redirectStdout="false" stdoutFile="output.log" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="true" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="">
+        <versionInfo include="false" fileVersion="" companyName="" fileDescription="" legalCopyright="" productVersion="" internalName="" />
+      </executable>
+      <splashScreen show="false" autoOff="true" alwaysOnTop="true" width="0" height="0" bitmapFile="">
+        <text>
+          <statusLine x="20" y="20" text="" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+          <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
+        </text>
+      </splashScreen>
+      <java mainClass="client.gui.Initializer" vmParameters="" arguments="" allowVMPassthroughParameters="true" minVersion="" maxVersion="" preferredVM="" allowBetaVM="false">
+        <searchSequence>
+          <registry />
+          <envVar name="JAVA_HOME" />
+          <envVar name="JDK_HOME" />
+        </searchSequence>
+        <classPath>
+          <archive location="lib/antlr-2.7.5H3.jar" failOnError="false" />
+          <archive location="lib/asm-attrs.jar" failOnError="false" />
+          <archive location="lib/asm.jar" failOnError="false" />
+          <archive location="lib/cglib-2.1.jar" failOnError="false" />
+          <archive location="lib/c3p0-0.8.5.jar" failOnError="false" />
+          <archive location="lib/commons-codec-1.3.jar" failOnError="false" />
+          <archive location="lib/commons-collections-2.1.1.jar" failOnError="false" />
+          <archive location="lib/commons-httpclient-3.0-rc1.jar" failOnError="false" />
+          <archive location="lib/commons-logging-1.0.4.jar" failOnError="false" />
+          <archive location="lib/dom4j-1.5.2.jar" failOnError="false" />
+          <archive location="lib/ehcache-1.1.jar" failOnError="false" />
+          <archive location="lib/hibernate3.jar" failOnError="false" />
+          <archive location="lib/hsqldb.jar" failOnError="false" />
+          <archive location="lib/jaxen-1.1-beta-5.jar" failOnError="false" />
+          <archive location="lib/jface.jar" failOnError="false" />
+          <archive location="lib/jta.jar" failOnError="false" />
+          <archive location="lib/xerces-2.6.2.jar" failOnError="false" />
+          <directory location="classes" failOnError="false" />
+          <archive location="lib/swt_linux.jar" failOnError="false" />
+          <archive location="lib/swt-pi.jar" failOnError="false" />
+          <archive location="lib/swt-mozilla.jar" failOnError="false" />
+          <archive location="lib/log4j-1.2.9.jar" failOnError="false" />
+        </classPath>
+        <nativeLibraryDirectories>
+          <directory name="." />
+        </nativeLibraryDirectories>
+      </java>
+      <includedFiles />
+    </launcher>
+  </launchers>
+  <installerGui installerType="1" runUninstallerOnUpdate="false" addOnAppId="" suggestPreviousLocations="true" allowUnattendedInstall="false" useCustomHeaderImage="false" customHeaderImage="" customSize="false" customWidth="500" customHeight="390">
+    <customCode preAction="false" preActionClass="" postAction="false" postActionClass="" preUninstallAction="false" preUninstallActionClass="" postUninstallAction="false" postUninstallActionClass="" initHandler="false" initHandlerClass="" directoryValidator="false" directoryValidatorClass="" installationHandler="false" installationHandlerClass="" />
+    <standardScreens>
+      <screen id="welcome" enabled="true" useCustomBanner="false" bannerImageFile="" background="255,255,255" />
+      <screen id="license" enabled="true" file="../../LICENSE" />
+      <screen id="location" enabled="true" showSpace="true" suggestAppDir="true" />
+      <screen id="components" enabled="true" allSelected="true" firstMandatory="true">
+        <selectedComponents />
+        <mandatoryComponents />
+      </screen>
+      <screen id="programGroup" enabled="true" />
+      <screen id="fileAssociations" enabled="true">
+        <associations />
+      </screen>
+      <screen id="services" enabled="true" allSelected="true">
+        <selectedServiceLaunchers />
+      </screen>
+      <screen id="additionalTasks" enabled="true" customTasksPlacement="1">
+        <customTasks />
+      </screen>
+      <screen id="preInfo" enabled="false" file="" />
+      <screen id="install" enabled="true" />
+      <screen id="postInfo" enabled="false" file="" />
+      <screen id="finished" enabled="true" useCustomBanner="false" bannerImageFile="" background="255,255,255" />
+    </standardScreens>
+    <customScreens />
+  </installerGui>
+  <mediaSets>
+    <win32 name="Windows" id="3" mediaFileName="JUSS_0_1_win32" installDir="JUSS" allLaunchers="false" includedJRE="" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" allowUserStartAfterFinish="false" launchExecutableId="2" createUninstallIcon="true" overrideLicenseFile="false" licenseFile="" overridePreInformationFile="false" preInformationFile="" overridePostInformationFile="false" postInformationFile="" adminRequired="false" languageID="en" modeDesktopIcon="2" desktopLauncherId="2" programGroup="Java Unified Sharing System" allowUserDisableStartMenuCreation="true" reboot="false" rebootUninstaller="false" modeQuickLaunchIon="2">
+      <selectedLaunchers>
+        <launcher id="2" />
+        <launcher id="23" />
+      </selectedLaunchers>
+      <messageSet language="English" />
+      <exclude>
+        <entry location="lib/swt-mozilla.jar" launcher="false" />
+        <entry location="lib/swt-pi.jar" launcher="false" />
+        <entry location="lib/swt_linux.jar" launcher="false" />
+        <entry location="libswt-atk-gtk-3064.so" launcher="false" />
+        <entry location="libswt-gnome-gtk-3064.so" launcher="false" />
+        <entry location="libswt-gtk-3064.so" launcher="false" />
+        <entry location="libswt-mozilla-gtk-3064.so" launcher="false" />
+        <entry location="libswt-pi-gtk-3064.so" launcher="false" />
+      </exclude>
+      <variables />
+      <excludedScreenIds />
+      <additionalStartMenuEntries />
+    </win32>
+    <unixInstaller name="Unix Installer" id="30" mediaFileName="JUSS_0_1_linux" installDir="JUSS" allLaunchers="false" includedJRE="" manualJREEntry="false" bundleType="1" jreURL="" jreFtpURL="" jreShared="false" customInstallBaseDir="" allowUserStartAfterFinish="false" launchExecutableId="" createUninstallIcon="true" overrideLicenseFile="false" licenseFile="" overridePreInformationFile="false" preInformationFile="" overridePostInformationFile="false" postInformationFile="" adminRequired="false" languageID="en" modeDesktopIcon="1" desktopLauncherId="" customScriptMode="1" customScriptFile="">
+      <selectedLaunchers>
+        <launcher id="25" />
+        <launcher id="27" />
+      </selectedLaunchers>
+      <messageSet language="English" />
+      <exclude>
+        <entry location="lib/swt_win.jar" launcher="false" />
+        <entry location="swt-awt-win32-3064.dll" launcher="false" />
+        <entry location="swt-win32-3064.dll" launcher="false" />
+      </exclude>
+      <variables />
+      <excludedScreenIds />
+      <customScriptLines />
+    </unixInstaller>
+  </mediaSets>
+  <buildIds buildAll="true" />
+</install4j>
+

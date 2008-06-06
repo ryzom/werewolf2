@@ -1,0 +1,12 @@
+global proc nelConvert2Veg() {
+	$selection = `ls -sl`;
+	for($select in $selection) {
+		addAttr -ln "NelVeg" -h true -r false -w false -at "bool" $select;
+		addAttr -ln "Lit" -at "bool" $select;
+		addAttr -ln "PrecomputeLighting" -at "bool" $select;
+		addAttr -ln "AlphaBlend" -at "bool" $select;
+		addAttr -ln "BestSidedPrecomputeLighting" -at "bool" $select;
+		addAttr -ln "MaxBendWeight" -at "float" -min 0 -max 1 -dv 1 $select;
+		addAttr -ln "BendCenter" -at "enum" -en "Null:Z" $select;
+	}
+}

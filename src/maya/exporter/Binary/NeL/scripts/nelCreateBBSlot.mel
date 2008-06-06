@@ -1,0 +1,5 @@
+// ???
+
+global proc string nelCreateBBSlot() {
+	return `nelCreateSlotBase "BB"`;
+}

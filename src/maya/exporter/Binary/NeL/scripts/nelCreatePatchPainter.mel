@@ -1,0 +1,51 @@
+// Adds a NeL tile to a zone or nurbs surface
+
+global proc nelCreatePatchPainter() {
+	string $selection[] = `ls -sl`;
+	for($selected in $selection) {
+		$shapes = `listRelatives -s -pa -ni $selected`;
+		for($shape in $shapes) {
+			if(`objectType -isType "nurbsSurface" $shape`) {
+				print ("Creating NeL Patch Painter for " + $shape + "\n");
+				if(!`pluginInfo -q -l "NeLPatchPainter"`)
+					loadPlugin "NeLPatchPainter";
+				$painter = `createNode NelPatchPainter -n ($selected + "PatchPainter")`;
+				
+				if(!`attributeExists "ConnectionToNelPatchPainter" $selected`) {
+					source "nelConvert2Zone.mel";
+					nelConvert2ZoneSingle $selected;
+				}
+
+				connectAttr -f ($shape + ".ws")
+							($painter + ".ConnectionToZone");
+				connectAttr -f ($selected + ".NumTilesU")
+							($painter + ".NumTilesU");
+				connectAttr -f ($selected + ".NumTilesV")
+							($painter + ".NumTilesV");
+						
+				$numPatchesU = `getAttr ($painter + ".NumPatchesU")`;
+				$AEpopup = `optionVar -q AEpopupWhenCreatingShaders`;
+				optionVar -intValue AEpopupWhenCreatingShaders 0;
+				createAndAssignShader lambert $selected;
+				optionVar -intValue AEpopupWhenCreatingShaders $AEpopup;
+				int $instanceIndex;
+				$instanceParents = `listRelatives -ap -pa $shape`;
+				int $i;
+				for($i = 0; $i < `size($instanceParents)`; $i++) {
+					if($instanceParents[$i] == $selected) {
+						$instanceIndex = $i;
+						break;
+					}
+				}
+				string $shaderList[] = `listConnections ($shape + ".instObjGroups[" + $instanceIndex + "]")`;
+				$shaderList = `listConnections ($shaderList[0] + ".surfaceShader")`;
+				$shader = `rename $shaderList[0] ($selected + "PainterShader")`;				
+
+				connectAttr -f ($painter + ".outColor") ($shader + ".color");
+				
+				print "Done\n";
+				break;
+			}
+		}
+	}
+}

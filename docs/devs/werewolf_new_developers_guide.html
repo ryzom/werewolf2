@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>A Newbie Developer's Introduction to Werewolf</title>
+  <link href="werewolf.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1 align="center">A
+Newbie Developer's Introduction to Werewolf</h1>
+<h2><a name="summary">I. Summary</a></h2>
+<h4>Title:</h4>
+<div class="indent1">
+	Werewolf
+</div>
+<h4>Genre:</h4>
+<div class="indent1">
+	RPG
+</div>
+
+<h4>Game Description:</h4>
+<div class="indent1">Werewolf is an online role playing game set in the small 
+  Nordic village of Laurelin. Laurelin sits in a valley which is encircled by 
+  snow capped impassable mountains on all sides save to the eastern side where 
+  a narrow pass allows for travel. The valley is occupied by a large and ominous 
+  forest now full of menacing creatures. Players must work together to provide 
+  the essentials of life and to avoid being killed by creatures in the forest 
+  and by other players who can transform themselves into werewolves. Ultimately 
+  the players must work to find and destroy the source of the evil which pervades 
+  the forest so a way out life can resume normally in Laurelin.
+  
+  <p>The development team behind Werewolf is relatively small when compared to most commercial Massivley Multiplay Online Roleplaying Games (MMORGs).  This made it very clear to Werewolf's creator's that they had to change the rules under which MMORGs are created. The scope of development required for typical MMORGs is far beyond the capabilities of any small team no matter how talented or dedicated. This lead us to create a few guiding principle's under which we develop Werewolf:</p>
+  <ol>
+    <li><em>Use proven and mature technology</em> - Since we are a small dev team we cannot expend the massive effort and resources required to create a great deal of new technology such as 3D engines, networking libraries, server systems and subsystems, etc. We knew from the outset we would need to minimize the code we have to write initially and we would need to collaborate with other communities in order to produce a product we could be proud of. This naturally led us to the Open Source community. After a great deal of experimentation of various Open Source tech we finally decided to use Nevrax's <a href="http://www.nevrax.org">NeL Engine</a> for Werewolf. Nevrax uses NeL to power their game <a href="http://www.ryzom.com">The Saga of Ryzom</a>. While understandably not all of Ryzom's code was in the publicly available version of NeL it had the code foundation we needed to begin work. Nel was also beginning to attact a vital user community. Perhaps the most attractive thing about NeL was that most  of the work that Nevrax poured into NeL flowed into the publicly available CVS. By using NeL we were able to harness the work </li>
+    <li><em>Provide players with the tools and incentive to create their own entertainment</em> - Most MMORGs are typified by a large team developing new content around the clock. Players quickly all the new content and promptly ask for more in only a few days. Developers get back to create more content to be quickly consumed, etc., etc. This type of pace cannot be sustained for long by a small dev team. We must create an environment which is full of fun things to do but the players would the source of the fun / inspiration. This led us to institute a numner of core game features: </li>
+    <ul>
+      <li> <em>Role Playing Driven</em> - Traditional role playing allows players to focus on what everyone knows is really the attraction of MMORGs, the people. After the novelty of the first couple of months of gameplay players generally seek out other players to share their adventures. At this phase in the game the player's focus turns from the game itself towards other players to a degree. Roleplaying takes this natural progression and feeds players desire for interaction by mandating role playing in Werewolf. Role playing takes the spotlight from developer driven content and places it squarely on the players themselves. All the politics, drama, personal relationships and intrigue which goes along with human interaction becomes the spotlight. Developers create content to help drive and inspire these interactions. This leads us to our next point...</li>
+      <li><em>Player Driven Storyline</em> - Most MMORGs pretend that their worlds are affected by the players but up till now players could only set off a sequence of events which drive a pre-written story. In Werewolf however, the players have an actual impact of their world and its history. Players will be able to organize their own guilds, try to get laws passed, assasinate kings, twart ruffian's plans to take over an important valley or just about any other thing that comes to mind. </li>
+      <li>One way which we will do is to provide players limited access to our scripting system which would allow them to do things like create their own contests of skill, miniquests or even area type combat with special surpises. </li>
+    </ul>
+    <li>To that end we have decided to make player's interaction with each other the focus of the game.</li>
+    <li><em>Keep Werewolf initially confined to a small area</em> - MMORGs require obscene amounts of media. Obviously this means to minimize the amount.</li>
+  </ol>
+  Werewolf differentiates 
+  itself from other MORGs with its emphasis on traditional role playing, use of 
+  a (free) third party production tested MMORG engine (<a href="http://www.nevrax.org/">NeL</a>) 
+  to keep costs down and utilizing permanant death for players killed in game.</div>
+<br>
+
+<h2>II. Storyline</h2>
+At one time the ancient nordic village of Laurelin was a paradise nestled deeply 
+on a remote island surrounded by lofty peaks and the immense forest the Vargskogen. 
+Hidden from the cares of the rest of the world by its remote location, life in 
+Laurelin was slow and peaceful. With such an ideallic existence and ample amounts 
+of free time the residents of Laurelin were free to hone and improve their respective 
+crafts to levels unheard of throughout the world. Merchants would travel great 
+distances to obtain the handywork of Laurelin as merchants knew they could always 
+fetch a handsome fee for their trouble. The craftsmen of Laurelin had honed their 
+craft for centuries until they were unparalleled artisans and held without rival 
+in the respected craft. Soon the artisans of the village learned that the outside 
+world would pay handsomely for the unparalleled beauty of the goods wrought by 
+the Laurelin craftsmen. 
+<div class="image"><img alt="Map of Laurelin and Surrounding Area" src="../../media/concept-artwork/village/maps/areamap_sm.png"><br>
+<a href="../../media/concept-artwork/village/maps/areamap.png">Full Size Map</a>
+</div>
+
+<p>Aided by the fame of the craftspeople, Lauelin's natural beauty and the friendly 
+  inhabitants a somewhat small but profitable tourist trade flourished. Often 
+  merchants traveling to the village would bring their families to mix business 
+  with pleasure and stay for extended visits to enjoy the quaint charms of Laurelin. 
+  Rich aristocrats would often visit for extended visits drawn by the quiet country 
+  life, the famous "Wolf's Den Inn &amp; Tavern" or sometimes just to take a small 
+  detour to visit the village for a few days of shopping along their way to another 
+  destination. Yet lately things have taken an ill turn and all is not well in 
+  Laurelin. Nature itself seems to have turned against the sleepy little village. 
+<p>A spirit of darkness and evil malice has crept into the forest and vile beasts 
+  have filled the forest even before anyone took notice. Now no one comes to Laurelin 
+  for any reason whether great or small because of the evil beasts that roam the 
+  woods and the great road into town. The road to town has been unmaintained for 
+  quite some time and the only way in and out of town has been overrun by nature. 
+  A few months ago the upstream passage into Laurelin via the river was also cut 
+  off due to an earthquake which created a new set of falls downstream from the 
+  village. At this point the town is now trapped by the mountains as there is 
+  no way out of town save by the road which is full of frightful creatures. 
+<p>The once bust artisan trade that kept the town so busy has dried up and the village has begun to founder. Things seem to grow from bad to worse in the village and hope that the village will be rescued grows dimmer with every passing day. Evil creatures which now infest the forest have been seen roaming the outskirts of town.
+
+<p>Last night the most evil deed yet had befallen the sleepy village of Laurelin 
+  and one of Laurelin's most well beloved residents was slain. Poor Erik Agnar 
+  was asleep in his own bed last night when some wild creature crept into his 
+  home and slew him as he slept. A few villagers claimed to have seen a wolflike 
+  creature of dread size running away from Erik's house. Maria Bervid even claimed 
+  to have seen the animal change back into a human form though she couldn't say 
+  who it was the wolf changed back into. Some villagers have even begun to describe 
+  visions that they have of these vile beasts. Are these visions genuine or are 
+  they only trying to cover their truth with stories of these obviously demonic 
+  visions?
+<p>Evil tales as ancient as the village itself have once again become a popular topic of conversation in town. The elders of the village tell tales of men who can change into the form of a wolf. These creatures have a seemingly insatiable bloodlust and will not stop until every living thing for miles around has been slain. How will this dread creature be stopped? The town elders have decided to hold a vote on who they should execute for these murders. Undoubtedly there will be innocents accidentally killed but it's better than waiting for the terrible beast to slaughter the whole town.
+
+<h2>III. Gameplay</a></h2>
+<p>At its heart Werewolf is a traditional role-playing game driven by intrigue and conflict between players. Unlike other online games Werewolf places a <u>strong</u> emphasis on role playing. Our game will further differentiate itself by focusing on player generated intrigue and politics as the primary focus. Unlike other games our players are the main attraction and the storyline is there mostly to serve as a forum to drive player conflict. The players will have a real and significant impact on the game's plot arc. Most online role-playing games play lip service to this point but depending on the actions of the playersMost players go about their daily lives trading, working and fighting to survive in the now hostile environment surrounding Laurelin. There are however, exceptions... Some players will eventually find themselves haunted by the dreaded curse of lycanthropy. Other players will be gifted (or cursed?) with horrible visions and unique abilities. </p>
+<p>At some point in the week all players should stop by the Magistrate's office and cast their vote for whom they believe to be a werewolf. Seers and Werewolf do exactly the same as the villagers in the day. At some point in the day, the Magistrate will appear in the town square and announce the results of the daily vote. The player with the most votes will be summoned to the front and executed. </p>
+<p>At night all of the villagers are asleep. The werewolves stalk the streets hunting for a victim. Seers can select any villager to have visions about - it allows them to see if the subject of interest is a werewolf. 
+<p>When a skill is first aquired the player isn't very good at the skill. To improve the player's chance at success of performing a skill he has trained he can either practice the skill or aquire training from a local expert.  Note that if a player doesn't use a skill it begins to degrade after a period of time.  The exact amount of time and level degradation depends on how advanced the skill is.  More advanced skills degrade more rapidly and extensively.  If a player knows skills from other skill trees and especially if the other skill trees aren't complimentary then the degradation is further accelerated. </p>
+<p><i>The Wolf's Den Inn and Tavern</i><br>
+  This tavern like any other self respecting establishment has an inn attached 
+  to it as well as a small stable for traveler's horses though this goes largely 
+  unused nowadays. During the glory years of Laurelin "The Wolf's Den Tavern and 
+  Inn" was renowned for the quality of the ale on tap as well as the luxurious 
+  accommodations provided by the Inn. The Wolf's Den was frequented by the town's 
+  people for the fine ale and news/gossip they could recieve from a nice evening 
+  in the tavern. The Wolf's Den was also visited by the rich merchants who were 
+  always about town on business. There was one other group who loved to visit 
+  The Wolf's Den and that was the aristocrats who enjoyed visiting for a taste 
+  of country life, i's unrivaled craftsmen, beautiful scenery and the hospitality 
+  of the inn and the people of the village. The inn and tavern is particularly 
+  beautifully decorated in keeping with the high expectations of its visitors. 
+  While the tavern's business certainly isn't what it once was when rich merchants 
+  and powerful aristocrats used to frequent "The Wolf's Den" (often referred to 
+  as just "The Den" by village residents). "The Den" is still able to maintain 
+  a very respectable level of patronage by the locals looking for a chat with 
+  other villagers to discuss their misery and to drown their sadness in the bottom 
+  of a mug of ale. Through the town's misfortune "The Den's" owner the barkeep 
+  is still able to make a respectable living. "The Den" is by far the best kept 
+  up building in the whole village. Indeed ever better maintained that the Magistrate's 
+  office. When the residents of Laurelin visit "The Den" they are reminded of 
+  better times by the Inn's beautiful and unchanged appearance. 
+<h2>V. Music</h2>
+<p>The music in Werewolf will be dark and ominous much like the times in Laurelin. The instrumentation should be relatively simple consisting of acoustic instruments and vocals. Mostly the audio tracks will be for background music and will help denote an ominous and foreboding mood although certainly there are exceptions to this rule (like in the tavern).
+
+<p>Whenever a player enters the tavern the music should have a reassuring quality and not contain the dark ambiance that pervades the music in the rest of the game. The music should denote the more cheery mood in the bar and convey to the player that this is a safe place in town from the werewolves.
+
+<p>The music will be encoded in OGG format 192kbs 44hz (in stereo of course). There will be no
+official recording/sequencing program that musicians should use but the musician should provide the project with the program source file as well as a midi file and if possible any instrument banks they've used for their compositions.
+
+
+<h2>VI. Sound Effects</h2>
+<p>Sound Effects should be as realistic sounding as possible. Sound effects should be able to be heard throughout town and to a certain extent in the depths of the forest (as Werewolves may hide out there for a time). These sound effects that should be heard everywhere is the sounding of the large ceremonial horn (for the announcement of the voting results or to inform the players of the circumstances of a new killing) as well as the blood curdling screams of victims of the dreaded werewolves.
+
+<p>There should be lots of sound effects that will contribute to the dark mood 
+  of Werewolf. Lots of eerie and unearthly sounds can be heard whenever someone 
+  approaches the forests or strays too far on the road that leads outside of town. 
+  Players can hear the constant chatter of the river that runs through the middle 
+  of town throughout a large portion of the city. 
+<p>There is already a very large library of sounds within our library of sound effects of varying quality.
+
+</body>
+</html>

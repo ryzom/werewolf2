@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/common/lib/servlet-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/common/lib/jasper-runtime.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/common/lib/jsp-api.jar"/>
+	<classpathentry kind="src" path="WEB-INF/src"/>
+	<classpathentry output="work" kind="src" path="work"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/raykowski/workspace/Werewolf/WEB-INF/lib/spring.jar"/>
+	<classpathentry kind="con" path="com.iw.plugins.spindle.core.TAPESTRY_FRAMEWORK"/>
+	<classpathentry kind="output" path="context/WEB-INF/classes"/>
+</classpath>

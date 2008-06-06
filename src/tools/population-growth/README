@@ -1,0 +1,5 @@
+POPULATION GROWTH
+Author: Jason Oppel
+Date: July 28, 2004
+
+This script will give you rough estimates of population growth for a give society.  Right now you need to modify the variables at the beginning of the script to suit your needs.  The script is well commented so you ought to be able to figure out what does what from the comments.  After you're satisfied with your modifications just run the script and enjoy.

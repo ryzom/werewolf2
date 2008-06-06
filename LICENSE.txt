@@ -1,0 +1,23 @@
+Licenses
+========
+
+All source code is distributed under the GPL.  The artwork created in this project is private and 
+cannot be used in any way until we make an announcement to the contrary.  We will eventually release 
+a good deal of media under a Creative Commons License (see below).
+
+Source Code
+-----------
+Copyright (c) 2004 Henri Kuuste, Matthew Raykowski
+All source files inside this directory including all subdirectories are 
+licensed under the GPL unless explicitely stated inside the file.
+(see COPYING.txt for details on GPL)
+
+
+Artwork
+--------
+Copyright (c) 2004 Jason Oppel, Henri Kuuste
+
+The artwork included in this package will eventually be licensed under the Attribution-ShareAlike 
+License as described by http://www.creativecommons.org.  For the time being though you cannot access, 
+share, copy or modify the artwork included under any circumstances!  We want to release our game before 
+releasing our media. :)

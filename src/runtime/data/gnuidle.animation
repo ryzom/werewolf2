@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<FORM>
+  <STRUCT>
+    <ATOM Name="FriendlyName" Value="gnuidle"/>
+    <ATOM Name="Filename" Value="idle.anim"/>
+    <ATOM Name="Description" Value="The idle animation clip for the GNU character."/>
+  </STRUCT>
+</FORM>

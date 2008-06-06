@@ -1,0 +1,662 @@
+<?xml version="1.0" ?>
+<GUILayout>
+	<Window Type="DefaultWindow" Name="werewolf">
+		<Window Type="TaharezLook/FrameWindow" Name="IntroTask/MainMenu">
+			<Property Name="AbsoluteHeight" Value="192.000000" />
+			<Property Name="AbsolutePosition" Value="x:240.000000 y:120.000000" />
+			<Property Name="AbsoluteRect" Value="l:240.000000 t:120.000000 r:432.000000 b:312.000000" />
+			<Property Name="AbsoluteSize" Value="w:192.000000 h:192.000000" />
+			<Property Name="AbsoluteWidth" Value="192.000000" />
+			<Property Name="AbsoluteXPosition" Value="240.000000" />
+			<Property Name="AbsoluteYPosition" Value="120.000000" />
+			<Property Name="CloseButtonEnabled" Value="False" />
+			<Property Name="DragMovingEnabled" Value="False" />
+			<Property Name="Height" Value="0.400000" />
+			<Property Name="Position" Value="x:0.375000 y:0.250000" />
+			<Property Name="Rect" Value="l:0.375000 t:0.250000 r:0.675000 b:0.650000" />
+			<Property Name="RelativeHeight" Value="0.400000" />
+			<Property Name="RelativePosition" Value="x:0.375000 y:0.250000" />
+			<Property Name="RelativeRect" Value="l:0.375000 t:0.250000 r:0.675000 b:0.650000" />
+			<Property Name="RelativeSize" Value="w:0.300000 h:0.400000" />
+			<Property Name="RelativeWidth" Value="0.300000" />
+			<Property Name="RelativeXPosition" Value="0.375000" />
+			<Property Name="RelativeYPosition" Value="0.250000" />
+			<Property Name="Size" Value="w:0.300000 h:0.400000" />
+			<Property Name="SizingEnabled" Value="False" />
+			<Property Name="Text" Value="Werewolf - Main Menu" />
+			<Property Name="Width" Value="0.300000" />
+			<Property Name="XPosition" Value="0.375000" />
+			<Property Name="YPosition" Value="0.250000" />
+			<Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/PlayOff">
+				<Property Name="AbsoluteHeight" Value="19.200001" />
+				<Property Name="AbsolutePosition" Value="x:48.000000 y:38.400002" />
+				<Property Name="AbsoluteRect" Value="l:48.000000 t:38.400002 r:144.000000 b:57.600002" />
+				<Property Name="AbsoluteSize" Value="w:96.000000 h:19.200001" />
+				<Property Name="AbsoluteWidth" Value="96.000000" />
+				<Property Name="AbsoluteXPosition" Value="48.000000" />
+				<Property Name="AbsoluteYPosition" Value="38.400002" />
+				<Property Name="Height" Value="0.100000" />
+				<Property Name="Position" Value="x:0.250000 y:0.200000" />
+				<Property Name="Rect" Value="l:0.250000 t:0.200000 r:0.750000 b:0.300000" />
+				<Property Name="RelativeHeight" Value="0.100000" />
+				<Property Name="RelativePosition" Value="x:0.250000 y:0.200000" />
+				<Property Name="RelativeRect" Value="l:0.250000 t:0.200000 r:0.750000 b:0.300000" />
+				<Property Name="RelativeSize" Value="w:0.500000 h:0.100000" />
+				<Property Name="RelativeWidth" Value="0.500000" />
+				<Property Name="RelativeXPosition" Value="0.250000" />
+				<Property Name="RelativeYPosition" Value="0.200000" />
+				<Property Name="Size" Value="w:0.500000 h:0.100000" />
+				<Property Name="Text" Value="Play Offline" />
+				<Property Name="Width" Value="0.500000" />
+				<Property Name="XPosition" Value="0.250000" />
+				<Property Name="YPosition" Value="0.200000" />
+				</Window>
+			<Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/PlayOn">
+				<Property Name="AbsoluteHeight" Value="19.199997" />
+				<Property Name="AbsolutePosition" Value="x:48.000000 y:76.800003" />
+				<Property Name="AbsoluteRect" Value="l:48.000000 t:76.800003 r:144.000000 b:96.000000" />
+				<Property Name="AbsoluteSize" Value="w:96.000000 h:19.199997" />
+				<Property Name="AbsoluteWidth" Value="96.000000" />
+				<Property Name="AbsoluteXPosition" Value="48.000000" />
+				<Property Name="AbsoluteYPosition" Value="76.800003" />
+				<Property Name="Height" Value="0.100000" />
+				<Property Name="Position" Value="x:0.250000 y:0.400000" />
+				<Property Name="Rect" Value="l:0.250000 t:0.400000 r:0.750000 b:0.500000" />
+				<Property Name="RelativeHeight" Value="0.100000" />
+				<Property Name="RelativePosition" Value="x:0.250000 y:0.400000" />
+				<Property Name="RelativeRect" Value="l:0.250000 t:0.400000 r:0.750000 b:0.500000" />
+				<Property Name="RelativeSize" Value="w:0.500000 h:0.100000" />
+				<Property Name="RelativeWidth" Value="0.500000" />
+				<Property Name="RelativeXPosition" Value="0.250000" />
+				<Property Name="RelativeYPosition" Value="0.400000" />
+				<Property Name="Size" Value="w:0.500000 h:0.100000" />
+				<Property Name="Text" Value="Play Online" />
+				<Property Name="Width" Value="0.500000" />
+				<Property Name="XPosition" Value="0.250000" />
+				<Property Name="YPosition" Value="0.400000" />
+				</Window>
+			<Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/Options">
+				<Property Name="AbsoluteHeight" Value="19.200005" />
+				<Property Name="AbsolutePosition" Value="x:48.000000 y:115.200005" />
+				<Property Name="AbsoluteRect" Value="l:48.000000 t:115.200005 r:144.000000 b:134.400009" />
+				<Property Name="AbsoluteSize" Value="w:96.000000 h:19.200005" />
+				<Property Name="AbsoluteWidth" Value="96.000000" />
+				<Property Name="AbsoluteXPosition" Value="48.000000" />
+				<Property Name="AbsoluteYPosition" Value="115.200005" />
+				<Property Name="Height" Value="0.100000" />
+				<Property Name="Position" Value="x:0.250000 y:0.600000" />
+				<Property Name="Rect" Value="l:0.250000 t:0.600000 r:0.750000 b:0.700000" />
+				<Property Name="RelativeHeight" Value="0.100000" />
+				<Property Name="RelativePosition" Value="x:0.250000 y:0.600000" />
+				<Property Name="RelativeRect" Value="l:0.250000 t:0.600000 r:0.750000 b:0.700000" />
+				<Property Name="RelativeSize" Value="w:0.500000 h:0.100000" />
+				<Property Name="RelativeWidth" Value="0.500000" />
+				<Property Name="RelativeXPosition" Value="0.250000" />
+				<Property Name="RelativeYPosition" Value="0.600000" />
+				<Property Name="Size" Value="w:0.500000 h:0.100000" />
+				<Property Name="Text" Value="Options" />
+				<Property Name="Width" Value="0.500000" />
+				<Property Name="XPosition" Value="0.250000" />
+				<Property Name="YPosition" Value="0.600000" />
+				</Window>
+			<Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/Quit">
+				<Property Name="AbsoluteHeight" Value="19.200012" />
+				<Property Name="AbsolutePosition" Value="x:48.000000 y:153.600006" />
+				<Property Name="AbsoluteRect" Value="l:48.000000 t:153.600006 r:144.000000 b:172.800018" />
+				<Property Name="AbsoluteSize" Value="w:96.000000 h:19.200012" />
+				<Property Name="AbsoluteWidth" Value="96.000000" />
+				<Property Name="AbsoluteXPosition" Value="48.000000" />
+				<Property Name="AbsoluteYPosition" Value="153.600006" />
+				<Property Name="Height" Value="0.100000" />
+				<Property Name="Position" Value="x:0.250000 y:0.800000" />
+				<Property Name="Rect" Value="l:0.250000 t:0.800000 r:0.750000 b:0.900000" />
+				<Property Name="RelativeHeight" Value="0.100000" />
+				<Property Name="RelativePosition" Value="x:0.250000 y:0.800000" />
+				<Property Name="RelativeRect" Value="l:0.250000 t:0.800000 r:0.750000 b:0.900000" />
+				<Property Name="RelativeSize" Value="w:0.500000 h:0.100000" />
+				<Property Name="RelativeWidth" Value="0.500000" />
+				<Property Name="RelativeXPosition" Value="0.250000" />
+				<Property Name="RelativeYPosition" Value="0.800000" />
+				<Property Name="Size" Value="w:0.500000 h:0.100000" />
+				<Property Name="Text" Value="Quit Game" />
+				<Property Name="Width" Value="0.500000" />
+				<Property Name="XPosition" Value="0.250000" />
+				<Property Name="YPosition" Value="0.800000" />
+				</Window>
+			</Window>
+		<Window Type="TaharezLook/FrameWindow" Name="GameTask/DebugWindow">
+			<Property Name="AbsoluteHeight" Value="96.000000" />
+			<Property Name="AbsolutePosition" Value="x:0.000000 y:379.200012" />
+			<Property Name="AbsoluteRect" Value="l:0.000000 t:379.200012 r:256.000000 b:475.200012" />
+			<Property Name="AbsoluteSize" Value="w:256.000000 h:96.000000" />
+			<Property Name="AbsoluteWidth" Value="256.000000" />
+			<Property Name="AbsoluteYPosition" Value="379.200012" />
+			<Property Name="Height" Value="0.200000" />
+			<Property Name="Position" Value="x:0.000000 y:0.790000" />
+			<Property Name="Rect" Value="l:0.000000 t:0.790000 r:0.400000 b:0.990000" />
+			<Property Name="RelativeHeight" Value="0.200000" />
+			<Property Name="RelativePosition" Value="x:0.000000 y:0.790000" />
+			<Property Name="RelativeRect" Value="l:0.000000 t:0.790000 r:0.400000 b:0.990000" />
+			<Property Name="RelativeSize" Value="w:0.400000 h:0.200000" />
+			<Property Name="RelativeWidth" Value="0.400000" />
+			<Property Name="RelativeYPosition" Value="0.790000" />
+			<Property Name="Size" Value="w:0.400000 h:0.200000" />
+			<Property Name="SizingEnabled" Value="False" />
+			<Property Name="Text" Value="Debug Output" />
+			<Property Name="Width" Value="0.400000" />
+			<Property Name="YPosition" Value="0.790000" />
+			<Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/FPS">
+				<Property Name="AbsoluteHeight" Value="19.199997" />
+				<Property Name="AbsolutePosition" Value="x:25.600000 y:24.000000" />
+				<Property Name="AbsoluteRect" Value="l:25.600000 t:24.000000 r:217.600006 b:43.199997" />
+				<Property Name="AbsoluteSize" Value="w:192.000000 h:19.199997" />
+				<Property Name="AbsoluteWidth" Value="192.000000" />
+				<Property Name="AbsoluteXPosition" Value="25.600000" />
+				<Property Name="AbsoluteYPosition" Value="24.000000" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.100000 y:0.250000" />
+				<Property Name="Rect" Value="l:0.100000 t:0.250000 r:0.850000 b:0.450000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.100000 y:0.250000" />
+				<Property Name="RelativeRect" Value="l:0.100000 t:0.250000 r:0.850000 b:0.450000" />
+				<Property Name="RelativeSize" Value="w:0.750000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.750000" />
+				<Property Name="RelativeXPosition" Value="0.100000" />
+				<Property Name="RelativeYPosition" Value="0.250000" />
+				<Property Name="Size" Value="w:0.750000 h:0.200000" />
+				<Property Name="Text" Value="FPS:" />
+				<Property Name="Width" Value="0.750000" />
+				<Property Name="XPosition" Value="0.100000" />
+				<Property Name="YPosition" Value="0.250000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/Position">
+				<Property Name="AbsoluteHeight" Value="19.200001" />
+				<Property Name="AbsolutePosition" Value="x:25.600000 y:46.079998" />
+				<Property Name="AbsoluteRect" Value="l:25.600000 t:46.079998 r:217.600006 b:65.279999" />
+				<Property Name="AbsoluteSize" Value="w:192.000000 h:19.200001" />
+				<Property Name="AbsoluteWidth" Value="192.000000" />
+				<Property Name="AbsoluteXPosition" Value="25.600000" />
+				<Property Name="AbsoluteYPosition" Value="46.079998" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.100000 y:0.480000" />
+				<Property Name="Rect" Value="l:0.100000 t:0.480000 r:0.850000 b:0.680000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.100000 y:0.480000" />
+				<Property Name="RelativeRect" Value="l:0.100000 t:0.480000 r:0.850000 b:0.680000" />
+				<Property Name="RelativeSize" Value="w:0.750000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.750000" />
+				<Property Name="RelativeXPosition" Value="0.100000" />
+				<Property Name="RelativeYPosition" Value="0.480000" />
+				<Property Name="Size" Value="w:0.750000 h:0.200000" />
+				<Property Name="Text" Value="Pos:" />
+				<Property Name="Width" Value="0.750000" />
+				<Property Name="XPosition" Value="0.100000" />
+				<Property Name="YPosition" Value="0.480000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/Zone">
+				<Property Name="AbsoluteHeight" Value="19.199997" />
+				<Property Name="AbsolutePosition" Value="x:25.600000 y:67.199997" />
+				<Property Name="AbsoluteRect" Value="l:25.600000 t:67.199997 r:217.600006 b:86.399994" />
+				<Property Name="AbsoluteSize" Value="w:192.000000 h:19.199997" />
+				<Property Name="AbsoluteWidth" Value="192.000000" />
+				<Property Name="AbsoluteXPosition" Value="25.600000" />
+				<Property Name="AbsoluteYPosition" Value="67.199997" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.100000 y:0.700000" />
+				<Property Name="Rect" Value="l:0.100000 t:0.700000 r:0.850000 b:0.900000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.100000 y:0.700000" />
+				<Property Name="RelativeRect" Value="l:0.100000 t:0.700000 r:0.850000 b:0.900000" />
+				<Property Name="RelativeSize" Value="w:0.750000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.750000" />
+				<Property Name="RelativeXPosition" Value="0.100000" />
+				<Property Name="RelativeYPosition" Value="0.700000" />
+				<Property Name="Size" Value="w:0.750000 h:0.200000" />
+				<Property Name="Text" Value="Zone: " />
+				<Property Name="Width" Value="0.750000" />
+				<Property Name="XPosition" Value="0.100000" />
+				<Property Name="YPosition" Value="0.700000" />
+				</Window>
+			</Window>
+		<Window Type="TaharezLook/FrameWindow" Name="LandscapeProgress">
+			<Property Name="AbsoluteHeight" Value="470.400024" />
+			<Property Name="AbsolutePosition" Value="x:6.400000 y:4.800000" />
+			<Property Name="AbsoluteRect" Value="l:6.400000 t:4.800000 r:633.600037 b:475.200012" />
+			<Property Name="AbsoluteSize" Value="w:627.200012 h:470.400024" />
+			<Property Name="AbsoluteWidth" Value="627.200012" />
+			<Property Name="AbsoluteXPosition" Value="6.400000" />
+			<Property Name="AbsoluteYPosition" Value="4.800000" />
+			<Property Name="CloseButtonEnabled" Value="False" />
+			<Property Name="Height" Value="0.980000" />
+			<Property Name="Position" Value="x:0.010000 y:0.010000" />
+			<Property Name="Rect" Value="l:0.010000 t:0.010000 r:0.990000 b:0.990000" />
+			<Property Name="RelativeHeight" Value="0.980000" />
+			<Property Name="RelativePosition" Value="x:0.010000 y:0.010000" />
+			<Property Name="RelativeRect" Value="l:0.010000 t:0.010000 r:0.990000 b:0.990000" />
+			<Property Name="RelativeSize" Value="w:0.980000 h:0.980000" />
+			<Property Name="RelativeWidth" Value="0.980000" />
+			<Property Name="RelativeXPosition" Value="0.010000" />
+			<Property Name="RelativeYPosition" Value="0.010000" />
+			<Property Name="Size" Value="w:0.980000 h:0.980000" />
+			<Property Name="Text" Value="Loading Game..." />
+			<Property Name="TitlebarEnabled" Value="False" />
+			<Property Name="Width" Value="0.980000" />
+			<Property Name="XPosition" Value="0.010000" />
+			<Property Name="YPosition" Value="0.010000" />
+			<Window Type="TaharezLook/AlternateProgressBar" Name="LandscacpeProgress/ProgBar">
+				<Property Name="AbsoluteHeight" Value="23.520020" />
+				<Property Name="AbsolutePosition" Value="x:12.544000 y:409.248016" />
+				<Property Name="AbsoluteRect" Value="l:12.544000 t:409.248016 r:614.656006 b:432.768036" />
+				<Property Name="AbsoluteSize" Value="w:602.112000 h:23.520020" />
+				<Property Name="AbsoluteWidth" Value="602.112000" />
+				<Property Name="AbsoluteXPosition" Value="12.544000" />
+				<Property Name="AbsoluteYPosition" Value="409.248016" />
+				<Property Name="Height" Value="0.050000" />
+				<Property Name="Position" Value="x:0.020000 y:0.870000" />
+				<Property Name="Rect" Value="l:0.020000 t:0.870000 r:0.980000 b:0.920000" />
+				<Property Name="RelativeHeight" Value="0.050000" />
+				<Property Name="RelativePosition" Value="x:0.020000 y:0.870000" />
+				<Property Name="RelativeRect" Value="l:0.020000 t:0.870000 r:0.980000 b:0.920000" />
+				<Property Name="RelativeSize" Value="w:0.960000 h:0.050000" />
+				<Property Name="RelativeWidth" Value="0.960000" />
+				<Property Name="RelativeXPosition" Value="0.020000" />
+				<Property Name="RelativeYPosition" Value="0.870000" />
+				<Property Name="Size" Value="w:0.960000 h:0.050000" />
+				<Property Name="Width" Value="0.960000" />
+				<Property Name="XPosition" Value="0.020000" />
+				<Property Name="YPosition" Value="0.870000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="LandscapeProgress/Text">
+				<Property Name="AbsoluteHeight" Value="42.336002" />
+				<Property Name="AbsolutePosition" Value="x:257.152008 y:47.040005" />
+				<Property Name="AbsoluteRect" Value="l:257.152008 t:47.040005 r:395.136017 b:89.376007" />
+				<Property Name="AbsoluteSize" Value="w:137.984009 h:42.336002" />
+				<Property Name="AbsoluteWidth" Value="137.984009" />
+				<Property Name="AbsoluteXPosition" Value="257.152008" />
+				<Property Name="AbsoluteYPosition" Value="47.040005" />
+				<Property Name="FrameEnabled" Value="False" />
+				<Property Name="Height" Value="0.090000" />
+				<Property Name="Position" Value="x:0.410000 y:0.100000" />
+				<Property Name="Rect" Value="l:0.410000 t:0.100000 r:0.630000 b:0.190000" />
+				<Property Name="RelativeHeight" Value="0.090000" />
+				<Property Name="RelativePosition" Value="x:0.410000 y:0.100000" />
+				<Property Name="RelativeRect" Value="l:0.410000 t:0.100000 r:0.630000 b:0.190000" />
+				<Property Name="RelativeSize" Value="w:0.220000 h:0.090000" />
+				<Property Name="RelativeWidth" Value="0.220000" />
+				<Property Name="RelativeXPosition" Value="0.410000" />
+				<Property Name="RelativeYPosition" Value="0.100000" />
+				<Property Name="Size" Value="w:0.220000 h:0.090000" />
+				<Property Name="Text" Value="Starting up Werewolf." />
+				<Property Name="Width" Value="0.220000" />
+				<Property Name="XPosition" Value="0.410000" />
+				<Property Name="YPosition" Value="0.100000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="LandscapeProgress/Message">
+				<Property Name="AbsoluteHeight" Value="28.223999" />
+				<Property Name="AbsolutePosition" Value="x:62.720001 y:329.279999" />
+				<Property Name="AbsoluteRect" Value="l:62.720001 t:329.279999 r:564.479980 b:357.503998" />
+				<Property Name="AbsoluteSize" Value="w:501.759979 h:28.223999" />
+				<Property Name="AbsoluteWidth" Value="501.759979" />
+				<Property Name="AbsoluteXPosition" Value="62.720001" />
+				<Property Name="AbsoluteYPosition" Value="329.279999" />
+				<Property Name="Height" Value="0.060000" />
+				<Property Name="Position" Value="x:0.100000 y:0.700000" />
+				<Property Name="Rect" Value="l:0.100000 t:0.700000 r:0.900000 b:0.760000" />
+				<Property Name="RelativeHeight" Value="0.060000" />
+				<Property Name="RelativePosition" Value="x:0.100000 y:0.700000" />
+				<Property Name="RelativeRect" Value="l:0.100000 t:0.700000 r:0.900000 b:0.760000" />
+				<Property Name="RelativeSize" Value="w:0.800000 h:0.060000" />
+				<Property Name="RelativeWidth" Value="0.800000" />
+				<Property Name="RelativeXPosition" Value="0.100000" />
+				<Property Name="RelativeYPosition" Value="0.700000" />
+				<Property Name="Size" Value="w:0.800000 h:0.060000" />
+				<Property Name="Text" Value="Default message. This should be populated before using." />
+				<Property Name="Width" Value="0.800000" />
+				<Property Name="XPosition" Value="0.100000" />
+				<Property Name="YPosition" Value="0.700000" />
+				</Window>
+			</Window>
+		<Window Type="TaharezLook/FrameWindow" Name="NetworkTask/ConnectLS">
+			<Property Name="AbsoluteHeight" Value="120.000000" />
+			<Property Name="AbsolutePosition" Value="x:160.000000 y:180.000000" />
+			<Property Name="AbsoluteRect" Value="l:160.000000 t:180.000000 r:480.000000 b:300.000000" />
+			<Property Name="AbsoluteSize" Value="w:320.000000 h:120.000000" />
+			<Property Name="AbsoluteWidth" Value="320.000000" />
+			<Property Name="AbsoluteXPosition" Value="160.000000" />
+			<Property Name="AbsoluteYPosition" Value="180.000000" />
+			<Property Name="CloseButtonEnabled" Value="False" />
+			<Property Name="Height" Value="0.250000" />
+			<Property Name="Position" Value="x:0.250000 y:0.375000" />
+			<Property Name="Rect" Value="l:0.250000 t:0.375000 r:0.750000 b:0.625000" />
+			<Property Name="RelativeHeight" Value="0.250000" />
+			<Property Name="RelativePosition" Value="x:0.250000 y:0.375000" />
+			<Property Name="RelativeRect" Value="l:0.250000 t:0.375000 r:0.750000 b:0.625000" />
+			<Property Name="RelativeSize" Value="w:0.500000 h:0.250000" />
+			<Property Name="RelativeWidth" Value="0.500000" />
+			<Property Name="RelativeXPosition" Value="0.250000" />
+			<Property Name="RelativeYPosition" Value="0.375000" />
+			<Property Name="Size" Value="w:0.500000 h:0.250000" />
+			<Property Name="SizingEnabled" Value="False" />
+			<Property Name="Text" Value="Connect to Werewolf" />
+			<Property Name="Width" Value="0.500000" />
+			<Property Name="XPosition" Value="0.250000" />
+			<Property Name="YPosition" Value="0.375000" />
+			<Window Type="TaharezLook/Editbox" Name="NetworkTask/ConnectLS/UserDL">
+				<Property Name="AbsoluteHeight" Value="24.000000" />
+				<Property Name="AbsolutePosition" Value="x:96.000000 y:24.000000" />
+				<Property Name="AbsoluteRect" Value="l:96.000000 t:24.000000 r:224.000000 b:48.000000" />
+				<Property Name="AbsoluteSize" Value="w:128.000000 h:24.000000" />
+				<Property Name="AbsoluteWidth" Value="128.000000" />
+				<Property Name="AbsoluteXPosition" Value="96.000000" />
+				<Property Name="AbsoluteYPosition" Value="24.000000" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.300000 y:0.200000" />
+				<Property Name="Rect" Value="l:0.300000 t:0.200000 r:0.700000 b:0.400000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.300000 y:0.200000" />
+				<Property Name="RelativeRect" Value="l:0.300000 t:0.200000 r:0.700000 b:0.400000" />
+				<Property Name="RelativeSize" Value="w:0.400000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.400000" />
+				<Property Name="RelativeXPosition" Value="0.300000" />
+				<Property Name="RelativeYPosition" Value="0.200000" />
+				<Property Name="Size" Value="w:0.400000 h:0.200000" />
+				<Property Name="Width" Value="0.400000" />
+				<Property Name="XPosition" Value="0.300000" />
+				<Property Name="YPosition" Value="0.200000" />
+				</Window>
+			<Window Type="TaharezLook/Editbox" Name="NetworkTask/ConnectLS/PassDL">
+				<Property Name="AbsoluteHeight" Value="24.000000" />
+				<Property Name="AbsolutePosition" Value="x:96.000000 y:54.000000" />
+				<Property Name="AbsoluteRect" Value="l:96.000000 t:54.000000 r:224.000000 b:78.000000" />
+				<Property Name="AbsoluteSize" Value="w:128.000000 h:24.000000" />
+				<Property Name="AbsoluteWidth" Value="128.000000" />
+				<Property Name="AbsoluteXPosition" Value="96.000000" />
+				<Property Name="AbsoluteYPosition" Value="54.000000" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.300000 y:0.450000" />
+				<Property Name="Rect" Value="l:0.300000 t:0.450000 r:0.700000 b:0.650000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.300000 y:0.450000" />
+				<Property Name="RelativeRect" Value="l:0.300000 t:0.450000 r:0.700000 b:0.650000" />
+				<Property Name="RelativeSize" Value="w:0.400000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.400000" />
+				<Property Name="RelativeXPosition" Value="0.300000" />
+				<Property Name="RelativeYPosition" Value="0.450000" />
+				<Property Name="Size" Value="w:0.400000 h:0.200000" />
+				<Property Name="Width" Value="0.400000" />
+				<Property Name="XPosition" Value="0.300000" />
+				<Property Name="YPosition" Value="0.450000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="NetworkTask/ConnectLS/UserTXT">
+				<Property Name="AbsoluteHeight" Value="24.000000" />
+				<Property Name="AbsolutePosition" Value="x:9.599999 y:24.000000" />
+				<Property Name="AbsoluteRect" Value="l:9.599999 t:24.000000 r:89.599998 b:48.000000" />
+				<Property Name="AbsoluteSize" Value="w:80.000000 h:24.000000" />
+				<Property Name="AbsoluteWidth" Value="80.000000" />
+				<Property Name="AbsoluteXPosition" Value="9.599999" />
+				<Property Name="AbsoluteYPosition" Value="24.000000" />
+				<Property Name="FrameEnabled" Value="False" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.030000 y:0.200000" />
+				<Property Name="Rect" Value="l:0.030000 t:0.200000 r:0.280000 b:0.400000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.030000 y:0.200000" />
+				<Property Name="RelativeRect" Value="l:0.030000 t:0.200000 r:0.280000 b:0.400000" />
+				<Property Name="RelativeSize" Value="w:0.250000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.250000" />
+				<Property Name="RelativeXPosition" Value="0.030000" />
+				<Property Name="RelativeYPosition" Value="0.200000" />
+				<Property Name="Size" Value="w:0.250000 h:0.200000" />
+				<Property Name="Text" Value="Username:" />
+				<Property Name="Width" Value="0.250000" />
+				<Property Name="XPosition" Value="0.030000" />
+				<Property Name="YPosition" Value="0.200000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="NetworkTask/ConnectLS/PassTXT">
+				<Property Name="AbsoluteHeight" Value="24.000000" />
+				<Property Name="AbsolutePosition" Value="x:9.599999 y:54.000000" />
+				<Property Name="AbsoluteRect" Value="l:9.599999 t:54.000000 r:89.599998 b:78.000000" />
+				<Property Name="AbsoluteSize" Value="w:80.000000 h:24.000000" />
+				<Property Name="AbsoluteWidth" Value="80.000000" />
+				<Property Name="AbsoluteXPosition" Value="9.599999" />
+				<Property Name="AbsoluteYPosition" Value="54.000000" />
+				<Property Name="FrameEnabled" Value="False" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.030000 y:0.450000" />
+				<Property Name="Rect" Value="l:0.030000 t:0.450000 r:0.280000 b:0.650000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.030000 y:0.450000" />
+				<Property Name="RelativeRect" Value="l:0.030000 t:0.450000 r:0.280000 b:0.650000" />
+				<Property Name="RelativeSize" Value="w:0.250000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.250000" />
+				<Property Name="RelativeXPosition" Value="0.030000" />
+				<Property Name="RelativeYPosition" Value="0.450000" />
+				<Property Name="Size" Value="w:0.250000 h:0.200000" />
+				<Property Name="Text" Value="Password:" />
+				<Property Name="Width" Value="0.250000" />
+				<Property Name="XPosition" Value="0.030000" />
+				<Property Name="YPosition" Value="0.450000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="NetworkTask/ConnectLS/StatusTXT">
+				<Property Name="AbsoluteHeight" Value="24.000000" />
+				<Property Name="AbsolutePosition" Value="x:9.599999 y:90.000000" />
+				<Property Name="AbsoluteRect" Value="l:9.599999 t:90.000000 r:137.600006 b:114.000000" />
+				<Property Name="AbsoluteSize" Value="w:128.000000 h:24.000000" />
+				<Property Name="AbsoluteWidth" Value="128.000000" />
+				<Property Name="AbsoluteXPosition" Value="9.599999" />
+				<Property Name="AbsoluteYPosition" Value="90.000000" />
+				<Property Name="FrameEnabled" Value="False" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.030000 y:0.750000" />
+				<Property Name="Rect" Value="l:0.030000 t:0.750000 r:0.430000 b:0.950000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.030000 y:0.750000" />
+				<Property Name="RelativeRect" Value="l:0.030000 t:0.750000 r:0.430000 b:0.950000" />
+				<Property Name="RelativeSize" Value="w:0.400000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.400000" />
+				<Property Name="RelativeXPosition" Value="0.030000" />
+				<Property Name="RelativeYPosition" Value="0.750000" />
+				<Property Name="Size" Value="w:0.400000 h:0.200000" />
+				<Property Name="Width" Value="0.400000" />
+				<Property Name="XPosition" Value="0.030000" />
+				<Property Name="YPosition" Value="0.750000" />
+				</Window>
+			<Window Type="TaharezLook/Button" Name="NetworkTask/ConnectLS/ConnectBTN">
+				<Property Name="AbsoluteHeight" Value="24.000000" />
+				<Property Name="AbsolutePosition" Value="x:192.000000 y:84.000000" />
+				<Property Name="AbsoluteRect" Value="l:192.000000 t:84.000000 r:288.000000 b:108.000000" />
+				<Property Name="AbsoluteSize" Value="w:96.000000 h:24.000000" />
+				<Property Name="AbsoluteWidth" Value="96.000000" />
+				<Property Name="AbsoluteXPosition" Value="192.000000" />
+				<Property Name="AbsoluteYPosition" Value="84.000000" />
+				<Property Name="Height" Value="0.200000" />
+				<Property Name="Position" Value="x:0.600000 y:0.700000" />
+				<Property Name="Rect" Value="l:0.600000 t:0.700000 r:0.900000 b:0.900000" />
+				<Property Name="RelativeHeight" Value="0.200000" />
+				<Property Name="RelativePosition" Value="x:0.600000 y:0.700000" />
+				<Property Name="RelativeRect" Value="l:0.600000 t:0.700000 r:0.900000 b:0.900000" />
+				<Property Name="RelativeSize" Value="w:0.300000 h:0.200000" />
+				<Property Name="RelativeWidth" Value="0.300000" />
+				<Property Name="RelativeXPosition" Value="0.600000" />
+				<Property Name="RelativeYPosition" Value="0.700000" />
+				<Property Name="Size" Value="w:0.300000 h:0.200000" />
+				<Property Name="Text" Value="Connect..." />
+				<Property Name="Width" Value="0.300000" />
+				<Property Name="XPosition" Value="0.600000" />
+				<Property Name="YPosition" Value="0.700000" />
+				</Window>
+			</Window>
+		<Window Type="TaharezLook/FrameWindow" Name="NetworkTask/ShardList">
+			<Property Name="AbsoluteHeight" Value="192.000000" />
+			<Property Name="AbsolutePosition" Value="x:160.000000 y:144.000000" />
+			<Property Name="AbsoluteRect" Value="l:160.000000 t:144.000000 r:480.000000 b:336.000000" />
+			<Property Name="AbsoluteSize" Value="w:320.000000 h:192.000000" />
+			<Property Name="AbsoluteWidth" Value="320.000000" />
+			<Property Name="AbsoluteXPosition" Value="160.000000" />
+			<Property Name="AbsoluteYPosition" Value="144.000000" />
+			<Property Name="CloseButtonEnabled" Value="False" />
+			<Property Name="Height" Value="0.400000" />
+			<Property Name="Position" Value="x:0.250000 y:0.300000" />
+			<Property Name="Rect" Value="l:0.250000 t:0.300000 r:0.750000 b:0.700000" />
+			<Property Name="RelativeHeight" Value="0.400000" />
+			<Property Name="RelativePosition" Value="x:0.250000 y:0.300000" />
+			<Property Name="RelativeRect" Value="l:0.250000 t:0.300000 r:0.750000 b:0.700000" />
+			<Property Name="RelativeSize" Value="w:0.500000 h:0.400000" />
+			<Property Name="RelativeWidth" Value="0.500000" />
+			<Property Name="RelativeXPosition" Value="0.250000" />
+			<Property Name="RelativeYPosition" Value="0.300000" />
+			<Property Name="Size" Value="w:0.500000 h:0.400000" />
+			<Property Name="SizingEnabled" Value="False" />
+			<Property Name="Text" Value="Choose Shard..." />
+			<Property Name="Width" Value="0.500000" />
+			<Property Name="XPosition" Value="0.250000" />
+			<Property Name="YPosition" Value="0.300000" />
+			<Window Type="TaharezLook/MultiColumnList" Name="NetworkTask/ShardList/ShardMCL">
+				<Property Name="AbsoluteHeight" Value="115.199997" />
+				<Property Name="AbsolutePosition" Value="x:12.799999 y:28.800001" />
+				<Property Name="AbsoluteRect" Value="l:12.799999 t:28.800001 r:307.199982 b:144.000000" />
+				<Property Name="AbsoluteSize" Value="w:294.399994 h:115.199997" />
+				<Property Name="AbsoluteWidth" Value="294.399994" />
+				<Property Name="AbsoluteXPosition" Value="12.799999" />
+				<Property Name="AbsoluteYPosition" Value="28.800001" />
+				<Property Name="Height" Value="0.600000" />
+				<Property Name="Position" Value="x:0.040000 y:0.150000" />
+				<Property Name="Rect" Value="l:0.040000 t:0.150000 r:0.960000 b:0.750000" />
+				<Property Name="RelativeHeight" Value="0.600000" />
+				<Property Name="RelativePosition" Value="x:0.040000 y:0.150000" />
+				<Property Name="RelativeRect" Value="l:0.040000 t:0.150000 r:0.960000 b:0.750000" />
+				<Property Name="RelativeSize" Value="w:0.920000 h:0.600000" />
+				<Property Name="RelativeWidth" Value="0.920000" />
+				<Property Name="RelativeXPosition" Value="0.040000" />
+				<Property Name="RelativeYPosition" Value="0.150000" />
+				<Property Name="Size" Value="w:0.920000 h:0.600000" />
+				<Property Name="Text" Value="M" />
+				<Property Name="Width" Value="0.920000" />
+				<Property Name="XPosition" Value="0.040000" />
+				<Property Name="YPosition" Value="0.150000" />
+				</Window>
+			<Window Type="TaharezLook/Button" Name="NetworkTask/ShardList/ConnectBTN">
+				<Property Name="AbsoluteHeight" Value="28.800003" />
+				<Property Name="AbsolutePosition" Value="x:224.000000 y:153.600006" />
+				<Property Name="AbsoluteRect" Value="l:224.000000 t:153.600006 r:304.000000 b:182.400009" />
+				<Property Name="AbsoluteSize" Value="w:80.000000 h:28.800003" />
+				<Property Name="AbsoluteWidth" Value="80.000000" />
+				<Property Name="AbsoluteXPosition" Value="224.000000" />
+				<Property Name="AbsoluteYPosition" Value="153.600006" />
+				<Property Name="Height" Value="0.150000" />
+				<Property Name="Position" Value="x:0.700000 y:0.800000" />
+				<Property Name="Rect" Value="l:0.700000 t:0.800000 r:0.950000 b:0.950000" />
+				<Property Name="RelativeHeight" Value="0.150000" />
+				<Property Name="RelativePosition" Value="x:0.700000 y:0.800000" />
+				<Property Name="RelativeRect" Value="l:0.700000 t:0.800000 r:0.950000 b:0.950000" />
+				<Property Name="RelativeSize" Value="w:0.250000 h:0.150000" />
+				<Property Name="RelativeWidth" Value="0.250000" />
+				<Property Name="RelativeXPosition" Value="0.700000" />
+				<Property Name="RelativeYPosition" Value="0.800000" />
+				<Property Name="Size" Value="w:0.250000 h:0.150000" />
+				<Property Name="Text" Value="Connect" />
+				<Property Name="Width" Value="0.250000" />
+				<Property Name="XPosition" Value="0.700000" />
+				<Property Name="YPosition" Value="0.800000" />
+				</Window>
+			<Window Type="TaharezLook/StaticText" Name="NetworkTask/ShardList/StatusTXT">
+				<Property Name="AbsoluteHeight" Value="28.800003" />
+				<Property Name="AbsolutePosition" Value="x:12.799999 y:153.600006" />
+				<Property Name="AbsoluteRect" Value="l:12.799999 t:153.600006 r:204.800003 b:182.400009" />
+				<Property Name="AbsoluteSize" Value="w:192.000000 h:28.800003" />
+				<Property Name="AbsoluteWidth" Value="192.000000" />
+				<Property Name="AbsoluteXPosition" Value="12.799999" />
+				<Property Name="AbsoluteYPosition" Value="153.600006" />
+				<Property Name="FrameEnabled" Value="False" />
+				<Property Name="Height" Value="0.150000" />
+				<Property Name="Position" Value="x:0.040000 y:0.800000" />
+				<Property Name="Rect" Value="l:0.040000 t:0.800000 r:0.640000 b:0.950000" />
+				<Property Name="RelativeHeight" Value="0.150000" />
+				<Property Name="RelativePosition" Value="x:0.040000 y:0.800000" />
+				<Property Name="RelativeRect" Value="l:0.040000 t:0.800000 r:0.640000 b:0.950000" />
+				<Property Name="RelativeSize" Value="w:0.600000 h:0.150000" />
+				<Property Name="RelativeWidth" Value="0.600000" />
+				<Property Name="RelativeXPosition" Value="0.040000" />
+				<Property Name="RelativeYPosition" Value="0.800000" />
+				<Property Name="Size" Value="w:0.600000 h:0.150000" />
+				<Property Name="Text" Value="Listing Shards" />
+				<Property Name="Width" Value="0.600000" />
+				<Property Name="XPosition" Value="0.040000" />
+				<Property Name="YPosition" Value="0.800000" />
+				</Window>
+			</Window>
+		<Window Type="TaharezLook/FrameWindow" Name="GameTask/Chatbox">
+			<Property Name="AbsoluteHeight" Value="96.000000" />
+			<Property Name="AbsolutePosition" Value="x:160.000000 y:379.200012" />
+			<Property Name="AbsoluteRect" Value="l:160.000000 t:379.200012 r:480.000000 b:475.200012" />
+			<Property Name="AbsoluteSize" Value="w:320.000000 h:96.000000" />
+			<Property Name="AbsoluteWidth" Value="320.000000" />
+			<Property Name="AbsoluteXPosition" Value="160.000000" />
+			<Property Name="AbsoluteYPosition" Value="379.200012" />
+			<Property Name="CloseButtonEnabled" Value="False" />
+			<Property Name="Height" Value="0.200000" />
+			<Property Name="Position" Value="x:0.250000 y:0.790000" />
+			<Property Name="Rect" Value="l:0.250000 t:0.790000 r:0.750000 b:0.990000" />
+			<Property Name="RelativeHeight" Value="0.200000" />
+			<Property Name="RelativePosition" Value="x:0.250000 y:0.790000" />
+			<Property Name="RelativeRect" Value="l:0.250000 t:0.790000 r:0.750000 b:0.990000" />
+			<Property Name="RelativeSize" Value="w:0.500000 h:0.200000" />
+			<Property Name="RelativeWidth" Value="0.500000" />
+			<Property Name="RelativeXPosition" Value="0.250000" />
+			<Property Name="RelativeYPosition" Value="0.790000" />
+			<Property Name="Size" Value="w:0.500000 h:0.200000" />
+			<Property Name="Text" Value="Chat" />
+			<Property Name="Width" Value="0.500000" />
+			<Property Name="XPosition" Value="0.250000" />
+			<Property Name="YPosition" Value="0.790000" />
+			<Window Type="TaharezLook/Listbox" Name="GameTask/Chatbox/ChatList">
+				<Property Name="AbsoluteHeight" Value="48.000000" />
+				<Property Name="AbsolutePosition" Value="x:12.799999 y:24.000000" />
+				<Property Name="AbsoluteRect" Value="l:12.799999 t:24.000000 r:307.200012 b:72.000000" />
+				<Property Name="AbsoluteSize" Value="w:294.400024 h:48.000000" />
+				<Property Name="AbsoluteWidth" Value="294.400024" />
+				<Property Name="AbsoluteXPosition" Value="12.799999" />
+				<Property Name="AbsoluteYPosition" Value="24.000000" />
+				<Property Name="Height" Value="0.500000" />
+				<Property Name="Position" Value="x:0.040000 y:0.250000" />
+				<Property Name="Rect" Value="l:0.040000 t:0.250000 r:0.960000 b:0.750000" />
+				<Property Name="RelativeHeight" Value="0.500000" />
+				<Property Name="RelativePosition" Value="x:0.040000 y:0.250000" />
+				<Property Name="RelativeRect" Value="l:0.040000 t:0.250000 r:0.960000 b:0.750000" />
+				<Property Name="RelativeSize" Value="w:0.920000 h:0.500000" />
+				<Property Name="RelativeWidth" Value="0.920000" />
+				<Property Name="RelativeXPosition" Value="0.040000" />
+				<Property Name="RelativeYPosition" Value="0.250000" />
+				<Property Name="Size" Value="w:0.920000 h:0.500000" />
+				<Property Name="Text" Value="d" />
+				<Property Name="Width" Value="0.920000" />
+				<Property Name="XPosition" Value="0.040000" />
+				<Property Name="YPosition" Value="0.250000" />
+				</Window>
+			<Window Type="TaharezLook/Editbox" Name="GameTask/Chatbox/ChatEDT">
+				<Property Name="AbsoluteHeight" Value="14.400002" />
+				<Property Name="AbsolutePosition" Value="x:12.799999 y:76.800003" />
+				<Property Name="AbsoluteRect" Value="l:12.799999 t:76.800003 r:307.200012 b:91.200005" />
+				<Property Name="AbsoluteSize" Value="w:294.400024 h:14.400002" />
+				<Property Name="AbsoluteWidth" Value="294.400024" />
+				<Property Name="AbsoluteXPosition" Value="12.799999" />
+				<Property Name="AbsoluteYPosition" Value="76.800003" />
+				<Property Name="Height" Value="0.150000" />
+				<Property Name="Position" Value="x:0.040000 y:0.800000" />
+				<Property Name="Rect" Value="l:0.040000 t:0.800000 r:0.960000 b:0.950000" />
+				<Property Name="RelativeHeight" Value="0.150000" />
+				<Property Name="RelativePosition" Value="x:0.040000 y:0.800000" />
+				<Property Name="RelativeRect" Value="l:0.040000 t:0.800000 r:0.960000 b:0.950000" />
+				<Property Name="RelativeSize" Value="w:0.920000 h:0.150000" />
+				<Property Name="RelativeWidth" Value="0.920000" />
+				<Property Name="RelativeXPosition" Value="0.040000" />
+				<Property Name="RelativeYPosition" Value="0.800000" />
+				<Property Name="Size" Value="w:0.920000 h:0.150000" />
+				<Property Name="Text" Value="Your chat message here." />
+				<Property Name="Width" Value="0.920000" />
+				<Property Name="XPosition" Value="0.040000" />
+				<Property Name="YPosition" Value="0.800000" />
+				</Window>
+			</Window>
+		</Window>
+</GUILayout>

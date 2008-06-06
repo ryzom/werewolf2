@@ -1,0 +1,12 @@
+// Adds a leaf atttributes for leaf clusters
+
+global proc string nelCreateLeafSlot() {
+	$slot = `nelCreateSlotBase "Leaf"`;
+	
+	addAttr -ln "useBBCastShadows" -k 1 -dv 0 -at "bool" $slot;
+	addAttr -ln "useFaceNormal" -k 1 -dv 0 -at "float" -min 0 -max 1 $slot;
+	addAttr -ln "translucency" -k 1 -dv 0 -at "float" -min 0 -max 1 $slot;
+	addAttr -ln "penumbra" -k 1 -dv 0.5 -at "float" -min 0 -max 1 $slot;
+	
+	return $slot;
+}

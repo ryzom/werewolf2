@@ -1,0 +1,16 @@
+global proc string nelCreateCreature ( string $name ) {
+	string $result = "";
+
+	if ($name == "")
+		$name = "creature";
+	
+	$shape = `createNode locator `;
+
+	$parent = `listRelatives -p $shape`;
+	$result = `rename ($parent[0]) $name`;
+
+	$shapes = `listRelatives -s $result`;
+	addAttr -ln "nelCreature" -dt "string" $shapes[0];
+
+	return ($result);
+}

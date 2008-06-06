@@ -1,0 +1,18 @@
+global proc nelExportTexture(string $targetFolder, string $texture) {
+/*	if(`fileExtension $texture` == "dds") {
+		$baseName = `basename $texture ""`;
+		$targetFile = $targetFolder + $baseName;
+		if(`file -q -ex $targetFile` && `fileUtil -ct $targetFile $texture`) {
+			return;
+		} */
+/*		$tempFile = $targetFolder + $baseName + ".bmp";
+		system("imgcvt \"" + $texture + "\" \"" + $tempFile + "\"");
+		system("imconvert -flip \"" + $tempFile + "\" \"" + $tempFile + "\"");
+		system("imgcvt \"" + $tempFile + "\" \"" + $targetFile + "\"");
+		sysFile -delete $tempFile;
+*/
+/*		sysFile -cp $targetFile $texture;
+		print ("Saved " + $targetFile + "\n");
+	} 
+*/
+}

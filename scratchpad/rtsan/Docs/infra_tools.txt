@@ -1,0 +1,36 @@
+===== Basics
+
+* 12 Monkeys
+* Text collaboration
+	+ Gobby
+* Whiteboard
+	+ sorta..Painter 7..buggy tho - no opening of existing files and no paste
+* Document management
+	+ Wiki solves part of the problem..what about arbitrary documents..like uml etc? Think in the lines of something like LiveLink for example.
+* Web
+	+ sorta..the old PHP based thing I made
+* Mailing list
+	+ I guess
+* IRC logging
+* VPN
+	+ I guess
+* Time tracking
+* Bug tracking
+	+ Mantis is decent
+* Task management
+* Some sort of binary management
+* versioning system / code repository
+	+ CVS
+* Mail and IRC based tracking of commits
+	+ CVSspam and CIA
+* Blogging (Wiki integration hopefully...WYSIWYG editor would be nice there tho...we hatesss the text area)
+* TQM
+
+===== Advanced
+
+* Binary asset management (JUSS / AlienBrain)
+* webpage syncing
+* Automatic build management with tests and mail notification
+* Code style checking (IDE integration)
+* Library repository
+* Some sort of a calendar that integrates all the task/bug and time tracking

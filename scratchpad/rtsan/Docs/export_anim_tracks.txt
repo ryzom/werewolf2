@@ -1,0 +1,56 @@
+* Biped Node Tracks
+	* simply transform (node) tracks
+* Bone Tracks
+	* simply transform (node) tracks
+* Node Tracks
+	* scale
+		* std::string (NL3D::ITransformable::getScaleValueName())
+	* rotation
+		* std::string (NL3D::ITransformable::getRotQuatValueName())
+		* std::string (NL3D::ITransformable::getRotEulerValueName())
+	* position
+		* std::string (NL3D::ITransformable::getPosValueName())
+	* pivot
+		* std::string (NL3D::ITransformable::getPivotValueName())
+	* camera roll
+		* std::string (NL3D::CCamera::getRollValueName())
+	* camera target position
+		* std::string (NL3D::CCamera::getTargetValueName())
+	* camera fov
+		* std::string (NL3D::CCamera::getFovValueName())
+* Material Tracks
+	* ambient
+		* std::string (CAnimatedMaterial::getAmbientValueName())
+	* diffuse
+		* std::string (CAnimatedMaterial::getDiffuseValueName())
+	* specular
+		* std::string (CAnimatedMaterial::getSpecularValueName())
+	* emissive
+		* std::string (CAnimatedMaterial::getEmissiveValueName())
+	* opacity
+		* std::string (CAnimatedMaterial::getOpacityValueName())
+	* texture matrix
+		* U offset
+			* std::string (CAnimatedMaterial::getTexMatUTransName(stage)
+		* V offset
+			* std::string (CAnimatedMaterial::getTexMatVTransName(stage))
+		* U scale
+			* std::string (CAnimatedMaterial::getTexMatUScaleName(stage))
+		* V scale
+			* std::string (CAnimatedMaterial::getTexMatVScaleName(stage))
+		* W rotation
+			* std::string (CAnimatedMaterial::getTexMatWRotName(stage))
+* Light Tracks
+	* color
+		* std::string ("LightmapController." + name);
+* Particle System Tracks
+	* PSParam0-3
+		* std::string (NL3D::CParticleSystemModel::getPSParamName((uint) NL3D::CParticleSystemModel::PSParam0 + k))
+	* PSTrigger
+		* std::string("PSTrigger")
+* Morph Tracks
+	* morph factor
+		* std::string (parentname + morphname + "MorphFactor");
+* (Note Tracks)
+	* just some strings
+		* std::string("NoteTrack")

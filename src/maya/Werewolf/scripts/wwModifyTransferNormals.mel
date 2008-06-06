@@ -1,0 +1,14 @@
+// Transfer normals from one set of vertices to another based on a proximity param (threshold)
+
+global proc wwModifyTransferNormals(string $from[], string $to[], float $threshold) {
+	for($vertex in $from) {
+		float $pos[] = `xform -q -ws -t $vertex`;
+		for($vertex2 in $to) {
+				float $pos2[] = `xform -q -ws -t $vertex2`;
+				vector $diff = <<$pos[0] - $pos2[0], $pos[1] - $pos2[1], $pos[2] - $pos2[2]>>;
+				if(`mag $diff` < $threshold) {
+					wwModifyTransferNormal $vertex $vertex2;
+				}
+		}
+	}
+}

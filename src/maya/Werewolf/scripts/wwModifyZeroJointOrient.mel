@@ -1,0 +1,10 @@
+global proc wwModifyZeroJointOrient() {
+	// find the end joints of this skeleton
+	$selection = `ls -dag -lf -sl -type "joint"`;
+	// set joint orient to 0
+	for($joint in $selection) {
+		setAttr ($joint + ".jointOrientX") 0;
+		setAttr ($joint + ".jointOrientY") 0;
+		setAttr ($joint + ".jointOrientZ") 0;
+	}
+}

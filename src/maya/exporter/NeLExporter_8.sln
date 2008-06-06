@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NeLExporter", "NeLExporter_8.vcproj", "{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug 2008|Win32 = Debug 2008|Win32
+		Debug 8.5|Win32 = Debug 8.5|Win32
+		Debug|Win32 = Debug|Win32
+		Release 2008|Win32 = Release 2008|Win32
+		Release 8.5|Win32 = Release 8.5|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Debug 2008|Win32.ActiveCfg = Debug 2008|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Debug 2008|Win32.Build.0 = Debug 2008|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Debug 8.5|Win32.ActiveCfg = Debug 8.5|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Debug 8.5|Win32.Build.0 = Debug 8.5|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Debug|Win32.Build.0 = Debug|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Release 2008|Win32.ActiveCfg = Release 2008|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Release 2008|Win32.Build.0 = Release 2008|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Release 8.5|Win32.ActiveCfg = Release 8.5|Win32
+		{BF819B36-9776-4581-AEF6-4B2CC5BD93B9}.Release 8.5|Win32.Build.0 = Release 8.5|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

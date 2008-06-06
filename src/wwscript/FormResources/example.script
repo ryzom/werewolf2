@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<FORM Version="0.0" State="modified">
+	<STRUCT>
+		<ATOM Name="Name" Value="ExampleScript"/>
+		<ATOM Name="Source" Value="exampleScript.as"/>
+		<ATOM Name="Section" Value="general"/>
+		<ARRAY Name="Functions">
+			<STRUCT>
+				<ATOM Name="FunctionName" Value="getFoobar"/>
+				<ATOM Name="ReturnType" Value="void"/>
+			</STRUCT>
+		</ARRAY>
+	</STRUCT>
+	<STRUCT/>
+	<STRUCT/>
+	<STRUCT/>
+	<STRUCT/>
+</FORM>

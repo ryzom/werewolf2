@@ -1,0 +1,191 @@
+// Assign export options
+
+global proc int nelExportOptions ( string $parent,
+								   string $action,
+								   string $initialSettings,
+								   string $resultCallback ) {
+	int		$bResult;
+	string	$currentOptions;
+	string	$optionList[];
+	string	$optionBreakDown[];
+	int		$index;
+
+
+	if ($action == "post") {
+		setParent $parent;
+
+		columnLayout -co "left" 170 nelExportFlagsLayout;
+			checkBox -l "Verbose" nelVerbose;
+			checkBox -l "Dump" nelDump;
+		setParent ..;
+		frameLayout -l "What to export" -collapsable true nelExportWhatFrame;
+			columnLayout -co "left" 170 nelExportWhatLayout;
+				checkBox -l "Export Meshes" nelExportMesh;
+				checkBox -l "Export Skin Weights" nelExportVBA;
+				checkBox -l "Export Normals" nelExportNormals;
+				checkBox -l "Export Vertex Colours" nelExportColours;
+				checkBox -l "Export UVs" nelExportUVs;
+				checkBox -l "Export Skeletons" nelExportSkeleton;
+				checkBox -l "Export Animation" nelExportAnimation;
+				checkBox -l "Export Water" nelExportWater;
+				checkBox -l "Export LOD" nelExportLOD;
+				checkBox -l "Export Zones" nelExportZone;
+				checkBox -l "Export IG" nelExportIG;
+				checkBox -l "Export Collisions" nelExportCollision;
+				checkBox -l "Export Billboards" nelExportBillboard;
+				checkBox -l "Export Leaves" nelExportLeaf;
+				checkBox -l "Export Veget" nelExportVeget;
+			setParent ..;
+ 		setParent ..;
+		frameLayout -l "Where to put it" -collapsable true nelExportWhereFrame;
+			rowColumnLayout -numberOfColumns 2 -columnAttach 1 "right" 0 -columnWidth 1 100 -columnWidth 2 250;
+				text -label "Meshes:";
+				textField nelExportMeshesLoc;
+				text -label "Skeletons:";
+				textField nelExportSkeletonsLoc;
+				text -label "Animations:";
+				textField nelExportAnimationsLoc;
+				text -label "Water:";
+				textField nelExportWaterLoc;
+				text -label "Zones:";
+				textField nelExportZonesLoc;
+				text -label "IG:";
+				textField nelExportIGLoc;
+				text -label "Collisions:";
+				textField nelExportCollisionsLoc;
+				text -label "Billboards:";
+				textField nelExportBillboardsLoc;
+				text -label "Leaves:";
+				textField nelExportLeavesLoc;
+				text -label "Vegets:";
+				textField nelExportVegetsLoc;
+				text -label "Textures:";
+				textField nelExportTexturesLoc;
+			setParent ..;
+ 		setParent ..;
+
+		$currentOptions = $initialSettings;
+		if (size($currentOptions) > 0) {
+			tokenize($currentOptions, ";", $optionList);
+			for ($index = 0; $index < size($optionList); $index++) {
+				tokenize($optionList[$index], "=", $optionBreakDown);
+
+				if ($optionBreakDown[0] == "verbose") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelVerbose;
+				} else if ($optionBreakDown[0] == "dump") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelDump;
+				} else if ($optionBreakDown[0] == "exportMesh") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportMesh;
+				} else if ($optionBreakDown[0] == "exportVBA") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportVBA;
+				} else if ($optionBreakDown[0] == "exportNormals") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportNormals;
+				} else if ($optionBreakDown[0] == "exportColours") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportColours;
+				} else if ($optionBreakDown[0] == "exportUVs") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportUVs;
+				} else if ($optionBreakDown[0] == "exportSkeleton") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportSkeleton;
+				} else if ($optionBreakDown[0] == "exportAnimation") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportAnimation;
+				} else if ($optionBreakDown[0] == "exportWater") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportWater;
+				} else if ($optionBreakDown[0] == "exportLOD") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportLOD;
+				} else if ($optionBreakDown[0] == "exportZone") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportZone;
+				} else if ($optionBreakDown[0] == "exportIG") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportIG;
+				} else if ($optionBreakDown[0] == "exportCollision") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportCollision;
+				} else if ($optionBreakDown[0] == "exportBillboard") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportBillboard;
+				} else if ($optionBreakDown[0] == "exportLeaf") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportLeaf;
+				} else if ($optionBreakDown[0] == "exportVeget") {
+						int $intValue = $optionBreakDown[1];
+						checkBox -e -v $intValue nelExportVeget;
+				} else if ($optionBreakDown[0] == "locMeshes") {
+						textField -e -tx $optionBreakDown[1] nelExportMeshesLoc;
+				} else if ($optionBreakDown[0] == "locSkeletons") {
+						textField -e -tx $optionBreakDown[1] nelExportSkeletonsLoc;
+				} else if ($optionBreakDown[0] == "locAnimations") {
+						textField -e -tx $optionBreakDown[1] nelExportAnimationsLoc;
+				} else if ($optionBreakDown[0] == "locWater") {
+						textField -e -tx $optionBreakDown[1] nelExportWaterLoc;
+				} else if ($optionBreakDown[0] == "locZones") {
+						textField -e -tx $optionBreakDown[1] nelExportZonesLoc;
+				} else if ($optionBreakDown[0] == "locIG") {
+						textField -e -tx $optionBreakDown[1] nelExportIGLoc;
+				} else if ($optionBreakDown[0] == "locCollisions") {
+						textField -e -tx $optionBreakDown[1] nelExportCollisionsLoc;
+				} else if ($optionBreakDown[0] == "locLeaves") {
+						textField -e -tx $optionBreakDown[1] nelExportLeavesLoc;
+				} else if ($optionBreakDown[0] == "locBillboards") {
+						textField -e -tx $optionBreakDown[1] nelExportBillboardsLoc;
+				} else if ($optionBreakDown[0] == "locVegets") {
+						textField -e -tx $optionBreakDown[1] nelExportVegetsLoc;
+				} else if ($optionBreakDown[0] == "locTextures") {
+						textField -e -tx $optionBreakDown[1] nelExportTexturesLoc;
+				}
+			}
+		}
+		$result = 1;
+	
+	} else if ($action == "query") {
+
+		$currentOptions = $currentOptions + "verbose=" + `checkBox -q -v nelVerbose` + ";";
+		$currentOptions = $currentOptions + "dump=" + `checkBox -q -v nelDump` + ";";
+		$currentOptions = $currentOptions + "exportMesh=" + `checkBox -q -v nelExportMesh` + ";";
+		$currentOptions = $currentOptions + "exportVBA=" + `checkBox -q -v nelExportVBA` + ";";
+		$currentOptions = $currentOptions + "exportNormals=" + `checkBox -q -v nelExportNormals` + ";";
+		$currentOptions = $currentOptions + "exportColours=" + `checkBox -q -v nelExportColours` + ";";
+		$currentOptions = $currentOptions + "exportUVs=" + `checkBox -q -v nelExportUVs` + ";";
+		$currentOptions = $currentOptions + "exportSkeleton=" + `checkBox -q -v nelExportSkeleton` + ";";
+		$currentOptions = $currentOptions + "exportAnimation=" + `checkBox -q -v nelExportAnimation` + ";";
+		$currentOptions = $currentOptions + "exportWater=" + `checkBox -q -v nelExportWater` + ";";
+		$currentOptions = $currentOptions + "exportLOD=" + `checkBox -q -v nelExportLOD` + ";";
+		$currentOptions = $currentOptions + "exportZone=" + `checkBox -q -v nelExportZone` + ";";
+		$currentOptions = $currentOptions + "exportIG=" + `checkBox -q -v nelExportIG` + ";";
+		$currentOptions = $currentOptions + "exportCollision=" + `checkBox -q -v nelExportCollision` + ";";
+		$currentOptions = $currentOptions + "exportBillboard=" + `checkBox -q -v nelExportBillboard` + ";";
+		$currentOptions = $currentOptions + "exportLeaf=" + `checkBox -q -v nelExportLeaf` + ";";
+		$currentOptions = $currentOptions + "exportVeget=" + `checkBox -q -v nelExportVeget` + ";";
+
+		$currentOptions = $currentOptions + "locMeshes=" + `textField -q -fi nelExportMeshesLoc` + ";";
+		$currentOptions = $currentOptions + "locSkeletons=" + `textField -q -fi nelExportSkeletonsLoc` + ";";
+		$currentOptions = $currentOptions + "locAnimations=" + `textField -q -fi nelExportAnimationsLoc` + ";";
+		$currentOptions = $currentOptions + "locWater=" + `textField -q -fi nelExportWaterLoc` + ";";
+		$currentOptions = $currentOptions + "locZones=" + `textField -q -fi nelExportZonesLoc` + ";";
+		$currentOptions = $currentOptions + "locIG=" + `textField -q -fi nelExportIGLoc` + ";";
+		$currentOptions = $currentOptions + "locCollisions=" + `textField -q -fi nelExportCollisionsLoc` + ";";
+		$currentOptions = $currentOptions + "locBillboards=" + `textField -q -fi nelExportBillboardsLoc` + ";";
+		$currentOptions = $currentOptions + "locLeaves=" + `textField -q -fi nelExportLeavesLoc` + ";";
+		$currentOptions = $currentOptions + "locVegets=" + `textField -q -fi nelExportVegetsLoc` + ";";
+		$currentOptions = $currentOptions + "locTextures=" + `textField -q -fi nelExportTexturesLoc` + ";";
+
+		eval($resultCallback+" \""+$currentOptions+"\"");
+
+		$result = 1;
+	} else {
+		$bResult = 0;
+	}
+
+	return $bResult;
+}

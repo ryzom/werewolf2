@@ -1,0 +1,5 @@
+Werewolf
+=========
+Update TODO ;)
+Tweak infra for using nel
+Tweak docs to reflect changes in Werewolf (the switch to nel)

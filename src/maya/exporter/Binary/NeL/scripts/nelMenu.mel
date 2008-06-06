@@ -1,0 +1,303 @@
+// Script to create the NeL file menu 
+
+global proc nelMenu(int $dev) {
+	global string $gMainWindow;
+
+	if(`menu -exists nelUIMenu`) {
+		deleteUI -menu "nelUIMenu";
+	}
+
+	menu
+		-label "NeL" 
+		-tearOff true 
+		-parent $gMainWindow
+		-allowOptionBoxes true
+		"nelUIMenu";
+
+	string $command = "";
+	if($dev) {
+		$command += "source nelCreateNelShader.mel;\r\n";
+	}
+	$command += "nelCreateNelShader;";
+	menuItem -l "Create NeL Shader"
+		-ann "Create one NeL Shader and assign it to all selected objects"
+		-echoCommand true
+		-c $command
+		"nelCreateNelShaderItem";
+	
+	string $command = "";
+	if($dev) {
+		$command += "source nelCreateNelWaterShader.mel;\r\n";
+	}
+	$command += "nelCreateNelWaterShader;";
+	menuItem -l "Create NeL Water Shader"
+		-ann "Create one NeL Water Shader and assign it to all selected objects"
+		-echoCommand true
+		-c $command
+		"nelCreateNelWaterShaderItem";
+
+	menuItem -l "MRM"
+		-p "nelUIMenu"
+		-tearOff true
+		-subMenu true
+		-allowOptionBoxes true
+		"MRMMenu";
+		
+		string $command = "";
+		if($dev) {
+			$command += "source nelConvert2MRM.mel;\r\n";
+		}
+		$command += "nelConvert2MRM;";	
+		menuItem -l "Create MRM"
+			-ann "Make all the selected objects MRM meshes"
+			-echoCommand true
+			-c $command
+			"nelConvert2MRMItem";
+	
+		$command = "nelAssignInterfaceMeshes;";
+		menuItem -l "Create Interface Meshes"
+			-ann "Create Interface Meshes. Select the border vertices of one of the meshes and then select the other mesh that shares this border."
+			-echoCommand true
+			-c $command
+			"nelAssignInterfaceMeshesItem";
+
+		if($dev) {
+			$command = "source nelAssignInterfaceMeshes.mel;";
+			menuItem -l "Source Create Interface Meshes"
+				-ann "Source the Create Interface Meshes Script"
+				-echoCommand true
+				-c $command
+				"sourceCreateInterfaceMeshesItem";
+		}
+
+		$command = "";
+		if($dev) {
+			$command += "source nelPerformAssignMRMAttrs.mel;\rsource nelAssignMRMAttrs.mel;\r\n";
+		}
+		$command += "nelPerformAssignMRMAttrs";
+		menuItem -l "Assign MRM Parameters"
+			-ann "Assign MRM Parameters to all selected objects"
+			-echoCommand true
+			-c ($command + " 0")
+			"nelAssignMRMAttrsItem";
+
+			menuItem -optionBox true
+				-label "Assign MRM Parameters Option Box"
+				-ann "Assign MRM Parameters to all selected objects. Option Box."
+				-c ($command + " 1")
+				"nelAssignMRMAttrsOptItem";
+
+	setParent -m ..;
+
+	$command = "";
+	if($dev) {
+		$command += "source nelCreateLod.mel;\r\n";
+	}
+	$command += "nelCreateLod;";
+	menuItem -l "Create NeL Lod"
+		-ann "Add NeL MultiLOD controls to the selected LOD group"
+		-echoCommand true
+		-c $command
+		"nelCreateLodItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelGUILod.mel;\r\n";
+	}
+	$command += "nelGUILod;";
+	menuItem -l "NeL + Maya LOD UI"
+		-ann "Control Maya and NeL LOD groups through a unified UI"
+		-echoCommand true
+		-c $command
+		"nelGUILod";
+
+	menuItem -l "Animation Tools"
+		-p "nelUIMenu"
+		-tearOff true
+		-subMenu true
+		-allowOptionBoxes true
+		"AnimationMenu";
+
+		$command = "";
+		if($dev) {
+			$command += "source nelAddForceAnimationExport.mel;\r\n";
+		}
+		$command += "nelAddForceAnimationExport;";
+		menuItem -l "Force Animation Export"
+			-ann "Force animation export on the selected nodes"
+			-echoCommand true
+			-c $command
+			"nelAddForceAnimationExportItem";
+
+	setParent -m ..;
+
+	$command = "";
+	if($dev) {
+		$command += "source nelAddBaseAttrs.mel;\r\n";
+	}
+	$command += "nelAddBaseAttrs;";
+	menuItem -l "Add NeL Attributes"
+		-ann "Add general NeL attributes to the selected nodes (select transforms)"
+		-echoCommand true
+		-c $command
+		"nelAddBaseAttrsItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelAddTransformAttrs.mel;\r\n";
+	}
+	$command += "nelAddTransformAttrs;";
+	menuItem -l "Add NeL Transform Attributes"
+		-ann "Add NeL transform attributes to the selected nodes (select transforms)"
+		-echoCommand true
+		-c $command
+		"nelAddTransformAttrsItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelConvert2Instance.mel;\r\n";
+	}
+	$command += "nelConvert2Instance;";
+	menuItem -l "Add NeL Instance Attributes"
+		-ann "Add instance specific NeL attributes to the selected nodes (select transforms)"
+		-echoCommand true
+		-c $command
+		"nelConvert2InstanceItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelConvert2Cluster.mel;\r\n";
+	}
+	$command += "nelConvert2Cluster;";
+	menuItem -l "Add NeL Cluster Attributes"
+		-ann "Add cluster specific NeL attributes to the selected nodes (select transforms)"
+		-echoCommand true
+		-c $command
+		"nelConvert2ClusterItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelConvert2Portal.mel;\r\n";
+	}
+	$command += "nelConvert2Portal;";
+	menuItem -l "Add NeL Portal Attributes"
+		-ann "Add portal specific NeL attributes to the selected nodes (select transforms)"
+		-echoCommand true
+		-c $command
+		"nelConvert2PortalItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelConvert2Zone.mel;\r\n";
+	}
+	$command += "nelConvert2Zone;";
+	menuItem -l "Add NeL Zone Attributes"
+		-ann "Add zone specific NeL attributes to the selected nodes (select transforms)"
+		-echoCommand true
+		-c $command
+		"nelConvert2ZoneItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelCreatePatchPainter.mel;\r\n";
+	}
+	$command += "nelCreatePatchPainter;";
+	menuItem -l "Create NeL Patch Painter"
+		-ann "Create a new NeL Patch Painter node (select the transform of a bezier surface)"
+		-echoCommand true
+		-c $command
+		"nelCreatePatchPainterItem";
+
+	$command = "";
+	if($dev) {
+		$command += "source nelGUICreateLitIGs.mel;\r\n";
+	}
+	$command += "nelGUICreateLitIGs;";
+	menuItem -l "Light IGs"
+		-ann "Use NeL command line tools via a GUI to light IGs"
+		-echoCommand true
+		-c $command
+		"nelGUICreateLitIGsItem";
+
+	menuItem -l "Collision Tools"
+		-p "nelUIMenu"
+		-tearOff true
+		-subMenu true
+		-allowOptionBoxes true
+		"CollisionMenu";
+
+		$command = "";
+		if($dev) {
+			$command += "source nelConvert2CollisionMesh.mel;\r\n";
+		}
+		$command += "nelConvert2CollisionMesh;";
+		menuItem -l "Convert to Collision Mesh"
+			-ann "Convert the selected meshes to collision meshes. Select transforms of meshes."
+			-echoCommand true
+			-c $command
+			"nelConvert2CollisionMeshItem";
+
+		$command = "";
+		if($dev) {
+			$command += "";
+		}
+		$command += "nelGUICollisionPaint;";
+		menuItem -l "Paint Collision Mesh"
+			-ann "Tool to paint collision meshes on a polygonal mesh."
+			-echoCommand true
+			-c $command
+			"nelPaintCollisionPaintItem";
+
+		$command = "";
+		if($dev) {
+			$command += "source nelCreateCollisionMeshes.mel;\r\n";
+		}
+		$command += "nelCreateCollisionMeshes;";
+		menuItem -l "Create Collision Meshes"
+			-ann "Creates collision meshes from painted values. Select a mesh with painted collisions."
+			-echoCommand true
+			-c $command
+			"nelCreateCollisionMeshesItem";
+			
+		$command = "";
+		if($dev) {
+			$command += "source nelPerformAssignEdgeVisibility.mel;\rsource nelAssignEdgeVisibility.mel;\r\n";
+		}
+		$command += "nelPerformAssignEdgeVisibility";
+		menuItem -l "Assign Edge Visibility"
+			-ann "Assign collision mesh edge visibility. Select edges of collision meshes."
+			-echoCommand true
+			-c ($command + " 0")
+			"nelAssignEdgeVisibilityItem";
+
+			menuItem -optionBox true
+				-label "Assign Edge Visibility Option Box"
+				-ann "Assign collision mesh edge visibility. Option Box."
+				-c ($command + " 1")
+				"nelAssignEdgeVisibilityOptItem";
+
+	setParent -m ..;
+
+	$command = "";
+	if($dev) {
+		$command += "source nelConvert2Veg.mel;\r\n";
+	}
+	$command += "nelConvert2Veg;";
+	menuItem -l "Convert to NeL Veg"
+		-ann "Converts the selected meshes (select transforms) to NeL Vegs."
+		-echoCommand true
+		-c $command
+		"nelConvert2VegItem";
+	
+	$command = "";
+	if($dev) {
+		$command += "source nelGUIMaya2NelUnits.mel;\r\n";
+	}
+	$command += "nelGUIMaya2NelUnits;";
+	menuItem -l "Maya to NeL Unit Converter"
+		-ann "Converts Maya units into NeL units so you can model stuff to scale easily."
+		-echoCommand true
+		-c $command
+		"nelGUIMaya2NelUnits";	
+
+}

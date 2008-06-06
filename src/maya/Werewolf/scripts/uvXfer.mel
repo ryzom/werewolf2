@@ -1,0 +1,110 @@
+//----------------------------------------------------------------------------------------------------------------
+// MODIFY THIS AT YOUR OWN RISK
+//
+// Creation Date:  march 27 2002
+// Author:         Tony Bowren <tony@heliumproductions.com
+// 
+//
+//  Procedure Name:
+//
+//      uvXfer (version 1.0)   (Bug reports are welcome) 
+//
+//  Description:
+//
+//     	This script will allow you to transfer the UV coordinates from one poly mesh to another poly mesh with 
+//	a different number of vertices utilizing CLOSEST POINT ON MESH.  This script was designed to enable 
+//	one to remodel a character with different vertice placement (add more detail in a shoulder or make a low
+//	rez version of a high rez character) and keep the existing texture mapping coordinates.
+//
+//
+//  Instructions:
+//
+//	NOTE:  The plugin "closestPointOnMesh.mll" must be installed or this script will not WORK!!!!
+//
+//
+//	1) Take a source poly model that already has texture vertices applied.
+//	2) Remodel a new poly character (add or remove detail as needed).
+//	3) For best results the two poly objects should be very similar in dimensions.
+//	4) Select the old source Poly model and SHIFT select the vertices of the new poly model.
+//	5) Execute the script.
+//	6) if you see stretching or a section that does not look right, inspect to see if the source poly model
+//	has another piece of geometry that is coming too close to your new vertices.  If your two objects are vastly
+//	different in size expect major stretching.
+//
+//
+//   Comments:
+//	Awhile back S.D Serbos wrote a very useful script called  sds_EZUV that transfered Nurbs textures to Poly 
+//	models.  I basically took that idea and script and refitted it to work poly to poly so I could experiment 
+//	with different levels of detail in my poly model for binding, converting to subD, etc while still keeping the
+//	texture maps I spent so much time working on.  This is also good for rebuilding cyberscan models or output 
+//	of any of photo based modeler that give good textures but dirty geometry.
+//	  
+//
+//	 
+//	
+//	History:
+//
+//	27 March 2002
+//	The birthday of this script.
+//----------------------------------------------------------------------------------------------------------------
+
+
+
+global proc uvXfer () {
+
+/*This is from S D Serbos code so I kept it, for some reason if you are in a 
+trasformation tool during some of the procedures that follow Maya would crash. */
+
+	buildSelectMaskMM;
+	changeToolIcon;
+	if( `popupMenu -exists tempMM` ) { deleteUI tempMM; };
+	
+
+string $SOURCESelection[] = `ls -sl  -typ transform`;
+string $SOURCE = $SOURCESelection[0];
+
+
+
+	string $selected[] = `filterExpand -sm 31`;
+	int $siz = `size $selected`;
+	if ($siz) {
+	vector $v[];
+		for ($i = 0;$i<$siz;$i++) {
+				float $v[] = `xform -q -ws -t $selected[$i]`;
+				 	$positionXtarget = $v[0];
+				      	$positionYtarget = $v[1];
+      					$positionZtarget = $v[2];
+ 
+//print("vertex "+ $i +" at position: (" + $positionXtarget + ", " +$positionYtarget + ", " + $positionZtarget + ")\n");
+
+
+	float $result[] = `closestPointOnMesh -ip $positionXtarget $positionYtarget $positionZtarget -q -p -nr -u -v -f $SOURCE`;
+	float $positionX, $positionY, $positionZ, $normalX, $normalY, $normalZ, $uParameter, $vParameter;
+	$positionX = $result[0];
+      	$positionY = $result[1];
+      	$positionZ = $result[2];
+      	$normalX = $result[3];
+      	$normalY = $result[4];
+      	$normalZ = $result[5];
+      	$uParameter = $result[6];
+      	$vParameter = $result[7];
+
+//     print("Here's the resultant position: (" + $positionX + ", " +$positionY + ", " + $positionZ + ")\n");
+//     print("Here's the resultant UV: (" + $uParameter + ", " + $vParameter + ")\n");
+ 
+
+	string $vtx2map[];					
+	 $vtx2map =`polyListComponentConversion -tuv $selected[$i]`;
+	 select -r $vtx2map;					
+	 string $therealUVs[]=`filterExpand -ex true -sm 35 $vtx2map`;
+	 constructionHistory -toggle false;
+	 for ($oneUV in $therealUVs)
+		{
+		 polyEditUV  -r false -u $uParameter -v $vParameter $oneUV;         
+        	flushUndo;
+        	}
+
+		}
+		
+	}
+}

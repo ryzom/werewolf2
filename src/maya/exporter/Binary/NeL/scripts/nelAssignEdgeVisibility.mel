@@ -1,0 +1,16 @@
+global proc nelAssignEdgeVisibility(int $value) {
+	string $edges[] = `filterExpand -sm 32 -ex true -fp true`;
+	if ($edges[0]=="") {
+		 error "You must select at least one edge.";
+	}
+	int $bBDExists[] = `blindDataType -q -id 21`;
+	if($bBDExists[0] != 21) {
+		print "No data type exists...creating\n";
+		blindDataType -id 21 -dt "boolean" -longDataName "visibility" -shortDataName "vis";
+	}
+
+	for($edge in $edges) {
+		print ("Edge(s): " + $edge + " Visibility: " + $value + "\n");
+		polyBlindData -id 21 -at edge -ldn visibility -bd $value $edge;
+	}
+}
