@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<conf>
-	<name value="test"/>
-	<server value="http://localhost:8080/juss/"/>
-	<root value="L:/Kool/jroot"/>
-</conf>

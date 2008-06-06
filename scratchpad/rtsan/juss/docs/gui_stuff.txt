@@ -1,6 +1,0 @@
-Transfers
-Name, status, size, transferred, speed, time, progress, priority
-
-Listing
-	Syncing thread
-	do listing -> queue sync -> do listing

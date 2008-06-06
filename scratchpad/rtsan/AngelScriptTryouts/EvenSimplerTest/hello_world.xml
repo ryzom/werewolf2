@@ -1,5 +1,0 @@
-<script src="hello_world.as" name="hello world">
-	<function name="hello" return="string">
-		<argument id="0" type="string" name="who"/>
-	</function>
-</script>

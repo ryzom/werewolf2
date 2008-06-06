@@ -1,8 +1,0 @@
-<script src="data/multi_light.as" name="multi light phong">
-	<function name="getShader" return="string">
-		<argument id="0" type="int" name="numLights">
-			<binding map="ENGINE" property="ENGINE.NumberOfLights"/>
-		</argument>
-	</function>
-	<function name="getType" return="int"/>
-</script>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<conf>
-	<param name="server" value="http://localhost:8080/juss/"/>
-	<param name="root" value="/home/tp/dev/jussicliendijuurikas"/>
-	<param name="maxtransfers" value="2"/>
-</conf>

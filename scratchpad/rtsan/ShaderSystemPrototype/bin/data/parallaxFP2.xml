@@ -1,4 +1,0 @@
-<script src="data/parallaxFP2.as" name="steep parallax mapping FP">
-	<function name="getShader" return="string"/>
-	<function name="getType" return="int"/>
-</script>
