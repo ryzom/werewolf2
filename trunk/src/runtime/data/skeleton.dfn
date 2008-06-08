@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<DFN>
-  <ELEMENT Name="FriendlyName" Type="Type" Filename="string.typ"/>
-  <ELEMENT Name="Filename" Type="Type" Filename="string.typ"/>
-</DFN>

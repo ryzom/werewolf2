@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<DFN>
-  <ELEMENT Name="FriendlyAnimName" Type="Type" Filename="string.typ"/>
-  <ELEMENT Name="Priority" Type="Type" Filename="int.typ"/>
-</DFN>

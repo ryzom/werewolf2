@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<DFN>
-  <ELEMENT Name="AnimGroupName" Type="Type" Filename="string.typ"/>
-  <ELEMENT Name="Description" Type="Type" Filename="string.typ"/>
-</DFN>
