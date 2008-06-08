@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<FORM>
-  <STRUCT>
-	  <ATOM Name="FriendlyName" Value="sphere top"/>
-	  <ATOM Name="Filename" Value="sphere_top.shape"/>
-  	  <ATOM Name="Description" Value="Some programmer art."/>
-  </STRUCT>
-</FORM>

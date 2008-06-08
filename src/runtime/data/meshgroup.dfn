@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<DFN>
-  <ELEMENT Name="MeshGroupName" Type="Type" Filename="string.typ"/>
-  <ELEMENT Name="Meshes" Type="Dfn" Filename="meshgroupmesh.dfn" Array="true"/>
-</DFN>

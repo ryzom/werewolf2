@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<FORM>
-  <STRUCT>
-    <ATOM Name="FriendlyName" Value="gnuprepwalk"/>
-    <ATOM Name="Filename" Value="patterfeet.anim"/>
-    <ATOM Name="Description" Value="The preparing to walk animation clip for the GNU character."/>
-  </STRUCT>
-</FORM>

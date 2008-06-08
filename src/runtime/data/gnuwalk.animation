@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<FORM>
-  <STRUCT>
-    <ATOM Name="FriendlyName" Value="gnuwalk"/>
-    <ATOM Name="Filename" Value="marche.anim"/>
-    <ATOM Name="Description" Value="The walking animation clip for the GNU character."/>
-  </STRUCT>
-</FORM>
