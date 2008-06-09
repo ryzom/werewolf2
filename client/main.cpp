@@ -34,7 +34,7 @@
 
 #include <string>
 
-#include "wwcommon/stdpragma.h"
+//#include "wwcommon/stdpragma.h"
 
 //
 // NeL Includes
