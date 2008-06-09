@@ -1,4 +1,0 @@
-Jason Oppel (pato) <jason AT oppel.net>
-Henri Kuuste (RTSan) <rtsan AT hot.ee>
-Matthew Raykowski (sfb) <matt.raykowski AT gmail.com>
-We are missing a big Bear for infra work...... :/
