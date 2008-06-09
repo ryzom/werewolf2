@@ -46,10 +46,6 @@
 #include "CWWTask.h"
 #include "main.h"
 #include "wwcommon/CTaskManager.h"
-#include "Shapes/CBBClusterShape.h"
-#include "Shapes/CLeafClusterShape.h"
-#include "Models/CBBClusterModel.h"
-#include "Models/CLeafClusterModel.h"
 
 //
 // Namespaces
@@ -77,15 +73,6 @@ int WINAPI WinMain( HINSTANCE hInstance,
 int main(int argc, char **argv)
 {
 #endif
-
-	NL3D::CBBClusterModel::registerBasic();
-	NL3D::CLeafClusterModel::registerBasic();
-	using NL3D::CBBClusterShape;
-	using NL3D::CLeafClusterShape;
-	NLMISC_REGISTER_CLASS(CBBClusterShape);
-	NLMISC_REGISTER_CLASS(CLeafClusterShape);
-	NLMISC_REGISTER_CLASS(CBBClusterShape::CBBSlot);
-	NLMISC_REGISTER_CLASS(CLeafClusterShape::CLeafSlot);
 
 	// record the main thread's ID for all to see.
 	MainThreadId = getThreadId();
