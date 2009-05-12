@@ -40,7 +40,7 @@
 //
 // Werewolf Includes
 //	
-#include "CGenericObjectPool.h"
+#include "wwcommon/CGenericObjectPool.h"
 
 //
 // Namespaces

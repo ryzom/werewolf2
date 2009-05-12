@@ -29,7 +29,6 @@
 //
 // Standard Includes
 //
-#include <hash_map>
 
 //
 // System Includes
@@ -67,7 +66,7 @@ public:
 	ISobHandler *getHandler(uint32 handlerId);
 
 protected:
-	typedef std::hash_map<uint32, ISobHandler *> THandlerMap;
+	typedef CHashMap<uint32, ISobHandler *> THandlerMap;
 	THandlerMap m_HandlerMap;
 };
 

@@ -39,13 +39,15 @@
 //
 // Werewolf Includes
 //	
-#include "CSobStateRequestEvent.h"
+#include "wwcommon/CSobStateRequestEvent.h"
 
 //
 // Namespaces
 //
 
 namespace WWCOMMON {
+
+const uint16 CSobStateRequestEvent::CSobStateRequestEventID;
 
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobStateRequestEvent);

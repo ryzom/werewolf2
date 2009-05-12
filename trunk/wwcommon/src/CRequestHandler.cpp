@@ -39,15 +39,15 @@
 //
 // Werewolf Includes
 //	
-#include "CRequestHandler.h"
-#include "CStateManager.h"
-#include "ISimulationState.h"
-#include "CSobMoveEvent.h"
-#include "CSobOrientEvent.h"
-#include "CSobStrafeEvent.h"
-#include "ISobStateChangeEvent.h"
-#include "IBaseSimulation.h"
-#include "CPerformer.h"
+#include "wwcommon/CRequestHandler.h"
+#include "wwcommon/CStateManager.h"
+#include "wwcommon/ISimulationState.h"
+#include "wwcommon/CSobMoveEvent.h"
+#include "wwcommon/CSobOrientEvent.h"
+#include "wwcommon/CSobStrafeEvent.h"
+#include "wwcommon/ISobStateChangeEvent.h"
+#include "wwcommon/IBaseSimulation.h"
+#include "wwcommon/CPerformer.h"
 
 
 //

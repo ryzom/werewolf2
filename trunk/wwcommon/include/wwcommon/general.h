@@ -4,13 +4,47 @@
 #include <string.h>
 #include <string>
 
-struct streqpred
+struct strltpred_hash_compare
 {
-   bool operator()(const char* a, const char* b) const
+   enum
    {
-      return strcmp(a, b) == 0;
+      bucket_size = 4,
+      min_buckets = 8
+   };
+
+   size_t operator()(const char* s) const
+   {
+      size_t h = 0;
+      for (; *s; ++s)
+         h = 5 * h + *s;
+      return h;
+   }
+
+   bool operator()(const char* s1, const char* s2) const
+   {
+      return strcmp(s1, s2) < 0;
    }
 };
+
+
+//struct streqpred
+//{
+//   static const size_t bucket_size = 4;
+//   static const size_t min_buckets = 8;
+//
+//   size_t operator(const char* s) const
+//   {
+//       size_t h = 0;
+//       for(;*s;++s)
+//           h = 5 * h + *s;
+//       return h;
+//   } 
+//
+//   bool operator()(const char* a, const char* b) const
+//   {
+//      return strcmp(a, b) == 0;
+//   }
+//};
 
 struct stdstreqpred
 {

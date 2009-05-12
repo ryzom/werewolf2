@@ -40,17 +40,17 @@
 //
 // Werewolf Includes
 //
-#include "CGameEventServer.h"
+#include "wwcommon/CGameEventServer.h"
 
-#include "CSobDREvent.h"
-#include "CSobMoveEvent.h"
-#include "CSobOrientEvent.h"
-#include "CSobStateRequestEvent.h"
-#include "CSobStrafeEvent.h"
-#include "IGameEvent.h"
-#include "ISobEvent.h"
-#include "IGameEventListener.h"
-#include "IBaseSimulation.h"
+#include "wwcommon/CSobDREvent.h"
+#include "wwcommon/CSobMoveEvent.h"
+#include "wwcommon/CSobOrientEvent.h"
+#include "wwcommon/CSobStateRequestEvent.h"
+#include "wwcommon/CSobStrafeEvent.h"
+#include "wwcommon/IGameEvent.h"
+#include "wwcommon/ISobEvent.h"
+#include "wwcommon/IGameEventListener.h"
+#include "wwcommon/IBaseSimulation.h"
 
 //
 // Namespaces

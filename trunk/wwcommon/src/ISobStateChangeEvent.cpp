@@ -39,7 +39,7 @@
 //
 // Werewolf Includes
 //
-#include "ISobStateChangeEvent.h"
+#include "wwcommon/ISobStateChangeEvent.h"
 
 //
 // Namespaces

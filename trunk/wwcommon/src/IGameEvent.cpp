@@ -39,7 +39,7 @@
 //
 // Werewolf Includes
 //	
-#include "IGameEvent.h"
+#include "wwcommon/IGameEvent.h"
 
 //
 // Namespaces

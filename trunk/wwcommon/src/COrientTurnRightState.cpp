@@ -40,12 +40,12 @@
 //
 // Werewolf Includes
 //
-#include "COrientTurnRightState.h"
-#include "COrientState.h"
-#include "ISimulationState.h"
-#include "CStateManager.h"
-#include "IBaseSimulation.h"
-#include "CMotionController.h"
+#include "wwcommon/COrientTurnRightState.h"
+#include "wwcommon/COrientState.h"
+#include "wwcommon/ISimulationState.h"
+#include "wwcommon/CStateManager.h"
+#include "wwcommon/IBaseSimulation.h"
+#include "wwcommon/CMotionController.h"
 
 //
 // Namespaces

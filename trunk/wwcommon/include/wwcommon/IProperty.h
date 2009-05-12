@@ -34,7 +34,7 @@
 // System Includes
 //
 #include <list>
-#include <boost/python.hpp>
+//#include <boost/python.hpp>
 
 //
 // NeL Includes
@@ -62,12 +62,12 @@ public:
 		return false;
 	}
 
-	static void init_script_class() {
-		using namespace boost::python;
-		using namespace boost::python::api;
-		class_<IProperty, bases<IDirtyPropagator>, boost::noncopyable > w("IProperty", no_init);
-		w.add_property("name", &IProperty::getName);
-	}
+//	static void init_script_class() {
+//		using namespace boost::python;
+//		using namespace boost::python::api;
+//		class_<IProperty, bases<IDirtyPropagator>, boost::noncopyable > w("IProperty", no_init);
+//		w.add_property("name", &IProperty::getName);
+//	}
 
 	const char* getName();
 

@@ -41,8 +41,8 @@
 //
 // Werewolf Includes
 //
-#include "CGeneralInterpolator.h"
-#include "IBaseSimulation.h"
+//#include "wwcommon/CGeneralInterpolator.h"
+#include "wwcommon/IBaseSimulation.h"
 
 //
 // Namespaces

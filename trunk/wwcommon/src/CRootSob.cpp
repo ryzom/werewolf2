@@ -39,9 +39,9 @@
 //
 // Werewolf Includes
 //	
-#include "CRootSob.h"
-#include "ISimulationObj.h"
-#include "CSobFactory.h"
+#include "wwcommon/CRootSob.h"
+#include "wwcommon/ISimulationObj.h"
+#include "wwcommon/CSobFactory.h"
 
 //
 // Namespaces

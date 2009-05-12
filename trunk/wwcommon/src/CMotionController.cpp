@@ -42,12 +42,12 @@
 //
 // Werewolf Includes
 //	
-#include "CMotionController.h"
-#include "IBaseSimulation.h"
-#include "CClientMotionHandler.h"
-#include "general.h"
-#include "CGameEventServer.h"
-#include "CStateManager.h"
+#include "wwcommon/CMotionController.h"
+#include "wwcommon/IBaseSimulation.h"
+#include "wwcommon/CClientMotionHandler.h"
+#include "wwcommon/general.h"
+#include "wwcommon/CGameEventServer.h"
+#include "wwcommon/CStateManager.h"
 
 //
 // Namespaces

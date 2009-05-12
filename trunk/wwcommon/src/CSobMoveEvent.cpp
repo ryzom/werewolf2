@@ -39,13 +39,15 @@
 //
 // Werewolf Includes
 //
-#include "CSobMoveEvent.h"
+#include "wwcommon/CSobMoveEvent.h"
 
 //
 // Namespaces
 //
 
 namespace WWCOMMON {
+
+const uint16 CSobMoveEvent::CSobMoveEventID;
 
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobMoveEvent);

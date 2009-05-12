@@ -117,12 +117,12 @@ public:
 		it = m_Keys.begin();
 
 		// if there are no keys just log a warning.
-		if(m_Keys.empty())
-			nlwarning("Interpolator accessed while empty!");
+		//if(m_Keys.empty())
+		//	nlwarning("Interpolator accessed while empty!");
 
 		// if there is only one key, log and continue.
 		if(m_Keys.size()==1) {
-			nlwarning("Only one key available, skipping interpolation.");
+		//	nlwarning("Only one key available, skipping interpolation.");
 			return m_Keys.front();
 		}
 
@@ -147,8 +147,8 @@ public:
 		it = m_Keys.begin();
 
 		// if there are no keys just log a warning.
-		if(m_Keys.empty())
-			nlwarning("Interpolator accessed while empty!");
+		//if(m_Keys.empty())
+		//	nlwarning("Interpolator accessed while empty!");
 
 		// if there is only one key, log and continue.
 		if(m_Keys.size()==1) {
@@ -193,12 +193,12 @@ public:
 		it = m_Keys.begin();
 
 		// if there are no keys just log a warning.
-		if(m_Keys.empty())
-			nlwarning("Interpolator accessed while empty!");
+		//if(m_Keys.empty())
+		//	nlwarning("Interpolator accessed while empty!");
 
 		// if there is only one key, log and continue.
 		if(m_Keys.size()==1) {
-			nlwarning("Only one key available, skipping interpolation.");
+		//	nlwarning("Only one key available, skipping interpolation.");
 			return m_Keys.front();
 		}
 

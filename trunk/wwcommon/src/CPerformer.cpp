@@ -46,19 +46,19 @@
 //
 
 // sobs
-#include "CPerformer.h"
-#include "CSobFactory.h"
-#include "ISimulationObj.h"
+#include "wwcommon/CPerformer.h"
+#include "wwcommon/CSobFactory.h"
+#include "wwcommon/ISimulationObj.h"
 
 // states
-#include "CStateManager.h"
-#include "ISimulationState.h"
-#include "CMovementState.h"
-#include "CStrafeState.h"
-#include "COrientState.h"
+#include "wwcommon/CStateManager.h"
+#include "wwcommon/ISimulationState.h"
+#include "wwcommon/CMovementState.h"
+#include "wwcommon/CStrafeState.h"
+#include "wwcommon/COrientState.h"
 
-#include "IBaseSimulation.h"
-#include "CGameEventServer.h"
+#include "wwcommon/IBaseSimulation.h"
+#include "wwcommon/CGameEventServer.h"
 
 //
 // Namespaces

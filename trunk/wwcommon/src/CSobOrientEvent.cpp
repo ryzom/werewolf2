@@ -39,13 +39,15 @@
 //
 // Werewolf Includes
 //
-#include "CSobOrientEvent.h"
+#include "wwcommon/CSobOrientEvent.h"
 
 //
 // Namespaces
 //
 
 namespace WWCOMMON {
+
+const uint16 CSobOrientEvent::CSobOrientEventID;
 
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobOrientEvent);
