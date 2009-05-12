@@ -39,8 +39,8 @@
 //
 // Werewolf Includes
 //
-#include "CMotionInterpKey.h"
-#include "IBaseSimulation.h"
+#include "wwcommon/CMotionInterpKey.h"
+#include "wwcommon/IBaseSimulation.h"
 
 //
 // Namespaces

@@ -66,8 +66,9 @@ class CGameEventServer;
 class ISimulationObj : IGameEventListener {
 public:
 	// TODO henri:everyone possible point of optimization. Could use vector instead of map.
-	typedef std::hash_map<const char*, ISobController*, std::hash<const char*>, streqpred> controllerMap;
-	typedef std::hash_map<const char*, IView*, std::hash<const char*>, streqpred> viewMap;
+	typedef CHashMap<const char*, ISobController*, strltpred_hash_compare> controllerMap;
+	typedef CHashMap<const char*, IView*, strltpred_hash_compare> viewMap;
+	//typedef CHashMap<const char*, IView*, streqpred> viewMap;
 	typedef std::set<ISobHandler*> handlerList;
 
 	/// Standard ctor. Acquires a unique ID.

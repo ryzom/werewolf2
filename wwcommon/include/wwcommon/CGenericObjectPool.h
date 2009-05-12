@@ -145,7 +145,7 @@ void CGenericObjectPool<T>::initialize(uint32 initialSize, uint32 minSize,
 									   typename CGenericObjectPool<T>::eGrowthType growthType,
 									   double growthStep,
 									   typename CGenericObjectPool<T>::eAllocationType allocType,
-									   uint32 maxSize = 0) {
+									   uint32 maxSize) {
 	m_MaxPoolSize = maxSize;
 	m_MinPoolSize = minSize;
 	m_GrowthType=growthType;

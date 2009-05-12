@@ -39,11 +39,11 @@
 //
 // Werewolf Includes
 //
-#include "ISimulationState.h"
-#include "CMovementState.h"
-#include "CStateManager.h"
-#include "CMoveIdleState.h"
-#include "IBaseSimulation.h"
+#include "wwcommon/ISimulationState.h"
+#include "wwcommon/CMovementState.h"
+#include "wwcommon/CStateManager.h"
+#include "wwcommon/CMoveIdleState.h"
+#include "wwcommon/IBaseSimulation.h"
 
 //
 // Namespaces

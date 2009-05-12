@@ -30,7 +30,7 @@
 //
 // Werewolf Includes
 //
-#include "CTaskManager.h"
+#include "wwcommon/CTaskManager.h"
 //#include "main.h"
 
 

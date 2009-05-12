@@ -39,8 +39,8 @@
 //
 // Werewolf Includes
 //	
-#include "CClientMotionHandler.h"
-#include "IBaseSimulation.h"
+#include "wwcommon/CClientMotionHandler.h"
+#include "wwcommon/IBaseSimulation.h"
 
 //
 // Namespaces

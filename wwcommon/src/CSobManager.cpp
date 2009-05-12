@@ -41,8 +41,8 @@
 //
 // Werewolf Includes
 //	
-#include "CSobManager.h"
-#include "ISimulationObj.h"
+#include "wwcommon/CSobManager.h"
+#include "wwcommon/ISimulationObj.h"
 
 //
 // Namespaces

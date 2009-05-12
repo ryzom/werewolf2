@@ -42,7 +42,7 @@
 //
 // Werewolf Includes
 //
-#include "CSobHandlerFactory.h"
+#include "wwcommon/CSobHandlerFactory.h"
 
 //
 // Namespaces

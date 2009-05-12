@@ -40,9 +40,9 @@
 //
 // Werewolf Includes
 //	
-#include "IController.h"
-#include "ISimulationObj.h"
-#include "CControllerFactory.h"
+#include "wwcommon/IController.h"
+#include "wwcommon/ISimulationObj.h"
+#include "wwcommon/CControllerFactory.h"
 
 //
 // Namespaces

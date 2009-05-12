@@ -39,7 +39,7 @@
 //
 // Werewolf Includes
 //
-#include "CSobUnspawnEvent.h"
+#include "wwcommon/CSobUnspawnEvent.h"
 
 //
 // Namespaces

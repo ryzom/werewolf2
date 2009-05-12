@@ -39,7 +39,7 @@
 //
 // Werewolf Includes
 //
-#include "IProperty.h"
+#include "wwcommon/IProperty.h"
 
 //
 // Namespaces

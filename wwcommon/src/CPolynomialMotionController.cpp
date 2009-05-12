@@ -42,11 +42,11 @@
 //
 // Werewolf Includes
 //	
-#include "CPolynomialMotionController.h"
-#include "IBaseSimulation.h"
-#include "general.h"
-#include "CGameEventServer.h"
-#include "CStateManager.h"
+#include "wwcommon/CPolynomialMotionController.h"
+#include "wwcommon/IBaseSimulation.h"
+#include "wwcommon/general.h"
+#include "wwcommon/CGameEventServer.h"
+#include "wwcommon/CStateManager.h"
 
 //
 // Namespaces

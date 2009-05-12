@@ -42,7 +42,7 @@
 //
 // Werewolf Includes
 //
-#include "CStateManager.h"
+#include "wwcommon/CStateManager.h"
 
 //
 // Namespaces

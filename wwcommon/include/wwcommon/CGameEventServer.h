@@ -30,7 +30,6 @@
 // Standard Includes
 //
 #include <set>
-#include <hash_map>
 
 //
 // System Includes
@@ -56,7 +55,8 @@ class IGameEvent;
 class ISobEvent;
 class IGameEventListener;
 
-#define EVENT_ID(_EVENT_) WWCOMMON:: ## _EVENT_ ## :: ## _EVENT_ ## ID
+//#define EVENT_ID(_EVENT_) WWCOMMON:: ## _EVENT_ ## :: ## _EVENT_ ## ID
+#define EVENT_ID(_EVENT_) WWCOMMON::_EVENT_::_EVENT_ ## ID
 
 class CGameEventServer : public ISingleton<CGameEventServer> {
 public:
@@ -121,13 +121,13 @@ private:
 	// using a set for unique listeners.
 	typedef std::set<IGameEventListener*> listenerSet;
 	typedef listenerSet listenerVector[ALL_TYPES];
-	typedef std::hash_map<uint16, listenerVector*> eventListenerMap;
-	typedef std::hash_map<uint32, listenerVector*> sobListenerMap;
+	typedef CHashMap<uint16, listenerVector*> eventListenerMap;
+	typedef CHashMap<uint32, listenerVector*> sobListenerMap;
 	typedef struct {
 		listenerVector** listeners;
 		uint16 size;
 	} eventListenerArray;
-	typedef std::hash_map<uint32, eventListenerArray> sobEventListenerMap;
+	typedef CHashMap<uint32, eventListenerArray> sobEventListenerMap;
 
 	/// The listeners that are listening to everything.
 	listenerVector m_GlobalListeners;

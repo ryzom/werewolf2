@@ -39,15 +39,15 @@
 //
 // Werewolf Includes
 //
-#include "ISimulationObj.h"
-#include "CGameEventServer.h"
-#include "IView.h"
-#include "ISobHandler.h"
-#include "ISimulationState.h"
-#include "ISobEvent.h"
-#include "ISobController.h"
-#include "IBaseSimulation.h"
-#include "CStateManager.h"
+#include "wwcommon/ISimulationObj.h"
+#include "wwcommon/CGameEventServer.h"
+#include "wwcommon/IView.h"
+#include "wwcommon/ISobHandler.h"
+#include "wwcommon/ISimulationState.h"
+#include "wwcommon/ISobEvent.h"
+#include "wwcommon/ISobController.h"
+#include "wwcommon/IBaseSimulation.h"
+#include "wwcommon/CStateManager.h"
 
 //
 // Namespaces

@@ -39,13 +39,15 @@
 //
 // Werewolf Includes
 //
-#include "CSobStrafeEvent.h"
+#include "wwcommon/CSobStrafeEvent.h"
 
 //
 // Namespaces
 //
 
 namespace WWCOMMON {
+
+const uint16 CSobStrafeEvent::CSobStrafeEventID;
 
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobStrafeEvent);

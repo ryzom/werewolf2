@@ -34,7 +34,7 @@
 // System Includes
 //
 #include <list>
-#include <boost/python.hpp>
+//#include <boost/python.hpp>
 
 //
 // NeL Includes
@@ -68,7 +68,7 @@ public:
 	bool			breakOutputConnection(IDirtyPropagator *output);	
 	
 protected:
-	friend class IDirtyPropagator;
+//	friend class IDirtyPropagator;
 
 	void			killInputConnection(TConnection con);
 	void			killOutputConnection(TConnection con);
@@ -84,30 +84,30 @@ private:
 	TConList*		m_Outputs;
 };
 
-class IDirtyPropagatorWrap : public IDirtyPropagator, public boost::python::wrapper<IDirtyPropagator> {
-public:
-	bool makeInputConnection(IDirtyPropagator* input) {
-		if(boost::python::override f = this->get_override("makeInputConnection"))
-			return boost::python::call<bool>(f.ptr(), input);
-		return IDirtyPropagator::makeInputConnection(input);
-	}
-
-	bool default_makeInputConnection(IDirtyPropagator* input) {
-		return this->IDirtyPropagator::makeInputConnection(input);
-	}
-
-	static void init_script_class() {
-		using namespace boost::python;
-		using namespace boost::python::api;
-		class_<IDirtyPropagatorWrap, boost::noncopyable> idpw("IDirtyPropagator", no_init);
-		idpw.def("makeInputConnection", &IDirtyPropagator::makeInputConnection, &IDirtyPropagatorWrap::default_makeInputConnection);
-		idpw.def("breakInputConnection", &IDirtyPropagator::breakInputConnection);
-		idpw.def("breakOutputConnection", &IDirtyPropagator::breakOutputConnection);
-		idpw.def("setDirty", &IDirtyPropagator::setDirty);
-		idpw.def("setClean", &IDirtyPropagator::setClean);
-		idpw.add_property("dirty", &IDirtyPropagator::isDirty);
-	}
-};
+//class IDirtyPropagatorWrap : public IDirtyPropagator, public boost::python::wrapper<IDirtyPropagator> {
+//public:
+//	bool makeInputConnection(IDirtyPropagator* input) {
+//		if(boost::python::override f = this->get_override("makeInputConnection"))
+//			return boost::python::call<bool>(f.ptr(), input);
+//		return IDirtyPropagator::makeInputConnection(input);
+//	}
+//
+//	bool default_makeInputConnection(IDirtyPropagator* input) {
+//		return this->IDirtyPropagator::makeInputConnection(input);
+//	}
+//
+//	static void init_script_class() {
+//		using namespace boost::python;
+//		using namespace boost::python::api;
+//		class_<IDirtyPropagatorWrap, boost::noncopyable> idpw("IDirtyPropagator", no_init);
+//		idpw.def("makeInputConnection", &IDirtyPropagator::makeInputConnection, &IDirtyPropagatorWrap::default_makeInputConnection);
+//		idpw.def("breakInputConnection", &IDirtyPropagator::breakInputConnection);
+//		idpw.def("breakOutputConnection", &IDirtyPropagator::breakOutputConnection);
+//		idpw.def("setDirty", &IDirtyPropagator::setDirty);
+//		idpw.def("setClean", &IDirtyPropagator::setClean);
+//		idpw.add_property("dirty", &IDirtyPropagator::isDirty);
+//	}
+//};
 
 }; // END OF NAMESPACE WWCOMMON
 

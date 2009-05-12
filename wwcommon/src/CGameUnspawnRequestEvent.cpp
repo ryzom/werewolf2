@@ -39,7 +39,7 @@
 //
 // Werewolf Includes
 //
-#include "CGameUnspawnRequestEvent.h"
+#include "wwcommon/CGameUnspawnRequestEvent.h"
 
 //
 // Namespaces
