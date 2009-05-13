@@ -30,7 +30,6 @@
 //
 // System Includes
 //
-#include "renderers/NeLRenderer/nelrenderer.h"
 #include "CEGUI.h"
 
 //
@@ -50,6 +49,10 @@
 //
 // Class
 //
+namespace CEGUI
+{
+	class INeLRenderer;
+}; // END NAMESPACE CEGUI
 
 namespace WWCLIENT {
 
@@ -65,7 +68,7 @@ public:
 	
 private:
 	CEGUI::System		*m_GuiSystem;
-	CEGUI::NeLRenderer	*m_GuiRenderer;
+	CEGUI::INeLRenderer	*m_GuiRenderer;
 };
 
 }; // END NAMESPACE WWCLIENT

@@ -13,6 +13,7 @@
 # Load some macros.
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 INCLUDE(CMakeModules/nel.cmake)
+INCLUDE(CMakeModules/ConfigureChecks.cmake)
 
 #-----------------------------------------------------------------------------
 # Force out of source builds.
@@ -71,8 +72,15 @@ SET(WITH_3D	ON )
 
 FIND_PACKAGE(Threads REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
+FIND_PACKAGE(PythonLibs)
+
+set(Boost_USE_STATIC_LIBS   ON)
+set(Boost_USE_MULTITHREADED ON)
+FIND_PACKAGE(Boost 1.37.0 COMPONENTS thread filesystem python signals REQUIRED)
 
 NL_SETUP_BUILD()
+
+NL_CONFIGURE_CHECKS()
 
 FIND_PACKAGE(NeLMISC)
 FIND_PACKAGE(NeLNET)
@@ -124,10 +132,8 @@ NL_SETUP_BUILD_FLAGS()
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/wwcommon/include)
 
-#ADD_SUBDIRECTORY(src)
-#ADD_SUBDIRECTORY(include)
-ADD_SUBDIRECTORY(client)
 ADD_SUBDIRECTORY(wwcommon)
+ADD_SUBDIRECTORY(client)
 
 #INSTALL(DIRECTORY data/
 #        DESTINATION ${NL_SHARE_PREFIX}/yourAppName/data

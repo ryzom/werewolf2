@@ -1,3 +1,4 @@
+#ifdef NL_OS_WINDOWS
 
 #define USE_JPEG
 
@@ -9,7 +10,6 @@
 #include <clocale>
 #include <cmath>
 #include <complex>
-#include <csetjmp>
 #include <csignal>
 #include <cstdarg>
 #include <cstddef>
@@ -26,8 +26,6 @@
 #include <exception>
 #include <fstream>
 #include <functional>
-#include <hash_map>
-#include <hash_set>
 #include <iomanip>
 #include <ios>
 #include <iosfwd>
@@ -197,8 +195,11 @@
 #include "renderers/NeLRenderer/nelrenderer.h"
 #include "renderers/NeLRenderer/neltexture.h"
 
+#endif // NL_OS_WINDOWS
+
 // must be the first werewolf target include
 #include "globals.h"
 
 //#include "wwcommon/ITask.h"
 //#include "wwcommon/ISingleton.h"
+

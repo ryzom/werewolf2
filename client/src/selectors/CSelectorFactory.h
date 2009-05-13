@@ -29,7 +29,6 @@
 //
 // Standard Includes
 //
-#include <hash_map>
 
 //
 // System Includes
@@ -59,13 +58,14 @@ template<class T>
 class CSelectorFactory : public WWCOMMON::ISingleton<CSelectorFactory<T> > {
 public:
 	typedef ISelector<T>* (*CreateSelector)(void);
+	typedef std::map<std::string, CreateSelector> selectorMap;
 	
 	bool registerSelector(CreateSelector create, std::string name) {
-		return m_SelectorMap.insert( selectorMap::value_type(name, create)).second;
+		return m_SelectorMap.insert( typename selectorMap::value_type(name, create)).second;
 	};
 
 	ISelector<T>* createSelector(std::string name) {
-		selectorMap::const_iterator iter = m_SelectorMap.find(name);
+		typename selectorMap::iterator iter = m_SelectorMap.find(name);
 		if( iter == m_SelectorMap.end()) {
 			nlwarning("Selector creation failed: %s not found!", name.c_str());
 			if(m_DefaultSelector)
@@ -83,7 +83,6 @@ public:
 	};
 
 private:
-	typedef std::map<std::string, CreateSelector> selectorMap;
 	selectorMap m_SelectorMap;
 
 	CreateSelector m_DefaultSelector;

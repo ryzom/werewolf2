@@ -33,6 +33,7 @@
 //
 // NeL Includes
 //
+#include <nel/misc/events.h>
 
 //
 // Werewolf Includes

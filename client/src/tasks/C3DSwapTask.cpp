@@ -25,6 +25,9 @@
 //
 // NeL Includes
 //
+#include <nel/misc/file.h>
+#include <nel/misc/path.h>
+#include <nel/3d/u_driver.h>
 
 //
 // Werewolf Includes

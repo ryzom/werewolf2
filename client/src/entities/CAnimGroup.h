@@ -31,7 +31,6 @@
 //
 #include <vector>
 #include <map>
-#include <hash_map>
 
 //
 // System Includes
@@ -44,6 +43,7 @@
 #include <nel/georges/u_form.h>
 #include <nel/georges/u_form_elm.h>
 #include <nel/3d/u_instance.h>
+#include <nel/3d/u_play_list.h>
 
 //
 // Werewolf Includes

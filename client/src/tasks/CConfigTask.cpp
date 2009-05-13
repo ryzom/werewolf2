@@ -25,6 +25,8 @@
 //
 // NeL Includes
 //
+#include <nel/misc/file.h>
+#include <nel/misc/path.h>
 
 //
 // Werewolf Includes

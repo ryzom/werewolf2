@@ -25,10 +25,12 @@
 //
 // NeL Includes
 //
+#include <nel/3d/u_driver.h>
+#include <nel/3d/frustum.h>
 #include <nel/3d/u_material.h>
 #include <nel/3d/u_texture.h>
 
-#include <3d/texture_user.h>
+#include <nel/3d/texture_user.h>
 
 //
 // Werewolf Includes

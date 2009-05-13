@@ -33,6 +33,7 @@
 //
 #include <nel/misc/config_file.h>
 
+#include <nel/3d/u_driver.h>
 #include <nel/3d/u_animation_set.h>
 
 //

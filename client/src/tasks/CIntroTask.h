@@ -30,6 +30,7 @@
 //
 // System Includes
 //
+#include "CEGUI.h"
 
 //
 // NeL Includes

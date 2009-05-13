@@ -27,6 +27,7 @@
 // System Includes
 //
 #include "stdpch.h"
+#include "CEGUI.h"
 
 //
 // NeL Includes

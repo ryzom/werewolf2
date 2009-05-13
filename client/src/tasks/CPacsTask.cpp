@@ -36,9 +36,9 @@
 #include <nel/3d/u_instance.h>
 #include <nel/misc/vectord.h>
 
-#include <3d/landscape_model.h>
-#include <3d/landscape.h>
-#include <3d/landscape_user.h>
+#include <nel/3d/landscape_model.h>
+#include <nel/3d/landscape.h>
+#include <nel/3d/landscape_user.h>
 //
 // Werewolf Includes
 //

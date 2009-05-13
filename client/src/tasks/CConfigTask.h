@@ -34,6 +34,7 @@
 //
 // NeL Includes
 //
+#include <nel/misc/config_file.h>
 
 //
 // Werewolf Includes

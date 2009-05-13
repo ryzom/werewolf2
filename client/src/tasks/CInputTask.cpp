@@ -33,6 +33,8 @@
 //
 #include <nel/misc/hierarchical_timer.h>
 
+#include <nel/3d/u_driver.h>
+
 //
 // Werewolf Includes
 //

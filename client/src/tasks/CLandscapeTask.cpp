@@ -29,10 +29,10 @@
 //
 #include <nel/3d/u_light.h>
 #include <nel/3d/u_point_light.h>
-#include <3d/instance_group_user.h>
-#include <3d/scene_group.h>
-#include <3d/scene_user.h>
-#include <3d/point_light_model.h>
+#include <nel/3d/instance_group_user.h>
+#include <nel/3d/scene_group.h>
+#include <nel/3d/scene_user.h>
+#include <nel/3d/point_light_model.h>
 
 //
 // Werewolf Includes
@@ -56,7 +56,7 @@ namespace WWCLIENT {
 
 void CLandscapeTask::updateProgressBar(float prog1, float prog2, std::string message) {
 	C3DTask::instance().clear();
-	CEGUI::StaticText *wnd=(CEGUI::StaticText *)CEGUI::WindowManager::getSingleton().getWindow("LandscapeProgress/Message");
+	CEGUI::DefaultWindow *wnd=static_cast<CEGUI::DefaultWindow*>(CEGUI::WindowManager::getSingleton().getWindow("LandscapeProgress/Message"));
 	wnd->setText(message);
 	CEGUI::ProgressBar *pbar=(CEGUI::ProgressBar *)CEGUI::WindowManager::getSingleton().getWindow("LandscacpeProgress/ProgBar");
 	pbar->setProgress(prog1);

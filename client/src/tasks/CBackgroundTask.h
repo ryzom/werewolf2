@@ -34,6 +34,10 @@
 //
 // NeL Includes
 //
+#include <nel/misc/rgba.h>
+
+#include <nel/3d/u_texture.h>
+#include <nel/3d/u_material.h>
 
 //
 // Werewolf Includes

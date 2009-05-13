@@ -77,9 +77,9 @@ public:
 private:
 	CPlayerController	m_Controller;
 
-	CEGUI::StaticText *m_FpsCounter;
-	CEGUI::StaticText *m_Location;
-	CEGUI::StaticText *m_Zone;
+	CEGUI::DefaultWindow *m_FpsCounter;
+	CEGUI::DefaultWindow *m_Location;
+	CEGUI::DefaultWindow *m_Zone;
 };
 
 }; // END NAMESPACE WWCLIENT

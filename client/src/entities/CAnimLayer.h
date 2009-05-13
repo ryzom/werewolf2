@@ -29,7 +29,6 @@
 //
 // Standard Includes
 //
-#include <hash_map>
 #include <string>
 
 //
@@ -60,7 +59,7 @@ class CEntityMedia;
 
 class CAnimLayer : public IControllableMedia {
 public:
-	typedef std::hash_map<std::string, CAnimGroup, std::hash<std::string> > animGroupMap;
+	typedef CHashMap<std::string, CAnimGroup > animGroupMap;
 
 	CAnimLayer();
 	/**
