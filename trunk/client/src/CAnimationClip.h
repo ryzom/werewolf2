@@ -35,6 +35,7 @@
 //
 // NeL Includes
 //
+#include <nel/3d/animation_time.h>
 #include <nel/3d/u_animation.h>
 
 //

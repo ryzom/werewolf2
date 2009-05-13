@@ -33,8 +33,12 @@
 //
 // NeL Includes
 //
-#include <nel/3d/u_3d_mouse_listener.h>
 #include <nel/misc/event_listener.h>
+#include <nel/misc/matrix.h>
+
+#include <nel/3d/u_driver.h>
+#include <nel/3d/frustum.h>
+#include <nel/3d/u_3d_mouse_listener.h>
 
 //
 // Werewolf Includes

@@ -118,9 +118,9 @@ void CIntroTask::initWindows() {
 	// set up the columns on the shard list.
 	CEGUI::MultiColumnList *mcl=(CEGUI::MultiColumnList *)CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ShardList/ShardMCL");
 	mcl->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-	mcl->addColumn("Shard ID",0,0.33f);
-	mcl->addColumn("Shard Name",1,0.5f);
-	mcl->addColumn("Players",2,0.2f);
+	mcl->addColumn("Shard ID",0,CEGUI::UDim(0.33f,0));
+	mcl->addColumn("Shard Name",1,CEGUI::UDim(0.5f,0));
+	mcl->addColumn("Players",2,CEGUI::UDim(0.2f,0));
 
 	// set up event subscriptions
 	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/Quit")->

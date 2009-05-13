@@ -33,6 +33,7 @@
 //
 // NeL Includes
 //
+#include <nel/3d/u_camera.h>
 
 //
 // Werewolf Includes

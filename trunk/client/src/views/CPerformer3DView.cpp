@@ -85,7 +85,8 @@ void CPerformer3DView::render() {
 }
 
 void CPerformer3DView::update() {
-	m_emd.transform(m_performer->getInterpolator()->getSmoothKey().getMatrix());
+	NLMISC::CMatrix matrix = m_performer->getInterpolator()->getSmoothKey().getMatrix();
+	m_emd.transform(matrix);
 	NLMISC::CVector pos = m_performer->getInterpolator()->getSmoothKey().getMatrix().getPos();
 	m_emd.update();
 //	nlinfo("Rendering sob %d at %f %f %f", m_performer->getSobId(), pos.x, pos.y, pos.z);

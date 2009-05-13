@@ -29,13 +29,13 @@
 //
 // System Includes
 //
-#include <hash_map>
 #include <string>
 
 //
 // NeL Includes
 //
 #include <nel/3d/u_animation_set.h>
+#include <nel/3d/u_play_list_manager.h>
 #include <nel/georges/u_form_loader.h>
 #include <nel/georges/u_form.h>
 #include <nel/georges/u_form_elm.h>
@@ -86,7 +86,7 @@ public:
 	CAnimationClip* getClip(std::string name);
 
 protected:
-	typedef std::hash_map<std::string, CAnimationClip, std::hash<std::string>, stdstreqpred> clipMap;
+	typedef CHashMap<std::string, CAnimationClip> clipMap;
 	clipMap m_AnimationClips;
 	NL3D::UAnimationSet *m_AnimationSet;
 	NL3D::UPlayListManager *m_PlayListManager; 

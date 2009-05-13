@@ -68,18 +68,18 @@
 
 namespace WWCLIENT {
 
-WWCOMMON::IBaseSimulation *Simulation;
-WWCOMMON::IBaseSimulation *getSimulation() {
-	if(Simulation==NULL) {
-		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CClientSimulation());
-	}
-	return static_cast<CClientSimulation *>(Simulation);
-}
+//WWCOMMON::IBaseSimulation *Simulation;
+//WWCOMMON::IBaseSimulation *getSimulation() {
+//	if(Simulation==NULL) {
+//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CClientSimulation());
+//	}
+//	return static_cast<CClientSimulation *>(Simulation);
+//}
 CClientSimulation *getClientSimulation() {
-	if(Simulation==NULL) {
-		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CClientSimulation());
-	}
-	return static_cast<CClientSimulation *>(Simulation);
+//	if(Simulation==NULL) {
+//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CClientSimulation());
+//	}
+	return dynamic_cast<CClientSimulation *>(getSimulation());
 }
 
 bool CClientSimulation::attachUser(uint32 uid, uint32 sobid) {
@@ -153,7 +153,8 @@ void CClientSimulation::spawnSelf(WWCOMMON::CSobSpawnEvent *event) {
 
 	sob->setPosition(event->Position);
 	sob->setGlobalPosition(event->Position);
-	WWCOMMON::IView* view = new CPerformer3DView(sob, CResourceTask::instance().getEMD(event->EMD));
+	CEntityMedia emd = CResourceTask::instance().getEMD(event->EMD);
+	WWCOMMON::IView* view = new CPerformer3DView(sob, emd);
 	view->show();
 	sob->addView(view);
 
@@ -184,7 +185,8 @@ void CClientSimulation::addSob(WWCOMMON::CSobAddEvent *event) {
 	sob->setGlobalPosition(event->Position);
 	sob->setActiveStateList(&event->ActiveStateList);
 
-	WWCOMMON::IView* view = new CPerformer3DView(sob, CResourceTask::instance().getEMD(event->EMD));
+	CEntityMedia emd = CResourceTask::instance().getEMD(event->EMD);
+	WWCOMMON::IView* view = new CPerformer3DView(sob, emd);
 	view->show();
 	sob->addView(view);
 

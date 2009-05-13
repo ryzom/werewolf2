@@ -31,6 +31,7 @@
 // System Includes
 //
 #include <vector>
+#include "CEGUI.h"
 
 //
 // NeL Includes

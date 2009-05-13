@@ -29,6 +29,11 @@
 //
 // Standard Includes
 //
+extern "C"
+{
+#include <png.h>
+}
+
 
 //
 // System Includes

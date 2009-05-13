@@ -37,6 +37,7 @@
 //
 // NeL Includes
 //
+#include <nel/3d/u_play_list_manager.h>
 
 //
 // Werewolf Includes

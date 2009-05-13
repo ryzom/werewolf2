@@ -28,13 +28,13 @@
 //
 #include <nel/misc/file.h>
 #include <nel/misc/path.h>
-#include <3d/mesh.h>
-#include <3d/shape.h>
-#include <3d/texture.h>
-#include <3d/material.h>
-#include <3d/register_3d.h>
-#include <3d/texture_file.h>
-#include <3d/texture_multi_file.h>
+#include <nel/3d/mesh.h>
+#include <nel/3d/shape.h>
+#include <nel/3d/texture.h>
+#include <nel/3d/material.h>
+#include <nel/3d/register_3d.h>
+#include <nel/3d/texture_file.h>
+#include <nel/3d/texture_multi_file.h>
 
 //
 // Werewolf Includes

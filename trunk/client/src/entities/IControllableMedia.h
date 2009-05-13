@@ -33,11 +33,11 @@
 //
 // System Includes
 //
-#include <hash_map>
 
 //
 // NeL Includes
 //
+#include <nel/misc/types_nl.h>
 
 //
 // Werewolf Includes
@@ -54,7 +54,7 @@ namespace WWCLIENT {
 
 class IControllableMedia : public WWCOMMON::IDirtyPropagator {
 public:
-	typedef std::hash_map<const char*, IMediaController*, std::hash<const char*>, streqpred> mediaControllerMap;
+	typedef CHashMap<const char*, IMediaController*, strltpred_hash_compare> mediaControllerMap;
 
 	virtual void update() = 0;
 	void updateControllers();

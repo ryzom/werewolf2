@@ -40,10 +40,15 @@
 //
 // NeL Includes
 //
-#include <3d/mesh.h>
-#include <3d/shape.h>
-#include <3d/material.h>
-#include <3d/register_3d.h>
+#include <nel/misc/path.h>
+
+#include <nel/3d/mesh.h>
+#include <nel/3d/shape.h>
+#include <nel/3d/material.h>
+#include <nel/3d/register_3d.h>
+#include <nel/3d/u_driver.h>
+#include <nel/3d/u_camera.h>
+#include <nel/3d/scene_user.h>
 
 //
 // Werewolf Includes

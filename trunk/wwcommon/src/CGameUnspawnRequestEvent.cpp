@@ -47,6 +47,8 @@
 
 namespace WWCOMMON {
 
+const uint16 CGameUnspawnRequestEvent::CGameUnspawnRequestEventID;
+
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CGameUnspawnRequestEvent);
 

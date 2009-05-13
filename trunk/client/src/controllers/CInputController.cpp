@@ -28,6 +28,7 @@
 #include <nel/misc/file.h>
 #include <nel/misc/path.h>
 #include <nel/misc/bitmap.h>
+#include <nel/misc/matrix.h>
 
 //
 // Werewolf Includes
@@ -42,7 +43,7 @@
 //
 using namespace std;
 using namespace NLMISC;
-using namespace NL3D;
+//using namespace NL3D;
 
 namespace WWCLIENT {
 

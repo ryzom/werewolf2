@@ -22,12 +22,12 @@
 //
 #include "stdpch.h"
 #include <list>
-#include "renderers/NeLRenderer/nelrenderer.h"
 #include "CEGUI.h"
 
 //
 // NeL Includes
 //
+#include <nel/cegui/inellibrary.h>
 
 //
 // Werewolf Includes
@@ -45,9 +45,16 @@ using namespace NL3D;
 namespace WWCLIENT {
 
 void CGuiTask::init() {
+	// Load the CEGUI renderer and get a handle to the library.
+	NLMISC::CLibrary driverLib;
+	if(!driverLib.loadLibrary("nelceguirenderer", true, true , true)) {
+		nlerror("Failed to load NeL CEGUI Renderer library.");
+	}
+	NELRENDERER_CREATE_PROC createNelRenderer = reinterpret_cast<NELRENDERER_CREATE_PROC>(driverLib.getSymbolAddress(NELRENDERER_CREATE_PROC_NAME));
+
+
 	// create the CEGUI renderer.
-	m_GuiRenderer = new CEGUI::NeLRenderer(&C3DTask::instance().driver());
-	m_GuiRenderer->addSearchPath("data/gui/",true,false);
+	m_GuiRenderer = createNelRenderer(&C3DTask::instance().driver(), true);
 	m_GuiSystem = new CEGUI::System(m_GuiRenderer);
 	m_GuiRenderer->activateInput();
 	m_GuiRenderer->captureCursor(true);

@@ -47,6 +47,8 @@
 
 namespace WWCOMMON {
 
+const uint16 CSobSpawnEvent::CSobSpawnEventID;
+
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobSpawnEvent);
 

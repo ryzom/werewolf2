@@ -34,6 +34,7 @@
 //
 #include <nel/net/callback_client.h>
 #include <nel/misc/md5.h>
+#include <nel/misc/system_info.h>
 
 //
 // Werewolf Includes

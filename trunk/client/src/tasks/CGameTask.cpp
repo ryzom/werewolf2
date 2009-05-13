@@ -106,9 +106,9 @@ void CGameTask::init() {
 	CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::FrameWindow *wnd=(CEGUI::FrameWindow *)winMgr.getWindow("GameTask/DebugWindow");
 	wnd->show();
-	m_FpsCounter=(CEGUI::StaticText *)winMgr.getWindow("GameTask/DebugWindow/FPS");
-	m_Location=(CEGUI::StaticText *)winMgr.getWindow("GameTask/DebugWindow/Position");
-	m_Zone=(CEGUI::StaticText *)winMgr.getWindow("GameTask/DebugWindow/Zone");
+	m_FpsCounter=static_cast<CEGUI::DefaultWindow*>(winMgr.getWindow("GameTask/DebugWindow/FPS"));
+	m_Location=static_cast<CEGUI::DefaultWindow*>(winMgr.getWindow("GameTask/DebugWindow/Position"));
+	m_Zone=static_cast<CEGUI::DefaultWindow*>(winMgr.getWindow("GameTask/DebugWindow/Zone"));
 }
 
 void CGameTask::update() {
