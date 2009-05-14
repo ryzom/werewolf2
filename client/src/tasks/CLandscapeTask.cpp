@@ -45,7 +45,7 @@
 #include "tasks/CGuiTask.h"
 //#include "interfaces/IEntity.h"
 
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 
 //

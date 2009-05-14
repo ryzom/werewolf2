@@ -56,7 +56,7 @@
 
 #include "wwcommon/ITask.h"
 
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Namespaces

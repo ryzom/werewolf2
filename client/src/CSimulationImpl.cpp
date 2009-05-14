@@ -49,7 +49,7 @@
 #include <wwcommon/CSobFactory.h>
 #include <wwcommon/IBaseSimulation.h>
 #include <wwcommon/CGameEventServer.h>
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 #include "controllers/CInteractiveSobController.h"
 
 //#include "CCharacterManager.h"
@@ -71,28 +71,28 @@ namespace WWCLIENT {
 //WWCOMMON::IBaseSimulation *Simulation;
 //WWCOMMON::IBaseSimulation *getSimulation() {
 //	if(Simulation==NULL) {
-//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CClientSimulation());
+//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CSimulationImpl());
 //	}
-//	return static_cast<CClientSimulation *>(Simulation);
+//	return static_cast<CSimulationImpl *>(Simulation);
 //}
-CClientSimulation *getClientSimulation() {
+CSimulationImpl *getClientSimulation() {
 //	if(Simulation==NULL) {
-//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CClientSimulation());
+//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CSimulationImpl());
 //	}
-	return dynamic_cast<CClientSimulation *>(getSimulation());
+	return dynamic_cast<CSimulationImpl *>(getSimulation());
 }
 
-bool CClientSimulation::attachUser(uint32 uid, uint32 sobid) {
+bool CSimulationImpl::attachUser(uint32 uid, uint32 sobid) {
 	// There is no logic in this method on the client.
 	return true;
 }
 
-void CClientSimulation::detachUser(uint32 uid, uint32 sobid) {
+void CSimulationImpl::detachUser(uint32 uid, uint32 sobid) {
 	// There is no logic in this method on the client.
 }
 
 	
-void CClientSimulation::init() {
+void CSimulationImpl::init() {
 	// get the paths to the retrievers.
 	std::string retBankName, globRetBank;
 	retBankName=CConfigTask::instance().configFile().getVar("RetrieverBankName").asString();
@@ -128,7 +128,7 @@ void CClientSimulation::init() {
 	WWCOMMON::CGameEventServer::instance().setDeltaMultiplier(0.0f);
 }
 
-void CClientSimulation::update() {
+void CSimulationImpl::update() {
 	// Check if we need to ping something.
 	updatePing();
 
@@ -136,7 +136,7 @@ void CClientSimulation::update() {
 	WWCOMMON::IBaseSimulation::update();
 }
 
-void CClientSimulation::spawnSelf(WWCOMMON::CSobSpawnEvent *event) {
+void CSimulationImpl::spawnSelf(WWCOMMON::CSobSpawnEvent *event) {
 	// Create a new SOB and set its unique ID to that from the server.
 	CActorProxy *sob=dynamic_cast<CActorProxy *>(getNewSob("sobActor", event->SourceID));
 
@@ -165,7 +165,7 @@ void CClientSimulation::spawnSelf(WWCOMMON::CSobSpawnEvent *event) {
 //	sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_MOTION_REQUEST));
 }
 
-void CClientSimulation::addSob(WWCOMMON::CSobAddEvent *event) {
+void CSimulationImpl::addSob(WWCOMMON::CSobAddEvent *event) {
 	// create a new SOB and set its unique ID to that from the server.
 	CActorProxy *sob=dynamic_cast<CActorProxy *>(getNewSob("sobActor", event->SourceID));
 
@@ -197,7 +197,7 @@ void CClientSimulation::addSob(WWCOMMON::CSobAddEvent *event) {
 	sob->addController(controller);
 }
 
-void CClientSimulation::removeSob(uint32 id) {
+void CSimulationImpl::removeSob(uint32 id) {
 	WWCOMMON::ISimulationObj *sob=m_ActorManager->find(id);
 	if(sob==NULL) {
 		nlwarning("Failed to locate sob %d to unspawn.", id);
@@ -210,7 +210,7 @@ void CClientSimulation::removeSob(uint32 id) {
 	delete sob;
 }
 
-void CClientSimulation::recvPing(double serverTimeStamp, double localTimeStamp) {
+void CSimulationImpl::recvPing(double serverTimeStamp, double localTimeStamp) {
 	// make sure there's a ping in progress.
 	if(m_PingLocalTimeStamp==0) {
 		nlwarning("Received a ping response with no ping pending!");
@@ -259,7 +259,7 @@ void CClientSimulation::recvPing(double serverTimeStamp, double localTimeStamp) 
 	nlinfo("I think the server time is: %1f", time() + m_OffsetTime);
 }
 
-void CClientSimulation::sendPing() {
+void CSimulationImpl::sendPing() {
 	// we can't ping if we're not online.
 	if(!CNetworkTask::instance().connected())
 		return;
@@ -280,7 +280,7 @@ void CClientSimulation::sendPing() {
 	CNetworkTask::instance().send(msgout);
 }
 
-void CClientSimulation::updatePing() {
+void CSimulationImpl::updatePing() {
 	// ping not wanted.
 	if(m_NoPing)
 		return;

@@ -50,7 +50,7 @@
 #include <wwcommon/CStateManager.h>
 #include <wwcommon/CSobMoveEvent.h>
 #include <wwcommon/CSobOrientEvent.h>
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Namespaces

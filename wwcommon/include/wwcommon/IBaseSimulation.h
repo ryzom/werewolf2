@@ -57,7 +57,7 @@
 
 namespace WWCOMMON {
 
-class IBaseSimulation {
+class IBaseSimulation : public NLMISC::IClassable {
 public:
 	/// Default virtual dtor.
 	virtual ~IBaseSimulation() {}

@@ -67,7 +67,7 @@
 #include "controllers/CInputController.h"
 #include "CWWTask.h"
 
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 #include "CClientEventManager.h"
 
 //
@@ -87,6 +87,14 @@ void CWWTask::init() {
 	WWCOMMON::CTaskManager::instance().add(CConfigTask::instance(), 10);
 	WWCOMMON::CTaskManager::instance().add(CTimeTask::instance(), 20);
 	WWCOMMON::CTaskManager::instance().add(CResourceTask::instance(), 30);
+	try
+	{
+		NLMISC_REGISTER_CLASS(CSimulationImpl);
+	}
+	catch(ERegisteredClass &e)
+	{
+		nlinfo("CSimulationImpl is already registered.");
+	}
 	getClientSimulation()->init();
 
 	WWCOMMON::CTaskManager::instance().add(C3DTask::instance(), 110);

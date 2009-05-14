@@ -67,7 +67,7 @@ public:
 	~CActorProxy();
 
 protected:
-	friend class CClientSimulation;
+	friend class CSimulationImpl;
 
 	uint32 m_PlrId;
 	CActorProxy();

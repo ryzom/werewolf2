@@ -59,7 +59,7 @@ namespace WWCLIENT {
 class IntroListItem : public CEGUI::ListboxTextItem {
 public:
 	IntroListItem(const CEGUI::String &text) : CEGUI::ListboxTextItem(text) {
-		setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"MultiListSelectionBrush");
+		setSelectionBrushImage((CEGUI::utf8*)"WerewolfLook", (CEGUI::utf8*)"MultiListSelectionBrush");
 	}
 };
 

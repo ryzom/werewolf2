@@ -43,7 +43,7 @@
 #include "tasks/C3DTask.h"
 #include "tasks/CResourceTask.h"
 #include "entities/CEntityMedia.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 #include "tasks/CAnimateTask.h"
 #include "selectors/CSelectorFactory.h"
 

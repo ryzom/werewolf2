@@ -42,7 +42,7 @@
 
 #include "interfaces/IBaseCamera.h"
 #include "CActorProxy.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //#include "tasks/CEntityTask.h"
 #include "tasks/C3DTask.h"

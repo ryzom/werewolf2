@@ -42,7 +42,7 @@
 #include "tasks/CAnimateTask.h"
 #include "tasks/CConfigTask.h"
 #include "tasks/C3DTask.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 #include "CAnimationClip.h"
 

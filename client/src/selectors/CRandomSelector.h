@@ -43,7 +43,7 @@
 // Werewolf Includes
 //
 #include "selectors/ISelector.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Namespaces

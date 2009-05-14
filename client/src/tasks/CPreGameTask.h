@@ -73,7 +73,7 @@ struct TCharacterData {
 class CharItem : public CEGUI::ListboxTextItem {
 public:
 	CharItem(const CEGUI::String& text, TCharacterData *character) : ListboxTextItem(text, 0, character) {
-		setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"MultiListSelectionBrush");
+		setSelectionBrushImage((CEGUI::utf8*)"WerewolfLook", (CEGUI::utf8*)"MultiListSelectionBrush");
 	}
 };
 

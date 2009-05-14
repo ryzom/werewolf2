@@ -65,24 +65,30 @@ void CGuiTask::init() {
 		Logger::getSingleton().setLoggingLevel(Insane);
 
 		// load scheme and set up defaults
-		SchemeManager::getSingleton().loadScheme("TaharezLook.scheme");
-		System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
+		SchemeManager::getSingleton().loadScheme("WerewolfLook.scheme");
+		System::getSingleton().setDefaultMouseCursor("WerewolfLook", "MouseArrow");
 
 		// create the font and set it up as the default.
-		System::getSingleton().setDefaultFont("Tahoma-12");
+		//System::getSingleton().setDefaultFont("Tahoma-12");
+		if(!FontManager::getSingleton().isFontPresent("Commonwealth-10"))
+			FontManager::getSingleton().createFont("Commonwealth-10.font");
 
-		//Window* sheet = WindowManager::getSingleton().createWindow("DefaultWindow", "root_wnd");
-		Window* sheet = WindowManager::getSingleton().loadWindowLayout("werewolf.xml");
+		Window* sheet = WindowManager::getSingleton().createWindow("DefaultWindow", "Root");
+		//Window* sheet = WindowManager::getSingleton().loadWindowLayout("Werewolf.layout");
 		System::getSingleton().setGUISheet(sheet);
-		WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->hide();
-		WindowManager::getSingleton().getWindow("GameTask/DebugWindow")->hide();
-		WindowManager::getSingleton().getWindow("LandscapeProgress")->hide();
-		WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS")->hide();
-		WindowManager::getSingleton().getWindow("NetworkTask/ShardList")->hide();
-		WindowManager::getSingleton().getWindow("GameTask/Chatbox")->hide();
-		WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
+
+		Window* guiLayout = WindowManager::getSingleton().loadWindowLayout("Werewolf.layout");
+		sheet->addChildWindow(guiLayout);
+
+		//WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->hide();
+		//WindowManager::getSingleton().getWindow("GameTask/DebugWindow")->hide();
+		//WindowManager::getSingleton().getWindow("LandscapeProgress")->hide();
+		//WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS")->hide();
+		//WindowManager::getSingleton().getWindow("NetworkTask/ShardList")->hide();
+		//WindowManager::getSingleton().getWindow("GameTask/Chatbox")->hide();
+		//WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
 		// do demo stuff
-		ImagesetManager::getSingleton().createImageset("werewolfgui.imageset");
+		//ImagesetManager::getSingleton().createImageset("werewolfgui.imageset");
 	} catch(CEGUI::Exception) {	// catch to prevent exit (errors will be logged).
 		;
 	}
