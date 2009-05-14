@@ -47,7 +47,7 @@
 #include <wwcommon/CSobStateRequestEvent.h>
 #include "tasks/CNetworkTask.h"
 #include "tasks/CPreGameTask.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Namespaces

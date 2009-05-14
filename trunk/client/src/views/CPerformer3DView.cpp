@@ -44,7 +44,7 @@
 #include <wwcommon/CStateManager.h>
 #include <wwcommon/CGameEventServer.h>
 #include <wwcommon/CSobMoveEvent.h>
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 #include "entities/CAnimationController.h"
 
 //

@@ -57,7 +57,7 @@
 #include "CConfigTask.h"
 #include "CTimeTask.h"
 #include "C3DTask.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Namespaces

@@ -48,7 +48,7 @@
 #include "CLandscapeTask.h"
 #include "CPacsTask.h"
 #include "CTimeTask.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 #include "CActorProxy.h"
 #include <wwcommon/CMotionController.h>
 #include <wwcommon/CPolynomialMotionController.h>
@@ -79,7 +79,7 @@ void	CPacsTask::init() {
 	m_VisualCollisionManager->setLandscape(&CLandscapeTask::instance().getLandscape());
 
 	// TODO henri:everyone THIS IS BAD!!!
-	CActorProxy* actor = ((CClientSimulation*)getSimulation())->getSelfSob();
+	CActorProxy* actor = ((CSimulationImpl*)getSimulation())->getSelfSob();
 	WWCOMMON::CMotionController* controller = new WWCOMMON::CMotionController(actor);
 	controller->setVisualCollisionEntity(m_VisualCollisionManager);
 	actor->addController(controller);

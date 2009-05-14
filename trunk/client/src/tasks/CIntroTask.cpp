@@ -107,34 +107,34 @@ void CIntroTask::init() {
 
 void CIntroTask::initWindows() {
 	// show the menu we're interested in.
-	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->show();
+	//CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->show();
 
 	// fix some stuff that isn't done in the XML
 	// set masked text for the password dialog to '*'
-	CEGUI::Editbox *edb=(CEGUI::Editbox *)CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS/PassDL");
-	edb->setTextMasked(true);
-	edb->setMaskCodePoint( (CEGUI::utf32)'*' );
+	//CEGUI::Editbox *edb=(CEGUI::Editbox *)CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS/PassDL");
+	//edb->setTextMasked(true);
+	//edb->setMaskCodePoint( (CEGUI::utf32)'*' );
 
 	// set up the columns on the shard list.
-	CEGUI::MultiColumnList *mcl=(CEGUI::MultiColumnList *)CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ShardList/ShardMCL");
-	mcl->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-	mcl->addColumn("Shard ID",0,CEGUI::UDim(0.33f,0));
-	mcl->addColumn("Shard Name",1,CEGUI::UDim(0.5f,0));
-	mcl->addColumn("Players",2,CEGUI::UDim(0.2f,0));
+	//CEGUI::MultiColumnList *mcl=(CEGUI::MultiColumnList *)CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ShardList/ShardMCL");
+	//mcl->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+	//mcl->addColumn("Shard ID",0,CEGUI::UDim(0.33f,0));
+	//mcl->addColumn("Shard Name",1,CEGUI::UDim(0.5f,0));
+	//mcl->addColumn("Players",2,CEGUI::UDim(0.2f,0));
 
 	// set up event subscriptions
-	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/Quit")->
-		subscribeEvent(CEGUI::PushButton::EventClicked, handleQuitBtn);
-	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/PlayOff")->
-		subscribeEvent(CEGUI::PushButton::EventClicked, handlePlayOfflineBtn);
-	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/PlayOn")->
-		subscribeEvent(CEGUI::PushButton::EventClicked, handlePlayOnlineBtn);
-	CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS/ConnectBTN")->
-		subscribeEvent(CEGUI::PushButton::EventClicked, handleConnectBtn);
-	CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS/UserDL")->
-		subscribeEvent(CEGUI::Editbox::EventTextAccepted, handleUserAccept);
-	CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ShardList/ConnectBTN")->
-		subscribeEvent(CEGUI::PushButton::EventClicked, handleConnectShardBtn);
+	//CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/Quit")->
+//		subscribeEvent(CEGUI::PushButton::EventClicked, handleQuitBtn);
+//	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/PlayOff")->
+//		subscribeEvent(CEGUI::PushButton::EventClicked, handlePlayOfflineBtn);
+//	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/PlayOn")->
+//		subscribeEvent(CEGUI::PushButton::EventClicked, handlePlayOnlineBtn);
+//	CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS/ConnectBTN")->
+//		subscribeEvent(CEGUI::PushButton::EventClicked, handleConnectBtn);
+//	CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS/UserDL")->
+//		subscribeEvent(CEGUI::Editbox::EventTextAccepted, handleUserAccept);
+//	CEGUI::WindowManager::getSingleton().getWindow("NetworkTask/ShardList/ConnectBTN")->
+//		subscribeEvent(CEGUI::PushButton::EventClicked, handleConnectShardBtn);
 }
 
 

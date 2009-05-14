@@ -46,7 +46,7 @@
 #include "interfaces/IBaseCamera.h"
 
 #include "wwcommon/ISimulationObj.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Class

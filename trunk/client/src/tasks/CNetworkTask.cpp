@@ -46,7 +46,7 @@
 #include "tasks/CConfigTask.h"
 
 #include "wwcommon/IGameEvent.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Namespaces

@@ -56,8 +56,9 @@
 
 namespace WWCLIENT {
 
-class CClientSimulation : public WWCOMMON::IBaseSimulation/*, public ISingleton<CClientSimulation>*/ {
+class CSimulationImpl : public WWCOMMON::IBaseSimulation {
 public:
+	NLMISC_DECLARE_CLASS(CSimulationImpl);
 
 	/// Attaches a user (uid) to a sob.
 	virtual bool attachUser(uint32 uid, uint32 sobid);
@@ -105,7 +106,7 @@ protected:
 	bool m_NoPing;
 };
 
-CClientSimulation *getClientSimulation();
+CSimulationImpl *getClientSimulation();
 
 }; // END NAMESPACE WWCLIENT
 

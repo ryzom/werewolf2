@@ -41,7 +41,7 @@
 //
 #include "entities/CAnimLayer.h"
 #include "entities/CEntityMedia.h"
-#include "CClientSimulation.h"
+#include "CSimulationImpl.h"
 
 //
 // Namespaces
