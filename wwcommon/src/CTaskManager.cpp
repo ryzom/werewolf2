@@ -54,8 +54,8 @@ void CTaskManager::execute() {
 	
 	m_Benchmark=false;
 	m_Exit = false;
-	CHTimer::startBench();
-	CHTimer::endBench();
+	//CHTimer::startBench();
+	//CHTimer::endBench();
 
 	while(!m_Exit) {
 
