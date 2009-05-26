@@ -47,7 +47,7 @@
 
 namespace WWCOMMON {
 
-const uint16 CSobAddEvent::CSobAddEventID;
+const uint16 CSobAddEvent::CSobAddEventID = ISobEventID + 9;
 
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobAddEvent);

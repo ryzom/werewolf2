@@ -54,7 +54,7 @@ namespace WWCOMMON {
  */
 class CGameSpawnRequestEvent : public IGameEvent {
 public:
-	static const uint16 CGameSpawnRequestEventID = IGameEventID + 1;
+	static const uint16 CGameSpawnRequestEventID;
 	NLMISC_DECLARE_CLASS(CGameSpawnRequestEvent);
 
 	CGameSpawnRequestEvent();
