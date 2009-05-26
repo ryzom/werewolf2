@@ -1,3 +1,8 @@
+//
+// Standard Includes
+//
+#include "stdpch.h"
+
 #include <nel/misc/class_registry.h>
 
 #include "wwcommon/IBaseSimulation.h"
