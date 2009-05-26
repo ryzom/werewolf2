@@ -2,7 +2,42 @@ FILE(GLOB SRC *.cpp)
 FILE(GLOB PRIV_H *.h)
 FILE(GLOB PUB_H ../include/wwcommon/*.h)
 
-#SOURCE_GROUP(headers FILES ${PRIV_H} ${PUB_H})
+SOURCE_GROUP("Events" FILES					CGameEventServer.cpp
+											../include/wwcommon/CGameEventServer.h)
+
+SOURCE_GROUP("Events\\Sob Events" FILES		CSobAddEvent.cpp
+											../include/wwcommon/CSobAddEvent.h											
+											CSobRemoveEvent.cpp
+											../include/wwcommon/CSobRemoveEvent.h
+											CSobSpawnEvent.cpp
+											../include/wwcommon/CSobSpawnEvent.h
+											CSobStateRequestEvent.cpp
+											../include/wwcommon/CSobStateRequestEvent.h											
+											CSobUnspawnEvent.cpp
+											../include/wwcommon/CSobUnspawnEvent.h
+											ISobEvent.cpp
+											../include/wwcommon/ISobEvent.h
+											ISobStateChangeEvent.cpp
+											../include/wwcommon/ISobStateChangeEvent.h)
+
+SOURCE_GROUP("Events\\Sob Events\\Motion"  FILES CSobDREvent.cpp
+											../include/wwcommon/CSobDREvent.h
+											CSobMoveEvent.cpp
+											../include/wwcommon/CSobMoveEvent.h
+											CSobOrientEvent.cpp
+											../include/wwcommon/CSobOrientEvent.h
+											CSobStrafeEvent.cpp
+											../include/wwcommon/CSobStrafeEvent.h)
+											
+SOURCE_GROUP("Events\\Game Events" FILES	CGameEventServer.cpp
+											../include/wwcommon/CGameEventServer.h
+											CGameSpawnRequestEvent.cpp
+											../include/wwcommon/CGameSpawnRequestEvent.h
+											CGameUnspawnRequestEvent.cpp
+											../include/wwcommon/CGameUnspawnRequestEvent.h
+											IGameEvent.cpp
+											../include/wwcommon/IGameEvent.h)
+
 
 DECORATE_NEL_LIB("wwcommon")
 SET(WWCOMMON_LIB ${LIBNAME})
@@ -11,7 +46,7 @@ SET(WWCOMMON_LIB ${LIBNAME})
 IF(NOT WIN32)
   ADD_LIBRARY(${WWCOMMON_LIB} SHARED ${SRC})
 ELSE(NOT WIN32)
-  ADD_LIBRARY(${WWCOMMON_LIB} STATIC ${SRC})
+  ADD_LIBRARY(${WWCOMMON_LIB} STATIC ${SRC} ${PUB_H})
 ENDIF(NOT WIN32)
 
 INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR} ${NELMISC_INCLUDE_DIRS})
