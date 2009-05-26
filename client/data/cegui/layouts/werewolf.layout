@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="Root" >
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{-0.00781251,0},{-0.00833333,0},{0.992186,0},{0.991667,0}}" />
+        <Window Type="WerewolfLook/FrameWindow" Name="IntroTask/MainMenu" >
+            <Property Name="Font" Value="Commonwealth-10" />
+            <Property Name="Text" Value="Werewolf - Main Menu" />
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.351563,0},{0.127083,0},{0.601563,0},{0.670833,0}}" />
+            <Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
+            <Property Name="NSSizingCursorImage" Value="set:TaharezLook image:MouseNoSoCursor" />
+            <Property Name="NESWSizingCursorImage" Value="set:TaharezLook image:MouseNeSwCursor" />
+            <Property Name="NWSESizingCursorImage" Value="set:TaharezLook image:MouseNwSeCursor" />
+            <Window Type="WerewolfLook/Button" Name="IntroTask/MainMenu/PlayOff" >
+                <Property Name="Text" Value="Play Offline" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.225,0},{0.180072,0},{0.762501,0},{0.270913,0}}" />
+            </Window>
+            <Window Type="WerewolfLook/Button" Name="IntroTask/MainMenu/PlayOn" >
+                <Property Name="Text" Value="Play Online" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.20625,0},{0.30709,0},{0.75,0},{0.40694,0}}" />
+            </Window>
+            <Window Type="WerewolfLook/Button" Name="IntroTask/MainMenu/Options" >
+                <Property Name="Text" Value="Options" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.2375,0},{0.443491,0},{0.731251,0},{0.534332,0}}" />
+            </Window>
+            <Window Type="WerewolfLook/Button" Name="IntroTask/MainMenu/Quit" >
+                <Property Name="Text" Value="Quit" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.225,0},{0.566439,0},{0.70625,0},{0.651274,0}}" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>
