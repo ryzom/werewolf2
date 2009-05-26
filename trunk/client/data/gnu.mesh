@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<FORM>
+  <STRUCT>
+	  <ATOM Name="FriendlyName" Value="gnu"/>
+	  <ATOM Name="Filename" Value="gnu.shape"/>
+  	  <ATOM Name="Description" Value="The gnu mesh from snowballs."/>
+  </STRUCT>
+</FORM>
