@@ -22,7 +22,7 @@ FIND_PATH(NELNET_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELNET_LIBRARY
-  NAMES nelnet
+  NAMES nelnet nelnet_r
   PATHS
   $ENV{NELNET_DIR}/lib
   /usr/local/lib

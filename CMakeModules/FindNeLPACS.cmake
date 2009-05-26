@@ -22,7 +22,7 @@ FIND_PATH(NELPACS_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELPACS_LIBRARY
-  NAMES nelpacs
+  NAMES nelpacs nelpacs_r
   PATHS
   $ENV{NELPACS_DIR}/lib
   /usr/local/lib

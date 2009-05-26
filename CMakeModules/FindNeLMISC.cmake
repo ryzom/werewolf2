@@ -19,10 +19,11 @@ FIND_PATH(NELMISC_INCLUDE_DIRS
   /opt/local/include
   /opt/csw/include
   /opt/include
+  c:/Program Files/NeL/include
 )
 
 FIND_LIBRARY(NELMISC_LIBRARY
-  NAMES nelmisc
+  NAMES nelmisc nelmisc_r
   PATHS
   $ENV{NELMISC_DIR}/lib
   /usr/local/lib
@@ -34,6 +35,7 @@ FIND_LIBRARY(NELMISC_LIBRARY
   /opt/csw/lib
   /opt/lib
   /usr/freeware/lib64
+  c:/Program Files/NeL/lib
 )
 
 IF(NELMISC_LIBRARY AND NELMISC_INCLUDE_DIRS)
