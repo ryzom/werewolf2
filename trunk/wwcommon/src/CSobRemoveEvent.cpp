@@ -47,7 +47,7 @@
 
 namespace WWCOMMON {
 
-const uint16 CSobRemoveEvent::CSobRemoveEventID;
+const uint16 CSobRemoveEvent::CSobRemoveEventID = ISobEventID + 10;
 
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobRemoveEvent);

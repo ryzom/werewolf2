@@ -58,7 +58,7 @@ namespace WWCOMMON {
  */
 class CSobAddEvent : public ISobEvent {
 public:
-	static const uint16 CSobAddEventID = ISobEventID + 9;
+	static const uint16 CSobAddEventID;
 	NLMISC_DECLARE_CLASS(CSobAddEvent);
 
 	CSobAddEvent();

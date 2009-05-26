@@ -71,11 +71,10 @@ CRequestHandler::eventList* CRequestHandler::getEventList() {
 }
 
 bool CRequestHandler::handleSobEvent(NLMISC::CSmartPtr<ISobEvent> event, ISimulationObj* subject) {
-	switch(event->getId()) {
-		case CSobStateRequestEvent::CSobStateRequestEventID:
-			return handleStateRequestEvent(dynamic_cast<CSobStateRequestEvent&>(*event), subject);
-		default:
-			return false;
+	if(event->getId() == CSobStateRequestEvent::CSobStateRequestEventID) {
+		return handleStateRequestEvent(dynamic_cast<CSobStateRequestEvent&>(*event), subject);
+	} else {
+		return false;
 	}
 }
 

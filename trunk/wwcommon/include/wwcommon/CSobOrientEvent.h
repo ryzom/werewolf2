@@ -55,7 +55,7 @@ namespace WWCOMMON {
  */
 class CSobOrientEvent : public ISobStateChangeEvent {
 public:
-	static const uint16 CSobOrientEventID = ISobEventID + 4;
+	static const uint16 CSobOrientEventID;
 	NLMISC_DECLARE_CLASS(CSobOrientEvent);
 
 	CSobOrientEvent();

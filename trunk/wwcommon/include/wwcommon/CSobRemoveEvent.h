@@ -51,7 +51,7 @@ namespace WWCOMMON {
  */
 class CSobRemoveEvent : public ISobEvent {
 public:
-	static const uint16 CSobRemoveEventID = ISobEventID + 10;
+	static const uint16 CSobRemoveEventID;
 	NLMISC_DECLARE_CLASS(CSobRemoveEvent);
 
 	CSobRemoveEvent();

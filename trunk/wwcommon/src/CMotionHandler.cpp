@@ -68,15 +68,14 @@ CMotionHandler::eventList* CMotionHandler::getEventList() {
 }
 
 bool CMotionHandler::handleSobEvent(NLMISC::CSmartPtr<ISobEvent> event, ISimulationObj* subject) {
-	switch(event->getId()) {
-		case CSobMoveEvent::CSobMoveEventID:
-			return changeState(dynamic_cast<ISobStateChangeEvent*>(event.getPtr()), subject);
-		case CSobOrientEvent::CSobOrientEventID:
-			return changeState(dynamic_cast<ISobStateChangeEvent*>(event.getPtr()), subject);
-		case CSobStrafeEvent::CSobStrafeEventID:
-			return changeState(dynamic_cast<ISobStateChangeEvent*>(event.getPtr()), subject);
-		default:
-			return false;
+	if(event->getId() == CSobMoveEvent::CSobMoveEventID) {
+		return changeState(dynamic_cast<ISobStateChangeEvent*>(event.getPtr()), subject);
+	} else if(event->getId() == CSobOrientEvent::CSobOrientEventID) {
+		return changeState(dynamic_cast<ISobStateChangeEvent*>(event.getPtr()), subject);
+	} else if(event->getId() == CSobStrafeEvent::CSobStrafeEventID) {
+		return changeState(dynamic_cast<ISobStateChangeEvent*>(event.getPtr()), subject);
+	} else {
+		return false;
 	}
 }
 

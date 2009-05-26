@@ -55,7 +55,7 @@ namespace WWCOMMON {
  */
 class CSobMoveEvent : public ISobStateChangeEvent {
 public:
-	static const uint16 CSobMoveEventID = ISobEventID + 3;
+	static const uint16 CSobMoveEventID;
 	NLMISC_DECLARE_CLASS(CSobMoveEvent);
 
 	CSobMoveEvent();
