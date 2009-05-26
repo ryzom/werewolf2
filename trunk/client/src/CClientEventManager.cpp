@@ -79,18 +79,15 @@ bool CClientEventManager::observePostGameEvent(WWCOMMON::CGameEventServer::Event
 }
 
 bool CClientEventManager::observeGameEvent(WWCOMMON::CGameEventServer::EventPtr event) {
-	switch(event->getId()) {
-		case EVENT_ID(CSobSpawnEvent):
-			spawn(dynamic_cast<WWCOMMON::CSobSpawnEvent*>(event.getPtr()));
-			return true;
-		case EVENT_ID(CSobAddEvent):
-			add(dynamic_cast<WWCOMMON::CSobAddEvent*>(event.getPtr()));
-			return true;
-		case EVENT_ID(CSobRemoveEvent):
-			remove(dynamic_cast<WWCOMMON::CSobRemoveEvent*>(event.getPtr()));
-			return true;
-		default:
-			break;
+	if(event->getId() == EVENT_ID(CSobSpawnEvent)) {
+		spawn(dynamic_cast<WWCOMMON::CSobSpawnEvent*>(event.getPtr()));
+		return true;
+	} else if(event->getId() == EVENT_ID(CSobAddEvent)) {
+		add(dynamic_cast<WWCOMMON::CSobAddEvent*>(event.getPtr()));
+		return true;
+	} else if(event->getId() == EVENT_ID(CSobRemoveEvent)) {
+		remove(dynamic_cast<WWCOMMON::CSobRemoveEvent*>(event.getPtr()));
+		return true;
 	}
 
 	sendToServer(event);
