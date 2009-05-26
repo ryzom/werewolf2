@@ -22,7 +22,7 @@ FIND_PATH(NELGEORGES_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELGEORGES_LIBRARY
-  NAMES nelgeorges
+  NAMES nelgeorges nelgeorges_r
   PATHS
   $ENV{NELGEORGES_DIR}/lib
   /usr/local/lib

@@ -22,7 +22,7 @@ FIND_PATH(NELSOUND_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELSOUND_LIBRARY
-  NAMES nelsound
+  NAMES nelsound nelsound_r
   PATHS
   $ENV{NELSOUND_DIR}/lib
   /usr/local/lib

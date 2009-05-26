@@ -49,34 +49,11 @@ MACRO(NL_SETUP_DEFAULT_OPTIONS)
   OPTION(WITH_COVERAGE            "With Code Coverage Support"                    OFF)
 
   ###
-  # Core libraries
-  ###
-  OPTION(WITH_NET                 "Build NLNET"                                   ON )
-  OPTION(WITH_3D                  "Build NL3D"                                    ON )
-  OPTION(WITH_PACS                "Build NLPACS"                                  ON )
-  OPTION(WITH_GEORGES             "Build NLGEORGES"                               ON )
-  OPTION(WITH_LIGO                "Build NLLIGO"                                  ON )
-  OPTION(WITH_LOGIC               "Build NLLOGIC"                                 ON )
-  OPTION(WITH_SOUND               "Build NLSOUND"                                 ON )
-
-  ###
-  # Drivers Support
-  ###
-  OPTION(WITH_DRIVER_OPENGL       "Build OpenGL Driver (3D)"                      ON )
-  OPTION(WITH_DRIVER_DIRECT3D     "Build Direct3D Driver (3D)"                    OFF)
-  OPTION(WITH_DRIVER_OPENAL       "Build OpenAL Driver (Sound)"                   ON )
-  OPTION(WITH_DRIVER_FMOD         "Build FMOD Driver (Sound)"                     OFF)
-  OPTION(WITH_DRIVER_DSOUND       "Build DirectSound Driver (Sound)"              OFF)
-  OPTION(WITH_DRIVER_XAUDIO2      "Build XAudio2 Driver (Sound)"                  OFF)
-
-  ###
   # Optional support
   ###
-  OPTION(WITH_CEGUI       "Build CEGUI Renderer"                                  OFF)
-  OPTION(WITH_TOOLS       "Build NeL Tools"                                       OFF)
-  OPTION(WITH_SAMPLES     "Build NeL Samples"                                     ON )
-  OPTION(WITH_TESTS       "Build NeL Unit Tests"                                  OFF)
-  OPTION(WITH_GTK         "With GTK Support"                                      OFF)
+  OPTION(BUILD_CLIENT       "Build Werewolf Client"                               OFF)
+  OPTION(BUILD_SERVER       "Build Werewolf Server"                               OFF)
+  OPTION(BUILD_TOOLS        "Build Werewolf Tools"                                OFF)
 
 ENDMACRO(NL_SETUP_DEFAULT_OPTIONS)
 
