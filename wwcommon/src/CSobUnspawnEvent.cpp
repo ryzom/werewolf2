@@ -47,6 +47,8 @@
 
 namespace WWCOMMON {
 
+const uint16 CSobUnspawnEvent::CSobUnspawnEventID = ISobEventID + 8;
+
 /// Register the event with the class registry.
 WWCOMMON_REGISTER_EVENT(CSobUnspawnEvent);
 
