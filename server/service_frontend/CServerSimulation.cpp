@@ -1,5 +1,5 @@
 /**
- * \file CServerSimulation.cpp
+ * \file CSimulationImpl.cpp
  * \date May 2005
  * \author Matt Raykowski
  */
@@ -72,16 +72,21 @@
 // Namespaces
 //
 
-WWCOMMON::IBaseSimulation *Simulation;
+//WWCOMMON::IBaseSimulation *Simulation;
 
-WWCOMMON::IBaseSimulation *getSimulation() {
-	if(Simulation==NULL) {
-		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CServerSimulation());
-	}
-	return static_cast<CServerSimulation *>(Simulation);
+//WWCOMMON::IBaseSimulation *getSimulation() {
+//	if(Simulation==NULL) {
+//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CSimulationImpl());
+//	}
+//	return static_cast<CSimulationImpl *>(Simulation);
+//}
+
+CSimulationImpl *getServerSimulation() {
+        return dynamic_cast<CSimulationImpl *>(getSimulation());
 }
 
-WWCOMMON::ISimulationObj *CServerSimulation::initSob(std::string name) {
+
+WWCOMMON::ISimulationObj *CSimulationImpl::initSob(std::string name) {
 	CActor *sob=dynamic_cast<CActor *>(getNewSob("sobActor"));
 	sob->setOwnerSobId(m_RootSob->getSobId());
 	
@@ -91,7 +96,7 @@ WWCOMMON::ISimulationObj *CServerSimulation::initSob(std::string name) {
 	return sob;
 }
 
-bool CServerSimulation::userLogout(uint32 sobid) {
+bool CSimulationImpl::userLogout(uint32 sobid) {
 	CActor *sob=dynamic_cast<CActor *>(m_ActorManager->find(sobid));
 	if(sob==NULL) {
 		nlwarning("Failed to locate sob to unspawn.");
@@ -109,7 +114,7 @@ bool CServerSimulation::userLogout(uint32 sobid) {
 	return true;
 }
 
-bool CServerSimulation::userLogin(uint32 uid, uint32 objid) {
+bool CSimulationImpl::userLogin(uint32 uid, uint32 objid) {
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
 
 	// check if the requested ID belongs to the player.
@@ -159,7 +164,7 @@ bool CServerSimulation::userLogin(uint32 uid, uint32 objid) {
 	return true;
 }
 
-bool CServerSimulation::attachUser(uint32 uid, uint32 sobid) {
+bool CSimulationImpl::attachUser(uint32 uid, uint32 sobid) {
 	nlinfo("Server simulation is attaching uid %d to sobid %d", uid, sobid);
 	CActor *sob=dynamic_cast<CActor *>(m_ActorManager->find(sobid));
 	if(sob==NULL) {
@@ -173,7 +178,7 @@ bool CServerSimulation::attachUser(uint32 uid, uint32 sobid) {
 	}
 }
 
-void CServerSimulation::detachUser(uint32 uid, uint32 sobid) {
+void CSimulationImpl::detachUser(uint32 uid, uint32 sobid) {
 	CActor *sob=dynamic_cast<CActor *>(m_ActorManager->find(sobid));
 	if(sob==NULL) {
 		// the sobid wasn't in our database.
@@ -187,7 +192,7 @@ void CServerSimulation::detachUser(uint32 uid, uint32 sobid) {
 	}
 }
 
-void CServerSimulation::init() {
+void CSimulationImpl::init() {
 	std::string retBankName, globRetBank;
 	NLMISC::CConfigFile ConfigFile=NLNET::IService::getInstance()->ConfigFile;
 	
@@ -214,7 +219,7 @@ void CServerSimulation::init() {
 	m_SimulationDelay=0;
 }
 
-void CServerSimulation::update() {
+void CSimulationImpl::update() {
 	// process the basic functions.
 	WWCOMMON::IBaseSimulation::update();
 }

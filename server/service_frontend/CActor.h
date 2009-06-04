@@ -62,7 +62,7 @@ public:
 	void update();
 
 protected:
-	friend class CServerSimulation;
+	friend class CSimulationImpl;
 
 	uint32 m_PlrId;
 	CActor();

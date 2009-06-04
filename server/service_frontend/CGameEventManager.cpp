@@ -68,33 +68,24 @@ bool CGameEventManager::observePreGameEvent(WWCOMMON::CGameEventServer::EventPtr
 }
 
 bool CGameEventManager::observePostGameEvent(WWCOMMON::CGameEventServer::EventPtr event) {
-	switch(event->getId()) {
-		case EVENT_ID(CSobUnspawnEvent):
-			unspawn(dynamic_cast<WWCOMMON::CSobUnspawnEvent*>(event.getPtr()));
-			break;
-		default:
-			break;
+	if(event->getId() == EVENT_ID(CSobUnspawnEvent)) {
+		unspawn(dynamic_cast<WWCOMMON::CSobUnspawnEvent*>(event.getPtr()));
 	}
 
 	return true;
 }
 
 bool CGameEventManager::observeGameEvent(WWCOMMON::CGameEventServer::EventPtr event) {
-	switch(event->getId()) {
-		case EVENT_ID(CGameSpawnRequestEvent):
-			spawn(dynamic_cast<WWCOMMON::CGameSpawnRequestEvent*>(event.getPtr()));
-			break;
-		case EVENT_ID(CGameUnspawnRequestEvent):
-			postUnspawn(dynamic_cast<WWCOMMON::CGameUnspawnRequestEvent*>(event.getPtr()));
-			break;
-		default:
-			break;
+	if(event->getId() == EVENT_ID(CGameSpawnRequestEvent)) {
+		spawn(dynamic_cast<WWCOMMON::CGameSpawnRequestEvent*>(event.getPtr()));
+	} else if(event->getId() == EVENT_ID(CGameUnspawnRequestEvent)) {
+		postUnspawn(dynamic_cast<WWCOMMON::CGameUnspawnRequestEvent*>(event.getPtr()));
 	}
 	return true;
 }
 
 void CGameEventManager::spawn(WWCOMMON::CGameSpawnRequestEvent *event) {
-	((CServerSimulation*)getSimulation())->userLogin(event->getPlayerID(), event->CharacterID);
+	getServerSimulation()->userLogin(event->getPlayerID(), event->CharacterID);
 }
 
 void CGameEventManager::postUnspawn(WWCOMMON::CGameUnspawnRequestEvent *event) {
@@ -106,5 +97,5 @@ void CGameEventManager::postUnspawn(WWCOMMON::CGameUnspawnRequestEvent *event) {
 
 void CGameEventManager::unspawn(WWCOMMON::CSobUnspawnEvent *event) {
 	// TODO henri:everyone persist sob here
-	((CServerSimulation*)getSimulation())->userLogout(event->TargetID);
+	getServerSimulation()->userLogout(event->TargetID);
 }

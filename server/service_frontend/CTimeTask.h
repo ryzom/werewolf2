@@ -41,7 +41,7 @@
 //
 // Werewolf Includes
 //
-#include "ITask.h"
+#include "wwcommon/ITask.h"
 
 //
 // Class
