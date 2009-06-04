@@ -255,7 +255,7 @@ void CRangeGrid2D<T>::remove(T data, Position pos) {
 	CRangeGrid2D<T>::DataListHolderPtr cell = m_Grid[pos.x][pos.y];
 	if(cell == NULL)
 		return;
-	CRangeGrid2D<T>::DataList::iterator iter = (*cell)->begin();
+	typename CRangeGrid2D<T>::DataList::iterator iter = (*cell)->begin();
 	for( ; iter != (*cell)->end(); ++iter) {
 		if((*iter) == data) {
 			(*cell)->erase(iter);
