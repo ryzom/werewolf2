@@ -90,13 +90,10 @@ bool CServerObjectView::observePreGameEvent(WWCOMMON::CGameEventServer::EventPtr
 }
 
 bool CServerObjectView::observeGameEvent(WWCOMMON::CGameEventServer::EventPtr event) {
-	switch(event->getId()) {
-		case EVENT_ID(CSobUnspawnEvent):
-			if(!unspawn(dynamic_cast<WWCOMMON::CSobUnspawnEvent*>(event.getPtr())))
-				return true; // our own unspawn
-			break;
-		default:
-			break;
+	// Our own unspawn
+	if(event->getId() == EVENT_ID(CSobUnspawnEvent)) {
+		if(!unspawn(dynamic_cast<WWCOMMON::CSobUnspawnEvent*>(event.getPtr())))
+			return true;
 	}
 	return true;
 }
@@ -154,27 +151,26 @@ bool CServerObjectView::remove(WWCOMMON::CSobRemoveEvent *event) {
 }
 
 bool CServerObjectView::observePostGameEvent(WWCOMMON::CGameEventServer::EventPtr event) {
-	switch(event->getId()) {
-		case EVENT_ID(CSobSpawnEvent):
-			if(!spawn(dynamic_cast<WWCOMMON::CSobSpawnEvent*>(event.getPtr())))
-				return true; // some other guy is spawning..should not happen..but just in case.
-			break;
-		case EVENT_ID(CSobAddEvent):
-			if(!add(dynamic_cast<WWCOMMON::CSobAddEvent*>(event.getPtr())))
-				return true; // add meant for another sob
-			break;
-		case EVENT_ID(CSobRemoveEvent):
-			if(!remove(dynamic_cast<WWCOMMON::CSobRemoveEvent*>(event.getPtr())))
-				return true; // remove meant for another sob
-			break;
-		case EVENT_ID(CSobUnspawnEvent):
+	// some other guy is spawning..should not happen..but just in case.
+	if(event->getId() == EVENT_ID(CSobSpawnEvent)) {
+		if(!spawn(dynamic_cast<WWCOMMON::CSobSpawnEvent*>(event.getPtr())))
 			return true;
-			break;
-		case EVENT_ID(CSobStateRequestEvent):
+
+	// Add meant for another sob.
+	} else if(event->getId() == EVENT_ID(CSobAddEvent)) {
+		if(!add(dynamic_cast<WWCOMMON::CSobAddEvent*>(event.getPtr())))
 			return true;
-		default:
-			break;
-	}
+
+	// Remove meant for another sob.
+	} else if(event->getId() == EVENT_ID(CSobRemoveEvent)) {
+		if(!remove(dynamic_cast<WWCOMMON::CSobRemoveEvent*>(event.getPtr())))
+			return true;
+
+	} else if(event->getId() == EVENT_ID(CSobUnspawnEvent)) {
+		return true;
+	} else if(event->getId() == EVENT_ID(CSobStateRequestEvent)) {
+		return true;
+	} 
 
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
 

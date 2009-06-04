@@ -51,10 +51,9 @@
 // Namespaces
 //
 
-WWCOMMON::IBaseSimulation *getSimulation();
-
-class CServerSimulation : public WWCOMMON::IBaseSimulation {
+class CSimulationImpl : public WWCOMMON::IBaseSimulation {
 public:
+	NLMISC_DECLARE_CLASS(CSimulationImpl);
 	/// Processes a validated user login.
 	bool userLogin(uint32 uid, uint32 objid);
 
@@ -76,5 +75,7 @@ public:
 	/// This gets a new sob object and initializes it with basic properties.
 	WWCOMMON::ISimulationObj *initSob(std::string name);
 };
+
+CSimulationImpl *getServerSimulation();
 
 #endif // __CSERVERSIMULATION_H__

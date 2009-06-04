@@ -152,7 +152,7 @@ std::string sqlQuery(const std::string &query, sint32 &nbRow, MYSQL_ROW &firstRo
 NLNET_SERVICE_MAIN(CFrontendService, "FS", "service_frontend", 0, /*CallbackArray*/ NLNET::EmptyCallbackArray, WW_CONFIG, WW_LOGS)
 
 void CFrontendService::init() {
-	CServerSimulation *server=(CServerSimulation *)getSimulation();
+	//CServerSimulation *server=(CServerSimulation *)getSimulation();
 
 	// set up data path
 	NLMISC::CPath::addSearchPath("server-data", true, false);
@@ -225,21 +225,21 @@ void CFrontendService::init() {
 	CGameEventManager::instance();
 
 	nlinfo("Server Sim Init.");
-	server->init();
+	getServerSimulation()->init();
 	
 }
 
 bool CFrontendService::update() {
-	CServerSimulation *serversim=(CServerSimulation *)getSimulation();
+	//CServerSimulation *serversim=(CServerSimulation *)getSimulation();
 
 	// Manage messages from clients
 	m_ClientServer->update();
 
 	// update the time.
-	serversim->updateTime();
+	getServerSimulation()->updateTime();
 
 	// process the server simulation each tick.
-	serversim->update();
+	getServerSimulation()->update();
 
 	// update the proximity system
 	CProximityManager::instance().update();

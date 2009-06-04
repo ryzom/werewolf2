@@ -114,7 +114,7 @@ void onConnectionClient(NLNET::TSockId from, const NLNET::CLoginCookie &cookie) 
  */
 void onDisconnectClient(NLNET::TSockId from, void *arg ) {
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
-	CServerSimulation *server=(CServerSimulation *)getSimulation();
+	//CServerSimulation *server=(CServerSimulation *)getSimulation();
 
 	uint32 id=(uint32)from->appId();
 	CPlayer *plr=fs->getPlayer(id);
