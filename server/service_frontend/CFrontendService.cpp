@@ -114,7 +114,7 @@ using namespace NLMISC;
 std::string sqlQuery(const std::string &query, sint32 &nbRow, MYSQL_ROW &firstRow, MYSQL_RES *&result) {
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
 	MYSQL *db=fs->getDatabase();
-	
+
 	nlassert(db);
 	nlinfo("sqlQuery: '%s'", query.c_str());
 	sint ret = mysql_query(db, query.c_str());
@@ -152,7 +152,17 @@ std::string sqlQuery(const std::string &query, sint32 &nbRow, MYSQL_ROW &firstRo
 NLNET_SERVICE_MAIN(CFrontendService, "FS", "service_frontend", 0, /*CallbackArray*/ NLNET::EmptyCallbackArray, WW_CONFIG, WW_LOGS)
 
 void CFrontendService::init() {
+	nlinfo("Initializing frontend service.");
 	//CServerSimulation *server=(CServerSimulation *)getSimulation();
+
+	try
+	{
+		NLMISC_REGISTER_CLASS(CSimulationImpl);
+	}
+	catch(NLMISC::ERegisteredClass &e)
+	{
+		nlinfo("CSimulationImpl is already registered.");
+	}
 
 	// set up data path
 	NLMISC::CPath::addSearchPath("server-data", true, false);
@@ -162,13 +172,14 @@ void CFrontendService::init() {
 	m_ClientServer = new NLNET::CCallbackServer();
 	nlassert(m_ClientServer!=0);
 
-	// Set the callbacks for that connection (comming from the Chat service)
 	m_ClientServer->addCallbackArray(ClientCallbackArray, sizeof(ClientCallbackArray)/sizeof(ClientCallbackArray[0]));
 
 	// Set the callbacks for the client disconnection of the Frontend
 	m_ClientServer->setDisconnectionCallback(onDisconnectClient, 0);
-		
+
+	nlinfo("Initializing client connection server.");
 	m_ClientServer->init(37000);
+	nlinfo("Client connection server initialization complete.");
 
 	// Connect the frontend to the login system
 	NLNET::CLoginServer::init(*m_ClientServer, onConnectionClient);
@@ -212,10 +223,10 @@ void CFrontendService::init() {
 		nlwarning ("mysql_init() failed");
 		return;
 	}
-	m_DatabaseConnection = mysql_real_connect(db, dbHost.c_str(), dbUser.c_str(), 
+	m_DatabaseConnection = mysql_real_connect(db, dbHost.c_str(), dbUser.c_str(),
 		dbPass.c_str(), dbName.c_str(),0,NULL,0);
 	if(m_DatabaseConnection == NULL || m_DatabaseConnection != db) {
-		nlerror ("mysql_real_connect() failed to '%s' with login '%s' and database name '%s'", 
+		nlerror ("mysql_real_connect() failed to '%s' with login '%s' and database name '%s'",
 			dbHost.c_str(), dbUser.c_str(), dbName.c_str());
 		return;
 	}
@@ -226,7 +237,7 @@ void CFrontendService::init() {
 
 	nlinfo("Server Sim Init.");
 	getServerSimulation()->init();
-	
+
 }
 
 bool CFrontendService::update() {
