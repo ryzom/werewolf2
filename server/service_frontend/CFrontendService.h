@@ -63,10 +63,10 @@ std::string sqlQuery(const std::string &query, sint32 &nbRow, MYSQL_ROW &firstRo
  */
 struct CPlayer {
 	/// Data-filling constructor.
-	CPlayer(uint32 sobid, NLNET::TSockId con) : SobID(SobID), Con(con), Connected(false) { };
+	CPlayer(uint32 sobid, NLNET::TSockId con) : SobID(SobID), Connected(false), Con(con) { };
 	/// Default destructor.
 	~CPlayer() { };
-	
+
 	/// The Simulation Object ID that this player is controlling.
 	uint32 SobID;
 
@@ -131,7 +131,7 @@ public:
 	MYSQL *getDatabase();
 private:
 	NLNET::CCallbackServer	*m_ClientServer;
-	
+
 	typedef std::map<uint32, CPlayer> PlayerMap;
 	PlayerMap				m_Players;
 
