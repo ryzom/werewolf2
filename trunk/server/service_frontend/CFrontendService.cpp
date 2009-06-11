@@ -224,6 +224,16 @@ void CFrontendService::init() {
 		nlwarning ("mysql_init() failed");
 		return;
 	}
+
+	my_bool opt = true;
+	if (mysql_options (db, MYSQL_OPT_RECONNECT, &opt))
+	{
+		mysql_close(db);
+		m_DatabaseConnection = 0;
+		nlerror("mysql_options() failed for database connection to '%s'", dbHost.c_str());
+		return;
+	}
+
 	m_DatabaseConnection = mysql_real_connect(db, dbHost.c_str(), dbUser.c_str(),
 		dbPass.c_str(), dbName.c_str(),0,NULL,0);
 	if(m_DatabaseConnection == NULL || m_DatabaseConnection != db) {
@@ -231,6 +241,17 @@ void CFrontendService::init() {
 			dbHost.c_str(), dbUser.c_str(), dbName.c_str());
 		return;
 	}
+
+#if MYSQL_VERSION_ID < 50019
+	opt = true;
+	if (mysql_options(m_DatabaseConnection, MYSQL_OPT_RECONNECT, &opt)) {
+		mysql_close(db);
+		m_DatabaseConnection = 0;
+		nlerror("mysql_options() failed for database connection to '%s'", dbHost.c_str());
+		return;
+	}
+#endif
+
 
 	// Initialize Frontend Managers/Tasks
 	CCharacterManager::instance().init();
