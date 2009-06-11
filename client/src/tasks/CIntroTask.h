@@ -86,10 +86,10 @@ public:
 	void initWindows();
 
 	void handlePlayOffline();
-	void handlePlayOnBtn();
-	void handleConnect();
-	void handleConnectShard();
-	
+	//void handlePlayOnBtn();
+	//void handleConnect();
+	//void handleConnectShard();
+
 	virtual std::string name() { return "CIntroTask"; }
 private:
 	uint32 ServerId;

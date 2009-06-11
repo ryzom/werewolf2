@@ -23,6 +23,7 @@
 //
 // System Includes
 //
+#include <string>
 
 //
 // NeL Includes
@@ -44,6 +45,8 @@
 //
 static const float GScale = 0.01f;
 extern bool FollowEntity;
+//extern std::string Cookie;
+//extern std::string FSAddr;
 
 //
 // Global Defines

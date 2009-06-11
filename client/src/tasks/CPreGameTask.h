@@ -41,6 +41,7 @@
 //
 #include "wwcommon/ITask.h"
 #include "wwcommon/ISingleton.h"
+#include <wwcommon/CCharacterData.h>
 
 //
 // Namespaces
@@ -52,28 +53,11 @@ namespace WWCLIENT {
 // Class
 //
 
-/// Defines characters. Class automatically sets selection brush and store a character.
-struct TCharacterData {
-	std::string Name;	/*!< The name of the character. */
-	uint32 CharacterID;	/*!< The ID of this character. */
-	uint32 UserID;		/*!< The ID of the user who owns this character. */
-	std::string EmdType;/*!< The type of EMD the client should use for this character. */
-	bool Online;
-
-	void serial(NLMISC::IStream &f) {
-		f.serial(Name);
-		f.serial(CharacterID);
-		f.serial(UserID);
-		f.serial(EmdType);
-		f.serial(Online);
-	}
-};
-
 /// Class to automatically set selection brush and store an object ID.
 class CharItem : public CEGUI::ListboxTextItem {
 public:
-	CharItem(const CEGUI::String& text, TCharacterData *character) : ListboxTextItem(text, 0, character) {
-		setSelectionBrushImage((CEGUI::utf8*)"WerewolfLook", (CEGUI::utf8*)"MultiListSelectionBrush");
+	CharItem(const CEGUI::String& text, WWCOMMON::CCharacterData *character) : ListboxTextItem(text, 0, character) {
+		setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"MultiListSelectionBrush");
 	}
 };
 
@@ -96,7 +80,7 @@ public:
 	virtual void stop();
 	
 	void startGame();
-	void insertCharacter(struct TCharacterData character);
+	void insertCharacter(WWCOMMON::CCharacterData character);
 	virtual std::string name() { return "CPreGameTask"; }
 
 private:

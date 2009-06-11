@@ -180,6 +180,7 @@ void CFrontendService::init() {
 	nlinfo("Initializing client connection server.");
 	m_ClientServer->init(37000);
 	nlinfo("Client connection server initialization complete.");
+	nlinfo(" *** Listening as: %s", m_ClientServer->listenAddress().asIPString().c_str());
 
 	// Connect the frontend to the login system
 	NLNET::CLoginServer::init(*m_ClientServer, onConnectionClient);

@@ -35,6 +35,7 @@
 //
 // NeL Includes
 //
+#include <nel/misc/dynloadlib.h>
 
 //
 // Werewolf Includes
@@ -51,7 +52,7 @@
 //
 namespace CEGUI
 {
-	class INeLRenderer;
+	class Renderer;
 }; // END NAMESPACE CEGUI
 
 namespace WWCLIENT {
@@ -65,10 +66,14 @@ public:
 	virtual void release();
 
 	virtual std::string name();
+
+	CEGUI::System *getRenderSystem() { return m_GuiSystem; }
+	CEGUI::Renderer *getRenderer() { return m_GuiRenderer; }
 	
-private:
+protected:
 	CEGUI::System		*m_GuiSystem;
-	CEGUI::INeLRenderer	*m_GuiRenderer;
+	CEGUI::Renderer	*m_GuiRenderer;
+	 NLMISC::CLibrary m_DriverLib;
 };
 
 }; // END NAMESPACE WWCLIENT

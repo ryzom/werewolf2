@@ -35,7 +35,7 @@
 // NeL Includes
 //
 #include <nel/net/login_cookie.h>
-#include <nel/net/callback_client.h> 
+#include <nel/net/callback_client.h>
 
 //
 // Werewolf Includes
@@ -67,15 +67,15 @@ public:
 	virtual void release();
 	virtual void stop();
 	virtual std::string name() { return "CNetworkTask"; }
-	std::string connectToLoginServer(std::string user, std::string pass);
-	std::string connectToShard(uint shardid);
+//	std::string connectToLoginServer(std::string user, std::string pass);
+//	std::string connectToShard(uint shardid);
 	std::string connect();
 	void setSelfId(uint32 id);
 
 	bool connected() { if(m_NetworkState!=eOnline) return false; return m_Client->connected(); }
 
 	// state of the network.
-	enum TState { eOffline, eVLP, eSCS, eOnline };
+	enum TState { eOffline, eOnline };
 	TState getState() { return m_NetworkState; };
 
 	/// Sending comm messages.
@@ -84,30 +84,37 @@ public:
 	void send(NLNET::CMessage msgout);
 
 	/// Allow outsiders to get the client to send custom messages.
-	NLNET::CCallbackClient *getClient(); 
+	NLNET::CCallbackClient *getClient();
 
 	/**
 	 * \brief Shard information.
 	 */
-	struct CShard {
-		CShard() { ShardNbPlayers = 0; }
-		CShard(const std::string &name, uint8 nbp, uint32 sid) {
-			ShardName=name;
-			ShardNbPlayers=nbp;
-			ShardId=sid;
-		}
-		std::string ShardName;
-		uint8		ShardNbPlayers;
-		uint32		ShardId;
-	};
-	std::vector<CShard> getShardList() { return m_ShardList; }
+//	struct CShard {
+//		CShard() { ShardNbPlayers = 0; }
+//		CShard(const std::string &name, uint8 nbp, uint32 sid) {
+//			ShardName=name;
+//			ShardNbPlayers=nbp;
+//			ShardId=sid;
+//		}
+//		std::string ShardName;
+//		uint8		ShardNbPlayers;
+//		uint32		ShardId;
+//	};
+//	std::vector<CShard> getShardList() { return m_ShardList; }
 
-	void cbVLP(NLNET::CMessage msgin);
-	void cbSCS(NLNET::CMessage msgin);
+//	void cbVLP(NLNET::CMessage msgin);
+//	void cbSCS(NLNET::CMessage msgin);
+    NLNET::CInetAddress getShardIp() { return m_ShardIP; }
+    void setShardIp(NLNET::CInetAddress addr) { m_ShardIP = addr; }
+    void setShardIp(std::string addr) { m_ShardIP.setNameAndPort(addr); }
+
+    NLNET::CLoginCookie getLoginCookie() { return m_LoginCookie; }
+    void setLoginCookie(NLNET::CLoginCookie cookie) { m_LoginCookie = cookie; }
+    void setLoginCookie(std::string cookie) { m_LoginCookie.setFromString(cookie); }
 private:
 	// verifying the login vars.
-	bool m_VLP;
-	std::string m_VLPReason;
+//	bool m_VLP;
+//	std::string m_VLPReason;
 
 	// verifying shard connection vars.
 	bool m_ConnectShard;
@@ -125,7 +132,7 @@ private:
 	/**
 	 * \brief Contains a list of all shards available.
 	 */
-	std::vector<CShard>		m_ShardList;
+//	std::vector<CShard>		m_ShardList;
 };
 
 }; // END NAMESPACE WWCLIENT

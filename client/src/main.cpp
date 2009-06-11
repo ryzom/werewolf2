@@ -44,6 +44,7 @@
 // Werewolf Includes
 //
 #include "CWWTask.h"
+#include "tasks/CNetworkTask.h"
 #include "main.h"
 #include "wwcommon/CTaskManager.h"
 
@@ -62,17 +63,68 @@ bool DisplayDebug = false;
 uint MainThreadId = 0;
 uint NetworkThreadId = 0;
 
+//std::string FSAddr, Cookie;
+
 
 #ifdef NL_OS_WINDOWS
-int WINAPI WinMain( HINSTANCE hInstance, 
-									 HINSTANCE hPrevInstance, 
-									 LPSTR lpCmdLine, 
+int WINAPI WinMain( HINSTANCE hInstance,
+									 HINSTANCE hPrevInstance,
+									 LPSTR lpCmdLine,
 									 int nCmdShow ) {
 	ghInstance = hInstance;
 #else
 int main(int argc, char **argv)
 {
 #endif
+    std::string fsaddr, cookie;
+	// Retrieve the FSAddr and Cookie, if possible.
+#ifdef NL_OS_WINDOWS
+
+	// extract the 2 first param (argv[1] and argv[2]) it must be cookie and addr
+
+	string cmd = cmdline;
+	int pos1 = cmd.find_first_not_of (' ');
+	int pos2;
+	if (pos1 != string::npos)
+	{
+		pos2 = cmd.find (' ', pos1);
+		if(pos2 != string::npos)
+		{
+			cookie = cmd.substr (pos1, pos2-pos1);
+
+			pos1 = cmd.find_first_not_of (' ', pos2);
+			if (pos1 != string::npos)
+			{
+				pos2 = cmd.find (' ', pos1);
+				if(pos2 == string::npos)
+				{
+					fsaddr = cmd.substr (pos1);
+				}
+				else if (pos1 != pos2)
+				{
+					fsaddr = cmd.substr (pos1, pos2-pos1);
+				}
+			}
+		}
+	}
+
+#else
+
+	if (argc>=3)
+	{
+		cookie = argv[1];
+		fsaddr = argv[2];
+	}
+
+#endif
+    nlinfo("*** Starting up Werewolf! ***");
+
+    if(!cookie.empty() && !fsaddr.empty()) {
+        // We'll need to make sure that the network task has the cookie and FS address.
+        nlinfo("Received cookie: %s and frontend address: %s", cookie.c_str(), fsaddr.c_str());
+        WWCLIENT::CNetworkTask::instance().setLoginCookie(cookie);
+        WWCLIENT::CNetworkTask::instance().setShardIp(fsaddr);
+    }
 
 	// record the main thread's ID for all to see.
 	MainThreadId = getThreadId();

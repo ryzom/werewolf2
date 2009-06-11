@@ -192,8 +192,6 @@
 #include <nel/georges/type.h>
 
 #include "CEGUI.h"
-#include "renderers/NeLRenderer/nelrenderer.h"
-#include "renderers/NeLRenderer/neltexture.h"
 
 #endif // NL_OS_WINDOWS
 

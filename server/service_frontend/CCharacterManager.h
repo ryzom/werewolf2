@@ -47,6 +47,7 @@
 // Werewolf Includes
 //	
 #include "wwcommon/ISingleton.h"
+#include "wwcommon/CCharacterData.h"
 
 //
 // Namespaces
@@ -54,29 +55,10 @@
 
 class CCharacterManager : public WWCOMMON::ISingleton<CCharacterManager> {
 public:
-	/// Defines characters. This will be in the DB in the game/demo.
-	struct TCharacterData {
-		/// Default ctor.
-		TCharacterData() {};
-		std::string Name;	/*!< The name of the character. */
-		uint32 CharacterID;	/*!< The ID of this character. */
-		uint32 UserID;		/*!< The ID of the user who owns this character. */
-		std::string EmdType;/*!< The type of EMD the client should use for this character. */
-		bool Online;
-
-		void serial(NLMISC::IStream &f) {
-			f.serial(Name);
-			f.serial(CharacterID);
-			f.serial(UserID);
-			f.serial(EmdType);
-			f.serial(Online);
-		}
-	};
-
 	/// Used as a return type for a UID->Character matcher.
 	typedef std::vector<std::string> TCharacterStrings;
 	/// Defines the type of the list for characters.
-	typedef std::vector<TCharacterData> TCharacterList;
+	typedef std::vector<WWCOMMON::CCharacterData> TCharacterList;
 	
 	/// Initialize the character manager - creates a static list for a test.
 	void init();

@@ -27,7 +27,9 @@
 //
 // NeL Includes
 //
+#include <nel/misc/dynloadlib.h>
 #include <nel/cegui/inellibrary.h>
+#include <nel/cegui/nelrenderer.h>
 
 //
 // Werewolf Includes
@@ -42,57 +44,55 @@ using namespace std;
 using namespace NLMISC;
 using namespace NL3D;
 
+//CEGUI::Renderer *gGuiRenderer;
+//CEGUI::System *gGuiSystem;
+
 namespace WWCLIENT {
 
 void CGuiTask::init() {
 	// Load the CEGUI renderer and get a handle to the library.
-	NLMISC::CLibrary driverLib;
-	if(!driverLib.loadLibrary("nelceguirenderer", true, true , true)) {
+	if(!m_DriverLib.loadLibrary("nelceguirenderer", true, true , true)) {
 		nlerror("Failed to load NeL CEGUI Renderer library.");
 	}
-	NELRENDERER_CREATE_PROC createNelRenderer = reinterpret_cast<NELRENDERER_CREATE_PROC>(driverLib.getSymbolAddress(NELRENDERER_CREATE_PROC_NAME));
-
+	NELRENDERER_CREATE_PROC createNelRenderer = reinterpret_cast<NELRENDERER_CREATE_PROC>(m_DriverLib.getSymbolAddress(NELRENDERER_CREATE_PROC_NAME));
 
 	// create the CEGUI renderer.
 	m_GuiRenderer = createNelRenderer(&C3DTask::instance().driver(), true);
+
 	m_GuiSystem = new CEGUI::System(m_GuiRenderer);
-	m_GuiRenderer->activateInput();
-	m_GuiRenderer->captureCursor(true);
+
+	CEGUI::NeLRenderer *rndr = (CEGUI::NeLRenderer *)m_GuiRenderer;
+	rndr->activateInput();
+	rndr->captureCursor(true);
 
 	try	{
 		using namespace CEGUI;
-			
+
 		Logger::getSingleton().setLoggingLevel(Insane);
 
 		// load scheme and set up defaults
-		SchemeManager::getSingleton().loadScheme("WerewolfLook.scheme");
-		System::getSingleton().setDefaultMouseCursor("WerewolfLook", "MouseArrow");
+		SchemeManager::getSingleton().loadScheme("TaharezLook.scheme");
+		System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
 
 		// create the font and set it up as the default.
-		//System::getSingleton().setDefaultFont("Tahoma-12");
-		if(!FontManager::getSingleton().isFontPresent("Commonwealth-10"))
-			FontManager::getSingleton().createFont("Commonwealth-10.font");
+		FontManager::getSingleton().createFont("Commonwealth-10.font");
 
-		Window* sheet = WindowManager::getSingleton().createWindow("DefaultWindow", "Root");
-		//Window* sheet = WindowManager::getSingleton().loadWindowLayout("Werewolf.layout");
+
+		//Window* sheet = WindowManager::getSingleton().createWindow("DefaultWindow", "root_wnd");
+		Window* sheet = WindowManager::getSingleton().loadWindowLayout("werewolf.layout");
 		System::getSingleton().setGUISheet(sheet);
-
-		Window* guiLayout = WindowManager::getSingleton().loadWindowLayout("Werewolf.layout");
-		sheet->addChildWindow(guiLayout);
-
-		//WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->hide();
-		//WindowManager::getSingleton().getWindow("GameTask/DebugWindow")->hide();
-		//WindowManager::getSingleton().getWindow("LandscapeProgress")->hide();
-		//WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS")->hide();
-		//WindowManager::getSingleton().getWindow("NetworkTask/ShardList")->hide();
-		//WindowManager::getSingleton().getWindow("GameTask/Chatbox")->hide();
-		//WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
-		// do demo stuff
-		//ImagesetManager::getSingleton().createImageset("werewolfgui.imageset");
-	} catch(CEGUI::Exception) {	// catch to prevent exit (errors will be logged).
-		;
+		WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->hide();
+		WindowManager::getSingleton().getWindow("GameTask/DebugWindow")->hide();
+		WindowManager::getSingleton().getWindow("LandscapeProgress")->hide();
+		WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS")->hide();
+		WindowManager::getSingleton().getWindow("NetworkTask/ShardList")->hide();
+		WindowManager::getSingleton().getWindow("GameTask/Chatbox")->hide();
+		WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
+	} catch(CEGUI::Exception &e) {	// catch to prevent exit (errors will be logged).
+		nlinfo("Failed to initialize CEGUI system: %s", e.getMessage().c_str());
 	}
-	
+
+	const CEGUI::Font *fnt = m_GuiSystem->getDefaultFont();
 }
 
 void CGuiTask::render() {
