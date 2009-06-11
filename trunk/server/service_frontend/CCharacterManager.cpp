@@ -81,7 +81,7 @@ const CCharacterManager::TCharacterList CCharacterManager::getListForPlayer(uint
 	}
 
 	while(row != 0) {
-		struct TCharacterData character;
+		WWCOMMON::CCharacterData character;
 		NLMISC::fromString(row[0], character.CharacterID);
 		NLMISC::fromString(row[1], character.UserID);
 		character.Name=row[2];

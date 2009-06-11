@@ -45,6 +45,7 @@
 #include <wwcommon/CGameSpawnRequestEvent.h>
 #include <wwcommon/IGameEvent.h>
 #include <wwcommon/CGameEventServer.h>
+#include <wwcommon/CCharacterData.h>
 
 //
 // Namespaces
@@ -65,7 +66,7 @@ bool handleCharSelectBtn(const CEGUI::EventArgs& e) {
 		return true;
 
 	// get the selected item.
-	struct TCharacterData character = (*(struct TCharacterData *)(lbox->getFirstSelectedItem()->getUserData()));
+	WWCOMMON::CCharacterData character = (*(WWCOMMON::CCharacterData *)(lbox->getFirstSelectedItem()->getUserData()));
 	uint32 objId=character.CharacterID;
 
 	nlinfo("Connecting to character ID: %d", objId);
@@ -92,9 +93,13 @@ bool handleCharSelectBtn(const CEGUI::EventArgs& e) {
 //
 
 void CPreGameTask::init() {
-	// show the character selector to the world.
-	CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->show();
-	CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar/ConnectBTN")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharSelectBtn);
+	try {
+		// show the character selector to the world.
+		CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->show();
+		CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar/ConnectBTN")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharSelectBtn);
+	} catch(CEGUI::UnknownObjectException &e) {
+		nlinfo("Received object exception: %s", e.getMessage().c_str());
+	}
 }
 
 void CPreGameTask::update() {
@@ -115,19 +120,22 @@ void CPreGameTask::startGame() {
 	WWCOMMON::CTaskManager::instance().remove(CBackgroundTask::instance());
 
 	// remove this from the task list
+	nlinfo("Removing pre-game task now.");
 	WWCOMMON::CTaskManager::instance().remove(CPreGameTask::instance());
 
 	// and start the game.
+	nlinfo("starting game - initializing game task!!");
 	WWCOMMON::CTaskManager::instance().add(CGameTask::instance(), 60);
+	nlinfo("game task initialized! lets rock!");
 }
 
 void CPreGameTask::stop() {
 	CBackgroundTask::instance().stop();
 }
 
-void CPreGameTask::insertCharacter(struct TCharacterData character) {
+void CPreGameTask::insertCharacter(WWCOMMON::CCharacterData character) {
 	CEGUI::Listbox *lbox=(CEGUI::Listbox *)CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar/CharBox");
-	lbox->addItem(new CharItem(character.Name, new struct TCharacterData(character)) );
+	lbox->addItem(new CharItem(character.Name, new WWCOMMON::CCharacterData(character)) );
 }
 
 }; // END NAMESPACE WWCLIENT

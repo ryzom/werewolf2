@@ -150,7 +150,7 @@ void CLandscapeTask::init() {
 	// progress bar alter here.
 	updateProgressBar( 0.4f, 0.4f, "Loading the landscape...");
 	progresscb.setProgressBar((CEGUI::ProgressBar *)CEGUI::WindowManager::getSingleton().getWindow("LandscacpeProgress/ProgBar"));
-	m_Landscape->setZonePath (ConfigFile.getVar("DataPath").asString() + "zones/");
+	m_Landscape->setZonePath (ConfigFile.getVar("Path").asString() + "zones/");
 	m_Landscape->refreshAllZonesAround(landscapeLoadPoint, m_ZoneRadius, m_ZonesAdded, m_ZonesRemoved, progresscb);
 
 	/*

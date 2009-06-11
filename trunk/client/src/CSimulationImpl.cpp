@@ -68,17 +68,7 @@
 
 namespace WWCLIENT {
 
-//WWCOMMON::IBaseSimulation *Simulation;
-//WWCOMMON::IBaseSimulation *getSimulation() {
-//	if(Simulation==NULL) {
-//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CSimulationImpl());
-//	}
-//	return static_cast<CSimulationImpl *>(Simulation);
-//}
 CSimulationImpl *getClientSimulation() {
-//	if(Simulation==NULL) {
-//		Simulation=static_cast<WWCOMMON::IBaseSimulation *>(new CSimulationImpl());
-//	}
 	return dynamic_cast<CSimulationImpl *>(getSimulation());
 }
 
@@ -91,7 +81,7 @@ void CSimulationImpl::detachUser(uint32 uid, uint32 sobid) {
 	// There is no logic in this method on the client.
 }
 
-	
+
 void CSimulationImpl::init() {
 	// get the paths to the retrievers.
 	std::string retBankName, globRetBank;
@@ -106,7 +96,7 @@ void CSimulationImpl::init() {
 	if(m_RetrieverBank == NULL)
 		nlinfo("what the fuck bitch.");
 	m_GlobalRetriever = NLPACS::UGlobalRetriever::createGlobalRetriever(globRetBank.c_str(), m_RetrieverBank);
-	
+
 	nlinfo("Create Move Container.");
 	m_MoveContainer = NLPACS::UMoveContainer::createMoveContainer(m_GlobalRetriever, 100, 100, 6.0);
 
@@ -240,7 +230,7 @@ void CSimulationImpl::recvPing(double serverTimeStamp, double localTimeStamp) {
 	currentOffset /= m_PingCount;
 	if(currentOffset > m_Epsilon) {
 		unsigned long offsetWeight = m_PingCount-1;
-		// Improve our accuracy by taking the last 5 samples only during the first 50 pings 
+		// Improve our accuracy by taking the last 5 samples only during the first 50 pings
 		if(m_PingCount < 50) {
 			offsetWeight = std::min<unsigned long>(5, offsetWeight);
 			currentOffset = serverTimeStamp - localRecvTimeStamp + m_PingLatency;

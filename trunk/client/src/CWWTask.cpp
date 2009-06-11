@@ -61,6 +61,8 @@
 #include "tasks/CAnimateTask.h"
 //#include "tasks/CEntityTask.h"
 #include "tasks/CInputTask.h"
+#include "tasks/CNetworkTask.h"
+#include "tasks/CPreGameTask.h"
 
 #include "wwcommon/CTaskManager.h"
 //#include "CCamera.h"
@@ -109,8 +111,28 @@ void CWWTask::init() {
 
 	CClientEventManager::instance();
 
-	// start the intro task
-	WWCOMMON::CTaskManager::instance().add(CIntroTask::instance(), 1000);
+	if(CNetworkTask::instance().getShardIp().isValid() &&
+		CNetworkTask::instance().getLoginCookie().isValid()) {
+		// If the network task has a valid IP and cookie then we should just skip
+		// to the in-game play.
+		WWCOMMON::CTaskManager::instance().add(CNetworkTask::instance(), 40);
+
+		std::string conResult = CNetworkTask::instance().connect();
+		if(conResult.empty()) {
+			// We successfully connected to the server.
+			// We'll fire up the Pre Game Task which will let you choose
+			// a character and so on...
+			WWCOMMON::CTaskManager::instance().add(CPreGameTask::instance(), 60);
+		} else {
+			// We failed to connect. Either the FSAddr/Cookie was invalid or
+			// the frontend service is down and the LS doesn't know about it
+			// yet. So we'll just fire up the main menu and let you play offline.
+			WWCOMMON::CTaskManager::instance().add(CIntroTask::instance(), 1000);
+		}
+	} else {
+		// Start up the main menu for offline play.
+		WWCOMMON::CTaskManager::instance().add(CIntroTask::instance(), 1000);
+	}
 
 	reset();
 }
@@ -145,8 +167,8 @@ void CWWTask::m_error() {
 	m_DoError = false;
 }
 
-std::string CWWTask::name() { 
-	return "CWWTask"; 
+std::string CWWTask::name() {
+	return "CWWTask";
 }
 
 CInputController &CWWTask::controller() const {

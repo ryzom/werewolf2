@@ -89,7 +89,7 @@ CSimulationImpl *getServerSimulation() {
 WWCOMMON::ISimulationObj *CSimulationImpl::initSob(std::string name) {
 	CActor *sob=dynamic_cast<CActor *>(getNewSob("sobActor"));
 	sob->setOwnerSobId(m_RootSob->getSobId());
-	
+
 	// put it in our manager
 	m_ActorManager->addSob(sob);
 
@@ -193,9 +193,10 @@ void CSimulationImpl::detachUser(uint32 uid, uint32 sobid) {
 }
 
 void CSimulationImpl::init() {
+
 	std::string retBankName, globRetBank;
 	NLMISC::CConfigFile ConfigFile=NLNET::IService::getInstance()->ConfigFile;
-	
+
 	retBankName=ConfigFile.getVar("RetrieverBankName").asString();
 	globRetBank=ConfigFile.getVar("GlobalRetrieverName").asString();
 
@@ -207,7 +208,7 @@ void CSimulationImpl::init() {
 	if(m_RetrieverBank == NULL)
 		nlinfo("Retriever bank creation failed!");
 	m_GlobalRetriever = NLPACS::UGlobalRetriever::createGlobalRetriever(globRetBank.c_str(), m_RetrieverBank);
-	
+
 	nlinfo("Create Move Container.");
 	m_MoveContainer = NLPACS::UMoveContainer::createMoveContainer(m_GlobalRetriever, 100, 100, 6.0);
 
