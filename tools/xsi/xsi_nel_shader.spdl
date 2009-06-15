@@ -1,0 +1,627 @@
+SPDL
+Version = "2.0.0.0";
+Reference = "{4A1239DE-90E5-4d75-9AE6-B77034055F05}";
+PropertySet "nel_xsi_shader_params"
+{
+	Parameter "out" output
+	{
+		title = "nel_xsi_shader output parameter";
+		guid = "{4C6879FF-7EC8-11D0-8E3B-00A0C90640EC}";
+		type = color;
+		flags = 0;
+	}
+	Parameter "ambient_light_color" input
+	{
+		title = "Ambient";
+		guid = "{B7878ABC-BA61-4aa8-891D-E2D16221471B}";
+		type = color;
+		flags = 0;
+		texturable = on;
+		value = 0.5 0.5 0.5 0.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "diffuse_light_color" input
+	{
+		title = "Diffuse";
+		guid = "{9A56871C-E8DE-44a6-BA8B-4013A768FF83}";
+		type = color;
+		flags = 0;
+		texturable = on;
+		value = 0.5 0.5 0.5 0.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "emissive_light_color" input
+	{
+		title = "Emissive";
+		guid = "{769163A0-2252-48ba-B758-6AA787C8C873}";
+		type = color;
+		flags = 0;
+		texturable = on;
+		value = 0.5 0.5 0.5 0.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "specular_light_color" input
+	{
+		title = "Specular";
+		guid = "{E0B05414-4639-48d2-8938-ED6C3C733095}";
+		type = color;
+		flags = 0;
+		texturable = on;
+		value = 0.9 0.9 0.9 0.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "specular_glossiness" input
+	{
+		title = "Glossiness";
+		guid = "{E11A2787-F51F-46f5-BA28-08D115FE2B58}";
+		type = integer;
+		flags = 0;
+		texturable = on;
+		value = 10;
+		value minimum = 0;
+		value maximum = 100;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "transparency_color" input
+	{
+		title = "Transparency";
+		guid = "{086B8F77-7090-4a6b-8962-FA0D28D66D60}";
+		type = color;
+		flags = 0;
+		texturable = on;
+		value = 0.0 0.0 0.0 0.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "reflection_color" input
+	{
+		title = "Reflection";
+		guid = "{AA98242A-A949-49c0-ABE9-1F176157880F}";
+		type = color;
+		flags = 0;
+		texturable = on;
+		value = 0.0 0.0 0.0 0.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "ior" input
+	{
+		title = "IOR";
+		guid = "{637F0900-3291-4294-BE06-EC20CAA17CFF}";
+		type = scalar;
+		flags = 0;
+		texturable = on;
+		value = 1.0;
+		value minimum = 0;
+		value maximum = 5.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "shader" input
+	{
+		title = "Shader Selection";
+		guid = "{18056671-37F7-4dfe-ABC9-5D590DCE59B0}";
+		type = integer;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "unlighted" input
+	{
+		title = "Unlighted";
+		guid = "{ABA03683-75E4-484f-8FE6-BEABE3B6E700}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "lightmap_texture_channel" input
+	{
+		title = "Lightmap Texture Channel";
+		guid = "{A1ED8CE5-D66D-410e-B577-B4E09706C5B4}";
+		type = integer;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		value minimum = 0;
+		value maximum = 100;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "lightmap_stained_glass_window" input
+	{
+		title = "Stained Glass Window Lightmap";
+		guid = "{DDD68FD0-B532-4849-A6A3-2F1508D71FA8}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "color_vertex" input
+	{
+		title = "Color Vertex";
+		guid = "{E1981438-96B8-4ecc-8240-C571B8DF3374}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "opacity" input
+	{
+		title = "Opacity";
+		guid = "{F6C78944-EFF8-421d-A614-477737BB2AD2}";
+		type = scalar;
+		flags = 0;
+		texturable = on;
+		value = 1.0;
+		value minimum = 0.0;
+		value maximum = 1.0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "alpha_blend" input
+	{
+		title = "Alpha Blend";
+		guid = "{1D130EF4-E59B-4a45-B476-056B486F3B39}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "blend_source" input
+	{
+		title = "Blend Source";
+		guid = "{02D01D96-A754-4a23-BA17-A9E57C5C8E21}";
+		type = integer;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "blend_destination" input
+	{
+		title = "Blend Source";
+		guid = "{F2D9806F-EF76-4ef9-9E9B-9AB32760F456}";
+		type = integer;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "alpha_test" input
+	{
+		title = "Alpha Test";
+		guid = "{0C74320B-A7A1-44d7-978F-9BF76733FE45}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "alpha_vertex" input
+	{
+		title = "Alpha Test";
+		guid = "{E12F5330-C6D1-492b-8159-400B36A61F3F}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "alpha_vertex_channel" input
+	{
+		title = "Alpha Test";
+		guid = "{21300574-51EE-4b2c-A5A7-46C3FCC912E0}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		value minimum = 0;
+		value maximum = 100;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "z_bias" input
+	{
+		title = "Z Bias";
+		guid = "{806858EF-6A4D-4060-A668-3A05BC1AC3AA}";
+		type = integer;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		value minimum = -100;
+		value maximum = 100;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "force_z_write" input
+	{
+		title = "Force Z Write";
+		guid = "{2E048220-D27E-409b-AD79-231E774DEEA4}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+	Parameter "no_z_write" input
+	{
+		title = "No Z Write";
+		guid = "{D70DCE83-C393-4244-90E1-CDF37E8D6B78}";
+		type = boolean;
+		flags = 0;
+		texturable = on;
+		value = 0;
+		writable = on;
+		animatable = on;
+		persistable = on;
+		readable = on;
+		inspectable = on;
+	}
+}
+phenomenon "nel_xsi_shader_declare"
+{
+	Name = "nel_xsi_shader";
+	Version = 1;
+	Use = material;
+}
+BEGIN "{24810490-56FF-11d2-BF23-00A0C982CE5D}"
+Defaults
+{
+	ambient_light_color
+	{
+		Name = "Ambient";
+		Description = "Ambient Light Color";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "rgb",4;
+	}
+	diffuse_light_color
+	{
+		Name = "Diffuse";
+		Description = "Diffuse Light Color";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "rgb",4;
+	}
+	emissive_light_color
+	{
+		Name = "Emissive";
+		Description = "Emissive Light Color";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "rgb",4;
+	}
+	specular_light_color
+	{
+		Name = "Specular";
+		Description = "Specular Light Color";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "rgb",4;
+	}
+	specular_glossiness
+	{
+		Name = "Glossiness";
+		Description = "Specular Glossiness";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIRange = 0 to 100 by 1;
+		UIType = "Number";
+	}
+	transparency_color
+	{
+		Name = "Transparency";
+		Description = "Transparency Color";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "rgb",4;
+	}
+	reflection_color
+	{
+		Name = "Reflection";
+		Description = "Reflection Color";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "rgb",4;
+	}
+	ior
+	{
+		Name = "IOR";
+		Description = "IOR";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIRange = 0.0 to 5.0 by 0.1;
+		UIType = "Scalar";
+	}
+	shader
+	{
+		Name = "Shader Type";
+		Description = "Shader Type Selection";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "Combo";
+		Items
+		{
+			"Normal" = 0,
+			"Bump" = 1,
+			"UserColor" = 2,
+			"LightMap" = 3,
+			"Specular" = 4,
+			"Caustics" = 5,
+			"Per Pixel Lighting" = 6,
+			"Per Pixel Lighting ( No Specular )" = 7,
+			"Cloud" = 8,
+			"Water" = 9,
+		}
+	}
+	unlighted
+	{
+		Name = "Unlighted";
+		Description = "Unlighted";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+	lightmap_texture_channel
+	{
+		Name = "Lightmap Texture Channel";
+		Description = "Lightmap Texture Channel";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIRange = 0 to 100 by 1;
+		UIType = "Number";
+	}
+	lightmap_stained_glass_window
+	{
+		Name = "Stained Glass Window Lightmap";
+		Description = "Stained Glass Window Lightmap";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+	color_vertex
+	{
+		Name = "Color Vertex";
+		Description = "Color Vertex";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+	opacity
+	{
+		Name = "Alpha Opacity";
+		Description = "Alpha Opacity";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIRange = 0.0 to 1.0 by 0.001;
+		UIType = "Scalar";
+	}
+	alpha_blend
+	{
+		Name = "Alpha Blend";
+		Description = "Alpha Blend";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+	blend_source
+	{
+		Name = "Blend Source";
+		Description = "Blend Source";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "Combo";
+		Items
+		{
+			"One" = 0,
+			"Zero" = 1,
+			"Source Alpha" = 2,
+			"Inverse Source Alpha" = 3,
+			"Source RGB" = 4,
+			"Inverse Source RGB" = 5,
+			"Desitnation Alpha" = 6,
+			"Inverse Destination Alpha" = 7,
+			"Destination RGB" = 8,
+			"Inverse Destination RGB" = 9,
+		}
+	}
+	blend_destination
+	{
+		Name = "Blend Destination";
+		Description = "Blend Destination";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "Combo";
+		Items
+		{
+			"One" = 0,
+			"Zero" = 1,
+			"Source Alpha" = 2,
+			"Inverse Source Alpha" = 3,
+			"Source RGB" = 4,
+			"Inverse Source RGB" = 5,
+			"Destination Alpha" = 6,
+			"Inverse Destination Alpha" = 7,
+			"Destination RGB" = 8,
+			"Inverse Destination RGB" = 9,
+		}
+	}
+	alpha_test
+	{
+		Name = "Alpha Test";
+		Description = "Alpha Test";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+	alpha_vertex
+	{
+		Name = "Alpha Vertex";
+		Description = "Alpha Vertex";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+	alpha_vertex_channel
+	{
+		Name = "Alpha Vertex Channel";
+		Description = "Alpha Vertex Channel";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIRange = 0 to 100 by 1;
+		UIType = "Number";
+	}
+	z_bias
+	{
+		Name = "Z Bias";
+		Description = "Z Bias";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIRange = -100 to 100 by 1;
+		UIType = "Number";
+	}
+	force_z_write
+	{
+		Name = "Force Z Write";
+		Description = "Force Z Write";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+	no_z_write
+	{
+		Name = "Disable Z Write";
+		Description = "Disable Z Write";
+		Commands = "{F5C75F11-2F05-11d3-AA95-00AA0068D2C0}";
+		UIType = "boolean";
+	}
+
+}
+Layout "Default"
+{
+	Tab "NeL Basic"
+	{
+		Group "Illumination"
+		{
+			diffuse_light_color;
+			ambient_light_color;
+			emissive_light_color;
+		}
+		Group "Specular"
+		{
+			specular_light_color;
+			specular_glossiness;
+		}
+	}
+	Tab "XSI Basic"
+	{
+		Group "Reflection"
+		{
+			reflection_color;
+		}
+		Group "Transparency"
+		{
+			transparency_color;
+			ior;
+		}
+	}
+	Tab "NeL Material"
+	{
+		Group "Shader"
+		{
+			shader;
+		}
+		Group "Light"
+		{
+			unlighted;
+			lightmap_texture_channel;
+			lightmap_stained_glass_window;
+			color_vertex;
+		}
+		Group "Alpha"
+		{
+			opacity;
+			alpha_blend;
+			blend_source;
+			blend_destination;
+			alpha_test;
+			alpha_vertex;
+			alpha_vertex_channel;
+		}
+		Group "Z Buffer"
+		{
+			z_bias;
+			force_z_write;
+			no_z_write;
+		}
+	}
+}
+Logic
+{
+}
+END
