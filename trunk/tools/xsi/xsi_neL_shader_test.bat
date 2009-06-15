@@ -1,0 +1,1 @@
+spdlcheck.exe "./Release/xsi_nel_shader/xsi_nel_shader.spdl"

@@ -1,0 +1,16 @@
+EXPORTS
+	XSILoadPlugin						@1	PRIVATE
+	XSIUnloadPlugin						@2	PRIVATE
+	NeLTools_Init						@3	PRIVATE
+	NeLTools_Term						@4	PRIVATE
+	onBuildMRMInterface					@5	PRIVATE
+	onClearMRMInterface					@6	PRIVATE
+	onEditNeLProperties					@7	PRIVATE
+	onClearNeLProperties				@8	PRIVATE
+	onAddNeLMaterial					@9	PRIVATE
+	onExportObjectToNeL					@10	PRIVATE
+	onExportAnimationToNeL				@11	PRIVATE
+	onExportSkeletonToNeL				@12	PRIVATE
+	NeLProperties_Define				@21 PRIVATE
+	NeLProperties_DefineLayout			@22 PRIVATE
+	NeLProperties_PPGEvent				@23 PRIVATE
