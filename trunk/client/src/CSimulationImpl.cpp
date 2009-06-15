@@ -151,8 +151,8 @@ void CSimulationImpl::spawnSelf(WWCOMMON::CSobSpawnEvent *event) {
 	sob->addController(new CInteractiveSobController(sob));
 	// handlers are global and should come from the factory
 	sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_CLIENT_MOTION));
-//	sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_MOTION));
-//	sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_MOTION_REQUEST));
+	sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_MOTION));
+	sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_MOTION_REQUEST));
 }
 
 void CSimulationImpl::addSob(WWCOMMON::CSobAddEvent *event) {
@@ -246,7 +246,7 @@ void CSimulationImpl::recvPing(double serverTimeStamp, double localTimeStamp) {
 		nlinfo("Stopped pinging.");
 	}
 
-	nlinfo("I think the server time is: %1f", time() + m_OffsetTime);
+	//nlinfo("I think the server time is: %1f", time() + m_OffsetTime);
 }
 
 void CSimulationImpl::sendPing() {

@@ -224,8 +224,6 @@ void CNetworkTask::sendChat(std::string chatLine) {
 }
 
 void CNetworkTask::send(NLNET::CMessage msgout) {
-	nlinfo("Sending message to server.");
-
 	m_Client->send(msgout);
 }
 
