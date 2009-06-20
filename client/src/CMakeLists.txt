@@ -1,11 +1,36 @@
-FILE(GLOB SRC *.cpp *.h controllers/*.cpp controllers/*.h entities/*.cpp entities/*.h interfaces/*.cpp interfaces/*.h listeners/*.cpp listeners/*.h selectors/*.cpp selectors/*.h tasks/*.cpp tasks/*.h views/*.cpp views/*.h)
+FILE(GLOB SRC *.cpp *.h)
+FILE(GLOB TASK_SRC tasks/*.cpp tasks/*.h)
+FILE(GLOB CTRLR_SRC controllers/*.cpp controllers/*.h)
+FILE(GLOB ENTITY_SRC entities/*.cpp entities/*.h)
+FILE(GLOB IFACES_SRC interfaces/*.cpp interfaces/*.h)
+FILE(GLOB LISTENERS_SRC listeners/*.cpp listeners/*.h)
+FILE(GLOB SELECTOR_SRC selectors/*.cpp selectors/*.h)
+FILE(GLOB VIEW_SRC views/*.cpp views/*.h)
+FILE(GLOB RESOURCES_RC *.rc)
 
 DECORATE_NEL_LIB("wwcommon")
 SET(WWCOMMON_LIB ${LIBNAME})
 
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
-ADD_EXECUTABLE(werewolf ${SRC})
+SOURCE_GROUP(Tasks FILES ${TASK_SRC})
+SOURCE_GROUP(Controllers FILES ${CTRLR_SRC})
+SOURCE_GROUP(Entities FILES ${ENTITY_SRC})
+SOURCE_GROUP(Interfaces FILES ${IFACES_SRC})
+SOURCE_GROUP(Listeners FILES ${LISTENERS_SRC})
+SOURCE_GROUP(Selectors FILES ${SELECTOR_SRC})
+SOURCE_GROUP(Views FILES ${VIEW_SRC})
+SOURCE_GROUP(Resources FILES ${RESOURCES_RC})
+
+ADD_EXECUTABLE(werewolf		${SRC}
+							${TASK_SRC}
+							${CTRLR_SRC}
+							${ENTITY_SRC}
+							${IFACES_SRC}
+							${LISTENERS_SRC}
+							${SELECTOR_SRC}
+							${VIEW_SRC}
+							${RESOURCES_RC})
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 

@@ -66,6 +66,11 @@ using namespace std;
 using namespace NL3D;
 using namespace NLMISC;
 
+#ifdef NL_OS_WINDOWS
+#include "resource.h"
+extern HINSTANCE ghInstance;
+#endif // NL_OS_WINDOWS
+
 namespace WWCLIENT {
 
 void C3DTask::init() {
