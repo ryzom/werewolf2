@@ -81,10 +81,6 @@ CGameEventServer::~CGameEventServer() {
 	}
 }
 
-void CGameEventServer::Register(RegisterEventFn func, const std::string& EventClassName) {
-	m_Unused=func(EventClassName);
-}
-
 void CGameEventServer::addListener(IGameEventListener* listener, EListenerType type) {
 	addListener(listener, m_GlobalListeners, type);
 }

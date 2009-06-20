@@ -48,9 +48,6 @@
 namespace WWCOMMON {
 const uint16 CSobDREvent::CSobDREventID = ISobEventID + 2;
 
-/// Register the event with the class registry.
-WWCOMMON_REGISTER_EVENT(CSobDREvent);
-
 CSobDREvent::CSobDREvent() : ISobEvent() {
 	m_ID = CSobDREvent::CSobDREventID;
 }

@@ -49,8 +49,6 @@ namespace WWCOMMON {
 
 const uint16 CSobStrafeEvent::CSobStrafeEventID = ISobEventID + 5;
 
-/// Register the event with the class registry.
-WWCOMMON_REGISTER_EVENT(CSobStrafeEvent);
 
 CSobStrafeEvent::CSobStrafeEvent() : ISobStateChangeEvent() {
 	m_ID = CSobStrafeEvent::CSobStrafeEventID;

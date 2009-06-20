@@ -63,8 +63,6 @@ public:
 	// TODO henri:everyone figure out what fields to put here
 
 protected:
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobUnspawnEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

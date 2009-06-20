@@ -106,9 +106,6 @@ public:
 	void postEvent(IGameEvent* event);
 	void processEventQueue();
 
-	typedef bool (*RegisterEventFn)(const std::string&);
-	void Register(RegisterEventFn func, const std::string& EventClassName);
-
 	void setDeltaMultiplier(double multiplier) {
 		m_DeltaMultiplier = multiplier;
 	}

@@ -64,8 +64,7 @@ public:
 	virtual void serial(NLMISC::IStream &f);
 
 protected:
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobOrientEvent);
+
 };
 
 }; // END OF NAMESPACE WWCOMMON

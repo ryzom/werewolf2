@@ -69,8 +69,6 @@ public:
 protected:
 	bool hasTimestamp() const;
 
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(ISobStateChangeEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

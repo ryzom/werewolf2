@@ -81,8 +81,6 @@ protected:
 //~ Instance fields ****************************************
 	uint16					m_ID;
 
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(IGameEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

@@ -54,7 +54,7 @@ namespace WWCOMMON {
  */
 class CGameUnspawnRequestEvent : public IGameEvent {
 public:
-	static const uint16 CGameUnspawnRequestEventID = IGameEventID + 2;
+	static const uint16 CGameUnspawnRequestEventID;
 	NLMISC_DECLARE_CLASS(CGameUnspawnRequestEvent);
 
 	CGameUnspawnRequestEvent();
@@ -71,8 +71,6 @@ public:
 protected:
 	uint32 m_PlayerID;
 
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CGameUnspawnRequestEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

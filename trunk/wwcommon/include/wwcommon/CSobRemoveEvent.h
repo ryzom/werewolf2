@@ -62,9 +62,6 @@ public:
 //~ Instance fields ****************************************
 	// I do not think this needs any more instance fields. The target just removes the source.
 
-protected:
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobRemoveEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

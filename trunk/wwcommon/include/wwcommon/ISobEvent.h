@@ -72,8 +72,6 @@ public:
 protected:
 	ISobEvent();
 
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(ISobEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

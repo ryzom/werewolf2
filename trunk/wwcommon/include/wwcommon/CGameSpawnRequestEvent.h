@@ -70,9 +70,6 @@ public:
 
 protected:
 	uint32 m_PlayerID;
-
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CGameSpawnRequestEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

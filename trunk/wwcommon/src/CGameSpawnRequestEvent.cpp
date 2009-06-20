@@ -50,7 +50,7 @@ namespace WWCOMMON {
 const uint16 CGameSpawnRequestEvent::CGameSpawnRequestEventID = IGameEventID + 1;
 
 /// Register the event with the class registry.
-WWCOMMON_REGISTER_EVENT(CGameSpawnRequestEvent);
+
 
 CGameSpawnRequestEvent::CGameSpawnRequestEvent() : IGameEvent(), m_PlayerID(0) {
 	m_ID = CGameSpawnRequestEvent::CGameSpawnRequestEventID;

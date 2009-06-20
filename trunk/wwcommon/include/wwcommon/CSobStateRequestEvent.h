@@ -68,8 +68,7 @@ public:
 	uint32					TargetState;
 
 protected:
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobStateRequestEvent);
+
 };
 
 }; // END OF NAMESPACE WWCOMMON

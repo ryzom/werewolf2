@@ -72,8 +72,7 @@ public:
 	double					DrTime;
 
 protected:
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobDREvent);
+
 };
 
 }; // END OF NAMESPACE WWCOMMON
