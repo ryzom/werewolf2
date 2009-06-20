@@ -67,6 +67,8 @@ uint NetworkThreadId = 0;
 
 
 #ifdef NL_OS_WINDOWS
+HINSTANCE ghInstance;
+
 int WINAPI WinMain( HINSTANCE hInstance,
 									 HINSTANCE hPrevInstance,
 									 LPSTR lpCmdLine,
@@ -82,7 +84,7 @@ int main(int argc, char **argv)
 
 	// extract the 2 first param (argv[1] and argv[2]) it must be cookie and addr
 
-	string cmd = cmdline;
+	std::string cmd = lpCmdLine;
 	int pos1 = cmd.find_first_not_of (' ');
 	int pos2;
 	if (pos1 != string::npos)
