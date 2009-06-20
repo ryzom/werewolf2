@@ -47,8 +47,6 @@
 
 namespace WWCOMMON {
 
-/// Register the event with the class registry.
-WWCOMMON_REGISTER_EVENT(ISobStateChangeEvent);
 
 ISobStateChangeEvent::ISobStateChangeEvent() : ISobEvent() {
 	m_ID = ISobStateChangeEvent::ISobStateChangeEventID;

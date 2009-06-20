@@ -47,9 +47,6 @@
 
 namespace WWCOMMON {
 
-/// Register the event with the class registry.
-WWCOMMON_REGISTER_EVENT(ISobEvent);
-
 ISobEvent::ISobEvent() : IGameEvent() {
 	m_ID = ISobEvent::ISobEventID;
 }

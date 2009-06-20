@@ -74,11 +74,6 @@ public:
 	float					YawVelocity;
 	std::string				EMD;
 	std::vector<uint32>		ActiveStateList;
-
-
-protected:
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobAddEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

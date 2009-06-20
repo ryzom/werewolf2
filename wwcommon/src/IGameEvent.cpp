@@ -47,9 +47,6 @@
 
 namespace WWCOMMON {
 
-/// Register the event with the class registry.
-WWCOMMON_REGISTER_EVENT(IGameEvent);
-
 IGameEvent::IGameEvent() : m_ID(IGameEvent::IGameEventID), Timestamp(0) {
 	;
 }

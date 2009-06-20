@@ -69,10 +69,6 @@ public:
 	// TODO henri:everyone figure out what fields to put here
 	NLMISC::CVector Position;
 	std::string EMD;
-
-protected:
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobSpawnEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON

@@ -49,9 +49,6 @@ namespace WWCOMMON {
 
 const uint16 CSobOrientEvent::CSobOrientEventID = ISobEventID + 4;
 
-/// Register the event with the class registry.
-WWCOMMON_REGISTER_EVENT(CSobOrientEvent);
-
 CSobOrientEvent::CSobOrientEvent() : ISobStateChangeEvent() {
 	m_ID = CSobOrientEvent::CSobOrientEventID;
 }

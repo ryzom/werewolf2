@@ -46,10 +46,12 @@
 //
 // Werewolf Includes
 //
-#ifdef NL_OS_WINDOWS
+//#ifdef NL_OS_WINDOWS
 	// include this so that we link correctly to wwcommon
-	#include <wwcommon/stdpragma.h>
-#endif // NL_OS_WINDOWS
+//	#include <wwcommon/stdpragma.h>
+//#endif // NL_OS_WINDOWS
+
+#include <wwcommon/CGameEventRegistrar.h>
 
 #include "CFrontendService.h"
 #include "CCharacterManager.h"
@@ -163,6 +165,9 @@ void CFrontendService::init() {
 	{
 		nlinfo("CSimulationImpl is already registered.");
 	}
+
+	// Register game/sob events.
+	WWCOMMON::registerEvents();
 
 	// set up data path
 	NLMISC::CPath::addSearchPath("server-data", true, false);

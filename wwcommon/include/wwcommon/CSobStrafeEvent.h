@@ -65,8 +65,6 @@ public:
 
 protected:
 
-	/// Register this object with the class registry.
-	WWCOMMON_SETUP_EVENT(CSobStrafeEvent);
 };
 
 }; // END OF NAMESPACE WWCOMMON
