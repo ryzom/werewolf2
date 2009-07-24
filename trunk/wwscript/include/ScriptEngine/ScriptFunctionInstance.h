@@ -29,7 +29,6 @@
 //
 // Standard Includes
 //
-#include <hash_map>
 
 //
 // System Includes
@@ -64,7 +63,7 @@ public:
 	void execute();
 	void reset();
 
-	typedef std::hash_map<const char*, ScriptVariable*, std::hash<const char*>, streqpred> argInstMap;
+	typedef CHashMap<const char*, ScriptVariable*, streqpred> argInstMap;
 
 	ScriptVariable* getArg(const char* name);
 	argInstMap::iterator begin();

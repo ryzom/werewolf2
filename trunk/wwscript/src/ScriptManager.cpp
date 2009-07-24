@@ -60,8 +60,10 @@ ScriptManager::ScriptManager() {
 	}
 
 	// The script compiler will send any compiler messages to the outstream
-	asCOutputStream out;
-	m_engine->SetCommonMessageStream(&out);
+	//asCOutputStream out;
+	asCOutStream out;
+	//m_engine->SetCommonMessageStream(&out);
+	m_engine->SetMessageCallback(asMETHOD(asCOutStream,Callback), &out, asCALL_THISCALL);
 	RegisterScriptString(m_engine);
 };
 
