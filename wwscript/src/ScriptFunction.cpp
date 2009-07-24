@@ -64,7 +64,7 @@ ScriptFunction::ScriptFunction(const TScriptFunction func, Script* parent) {
 	}
 
 	asIScriptEngine* engine = ScriptManager::instance().getEngine();
-	m_id = engine->GetFunctionIDByName(parent->getName().c_str(), m_name.c_str());
+	m_id = engine->GetModule(parent->getName().c_str(), asGM_ONLY_IF_EXISTS)->GetFunctionIdByName(m_name.c_str());
 }
 
 ScriptFunction::~ScriptFunction() {

@@ -320,7 +320,7 @@ void RegisterScriptString(asIScriptEngine *engine)
 	int r;
 
 	// Register the type
-	r = engine->RegisterObjectType("string", sizeof(asCScriptString), asOBJ_CLASS_CDA); assert( r >= 0 );
+	r = engine->RegisterObjectType("string", sizeof(asCScriptString), asOBJ_APP_CLASS_CDA); assert( r >= 0 );
 
 	// Register the object operator overloads
 	// Note: We don't have to register the destructor, since the object uses reference counting
@@ -332,8 +332,9 @@ void RegisterScriptString(asIScriptEngine *engine)
 
 	// Register the memory allocator routines. This will make all memory allocations for the string 
 	// object be made in one place, which is important if for example the script library is used from a dll
-	r = engine->RegisterObjectBehaviour("string", asBEHAVE_ALLOC, "string &f(uint)", asFUNCTION(StringAlloc), asCALL_CDECL); assert( r >= 0 );
-	r = engine->RegisterObjectBehaviour("string", asBEHAVE_FREE, "void f(string &in)", asFUNCTION(StringFree), asCALL_CDECL); assert( r >= 0 );
+	// TODO in 2.11.0 (2007/11/30) these two behaviors were removed. Are there replacements?
+	//r = engine->RegisterObjectBehaviour("string", asBEHAVE_ALLOC, "string &f(uint)", asFUNCTION(StringAlloc), asCALL_CDECL); assert( r >= 0 );
+	//r = engine->RegisterObjectBehaviour("string", asBEHAVE_FREE, "void f(string &in)", asFUNCTION(StringFree), asCALL_CDECL); assert( r >= 0 );
 
 	// Register the factory to return a handle to a new string
 	// Note: We must register the string factory after the basic behaviours, 

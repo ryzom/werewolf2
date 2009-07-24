@@ -80,10 +80,11 @@ Script::Script(TScriptLoader script) {
 	}
 
 	asIScriptEngine* engine = ScriptManager::instance().getEngine();
+	asIScriptModule* mod = engine->GetModule(m_name.c_str(), asGM_CREATE_IF_NOT_EXISTS);
 
 	// Compile the script
-	engine->AddScriptSection(m_name.c_str(), m_section.c_str(), scriptContent.c_str(), scriptContent.size());
-	engine->Build(m_name.c_str());
+	mod->AddScriptSection(m_section.c_str(), scriptContent.c_str(), scriptContent.size());
+	mod->Build();
 
 	// Add functions
 	TScriptLoader::FunctionVector::iterator itr=script.ScriptFunctions.begin();

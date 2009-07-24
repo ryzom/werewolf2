@@ -30,7 +30,6 @@
 // Standard Includes
 //
 #include <string>
-#include <hash_map>
 
 //
 // System Includes
@@ -92,7 +91,7 @@ public:
 
 		ScriptArg::eType find(std::string name) const;
 
-		typedef std::hash_map<const char *, ScriptArg::eType, std::hash<const char *>, streqpred> TypeMap;
+		typedef CHashMap<const char *, ScriptArg::eType, streqpred> TypeMap;
 //		typedef std::pair<const char*, ScriptArg::eType> typePair;
 
 	private:

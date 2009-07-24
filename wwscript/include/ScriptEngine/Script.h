@@ -30,7 +30,6 @@
 // Standard Includes
 //
 #include <string>
-#include <hash_map>
 
 //
 // System Includes
@@ -60,7 +59,7 @@ public:
 
 	~Script();
 
-	typedef std::hash_map<const char*, ScriptFunction*, std::hash<const char*>, streqpred> functionMap;
+	typedef CHashMap<const char*, ScriptFunction*, streqpred> functionMap;
 	// typedef std::pair<const char*, ScriptFunction*> functionPair;
 
 	const std::string& getName() const;

@@ -29,7 +29,6 @@
 //
 // Standard Includes
 //
-#include <hash_map>
 #include <string>
 
 //
@@ -58,11 +57,22 @@
 
 namespace WWSCRIPT {
 
+/*
 class WWSCRIPT_API asCOutputStream : public asIOutputStream
 {
 public:
 	void Write(const char *text) { nlinfo("%s", text); }
+}; */
+
+class WWSCRIPT_API asCOutStream {
+public:
+	void Callback(asSMessageInfo *msg) {
+		if(msg->type == 0) nlerror("%s (%d, %d) : %s\n", msg->section, msg->row, msg->col, msg->message);
+		if(msg->type == 1) nlerror("%s (%d, %d) : %s\n", msg->section, msg->row, msg->col, msg->message);
+		if(msg->type == 2) nlinfo("%s (%d, %d) : %s\n", msg->section, msg->row, msg->col, msg->message);
+	}
 };
+ 
 
 class WWSCRIPT_API ScriptManager : public WWCOMMON::ISingleton<ScriptManager> {
 public:
@@ -72,7 +82,7 @@ public:
 
 	bool initializeScripts();
 
-	typedef std::hash_map<const char*, Script*, std::hash<const char*>, streqpred> scriptMap;
+	typedef CHashMap<const char*, Script*, streqpred> scriptMap;
 	// typedef std::pair<const char*, Script*> scriptPair;
 
 	scriptMap::const_iterator begin() const;

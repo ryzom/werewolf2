@@ -6,6 +6,15 @@
 
 struct streqpred
 {
+   size_t operator()(const char *a) const
+   {
+	unsigned long h = 0; 
+	for ( ; *a; ++a)
+	h = 5*h + *a;
+     
+	return size_t(h);
+   }
+
    bool operator()(const char* a, const char* b) const
    {
       return strcmp(a, b) == 0;
@@ -19,20 +28,5 @@ struct stdstreqpred
       return a == b;
    }
 };
-
-_STLP_BEGIN_NAMESPACE
-
-_STLP_TEMPLATE_NULL struct hash<std::string>
-{
-	size_t operator()(std::string __s) const {
-		unsigned long __h = 0; 
-		for (unsigned int i = 0; i < __s.length(); ++i)
-			__h = 5*__h + __s[i];
-
-		return size_t(__h);
-	}
-};
-
-_STLP_END_NAMESPACE
 
 #endif // __GENERAL_H__
