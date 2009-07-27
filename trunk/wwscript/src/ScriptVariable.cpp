@@ -40,8 +40,8 @@
 //
 // Werewolf Includes
 //
-#include "ScriptEngine/ScriptVariable.h"
-#include "ScriptEngine/ScriptArg.h"
+#include "wwscript/ScriptEngine/ScriptVariable.h"
+#include "wwscript/ScriptEngine/ScriptArg.h"
 
 //
 // Namespaces

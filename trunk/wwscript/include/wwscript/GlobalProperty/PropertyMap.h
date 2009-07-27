@@ -29,7 +29,6 @@
 //
 // Standard Includes
 //
-#include <hash_map>
 
 //
 // System Includes
@@ -43,9 +42,9 @@
 //
 // Werewolf Includes
 //
-#include "GlobalProperty/IProperty.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
+#include "IProperty.h"
+#include "wwscript/ScriptEngine/general.h"
+#include "wwscript/ScriptEngine/ScriptEngineDefs.h"
 
 //
 // Namespaces
@@ -55,7 +54,7 @@ namespace WWSCRIPT {
 
 class WWSCRIPT_API PropertyMap : public NLMISC::CRefCount {
 public:
-	typedef std::hash_map<const char*, IProperty*, std::hash<const char*>, streqpred> propMap;
+	typedef CHashMap<const char*, IProperty*, streqpred> propMap;
 
 	PropertyMap() {};
 	PropertyMap(std::string file);

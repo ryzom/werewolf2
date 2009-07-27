@@ -41,9 +41,9 @@
 //
 // Werewolf Includes
 //
-#include "ScriptEngine/ScriptManager.h"
-#include "ScriptEngine/ScriptLoader.h"
-#include "ScriptBindings/ScriptNelBindery.h"
+#include "wwscript/ScriptEngine/ScriptManager.h"
+#include "wwscript/ScriptEngine/ScriptLoader.h"
+#include "wwscript/ScriptBindings/ScriptNelBindery.h"
 
 //
 // Namespaces

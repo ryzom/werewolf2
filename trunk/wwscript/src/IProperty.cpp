@@ -1,5 +1,5 @@
 /**
- * \file ScriptFunction.h
+ * \file IProperty.cpp
  * \date February 2006
  * \author Henri Kuuste
  * \author Matt Raykowski
@@ -23,17 +23,16 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
  * MA 02111-1307, USA.
  */
-#ifndef __SCRIPTFUNCTION_H__
-#define __SCRIPTFUNCTION_H__
 
 //
 // Standard Includes
 //
-#include <string>
+#include "stdpch.h"
 
 //
 // System Includes
 //
+#include <stdio.h>
 #include <angelscript.h>
 
 //
@@ -43,10 +42,15 @@
 //
 // Werewolf Includes
 //
-#include "ScriptArg.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
-#include "ScriptLoader.h"
+#include "wwscript/ScriptEngine/ScriptManager.h"
+#include "wwscript/GlobalProperty/IProperty.h"
+#include "wwscript/GlobalProperty/ConstantFloatProperty.h"
+#include "wwscript/GlobalProperty/ConstantIntProperty.h"
+//#include "wwscript/GlobalProperty/CgGLEnumMatrixProperty.h"
+#include "wwscript/GlobalProperty/FloatProperty.h"
+#include "wwscript/GlobalProperty/FloatArrayProperty.h"
+
+#include "wwscript/ScriptEngine/ScriptVariable.h"
 
 //
 // Namespaces
@@ -54,33 +58,24 @@
 
 namespace WWSCRIPT {
 
-class Script;
-class ScriptFunctionInstance;
+void ConstantFloatProperty::setScriptParameter(ScriptVariable* var) {
+	// TODO: IMPLEMENT ME DECENTLY 
+	var->setValue(*m_value);
+}
 
-class WWSCRIPT_API ScriptFunction {
-public:
-	ScriptFunction(TScriptFunction func, Script* parent);
-	~ScriptFunction();
+void ConstantIntProperty::setScriptParameter(ScriptVariable* var) {
+	// TODO: IMPLEMENT ME DECENTLY 
+	var->setValue(*m_value);
+}
 
-	typedef CHashMap<const char*, ScriptArg*, streqpred> ArgMap;
-	// typedef std::pair<const char*, ScriptArg*> argPair;
+void FloatProperty::setScriptParameter(ScriptVariable* var) {
+	// TODO: IMPLEMENT ME DECENTLY
+	var->setValue(*((*m_func)()));
+}
 
-	const std::string& getName() const;
-	int getId() const;
-	const ScriptArg* getArgument(const char* name) const;
-	ArgMap::const_iterator begin() const;
-	ArgMap::const_iterator end() const;
 
-	ScriptArg::eType getRetValType() const;
-	ScriptFunctionInstance* getInstance() const;
+void FloatArrayProperty::setScriptParameter(ScriptVariable* var) {
+	// TODO: IMPLEMENT ME
+}
 
-private:
-	std::string m_name;
-	int m_id;
-	ArgMap m_args;
-	ScriptArg::eType m_return;
-};
-
-}; // END NAMESPACE WWSCRIPT
-
-#endif // __SCRIPTFUNCTION_H__
+}; // END OF NAMESPACE WWSCRIPT

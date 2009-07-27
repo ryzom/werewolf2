@@ -1,5 +1,5 @@
 /**
- * \file ScriptFunction.h
+ * \file FloatArrayProperty.h
  * \date February 2006
  * \author Henri Kuuste
  * \author Matt Raykowski
@@ -23,18 +23,16 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
  * MA 02111-1307, USA.
  */
-#ifndef __SCRIPTFUNCTION_H__
-#define __SCRIPTFUNCTION_H__
+#ifndef __FLOATARRAYPROPERTY_H__
+#define __FLOATARRAYPROPERTY_H__
 
 //
 // Standard Includes
 //
-#include <string>
 
 //
 // System Includes
 //
-#include <angelscript.h>
 
 //
 // NeL Includes
@@ -43,10 +41,7 @@
 //
 // Werewolf Includes
 //
-#include "ScriptArg.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
-#include "ScriptLoader.h"
+#include "IProperty.h"
 
 //
 // Namespaces
@@ -54,33 +49,18 @@
 
 namespace WWSCRIPT {
 
-class Script;
-class ScriptFunctionInstance;
-
-class WWSCRIPT_API ScriptFunction {
-public:
-	ScriptFunction(TScriptFunction func, Script* parent);
-	~ScriptFunction();
-
-	typedef CHashMap<const char*, ScriptArg*, streqpred> ArgMap;
-	// typedef std::pair<const char*, ScriptArg*> argPair;
-
-	const std::string& getName() const;
-	int getId() const;
-	const ScriptArg* getArgument(const char* name) const;
-	ArgMap::const_iterator begin() const;
-	ArgMap::const_iterator end() const;
-
-	ScriptArg::eType getRetValType() const;
-	ScriptFunctionInstance* getInstance() const;
-
+class FloatArrayProperty : public IProperty {
 private:
-	std::string m_name;
-	int m_id;
-	ArgMap m_args;
-	ScriptArg::eType m_return;
+	int m_size;
+	float* (*m_func)(int);
+public:
+	FloatArrayProperty(float* (*func)(int), unsigned int size, const char* name) : m_size(size), m_func(func) { setName(name); };
+	~FloatArrayProperty() {};
+
+	void setScriptParameter(ScriptVariable* var);
+
 };
 
-}; // END NAMESPACE WWSCRIPT
+}; // END OF NAMESPACE WWSCRIPT
 
-#endif // __SCRIPTFUNCTION_H__
+#endif // __FLOATARRAYPROPERTY_H__

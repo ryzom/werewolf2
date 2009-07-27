@@ -40,7 +40,7 @@
 //
 // Werewolf Includes
 //
-#include "ScriptEngine/ScriptLoader.h"
+#include "wwscript/ScriptEngine/ScriptLoader.h"
 
 //
 // Namespaces

@@ -2,7 +2,7 @@
 
 #include <assert.h>
 #include <sstream>
-#include "ScriptEngine/scriptstring.h"
+#include "wwscript/ScriptEngine/scriptstring.h"
 using namespace std;
 
 BEGIN_AS_NAMESPACE

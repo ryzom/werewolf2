@@ -29,7 +29,6 @@
 //
 // Standard Includes
 //
-#include <hash_map>
 
 //
 // System Includes
@@ -42,11 +41,11 @@
 //
 // Werewolf Includes
 //
-#include "GlobalProperty/PropertyMap.h"
-#include "GlobalProperty/IProperty.h"
+#include "PropertyMap.h"
+#include "IProperty.h"
 #include "wwcommon/ISingleton.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
+#include "wwscript/ScriptEngine/general.h"
+#include "wwscript/ScriptEngine/ScriptEngineDefs.h"
 
 //
 // Namespaces
@@ -56,7 +55,7 @@ namespace WWSCRIPT {
 
 class WWSCRIPT_API PropertyManager : public WWCOMMON::ISingleton<PropertyManager> {
 public:
-	typedef std::hash_map<const char*, PropertyMap*, std::hash<const char*>, streqpred> propertyMapMap;
+	typedef CHashMap<const char*, PropertyMap*, streqpred> propertyMapMap;
 	
 	PropertyManager();
 	~PropertyManager();

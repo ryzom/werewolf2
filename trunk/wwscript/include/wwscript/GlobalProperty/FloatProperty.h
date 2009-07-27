@@ -1,5 +1,5 @@
 /**
- * \file ScriptFunction.h
+ * \file FloatProperty.h
  * \date February 2006
  * \author Henri Kuuste
  * \author Matt Raykowski
@@ -23,18 +23,16 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
  * MA 02111-1307, USA.
  */
-#ifndef __SCRIPTFUNCTION_H__
-#define __SCRIPTFUNCTION_H__
+#ifndef __FLOATPROPERTY_H__
+#define __FLOATPROPERTY_H__
 
 //
 // Standard Includes
 //
-#include <string>
 
 //
 // System Includes
 //
-#include <angelscript.h>
 
 //
 // NeL Includes
@@ -43,10 +41,7 @@
 //
 // Werewolf Includes
 //
-#include "ScriptArg.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
-#include "ScriptLoader.h"
+#include "IProperty.h"
 
 //
 // Namespaces
@@ -54,33 +49,18 @@
 
 namespace WWSCRIPT {
 
-class Script;
-class ScriptFunctionInstance;
-
-class WWSCRIPT_API ScriptFunction {
-public:
-	ScriptFunction(TScriptFunction func, Script* parent);
-	~ScriptFunction();
-
-	typedef CHashMap<const char*, ScriptArg*, streqpred> ArgMap;
-	// typedef std::pair<const char*, ScriptArg*> argPair;
-
-	const std::string& getName() const;
-	int getId() const;
-	const ScriptArg* getArgument(const char* name) const;
-	ArgMap::const_iterator begin() const;
-	ArgMap::const_iterator end() const;
-
-	ScriptArg::eType getRetValType() const;
-	ScriptFunctionInstance* getInstance() const;
-
+class FloatProperty : public IProperty {
 private:
-	std::string m_name;
-	int m_id;
-	ArgMap m_args;
-	ScriptArg::eType m_return;
+	unsigned int m_size;
+	float* (*m_func)(void);
+
+public:
+	FloatProperty(float* (*func)(void), unsigned int size, const char* name) : m_size(std::min((uint)4,(uint)size)), m_func(func) { setName(name); };
+	~FloatProperty() {};
+
+	void setScriptParameter(ScriptVariable* var);
 };
 
-}; // END NAMESPACE WWSCRIPT
+}; // END OF NAMESPACE WWSCRIPT
 
-#endif // __SCRIPTFUNCTION_H__
+#endif // __FLOATPROPERTY_H__
