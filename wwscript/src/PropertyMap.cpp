@@ -1,5 +1,5 @@
 /**
- * \file ScriptFunction.h
+ * \file PropertyMap.cpp
  * \date February 2006
  * \author Henri Kuuste
  * \author Matt Raykowski
@@ -23,18 +23,16 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
  * MA 02111-1307, USA.
  */
-#ifndef __SCRIPTFUNCTION_H__
-#define __SCRIPTFUNCTION_H__
 
 //
 // Standard Includes
 //
-#include <string>
+#include "stdpch.h"
 
 //
 // System Includes
 //
-#include <angelscript.h>
+#include <stdio.h>
 
 //
 // NeL Includes
@@ -43,10 +41,7 @@
 //
 // Werewolf Includes
 //
-#include "ScriptArg.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
-#include "ScriptLoader.h"
+#include "wwscript/GlobalProperty/PropertyMap.h"
 
 //
 // Namespaces
@@ -54,33 +49,37 @@
 
 namespace WWSCRIPT {
 
-class Script;
-class ScriptFunctionInstance;
 
-class WWSCRIPT_API ScriptFunction {
-public:
-	ScriptFunction(TScriptFunction func, Script* parent);
-	~ScriptFunction();
+void PropertyMap::registerProperty(IProperty* property) {
+	IProperty *old = getProperty(property->getName());
+	if(old)
+		delete old;
+	m_propertyMap[property->getName()] = property;
+}
 
-	typedef CHashMap<const char*, ScriptArg*, streqpred> ArgMap;
-	// typedef std::pair<const char*, ScriptArg*> argPair;
+void PropertyMap::removeProperty(const char* name) {
+	propMap::const_iterator iter;
+	iter = m_propertyMap.find(name);
+	if(iter != m_propertyMap.end()) {
+		delete iter->second;
+	}
+	m_propertyMap.erase(name);
+}
 
-	const std::string& getName() const;
-	int getId() const;
-	const ScriptArg* getArgument(const char* name) const;
-	ArgMap::const_iterator begin() const;
-	ArgMap::const_iterator end() const;
+IProperty* PropertyMap::getProperty(const char* name) {
+	propMap::const_iterator iter;
+	iter = m_propertyMap.find(name);
+	if(iter == m_propertyMap.end())
+		return NULL;
+	return iter->second;
+}
 
-	ScriptArg::eType getRetValType() const;
-	ScriptFunctionInstance* getInstance() const;
+PropertyMap::~PropertyMap() {
+	propMap::iterator iter;
+	for(iter = m_propertyMap.begin(); iter != m_propertyMap.end(); iter++) {
+		delete iter->second;
+	}
+	m_propertyMap.clear();
+}
 
-private:
-	std::string m_name;
-	int m_id;
-	ArgMap m_args;
-	ScriptArg::eType m_return;
-};
-
-}; // END NAMESPACE WWSCRIPT
-
-#endif // __SCRIPTFUNCTION_H__
+}; // END OF NAMESPACE WWSCRIPT

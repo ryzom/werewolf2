@@ -45,7 +45,7 @@
 #include "wwcommon/ISingleton.h"
 #include "general.h"
 #include "ScriptEngineDefs.h"
-#include "ScriptEngine/ScriptLoader.h"
+#include "ScriptLoader.h"
 
 //
 // Namespaces

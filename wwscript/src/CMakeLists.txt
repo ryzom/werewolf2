@@ -1,20 +1,26 @@
 FILE(GLOB SRC *.cpp )
 FILE(GLOB AS_SRC angelscript/*.cpp )
 FILE(GLOB PRIV_H *.h)
-FILE(GLOB PUB_H ../include/wwscript/*.h)
+FILE(GLOB SE_PUB_H ../include/wwscript/ScriptEngine/*.h)
+FILE(GLOB SB_PUB_H ../include/wwscript/ScriptBindings/*.h)
+FILE(GLOB GP_PUB_H ../include/wwscript/GlobalProperty/*.h)
 
 LIST(REMOVE_ITEM AS_SRC	${CMAKE_CURRENT_SOURCE_DIR}/angelscript/as_callfunc_x64_gcc.cpp )
 
 DECORATE_NEL_LIB("wwscript")
 SET(WWSCRIPT_LIB ${LIBNAME})
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/wwscript/include)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/wwscript/include )
 
+SOURCE_GROUP(AngelScript FILES ${AS_SRC})
+SOURCE_GROUP(ScriptEngine FILES ${SRC} ${PRIV_H} ${SE_PUB_H})
+SOURCE_GROUP(ScriptBidings FILES ${SB_PUB_H})
+SOURCE_GROUP(GlobalProperty FILES ${GP_PUB_H} )
 
 IF(NOT WIN32)
   ADD_LIBRARY(${WWSCRIPT_LIB} SHARED ${SRC} ${AS_SRC})
 ELSE(NOT WIN32)
-  ADD_LIBRARY(${WWSCRIPT_LIB} STATIC ${SRC} ${AS_SRC} ${PUB_H})
+  ADD_LIBRARY(${WWSCRIPT_LIB} STATIC ${SRC} ${AS_SRC} ${SE_PUB_H} ${SB_PUB_H} ${GP_PUB_H})
 ENDIF(NOT WIN32)
 
 INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR} ${NELMISC_INCLUDE_DIRS})

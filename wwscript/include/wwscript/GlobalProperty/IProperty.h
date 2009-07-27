@@ -37,7 +37,7 @@
 //
 //#include <Cg/cgGL.h>
 #include <angelscript.h>
-#include <xercesc/dom/DOM.hpp>
+//#include <xercesc/dom/DOM.hpp>
 
 //
 // NeL Includes
@@ -46,7 +46,7 @@
 //
 // Werewolf Includes
 //
-#include "ScriptEngineDefs.h"
+#include "wwscript/ScriptEngine/ScriptEngineDefs.h"
 
 //
 // Namespaces
@@ -70,9 +70,10 @@ public:
 	/**
 	 * Not a typical hash function but rather a unique hash should be added to the end of the stream.
 	 */
-	virtual void getHash(std::stringstream& hash) = 0;
+	// TODO determine waht thsi was for and if it is needed.
+	//virtual void getHash(std::stringstream& hash) = 0;
 
-	static IProperty *create(xercesc::DOMNode* node) { return NULL; };
+	//static IProperty *create(xercesc::DOMNode* node) { return NULL; };
 
 	~IProperty() {};
 	void setName(const char *name) { m_name = name; };
