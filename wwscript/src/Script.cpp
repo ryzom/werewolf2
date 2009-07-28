@@ -79,7 +79,7 @@ Script::Script(TScriptLoader script) {
 		return;
 	}
 
-	asIScriptEngine* engine = ScriptManager::instance().getEngine();
+	asIScriptEngine* engine = ScriptManager::getInstance().getEngine();
 	asIScriptModule* mod = engine->GetModule(m_name.c_str(), asGM_CREATE_IF_NOT_EXISTS);
 
 	// Compile the script

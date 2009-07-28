@@ -41,11 +41,10 @@
 //
 // Werewolf Includes
 //
+#include "wwcommon/general.h"
 #include "PropertyMap.h"
 #include "IProperty.h"
 #include "wwcommon/ISingleton.h"
-#include "wwscript/ScriptEngine/general.h"
-#include "wwscript/ScriptEngine/ScriptEngineDefs.h"
 
 //
 // Namespaces
@@ -53,9 +52,9 @@
 
 namespace WWSCRIPT {
 
-class WWSCRIPT_API PropertyManager : public WWCOMMON::ISingleton<PropertyManager> {
+class PropertyManager : public WWCOMMON::ISingleton<PropertyManager> {
 public:
-	typedef CHashMap<const char*, PropertyMap*, streqpred> propertyMapMap;
+	typedef CHashMap<const char*, PropertyMap*, strltpred_hash_compare> propertyMapMap;
 	
 	PropertyManager();
 	~PropertyManager();

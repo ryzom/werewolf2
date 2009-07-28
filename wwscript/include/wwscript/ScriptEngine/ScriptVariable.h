@@ -43,7 +43,6 @@
 //
 // Werewolf Includes
 //
-#include "ScriptEngineDefs.h"
 #include "ScriptArg.h"
 
 //
@@ -52,7 +51,7 @@
 
 namespace WWSCRIPT {
 
-class WWSCRIPT_API ScriptVariable {
+class ScriptVariable {
 public:
 	ScriptVariable(ScriptArg* arg);
 	ScriptVariable(ScriptArg::eType type, const char* name, ScriptArg::Binding* binding = NULL);

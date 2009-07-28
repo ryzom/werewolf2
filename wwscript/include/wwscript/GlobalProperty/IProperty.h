@@ -46,7 +46,6 @@
 //
 // Werewolf Includes
 //
-#include "wwscript/ScriptEngine/ScriptEngineDefs.h"
 
 //
 // Namespaces
@@ -56,7 +55,7 @@ namespace WWSCRIPT {
 
 class ScriptVariable;
 
-class WWSCRIPT_API IProperty {
+class IProperty {
 protected:
 	const char* m_name;
 

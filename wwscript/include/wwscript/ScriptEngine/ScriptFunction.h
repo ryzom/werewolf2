@@ -44,8 +44,7 @@
 // Werewolf Includes
 //
 #include "ScriptArg.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
+#include "wwcommon/general.h"
 #include "ScriptLoader.h"
 
 //
@@ -57,12 +56,12 @@ namespace WWSCRIPT {
 class Script;
 class ScriptFunctionInstance;
 
-class WWSCRIPT_API ScriptFunction {
+class ScriptFunction {
 public:
 	ScriptFunction(TScriptFunction func, Script* parent);
 	~ScriptFunction();
 
-	typedef CHashMap<const char*, ScriptArg*, streqpred> ArgMap;
+	typedef CHashMap<const char*, ScriptArg*, strltpred_hash_compare> ArgMap;
 	// typedef std::pair<const char*, ScriptArg*> argPair;
 
 	const std::string& getName() const;

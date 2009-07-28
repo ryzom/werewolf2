@@ -42,9 +42,8 @@
 //
 // Werewolf Includes
 //
+#include "wwcommon/general.h"
 #include "IProperty.h"
-#include "wwscript/ScriptEngine/general.h"
-#include "wwscript/ScriptEngine/ScriptEngineDefs.h"
 
 //
 // Namespaces
@@ -52,9 +51,9 @@
 
 namespace WWSCRIPT {
 
-class WWSCRIPT_API PropertyMap : public NLMISC::CRefCount {
+class PropertyMap : public NLMISC::CRefCount {
 public:
-	typedef CHashMap<const char*, IProperty*, streqpred> propMap;
+	typedef CHashMap<const char*, IProperty*, strltpred_hash_compare> propMap;
 
 	PropertyMap() {};
 	PropertyMap(std::string file);

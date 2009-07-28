@@ -45,13 +45,19 @@
 #include "wwscript/ScriptEngine/ScriptLoader.h"
 #include "wwscript/ScriptBindings/ScriptNelBindery.h"
 
+// private.
+#include "angelscript/scriptstring.h"
+
 //
 // Namespaces
 //
 
 namespace WWSCRIPT {
 
-ScriptManager::ScriptManager() {
+NLMISC_SAFE_SINGLETON_IMPL(ScriptManager)
+
+void ScriptManager::initialize() {
+	nlinfo("initializing script manager.");
 	// Create the script engine
 	m_engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
 	if( m_engine == 0 ) {
@@ -67,13 +73,13 @@ ScriptManager::ScriptManager() {
 	RegisterScriptString(m_engine);
 };
 
-ScriptManager::~ScriptManager() {
-	for(ScriptManager::scriptMap::iterator iter = m_scripts.begin(); iter != m_scripts.end(); iter++) {
-		delete iter->second;
-	}
-	m_scripts.clear();
-	m_engine->Release();
-};
+//ScriptManager::~ScriptManager() {
+//	for(ScriptManager::scriptMap::iterator iter = m_scripts.begin(); iter != m_scripts.end(); iter++) {
+//		delete iter->second;
+//	}
+//	m_scripts.clear();
+//	m_engine->Release();
+//};
 
 asIScriptEngine* ScriptManager::getEngine() const {
 	return m_engine;
@@ -96,17 +102,21 @@ const Script* ScriptManager::getScript(const char* name) const {
 }
 
 bool ScriptManager::initializeScripts() {
-	NLMISC::CPath::addSearchPath("data", true, false);
 	
 	// script container.
+	nlinfo("Initializing script container.");
 	std::map<std::string, TScriptLoader> container;
 
 	// load the scripts
+	nlinfo("Loading scripts.");
 	::loadForm("script", "data/script.packed_sheets", container, true, false);
 
 	// process NeL static bindery.
+	nlinfo("Initializing NeL Bindery");
 	ScriptNelBindery nelBindery;
 	nelBindery.bindNel();
+
+	nlinfo("Creating script objects from loader.");
 	// Now go throught the list of scripts and create them.
 	std::map<std::string, TScriptLoader>::iterator first(container.begin()), last(container.end());
 	for(; first != last; ++first) {

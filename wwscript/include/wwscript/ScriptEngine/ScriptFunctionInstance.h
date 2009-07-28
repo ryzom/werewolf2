@@ -44,10 +44,10 @@
 //
 // Werewolf Includes
 //
+#include "wwcommon/general.h"
 #include "ScriptFunction.h"
 #include "ScriptVariable.h"
 #include "ScriptArg.h"
-#include "ScriptEngineDefs.h"
 
 //
 // Namespaces
@@ -55,7 +55,7 @@
 
 namespace WWSCRIPT {
 
-class WWSCRIPT_API ScriptFunctionInstance {
+class ScriptFunctionInstance {
 public:
 	ScriptFunctionInstance(const ScriptFunction* const function);
 	~ScriptFunctionInstance();
@@ -63,7 +63,7 @@ public:
 	void execute();
 	void reset();
 
-	typedef CHashMap<const char*, ScriptVariable*, streqpred> argInstMap;
+	typedef CHashMap<const char*, ScriptVariable*, strltpred_hash_compare> argInstMap;
 
 	ScriptVariable* getArg(const char* name);
 	argInstMap::iterator begin();

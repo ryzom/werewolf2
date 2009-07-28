@@ -43,14 +43,12 @@
 //
 // Werewolf Includes
 //
-
+#include "wwscript/ScriptEngine/ScriptManager.h"
 //
 // Namespaces
 //
 
 namespace WWSCRIPT {
-
-class ScriptManager;
 
 class ScriptNelBindery {
 public:
@@ -63,9 +61,12 @@ private:
 	ScriptNelBindery() { }
 
 	bool bindNel() {
-		ScriptManager::instance().getEngine()->RegisterGlobalFunction(
-			"void NelInfo(string &in)", asFUNCTION(ScriptNelBindery::NelInfo), asCALL_CDECL);
-
+		nlinfo("Binding NelInfo");
+		ScriptManager::getInstance().getEngine()->RegisterGlobalFunction(
+			"void NelInfo(string&in)", 
+			asFUNCTIONPR(ScriptNelBindery::NelInfo,(std::string&),void), 
+			asCALL_CDECL);
+		nlinfo("Done binding.");
 		return true;
 	}
 };
