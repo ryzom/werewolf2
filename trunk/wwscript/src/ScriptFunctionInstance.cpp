@@ -69,7 +69,7 @@ void ScriptFunctionInstance::reset() {
 
 	m_executed = false;
 	
-	asIScriptEngine* engine = ScriptManager::instance().getEngine();
+	asIScriptEngine* engine = ScriptManager::getInstance().getEngine();
 	m_context = engine->CreateContext();
 
 	m_context->Prepare(m_function->getId());

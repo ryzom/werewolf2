@@ -45,11 +45,9 @@
 //
 // Werewolf Includes
 //
-#include "wwcommon/ISingleton.h"
-#include "scriptstring.h"
 #include "Script.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
+#include "wwcommon/general.h"
+
 
 //
 // Namespaces
@@ -57,14 +55,7 @@
 
 namespace WWSCRIPT {
 
-/*
-class WWSCRIPT_API asCOutputStream : public asIOutputStream
-{
-public:
-	void Write(const char *text) { nlinfo("%s", text); }
-}; */
-
-class WWSCRIPT_API asCOutStream {
+class asCOutStream {
 public:
 	void Callback(asSMessageInfo *msg) {
 		if(msg->type == 0) nlerror("%s (%d, %d) : %s\n", msg->section, msg->row, msg->col, msg->message);
@@ -74,28 +65,32 @@ public:
 };
  
 
-class WWSCRIPT_API ScriptManager : public WWCOMMON::ISingleton<ScriptManager> {
+class ScriptManager {
+	NLMISC_SAFE_SINGLETON_DECL(ScriptManager)
 public:
+	
 	asIScriptEngine* getEngine() const;
 	Script* loadScript(std::string xmlfile, const char* section);
 	const Script* getScript(const char* name) const;
 
+	void initialize();
 	bool initializeScripts();
 
-	typedef CHashMap<const char*, Script*, streqpred> scriptMap;
+	typedef CHashMap<const char*, Script*, strltpred_hash_compare> scriptMap;
 	// typedef std::pair<const char*, Script*> scriptPair;
 
 	scriptMap::const_iterator begin() const;
 	scriptMap::const_iterator end() const;
 
-	ScriptManager();
-	~ScriptManager();
+	ScriptManager() { }
+	//~ScriptManager();
 
 private:
+	
 	asIScriptEngine *m_engine;
 	scriptMap m_scripts;
 
-	NLMISC::CApplicationContext m_ApplicationContext;
+	//NLMISC::CApplicationContext m_ApplicationContext;
 };
 
 }; // END NAMESPACE WWSCRIPT

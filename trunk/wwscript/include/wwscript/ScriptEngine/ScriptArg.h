@@ -43,8 +43,7 @@
 // Werewolf Includes
 //
 #include "wwcommon/ISingleton.h"
-#include "general.h"
-#include "ScriptEngineDefs.h"
+#include "wwcommon/general.h"
 #include "ScriptLoader.h"
 
 //
@@ -53,7 +52,7 @@
 
 namespace WWSCRIPT {
 
-class WWSCRIPT_API ScriptArg {
+class ScriptArg {
 public:
 	ScriptArg(TScriptArgument arg);
 	~ScriptArg();
@@ -70,7 +69,7 @@ public:
 		STRING
 	};
 
-	class WWSCRIPT_API Binding {
+	class Binding {
 	public:
 		Binding(const char* _map, const char* _property) : map(_map), property(_property) {};
 		std::string map;
@@ -84,14 +83,14 @@ public:
 	bool isBound() const;
 	const Binding* getBinding() const;
 
-	class WWSCRIPT_API Helper : public WWCOMMON::ISingleton<Helper> {
+	class Helper : public WWCOMMON::ISingleton<Helper> {
 	public:
 		Helper();
 		~Helper();
 
 		ScriptArg::eType find(std::string name) const;
 
-		typedef CHashMap<const char *, ScriptArg::eType, streqpred> TypeMap;
+		typedef CHashMap<const char *, ScriptArg::eType, strltpred_hash_compare> TypeMap;
 //		typedef std::pair<const char*, ScriptArg::eType> typePair;
 
 	private:
