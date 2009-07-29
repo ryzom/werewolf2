@@ -96,8 +96,10 @@ Script* ScriptManager::loadScript(std::string file, const char* section) {
 
 const Script* ScriptManager::getScript(const char* name) const {
 	ScriptManager::scriptMap::const_iterator iter = m_scripts.find(name);
-	if(iter == m_scripts.end())
+	if(iter == m_scripts.end()) {
+		nlwarning("Script name '%s' not found!", name);
 		return NULL;
+	}
 	return iter->second;
 }
 

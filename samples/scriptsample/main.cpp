@@ -31,16 +31,30 @@ int main(int argc, char **argv) {
 	nlinfo("Starting to initialize scripts.");
 	WWSCRIPT::ScriptManager::getInstance().initialize();
 	WWSCRIPT::ScriptManager::getInstance().initializeScripts();
-	
 	nlinfo("Done initializing scripts.");
-	//const WWSCRIPT::Script *shader = WWSCRIPT::ScriptManager::instance().getScript("gpu");
+
+	//WWSCRIPT::ScriptManager::scriptMap::const_iterator iter;
+	//for(iter = WWSCRIPT::ScriptManager::getInstance().begin();
+	//	iter++;
+	//	iter!=WWSCRIPT::ScriptManager::getInstance().end()) {
+	//	nlinfo("Script name: %s loaded", (iter->second)->getName());
+	//}
+
+	const WWSCRIPT::Script *exampleScr = WWSCRIPT::ScriptManager::getInstance().getScript("ExampleScript");
+	if(exampleScr)
+		nlinfo("Retrieved script: ExampleScript");
+	else {
+		nlerror("Failed to retrieve: ExampleScript");
+		return -1;
+	}
 
 	// Do some preparation before execution
-	//const WWSCRIPT::ScriptFunction *func = shader->getFunction("getShader");
-	//if(!func) {
-	//	std::cout << "Function getShader not found\n" << std::endl;
-	//	return -1;
-	//}
+	nlinfo("Retrieving getFoobar function");
+	const WWSCRIPT::ScriptFunction *func = exampleScr->getFunction("getFoobar");
+	if(!func) {
+		nlerror("Function getFoobar not found\n");
+		return -1;
+	}
 
 	//WWSCRIPT::ScriptFunctionInstance *inst = func->getInstance();
 	// SET ARGUMENTS AUTOMATICALLY
