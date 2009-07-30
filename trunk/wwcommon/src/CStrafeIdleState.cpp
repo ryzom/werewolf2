@@ -51,8 +51,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CStateFactory, ISimulationState, CStrafeIdleState, uint32, CStateFactory::ST_ST_IDLE);
-
 CStrafeIdleState::CStrafeIdleState() : CStrafeState(0) {
 	addTransitionable(CStateFactory::ST_ST_LEFT);
 	addTransitionable(CStateFactory::ST_ST_RIGHT);

@@ -55,8 +55,6 @@
 //
 namespace WWCOMMON {
 
-OF_REGISTER(CSobHandlerFactory, ISobHandler, CRequestHandler, uint32, CSobHandlerFactory::H_MOTION_REQUEST);
-
 CRequestHandler::CRequestHandler() {
 	setPriority(0);
 	m_HandledEvents.push_back(CSobStateRequestEvent::CSobStateRequestEventID);

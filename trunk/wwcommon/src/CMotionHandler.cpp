@@ -50,8 +50,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CSobHandlerFactory, ISobHandler, CMotionHandler, uint32, CSobHandlerFactory::H_MOTION);
-
 CMotionHandler::CMotionHandler() {
 	setPriority(0);
 	m_HandledEvents.push_back(EVENT_ID(CSobMoveEvent));

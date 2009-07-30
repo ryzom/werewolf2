@@ -49,8 +49,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CSobFactory, ISimulationObj, CRootSob, std::string, "sobRoot");
-
 CRootSob::CRootSob() {
 	;
 }

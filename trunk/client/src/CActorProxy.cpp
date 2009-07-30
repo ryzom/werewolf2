@@ -52,8 +52,6 @@
 
 namespace WWCLIENT {
 
-OF_REGISTER(WWCOMMON::CSobFactory, WWCOMMON::ISimulationObj, CActorProxy, std::string, "sobActor");
-
 CActorProxy::CActorProxy() : WWCOMMON::CPerformer(), m_PlrId(0) {
 }
 

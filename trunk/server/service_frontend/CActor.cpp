@@ -53,9 +53,6 @@
 // Namespaces
 //
 
-// Auto-registration.
-OF_REGISTER(WWCOMMON::CSobFactory, WWCOMMON::ISimulationObj, CActor, std::string, "sobActor");
-
 void CActor::update() {
 	WWCOMMON::CPerformer::update();
 }

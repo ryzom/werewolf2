@@ -53,8 +53,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CStateFactory, ISimulationState, COrientTurnRightState, uint32, CStateFactory::ST_OR_TURNRIGHT);
-
 COrientTurnRightState::COrientTurnRightState() : COrientState(-1) {
 //	nlinfo("Constructing a orient turn right state.");
 

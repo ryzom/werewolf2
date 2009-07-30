@@ -52,8 +52,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CStateFactory, ISimulationState, CMoveBackState, uint32, CStateFactory::ST_MV_BACKWARD);
-
 CMoveBackState::CMoveBackState() : CMovementState(-1) {
 //	nlinfo("Constructing a backward moving state.");
 

@@ -52,8 +52,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CStateFactory, ISimulationState, COrientIdleState, uint32, CStateFactory::ST_OR_IDLE);
-
 COrientIdleState::COrientIdleState() : COrientState(0) {
 //	nlinfo("Constructing a orient idle state.");
 

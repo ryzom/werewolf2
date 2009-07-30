@@ -46,7 +46,6 @@
 // Namespaces
 //
 namespace WWCOMMON {
-OF_REGISTER(CSobHandlerFactory, ISobHandler, CClientMotionHandler, uint32, CSobHandlerFactory::H_CLIENT_MOTION);
 
 CClientMotionHandler::CClientMotionHandler() : CMotionHandler() {
 	m_HandledEvents.push_back(EVENT_ID(CSobDREvent));

@@ -169,6 +169,8 @@ void CFrontendService::init() {
 	// Register game/sob events.
 	WWCOMMON::registerEvents();
 
+	OF_REGISTER(WWCOMMON::CSobFactory, CActor, "sobActor");
+
 	// set up data path
 	NLMISC::CPath::addSearchPath("server-data", true, false);
 
