@@ -52,8 +52,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CStateFactory, ISimulationState, CMoveFwdState, uint32, CStateFactory::ST_MV_FORWARD);
-
 CMoveFwdState::CMoveFwdState() : CMovementState(1) {
 //	nlinfo("Constructing a forward moving state.");
 

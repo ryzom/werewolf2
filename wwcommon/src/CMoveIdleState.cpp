@@ -51,8 +51,6 @@
 
 namespace WWCOMMON {
 
-	OF_REGISTER(CStateFactory, ISimulationState, CMoveIdleState, uint32, CStateFactory::ST_MV_IDLE);
-
 CMoveIdleState::CMoveIdleState() : CMovementState(0) {
 	addTransitionable(CStateFactory::ST_MV_IDLE);
 	addTransitionable(CStateFactory::ST_MV_FORWARD);

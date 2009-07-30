@@ -44,14 +44,21 @@
 
 /// This macro is used in the header to setup the registrar object.
 #define OF_SETUP_REGISTRAR(OF, BO, DO, KY) \
-	const static WWCOMMON::CFactoryRegistrar<OF, BO, DO, KY> registrar; \
-	friend class WWCOMMON::CFactoryRegistrar<OF, BO, DO, KY>;
+		public: \
+		static BO *CreateInstance() { \
+			return new DO(); \
+		} \
+		friend class OF;
 
 /// This macro is used in the source to initialize the registrar object, registering the DO object.
-#define OF_REGISTER(OF, BO, DO, KY, KEY) \
-	const static WWCOMMON::CFactoryRegistrar<OF, BO, DO, KY> registrar(KEY);
+#define OF_REGISTER(OF, DO, KEY) \
+	OF::instance().Register(KEY, DO::CreateInstance);
+
 
 namespace WWCOMMON {
+
+	void registerCommonFactoryObjects();
+
 	/**
 	 * \class CFactoryRegistrar.h CFactoryRegistrar.h "wwcommon/CFactoryRegistrar.h"
 	 * \brief The main Werewolf task.

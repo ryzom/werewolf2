@@ -52,8 +52,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CStateFactory, ISimulationState, CStrafeLeftState, uint32, CStateFactory::ST_ST_LEFT);
-
 CStrafeLeftState::CStrafeLeftState() : CStrafeState(-1) {
 //	nlinfo("Constructing a strafe left state.");
 

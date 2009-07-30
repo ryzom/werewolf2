@@ -66,8 +66,6 @@
 
 namespace WWCOMMON {
 
-OF_REGISTER(CSobFactory, ISimulationObj, CPerformer, std::string, "sobPerformer");
-
 CPerformer::CPerformer() : ISimulationObj(), m_MotionBlendDt(0.0f) {
 	// default motion / position information.
 	m_MaxSpeed = 12.f;
