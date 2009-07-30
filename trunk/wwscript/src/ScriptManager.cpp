@@ -97,7 +97,8 @@ Script* ScriptManager::loadScript(std::string file, const char* section) {
 const Script* ScriptManager::getScript(const char* name) const {
 	ScriptManager::scriptMap::const_iterator iter = m_scripts.find(name);
 	if(iter == m_scripts.end()) {
-		nlwarning("Script name '%s' not found!", name);
+		nlwarning("*** Script name '%s' not found!", name);
+		// TODO throw exception instead
 		return NULL;
 	}
 	return iter->second;
@@ -122,7 +123,6 @@ bool ScriptManager::initializeScripts() {
 	// Now go throught the list of scripts and create them.
 	std::map<std::string, TScriptLoader>::iterator first(container.begin()), last(container.end());
 	for(; first != last; ++first) {
-		nlinfo("Creating script: %s", first->second.Name.c_str());
 		Script *script=new Script(first->second);
 		m_scripts[script->getName().c_str()] = script;
 	}

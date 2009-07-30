@@ -3,8 +3,9 @@
 
 #include <string.h>
 #include <string>
+#include <iostream>
 
-struct strltpred_hash_compare
+struct strltpred_hash_compare// : public std::binary_function < const char *, const char *, bool >
 {
    enum
    {
@@ -26,6 +27,28 @@ struct strltpred_hash_compare
    }
 };
 
+
+struct streqpred_hash_compare
+{
+   enum
+   {
+      bucket_size = 4,
+      min_buckets = 8
+   };
+
+   size_t operator()(const char* s) const
+   {
+      size_t h = 0;
+      for (; *s; ++s)
+         h = 5 * h + *s;
+      return h;
+   }
+
+   bool operator()(const char* s1, const char* s2) const
+   {
+      return strcmp(s1, s2) == 0;
+   }
+};
 
 //struct streqpred
 //{

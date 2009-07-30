@@ -63,7 +63,7 @@ public:
 	void execute();
 	void reset();
 
-	typedef CHashMap<const char*, ScriptVariable*, strltpred_hash_compare> argInstMap;
+	typedef CHashMap<const char*, ScriptVariable*, strltpred_hash_compare, streqpred_hash_compare> argInstMap;
 
 	ScriptVariable* getArg(const char* name);
 	argInstMap::iterator begin();
