@@ -85,6 +85,9 @@ namespace WWCLIENT {
 void CWWTask::init() {
 	m_DoError=false;
 
+	// Register game and simulation object events.
+	WWCOMMON::registerEvents();
+
 	// add default tasks...
 	WWCOMMON::CTaskManager::instance().add(CConfigTask::instance(), 10);
 	WWCOMMON::CTaskManager::instance().add(CTimeTask::instance(), 20);
