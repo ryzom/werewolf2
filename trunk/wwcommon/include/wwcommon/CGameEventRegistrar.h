@@ -52,34 +52,10 @@
 
 namespace WWCOMMON {
 
-class CGameEventServer;
-
-/// This macro is used in the header to setup the registrar object.
-#define WWCOMMON_SETUP_EVENT(EVENT) \
-	const static CGameEventRegistrar<EVENT> registrar;
-
-/// This macro is used in the source to initialize the registrar object, registering the DO object.
-//#define WWCOMMON_REGISTER_EVENT(EVENT) \
-//	const static CGameEventRegistrar<EVENT> registrar##EVENT(#EVENT);
-
 #define WWCOMMON_REGISTER_EVENT(EVENT) \
 	NLMISC::CClassRegistry::registerClass(#EVENT, EVENT::creator, typeid(EVENT).name());
 
 void registerEvents();
-
-template<class EventClass>
-class CGameEventRegistrar {
-public:
-
-	CGameEventRegistrar(const std::string& EventClassName) {
-		CGameEventServer::instance().Register(RegisterEventType, EventClassName);
-	}
-
-	static bool RegisterEventType(const std::string& EventClassName) {
-		NLMISC::CClassRegistry::registerClass(EventClassName, EventClass::creator, typeid(EventClass).name());
-		return true;
-	}
-};
 
 }; // END OF NAMESPACE WWCOMMON
 
