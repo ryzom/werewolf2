@@ -54,7 +54,7 @@ namespace WWSCRIPT {
 
 class PropertyManager : public WWCOMMON::ISingleton<PropertyManager> {
 public:
-	typedef CHashMap<const char*, PropertyMap*, strltpred_hash_compare> propertyMapMap;
+	typedef CHashMap<const char*, PropertyMap*, strltpred_hash_compare, streqpred_hash_compare> propertyMapMap;
 	
 	PropertyManager();
 	~PropertyManager();

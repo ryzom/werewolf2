@@ -76,7 +76,7 @@ public:
 	void initialize();
 	bool initializeScripts();
 
-	typedef CHashMap<const char*, Script*, strltpred_hash_compare> scriptMap;
+	typedef CHashMap<const char*, Script*, strltpred_hash_compare, streqpred_hash_compare> scriptMap;
 	// typedef std::pair<const char*, Script*> scriptPair;
 
 	scriptMap::const_iterator begin() const;

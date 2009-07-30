@@ -1,12 +1,10 @@
 #include <iostream>
 //#include <angelscript.h>
 #include "wwscript/ScriptEngine/ScriptManager.h"
-//#include "wwscript/ScriptEngine/ScriptFunctionInstance.h"
-//#include "wwscript/ScriptEngine/scriptstring.h"
-//#include "wwscript/GlobalProperty/PropertyManager.h"
-//#include "wwscript/GlobalProperty/PropertyMap.h"
-//#include "wwscript/GlobalProperty/ConstantIntProperty.h"
-//#include "wwcommon/CGameEventServer.h"
+#include "wwscript/ScriptEngine/ScriptFunctionInstance.h"
+#include "wwscript/GlobalProperty/PropertyManager.h"
+#include "wwscript/GlobalProperty/PropertyMap.h"
+#include "wwscript/GlobalProperty/ConstantIntProperty.h"
 
 int main(int argc, char **argv) {
 	NLMISC::CApplicationContext myApplicationContext;
@@ -17,52 +15,41 @@ int main(int argc, char **argv) {
 	int numIntersectors = 1;
 
 	// Register properties to maps
-	//WWSCRIPT::PropertyMap engine;
-	//engine.registerProperty(new WWSCRIPT::ConstantIntProperty(&numLights, 1, "ENGINE.NumberOfLights"));
-	//WWSCRIPT::PropertyMap local;
-	//local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numShadowCasters, 1, "LOCAL.NumberOfShadowCasters"));
-	//local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numIntersectors, 1, "LOCAL.NumberOfIntersectors"));
+	WWSCRIPT::PropertyMap engine;
+	engine.registerProperty(new WWSCRIPT::ConstantIntProperty(&numLights, 1, "ENGINE.NumberOfLights"));
+	WWSCRIPT::PropertyMap local;
+	local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numShadowCasters, 1, "LOCAL.NumberOfShadowCasters"));
+	local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numIntersectors, 1, "LOCAL.NumberOfIntersectors"));
 	
-	//WWSCRIPT::PropertyManager::instance().setPropertyMap("ENGINE", &engine);
-	//WWSCRIPT::PropertyManager::instance().setPropertyMap("LOCAL", &local);
+	WWSCRIPT::PropertyManager::instance().setPropertyMap("ENGINE", &engine);
+	WWSCRIPT::PropertyManager::instance().setPropertyMap("LOCAL", &local);
 
-	//WWSCRIPT::Script* shader = WWSCRIPT::ScriptManager::instance().loadScript("leaf_shader.xml", "gpu");
 	NLMISC::CPath::addSearchPath("data", true, false);
-	nlinfo("Starting to initialize scripts.");
 	WWSCRIPT::ScriptManager::getInstance().initialize();
 	WWSCRIPT::ScriptManager::getInstance().initializeScripts();
-	nlinfo("Done initializing scripts.");
-
-	//WWSCRIPT::ScriptManager::scriptMap::const_iterator iter;
-	//for(iter = WWSCRIPT::ScriptManager::getInstance().begin();
-	//	iter++;
-	//	iter!=WWSCRIPT::ScriptManager::getInstance().end()) {
-	//	nlinfo("Script name: %s loaded", (iter->second)->getName());
-	//}
 
 	const WWSCRIPT::Script *exampleScr = WWSCRIPT::ScriptManager::getInstance().getScript("ExampleScript");
-	if(exampleScr)
-		nlinfo("Retrieved script: ExampleScript");
-	else {
+	if(!exampleScr) {
 		nlerror("Failed to retrieve: ExampleScript");
 		return -1;
 	}
 
 	// Do some preparation before execution
-	nlinfo("Retrieving getFoobar function");
-	const WWSCRIPT::ScriptFunction *func = exampleScr->getFunction("getFoobar");
+	const WWSCRIPT::Script* shader = WWSCRIPT::ScriptManager::getInstance().getScript("ShaderScript");
+	//const WWSCRIPT::ScriptFunction *func = exampleScr->getFunction("getFoobar");
+	const WWSCRIPT::ScriptFunction *func = shader->getFunction("getShader");
 	if(!func) {
-		nlerror("Function getFoobar not found\n");
+		nlerror("Function getShader not found\n");
 		return -1;
 	}
 
-	//WWSCRIPT::ScriptFunctionInstance *inst = func->getInstance();
+	WWSCRIPT::ScriptFunctionInstance *inst = func->getInstance();
 	// SET ARGUMENTS AUTOMATICALLY
-	//inst->setBoundArgs();
+	inst->setBoundArgs();
 	// EXECUTE
-	//inst->execute();
+	inst->execute();
 	// GET THE RETURN VALUE
-	//asCScriptString* ret;
+	//CScriptString* ret;
 	//inst->getRetVal()->getValue((void**)&ret); // <- pointer to a pointer
 	//std::cout << "************ FIST TEST ************" << std::endl << ret->buffer << std::endl;
 	//std::cout << "***********************************\n\n" << std::endl;
