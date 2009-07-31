@@ -16,10 +16,10 @@ int main(int argc, char **argv) {
 
 	// Register properties to maps
 	WWSCRIPT::PropertyMap engine;
-	engine.registerProperty(new WWSCRIPT::ConstantIntProperty(&numLights, 1, "ENGINE.NumberOfLights"));
+	engine.registerProperty(new WWSCRIPT::ConstantIntProperty(&numLights, 1, "NumberOfLights"));
 	WWSCRIPT::PropertyMap local;
-	local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numShadowCasters, 1, "LOCAL.NumberOfShadowCasters"));
-	local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numIntersectors, 1, "LOCAL.NumberOfIntersectors"));
+	local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numShadowCasters, 1, "NumberOfShadowCasters"));
+	local.registerProperty(new WWSCRIPT::ConstantIntProperty(&numIntersectors, 1, "NumberOfIntersectors"));
 	
 	WWSCRIPT::PropertyManager::instance().setPropertyMap("ENGINE", &engine);
 	WWSCRIPT::PropertyManager::instance().setPropertyMap("LOCAL", &local);
@@ -43,6 +43,7 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
+	nlinfo("*** Executing ShaderScript.getShader - Initial Execution ***");
 	WWSCRIPT::ScriptFunctionInstance *inst = func->getInstance();
 	// SET ARGUMENTS AUTOMATICALLY
 	inst->setBoundArgs();
@@ -50,24 +51,26 @@ int main(int argc, char **argv) {
 	inst->execute();
 	// GET THE RETURN VALUE
 	//CScriptString* ret;
-	//inst->getRetVal()->getValue((void**)&ret); // <- pointer to a pointer
+	//inst->getRetVal()->getValue((void**)&ret); // - pointer to a pointer
 	//std::cout << "************ FIST TEST ************" << std::endl << ret->buffer << std::endl;
 	//std::cout << "***********************************\n\n" << std::endl;
 
+	nlinfo("*** Executing ShaderScript.getShader - Execution With Changes***");
 	// CHANGE SOMETHING AND TRY AGAIN
-	//numShadowCasters = 0;
-	//numIntersectors = 0;
-	//inst->setBoundArgs();
-	//inst->execute();
+	numShadowCasters = 0;
+	numIntersectors = 0;
+	inst->setBoundArgs();
+	inst->execute();
 	//inst->getRetVal()->getValue((void**)&ret);
 	//std::cout << "*********** SECOND TEST ***********" << std::endl << ret->buffer << std::endl;
 	//std::cout << "***********************************\n\n" << std::endl;
 
+	nlinfo("*** Executing ShaderScript.getShader - Execution No-Binding ***");
 	// SET ARGUMENTS MANUALLY
-	//inst->getArg("numLights")->setValue((int)1); // make sure the constant is interpreted as the type the variable is supposed to be - if you call getValue(uint) on an int variable - it will return false and do nothing (might change in the future)
-	//inst->getArg("numShadowCasters")->setValue((int)1);
-	//inst->getArg("numIntersectors")->setValue(numIntersectors);
-	//inst->execute();
+	inst->getArg("numLights")->setValue((int)1); // make sure the constant is interpreted as the type the variable is supposed to be - if you call getValue(uint) on an int variable - it will return false and do nothing (might change in the future)
+	inst->getArg("numShadowCasters")->setValue((int)1);
+	inst->getArg("numIntersectors")->setValue(numIntersectors);
+	inst->execute();
 	//inst->getRetVal()->getValue((void**)&ret);
 	//std::cout << "*********** THIRD TEST ************" << std::endl << ret->buffer << std::endl;
 	//std::cout << "***********************************\n\n" << std::endl;

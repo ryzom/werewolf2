@@ -71,7 +71,7 @@ public:
 
 	class Binding {
 	public:
-		Binding(const char* _map, const char* _property) : map(_map), property(_property) {};
+		Binding(std::string _map, std::string _property) : map(_map), property(_property) {};
 		std::string map;
 		std::string property;
 	};
@@ -98,7 +98,7 @@ public:
 	};
 
 private:
-	//void parseBinding(xercesc::DOMNode* node);
+	void parseBinding(TScriptArgument arg);
 
 	std::string m_name;
 	int	m_id;
