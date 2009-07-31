@@ -59,6 +59,7 @@
 #include "CGameEventManager.h"
 #include "CEventFilterTest.h"
 #include "CProximityManager.h"
+#include "CActor.h"
 
 // callbacks
 #include "callbacks.h"
