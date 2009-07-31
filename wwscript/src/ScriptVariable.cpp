@@ -42,6 +42,8 @@
 //
 #include "wwscript/ScriptEngine/ScriptVariable.h"
 #include "wwscript/ScriptEngine/ScriptArg.h"
+#include "wwscript/GlobalProperty/IProperty.h"
+#include "wwscript/GlobalProperty/PropertyManager.h"
 
 //
 // Namespaces
@@ -176,11 +178,11 @@ bool ScriptVariable::setValueFromReturn(asIScriptContext* context) {
 bool ScriptVariable::setValueFromBinding() {
 	if(!isBound())
 		return false;
-	//IProperty *prop = PropertyManager::instance().getProperty(m_binding->map.c_str(), m_binding->property.c_str());
-	//if(prop == NULL)
+	IProperty *prop = PropertyManager::instance().getProperty(m_binding->map.c_str(), m_binding->property.c_str());
+	if(prop == NULL)
 		return false;
-	//prop->setScriptParameter(this);
-	//return m_set;
+	prop->setScriptParameter(this);
+	return m_set;
 }
 
 bool ScriptVariable::setScriptArg(asIScriptContext* context) const {

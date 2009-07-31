@@ -62,6 +62,9 @@ public:
 	std::string ArgumentType;
 	uint32 ArgumentId;
 
+	std::string BindingMap;
+	std::string BindingProperty;
+
 	void serial(NLMISC::IStream &f);
 };
 

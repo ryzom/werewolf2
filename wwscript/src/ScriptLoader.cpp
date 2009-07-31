@@ -90,6 +90,8 @@ void TScriptLoader::readGeorges(const NLMISC::CSmartPtr<NLGEORGES::UForm> &form,
 				TScriptArgument aArg;
 				std::string argName;
 				std::string argType;
+				std::string bindMap;
+				std::string bindProp;
 				uint32 argId;
 
 				NLGEORGES::UFormElm *argument;
@@ -99,9 +101,24 @@ void TScriptLoader::readGeorges(const NLMISC::CSmartPtr<NLGEORGES::UForm> &form,
 				argument->getValueByName(argType, "ArgumentType");
 				argument->getValueByName(argId, "ArgumentId");
 
+				bool bmRes=argument->getValueByName(bindMap, "BindingMap");
+				bool bpRes=argument->getValueByName(bindProp, "BindingProperty");
+
+				// Assign argument information
 				aArg.ArgumentName=argName;
 				aArg.ArgumentType=argType;
 				aArg.ArgumentId=argId;
+
+				// We only want to configure bindings if both properties are defined.
+				if(bmRes!=false || bpRes!=false || !bindMap.empty() || !bindProp.empty()) {
+					nlinfo("Binding %s argument %s to %s.%s",
+						aFunc.FunctionName.c_str(), 
+						argName.c_str(), 
+						bindMap.c_str(), 
+						bindProp.c_str());
+					aArg.BindingMap = bindMap;
+					aArg.BindingProperty = bindProp;
+				}
 
 				aFunc.Arguments.push_back(aArg);
 			}
@@ -130,10 +147,14 @@ void TScriptArgument::serial(NLMISC::IStream &f) {
 		f.serial(ArgumentName);
 		f.serial(ArgumentType);
 		f.serial(ArgumentId);
+		f.serial(BindingMap);
+		f.serial(BindingProperty);
 	} else {
 		f.serial(ArgumentName);
 		f.serial(ArgumentType);
 		f.serial(ArgumentId);
+		f.serial(BindingMap);
+		f.serial(BindingProperty);
 	}
 }
 

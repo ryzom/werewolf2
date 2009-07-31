@@ -56,6 +56,8 @@ ScriptArg::ScriptArg(TScriptArgument arg) {
 	m_id = arg.ArgumentId;
 	m_type = Helper::instance().find(arg.ArgumentType);
 
+	parseBinding(arg);
+
 //	for(DOMNode* child = node->getFirstChild(); child != 0; child=child->getNextSibling()) {
 //		if(child->getNodeType() != DOMNode::ELEMENT_NODE)
 //			continue;
@@ -116,13 +118,10 @@ ScriptArg::eType ScriptArg::Helper::find(std::string name) const {
 	}
 }
 
-//void ScriptArg::parseBinding(DOMNode* node) {
-//	DOMNamedNodeMap* attributes = node->getAttributes();
-//	DOMAttr* attr = (DOMAttr*)attributes->getNamedItem(XMLString::transcode("map"));
-//	const char* map = XMLString::transcode(attr->getValue());
-//	attr = (DOMAttr*)attributes->getNamedItem(XMLString::transcode("property"));
-//	const char* property = XMLString::transcode(attr->getValue());
-//	m_binding = new Binding(map, property);
-//}
+void ScriptArg::parseBinding(TScriptArgument arg) {
+	if(arg.BindingMap.empty() || arg.BindingProperty.empty())
+		return;
+	m_binding = new Binding(arg.BindingMap, arg.BindingProperty);
+}
 
 }; // END NAMESPACE WWSCRIPT
