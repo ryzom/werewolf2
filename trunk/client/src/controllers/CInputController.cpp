@@ -78,7 +78,7 @@ void CInputController::update() {
 	
 	// if the escape key was hit at any time, just bail.
 	// update this later.
-	if(CInputTask::instance().kbPressed(KeyESCAPE)) {
+	if(CInputTask::instance().kbPressed(KeyESCAPE) && CInputTask::instance().kbPressed(KeySHIFT)) {
 		nlinfo("Escape pressed, signalling task manager to exit.");
 		WWCOMMON::CTaskManager::instance().exit();
 	}
