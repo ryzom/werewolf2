@@ -33,6 +33,7 @@
 // Werewolf Includes
 //
 #include "CConfigTask.h"
+#include "CUserPaths.h"
 
 //
 // Namespaces
@@ -43,7 +44,7 @@ using namespace NLMISC;
 namespace WWCLIENT {
 
 void CConfigTask::init() {
-	std::string ConfigFileName = "werewolf.cfg";
+	std::string ConfigFileName = CUserPaths::getWerewolfConfigDir() + "werewolf.cfg";
 
 	// try to load the config. if the file doesn't exist create it
 	// and point it to the defaults.
