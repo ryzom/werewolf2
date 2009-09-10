@@ -21,6 +21,7 @@
 // System Includes
 //
 #include "stdpch.h"
+#include <sstream>
 
 //
 // NeL Includes
@@ -50,7 +51,11 @@ void CConfigTask::init() {
 		if(!NLMISC::CFile::fileExists(ConfigFileName)) {
 			FILE *fp = fopen(ConfigFileName.c_str(), "wt");
 			nlassert(fp);
-			fprintf(fp,"RootConfigFilename = \"werewolf_default.cfg\";\n");
+			std::stringstream strstr;
+			strstr << "RootConfigFilename = \"";
+			strstr << ETC_DIR;
+			strstr << "werewolf_default.cfg\";\n";
+			fprintf(fp,strstr.str().c_str());
 			fclose(fp);
 		}
 		m_ConfigFile.load (ConfigFileName);
