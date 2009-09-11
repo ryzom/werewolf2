@@ -52,8 +52,14 @@ namespace WWCLIENT {
 
 std::string CUserPaths::getHomeDir() {
 #if defined(NL_OS_WINDOWS)
-	nlerror ("TODO: Windows home dir");
-	return "";
+	std::string homeDir;
+	// Returns something like:
+	// C:\\Documents and Settings\\myuser\\Application Data\\
+	TCHAR szAppData[MAX_PATH];
+	SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, szAppData);
+
+	homeDir.assign(szAppData);
+	return homeDir;
 #elif defined(NL_OS_UNIX)
 	char *home = getenv("HOME");
 	if(home == NULL || home[0] == '\0') {
@@ -68,8 +74,7 @@ std::string CUserPaths::getHomeDir() {
 
 std::string CUserPaths::getConfigDir() {
 #if defined(NL_OS_WINDOWS)
-	nlerror ("TODO: Windows config dir");
-	return "";
+	return getHomeDir();
 #elif defined(NL_OS_UNIX)
 	char *xdgConfigHome = getenv("XDG_CONFIG_HOME");
 	std::string configDir;
