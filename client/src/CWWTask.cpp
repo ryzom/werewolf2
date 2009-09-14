@@ -87,10 +87,9 @@ void CWWTask::init() {
 	m_DoError=false;
 
 	// First we want to register some essential paths:
-	NLMISC::CPath::addSearchPath(CUserPaths::getWerewolfConfigDir());
 	std::string dataDir = DATA_DIR "data";
-	nlinfo("************* data dir is %s", dataDir.c_str());
-	NLMISC::CPath::addSearchPath(dataDir,true,true,NULL);
+	NLMISC::CPath::addSearchPath(dataDir,true,false,NULL);
+	NLMISC::CPath::addSearchPath(CUserPaths::getWerewolfConfigDir(),true,true,NULL);
 
 
 	// Register game and simulation object events.
