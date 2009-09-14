@@ -54,13 +54,6 @@ namespace WWCLIENT {
 
 void CResourceTask::init() {
 	CPath::remapExtension("dds", "tga", true);
-	m_CacheDirectory = CPath::standardizePath(CConfigTask::instance().configFile().getVar("CacheDirectory").asString());
-
-	if(!CFile::isDirectory(m_CacheDirectory)) {
-		if(!CFile::createDirectory(m_CacheDirectory)) {
-			nlerror("Couldn't create \"%s\" directory", m_CacheDirectory.c_str());
-		}
-	}
 
 	CConfigFile::CVar &v = CConfigTask::instance().configFile().getVar("Path");
 	for (int i = 0; i < v.size(); i++) {
@@ -90,7 +83,6 @@ std::string CResourceTask::get(const std::string &filename) {
 	std::string ext = CFile::getExtension(filename);
 
 	std::string fn = NLMISC::CFile::getFilename(filename);
-	nlinfo("get filename: %s", fn.c_str());
 	std::string path = CPath::lookup(fn, false, false);
 	std::string fns = CFile::getFilename(path);
 
@@ -106,7 +98,9 @@ std::string CResourceTask::get(const std::string &filename) {
 		nlinfo("holy crap, empty path!");
 	}
 
+	// TODO throw an exception here or in the preceeding else.
 	nlinfo("loaded2");
+	return "";
 }
 
 void CResourceTask::loadChildren(const std::string &filename) {

@@ -111,7 +111,7 @@ NL_SETUP_BUILD_FLAGS()
 
 SET(DATA_DIR "${NL_SHARE_PREFIX}/games/werewolf" CACHE PATH "Werewolf data installation directory")
 SET(ETC_DIR "${NL_ETC_PREFIX}/werewolf" CACHE PATH "Werewolf configuration directory") 
-ADD_DEFINITIONS(-DDATA_DIR="${DATA_DIR}" -DETC_DIR="\\"${ETC_DIR}/\\"")
+ADD_DEFINITIONS(-DDATA_DIR="\\"${DATA_DIR}/\\"" -DETC_DIR="\\"${ETC_DIR}/\\"")
 
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/wwcommon/include)
