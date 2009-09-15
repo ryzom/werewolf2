@@ -40,46 +40,46 @@
             <Property Name="SizingEnabled" Value="False" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0,0},{0.79,379.2},{0.4,256},{0.99,475.2}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0029615,0},{0.00143472,0},{0.402962,0},{0.229699,0}}" />
             <Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/FPS" >
                 <Property Name="Text" Value="FPS:" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,25.6},{0.25,24},{0.85,217.6},{0.45,43.2}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,-31.4},{0.25,35},{0.85,50.6},{0.45,30.2}}" />
             </Window>
             <Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/Position" >
                 <Property Name="Text" Value="Pos:" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,25.6},{0.48,46.08},{0.85,217.6},{0.68,65.28}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,-31.4},{0.48,38.08},{0.85,51.6},{0.68,30.28}}" />
             </Window>
             <Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/Zone" >
                 <Property Name="Text" Value="Zone: " />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,25.6},{0.7,67.2},{0.85,217.6},{0.9,86.4}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,-33.4},{0.7,-68.8},{0.85,50.6},{0.9,-76.6}}" />
             </Window>
         </Window>
         <Window Type="TaharezLook/FrameWindow" Name="LandscapeProgress" >
-            <Property Name="Text" Value="Loading Game..." />
+            <Property Name="Text" Value="Starting up Werewolf..." />
             <Property Name="TitlebarFont" Value="Commonwealth-10" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-            <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.01,-7.59998},{0.01,-2.2},{0.99,619.6},{0.99,468.2}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.002,0},{0.002,0},{0.998,0},{0.998,0}}" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Window Type="TaharezLook/AlternateProgressBar" Name="LandscacpeProgress/ProgBar" >
                 <Property Name="StepSize" Value="0.01" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="CurrentProgress" Value="0" />
-                <Property Name="UnifiedAreaRect" Value="{{0.02,12.544},{0.87,409.248},{0.98,614.656},{0.92,432.768}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0140773,0},{0.950346,0},{0.987899,0},{0.97452,0}}" />
             </Window>
             <Window Type="TaharezLook/StaticText" Name="LandscapeProgress/Text" >
                 <Property Name="Text" Value="Starting up Werewolf." />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.41,257.152},{0.1,47.04},{0.63,395.136},{0.19,89.376}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.429615,0},{0.3,0},{0.629615,0},{0.301,72}}" />
             </Window>
             <Window Type="TaharezLook/StaticText" Name="LandscapeProgress/Message" >
                 <Property Name="Text" Value="Default message. This should be populated before using." />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,62.72},{0.7,329.28},{0.9,564.48},{0.76,357.504}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.128628,0},{0.87934,0},{0.928628,0},{0.93934,0}}" />
             </Window>
         </Window>
         <Window Type="TaharezLook/FrameWindow" Name="GameTask/Chatbox" >
@@ -104,12 +104,12 @@
         <Window Type="TaharezLook/FrameWindow" Name="PreGameTask/SelectChar" >
             <Property Name="Text" Value="Select Character" />
             <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="SizingEnabled" Value="False" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0,150},{0.1,48},{0.8,0},{0.4,192}}" />
-            <Property Name="CloseButtonEnabled" Value="False" />
-            <Property Name="SizingEnabled" Value="False" />
             <Property Name="DragMovingEnabled" Value="False" />
+            <Property Name="CloseButtonEnabled" Value="False" />
             <Window Type="TaharezLook/Listbox" Name="PreGameTask/SelectChar/CharBox" >
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.04,0},{0.2,29},{0.96,0},{0,262}}" />
