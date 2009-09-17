@@ -82,7 +82,7 @@ public:
 				WWCOMMON::ISimulationState* state = m_Owner->getState((*iter).first);
 				AnimationList::iterator aiter = (*iter).second.begin();
 				for( ; aiter != (*iter).second.end(); ++aiter) {
-					if(state->getStateId() == (*aiter).first) {
+					if(state && state->getStateId() == (*aiter).first) {
 						m_EMD->playAnimation((*aiter).second.first, (*aiter).second.second);
 						break;
 					}
