@@ -169,6 +169,7 @@ void CFrontendService::init() {
 
 	// Register game/sob events.
 	WWCOMMON::registerEvents();
+	WWCOMMON::registerCommonFactoryObjects();
 
 	OF_REGISTER(WWCOMMON::CSobFactory, CActor, "sobActor");
 
