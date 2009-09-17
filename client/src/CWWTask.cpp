@@ -94,6 +94,7 @@ void CWWTask::init() {
 
 	// Register game and simulation object events.
 	WWCOMMON::registerEvents();
+	WWCOMMON::registerCommonFactoryObjects();
 	OF_REGISTER(WWCOMMON::CSobFactory, CActorProxy, "sobActor");
 
 	// add default tasks...
