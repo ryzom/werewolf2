@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="TaharezLook" Imagefile="..\..\..\..\Projects\werewolf2\client\data\gui\imagesets\TaharezLook.tga" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true" >
+<Imageset Name="TaharezLook" Imagefile="TaharezLook.tga" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true" >
     <Image Name="MenuTop" XPos="171" YPos="204" Width="1" Height="2" />
     <Image Name="MenuLeft" XPos="166" YPos="209" Width="2" Height="1" />
     <Image Name="MenuRight" XPos="175" YPos="209" Width="3" Height="1" />
