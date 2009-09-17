@@ -84,8 +84,6 @@ void CGuiTask::init() {
 		WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->hide();
 		WindowManager::getSingleton().getWindow("GameTask/DebugWindow")->hide();
 		WindowManager::getSingleton().getWindow("LandscapeProgress")->hide();
-		WindowManager::getSingleton().getWindow("NetworkTask/ConnectLS")->hide();
-		WindowManager::getSingleton().getWindow("NetworkTask/ShardList")->hide();
 		WindowManager::getSingleton().getWindow("GameTask/Chatbox")->hide();
 		WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
 	} catch(CEGUI::Exception &e) {	// catch to prevent exit (errors will be logged).
