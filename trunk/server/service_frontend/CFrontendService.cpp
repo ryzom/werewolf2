@@ -324,6 +324,29 @@ CPlayer *CFrontendService::getPlayer(uint32 id) {
 	return &(m_Players.find(id)->second);
 }
 
+bool CFrontendService::savePlayer(CPlayer *plr) {
+	std::string reason;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	sint32 nbrow;
+
+	reason = sqlQuery(
+			"SELECT count(*) FROM users WHERE userid=" +
+			NLMISC::toString(id) + " AND active=0", nbrow, row, result);
+
+	if(!reason.empty()) {
+		nlinfo("SQL Query Failed: %s", reason.c_str());
+		return false;
+	}
+
+	uint32 userCount = NLMISC::fromString(row[0]);
+	if(userCount != 1) {
+		nlinfo("Player not found in database. Save it.");
+	} else {
+		nlinfo("Player already in database. Update it.");
+	}
+}
+
 MYSQL *CFrontendService::getDatabase() {
 	return m_DatabaseConnection;
 }
