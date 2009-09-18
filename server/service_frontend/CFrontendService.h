@@ -126,6 +126,13 @@ public:
 	CPlayer *getPlayer(uint32 id);
 
 	/**
+	 * \brief Save a player to the users table.
+	 *
+	 * \param plr The player to be saved/updated.
+	 * \return Whether the player was saved or not.
+	bool savePlayer(CPlayer *plr);
+
+	/**
 	 * \brief Returns a reference to the database connection.
 	 */
 	MYSQL *getDatabase();
