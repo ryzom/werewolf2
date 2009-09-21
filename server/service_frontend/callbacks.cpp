@@ -43,6 +43,7 @@
 //
 #include "CFrontendService.h"
 #include "CCharacterManager.h"
+#include "CUserManager.h"
 
 #include "CServerSimulation.h"
 
@@ -88,6 +89,8 @@ void onConnectionClient(NLNET::TSockId from, const NLNET::CLoginCookie &cookie) 
 	// Add new client to the list of player managed by this FrontEnd
 	fs->addPlayer(id, from);
 	from->setAppId((uint64)id);
+	CPlayer *plr=fs->getPlayer(id);
+	plr->User = CUserManager::instance().getUser(id);
 	
 	// Output: send the IDENTIFICATION number to the new connected client
 	NLNET::CMessage msgout("IDENTIFICATION");
