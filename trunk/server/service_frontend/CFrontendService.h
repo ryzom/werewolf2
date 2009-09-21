@@ -44,6 +44,8 @@
 //
 #include <mysql.h>
 
+#include "CUserManager.h"
+
 //
 // Callbacks
 //
@@ -65,7 +67,7 @@ struct CPlayer {
 	/// Data-filling constructor.
 	CPlayer(uint32 sobid, NLNET::TSockId con) : SobID(SobID), Connected(false), Con(con) { };
 	/// Default destructor.
-	~CPlayer() { };
+	~CPlayer() { delete User; };
 
 	/// The Simulation Object ID that this player is controlling.
 	uint32 SobID;
@@ -78,6 +80,9 @@ struct CPlayer {
 
 	/// This is the character that this player logged in as.
 	uint32 CharacterID;
+
+	/// The user object associated with this connection.
+	CUser *User;
 };
 
 /**
@@ -130,7 +135,8 @@ public:
 	 *
 	 * \param plr The player to be saved/updated.
 	 * \return Whether the player was saved or not.
-	bool savePlayer(CPlayer *plr);
+	 */
+//	bool savePlayer(CPlayer *plr);
 
 	/**
 	 * \brief Returns a reference to the database connection.
