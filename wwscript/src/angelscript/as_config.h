@@ -471,7 +471,7 @@
 		#define THISCALL_RETURN_SIMPLE_IN_MEMORY
 		#define CDECL_RETURN_SIMPLE_IN_MEMORY
 		#define STDCALL_RETURN_SIMPLE_IN_MEMORY
-		#if defined(i386) && !defined(__LP64__)
+		#if defined(__i386__) && !defined(__LP64__)
 			// Support native calling conventions on Intel 32bit CPU
 			#define AS_X86
 		#else
