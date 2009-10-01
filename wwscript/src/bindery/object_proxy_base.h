@@ -19,7 +19,7 @@
       #include BOOST_PP_ITERATE()
 
       T object;
-      unsigned ref_cnt;
+      uint32 ref_cnt;
       
   };
   #endif

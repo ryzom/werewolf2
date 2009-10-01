@@ -14,7 +14,7 @@ struct ObjectMethod {
   }
   
   static std::string signature(const std::string & name);
-  static asUPtr convert(Fn);
+  static asSFuncPtr convert(Fn);
   static const asDWORD calling_convention;
 };
 
@@ -31,10 +31,10 @@ struct ObjectMethod<T, Fn,
   static std::string signature(const std::string & name) {
     return CallingConvention<Fn>::object_method_signature(name);
   }
-  
+
   static const asDWORD calling_convention = asCALL_THISCALL;
   
-  static asUPtr convert(Fn fn) {
+  static asSFuncPtr convert(Fn fn) {
     return asSMethodPtr<sizeof(void (T::*)())>::Convert((void (T::*)())(fn));
   }
 };
@@ -91,7 +91,7 @@ struct ObjectMethod<T, Fn,
        CallingConvention<Fn>::is_valid_firstcall_method) ? asCALL_CDECL_OBJFIRST 
                                                          : asCALL_CDECL_OBJLAST;
 
-  static asUPtr convert(Fn fn) {
+  static asSFuncPtr convert(Fn fn) {
     return asFUNCTION(fn);
   }
 };
@@ -108,7 +108,7 @@ struct ObjectMethod<T, Fn,
   }
   
   static std::string signature(const std::string & name);
-  static asUPtr convert(Fn);
+  static asSFuncPtr convert(Fn);
   static const asDWORD calling_convention;
 };
 
@@ -125,7 +125,7 @@ std::string object_method_signature(Fn fn, const std::string & name) {
 }
 
 template <typename T, typename Fn>
-asUPtr convert_object_method(Fn fn) {
+asSFuncPtr convert_object_method(Fn fn) {
   return ObjectMethod<T, Fn>::convert(fn);
 }
 
