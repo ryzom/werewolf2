@@ -64,22 +64,24 @@ PropertyManager::~PropertyManager() {
 
 void PropertyManager::registerProperty(const char* map, IProperty* property) {
 	PropertyMap* m = getPropertyMap(map);
-	if(m == NULL)
+	if(m == NULL) // TODO throw an exception here.
 		return;
 	m->registerProperty(property);
 }
 
 IProperty* PropertyManager::getProperty(const char* map, const char* property) {
 	PropertyMap* m = getPropertyMap(map);
-	if(m == NULL)
+	if(m == NULL) { // TODO throw an exception ehre.
+		nlwarning("Unable to find property map '%s'", map);
 		return NULL;
+	}
 	return m->getProperty(property);
 }
 
 PropertyMap* PropertyManager::getPropertyMap(const char* name) {
 	propertyMapMap::iterator iter = m_maps.find(name);
 	if(iter == m_maps.end())
-		return NULL;
+		return NULL; // throw an exception here?
 	return iter->second;
 }
 

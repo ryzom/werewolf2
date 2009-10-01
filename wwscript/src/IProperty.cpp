@@ -76,6 +76,7 @@ void FloatProperty::setScriptParameter(ScriptVariable* var) {
 
 void FloatArrayProperty::setScriptParameter(ScriptVariable* var) {
 	// TODO: IMPLEMENT ME
+	nlwarning("FloatArrayProperty Script Parameters Not implemented!");
 }
 
 }; // END OF NAMESPACE WWSCRIPT

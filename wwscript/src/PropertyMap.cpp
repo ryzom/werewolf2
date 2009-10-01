@@ -51,9 +51,15 @@ namespace WWSCRIPT {
 
 
 void PropertyMap::registerProperty(IProperty* property) {
+	if(property == NULL) {
+		nlwarning("Attempt to register a null property!");
+		return;
+	}
+
 	IProperty *old = getProperty(property->getName());
-	if(old)
+	if(old) {
 		delete old;
+	}
 	m_propertyMap[property->getName()] = property;
 }
 
@@ -69,8 +75,10 @@ void PropertyMap::removeProperty(const char* name) {
 IProperty* PropertyMap::getProperty(const char* name) {
 	propMap::const_iterator iter;
 	iter = m_propertyMap.find(name);
-	if(iter == m_propertyMap.end())
+	if(iter == m_propertyMap.end()) { // TODO throw an exception?
+		nlwarning("Unable to find property in map: %s", name, m_propertyMap.size());
 		return NULL;
+	}
 	return iter->second;
 }
 

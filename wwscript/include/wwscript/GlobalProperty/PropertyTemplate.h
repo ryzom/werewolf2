@@ -1,5 +1,5 @@
 /**
- * \file IProperty.h
+ * \file PropertyTemplate.h
  * \date February 2006
  * \author Henri Kuuste
  * \author Matt Raykowski
@@ -23,8 +23,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
  * MA 02111-1307, USA.
  */
-#ifndef __IPROPERTY_H__
-#define __IPROPERTY_H__
+#ifndef __PROPERTYTEMPLATE_H__
+#define __PROPERTYTEMPLATE_H__
 
 //
 // Standard Includes
@@ -35,9 +35,7 @@
 //
 // System Includes
 //
-//#include <Cg/cgGL.h>
 #include <angelscript.h>
-//#include <xercesc/dom/DOM.hpp>
 
 //
 // NeL Includes
@@ -46,6 +44,7 @@
 //
 // Werewolf Includes
 //
+#include "wwscript/ScriptEngine/ScriptVariable.h"
 
 //
 // Namespaces
@@ -53,32 +52,18 @@
 
 namespace WWSCRIPT {
 
-class ScriptVariable;
+#define SCRIPT_PROPERTY(type,value,name) WWSCRIPT::PropertyTemplate<type>(value,name)
 
-class IProperty {
+template<class T>
+class PropertyTemplate : public WWSCRIPT::IProperty {
+public:	
+	PropertyTemplate(T value, const char *name) { m_value=value; m_name = name; };
+	void setScriptParameter(WWSCRIPT::ScriptVariable* var) { var->setValue((void *)(m_value)); };
 protected:
-	const char* m_name;
-
-	IProperty() {};
-
-public:
-	//virtual void setCGGLParameter(CGparameter& parameter) = 0;
-	//virtual void setCGD3DParameter(CGparameter& parameter) = 0;
-	virtual void setScriptParameter(ScriptVariable* var) = 0;
-
-	/**
-	 * Not a typical hash function but rather a unique hash should be added to the end of the stream.
-	 */
-	// TODO determine waht thsi was for and if it is needed.
-	//virtual void getHash(std::stringstream& hash) = 0;
-
-	//static IProperty *create(xercesc::DOMNode* node) { return NULL; };
-
-	virtual ~IProperty() {};
-	virtual void setName(const char *name) { m_name = name; };
-	virtual const char* getName() { return m_name; };
+	T	m_value;
 };
+
 
 }; // END OF NAMESPACE WWSCRIPT
 
-#endif // __IPROPERTY_H__
+#endif // __PROPERTYTEMPLATE_H__
