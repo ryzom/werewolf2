@@ -43,10 +43,10 @@
 //
 #include "wwscript/ScriptEngine/ScriptManager.h"
 #include "wwscript/ScriptEngine/ScriptLoader.h"
-#include "wwscript/ScriptBindings/ScriptNelBindery.h"
 
 // private.
 #include "angelscript/scriptstring.h"
+#include "bindery/ScriptNelBindery.h"
 
 //
 // Namespaces
@@ -117,7 +117,7 @@ bool ScriptManager::initializeScripts() {
 	// process NeL static bindery.
 	nlinfo("Initializing NeL Bindery");
 	ScriptNelBindery nelBindery;
-	nelBindery.bindNel();
+	nelBindery.bindObjects();
 
 	nlinfo("Creating script objects from loader.");
 	// Now go throught the list of scripts and create them.

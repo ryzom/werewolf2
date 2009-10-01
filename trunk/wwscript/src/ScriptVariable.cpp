@@ -179,8 +179,10 @@ bool ScriptVariable::setValueFromBinding() {
 	if(!isBound())
 		return false;
 	IProperty *prop = PropertyManager::instance().getProperty(m_binding->map.c_str(), m_binding->property.c_str());
-	if(prop == NULL)
+	if(prop == NULL) {
+		nlinfo("No property found for '%s.%s'", m_binding->map.c_str(), m_binding->property.c_str());
 		return false;
+	}
 	prop->setScriptParameter(this);
 	return m_set;
 }

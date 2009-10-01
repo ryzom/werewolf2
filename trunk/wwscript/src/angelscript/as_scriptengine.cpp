@@ -583,7 +583,6 @@ int asCScriptEngine::WriteMessage(const char *section, int row, int col, asEMsgT
 	// If there is no callback then there's nothing to do
 	if( !msgCallback )
 		return 0;
-
 	asSMessageInfo msg;
 	msg.section = section;
 	msg.row     = row;

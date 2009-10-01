@@ -1,7 +1,6 @@
 /**
- * \file IProperty.h
- * \date February 2006
- * \author Henri Kuuste
+ * \file ScriptBinding.h
+ * \date September 2009
  * \author Matt Raykowski
  */
 
@@ -23,29 +22,28 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
  * MA 02111-1307, USA.
  */
-#ifndef __IPROPERTY_H__
-#define __IPROPERTY_H__
+#ifndef __SCRIPTBINDING_H__
+#define __SCRIPTBINDING_H__
 
 //
 // Standard Includes
 //
-#include <vector>
-#include <sstream>
 
 //
 // System Includes
 //
-//#include <Cg/cgGL.h>
 #include <angelscript.h>
-//#include <xercesc/dom/DOM.hpp>
 
 //
 // NeL Includes
 //
+#include <nel/misc/types_nl.h>
+#include <nel/misc/debug.h>
 
 //
 // Werewolf Includes
 //
+#include "wwscript/ScriptEngine/ScriptManager.h"
 
 //
 // Namespaces
@@ -53,32 +51,11 @@
 
 namespace WWSCRIPT {
 
-class ScriptVariable;
-
-class IProperty {
-protected:
-	const char* m_name;
-
-	IProperty() {};
-
+class ScriptBinding {
 public:
-	//virtual void setCGGLParameter(CGparameter& parameter) = 0;
-	//virtual void setCGD3DParameter(CGparameter& parameter) = 0;
-	virtual void setScriptParameter(ScriptVariable* var) = 0;
-
-	/**
-	 * Not a typical hash function but rather a unique hash should be added to the end of the stream.
-	 */
-	// TODO determine waht thsi was for and if it is needed.
-	//virtual void getHash(std::stringstream& hash) = 0;
-
-	//static IProperty *create(xercesc::DOMNode* node) { return NULL; };
-
-	virtual ~IProperty() {};
-	virtual void setName(const char *name) { m_name = name; };
-	virtual const char* getName() { return m_name; };
+	virtual bool bindObjects()=0;
 };
 
-}; // END OF NAMESPACE WWSCRIPT
+}; // END NAMESPACE WWSCRIPT
 
-#endif // __IPROPERTY_H__
+#endif // __SCRIPTBINDING_H__
