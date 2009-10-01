@@ -18,8 +18,9 @@
       #include BOOST_PP_ITERATE()
 
       using ObjectProxyBase<T>::object;
-      
-      void add_ref(void) {
+      using ObjectProxyBase<T>::ref_cnt;
+
+      virtual void add_ref(void) {
         ++ref_cnt;
       }
       void release(void) {

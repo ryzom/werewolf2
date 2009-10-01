@@ -26,16 +26,17 @@ struct ASTraits<ObjectProxy<T> > {
   }
 };
 
-#define ASTRAITS(type, name, allow_handles, allow_script_create) \
-  template <>                                         \
-  struct ASTraits<type> {                             \
-    static const bool registered = true;              \
-    static const bool handle = allow_handles;         \
-    static const bool create = allow_script_create;   \
-    static const bool has_ref_cnt = false;            \
-    static std::string get_name(void) {               \
-      return name;                                    \
-    }                                                 \
+#define ASTRAITS(type, name, allow_handles, allow_script_create, want_objref) \
+  template <>                                                      \
+  struct ASTraits<type> {                                          \
+    static const bool registered = true;                           \
+    static const bool handle = (want_objref?allow_handles:false);  \
+    static const bool create = allow_script_create;                \
+    static const bool has_ref_cnt = false;                         \
+    static const bool objref = want_objref;                        \
+    static std::string get_name(void) {                            \
+      return name;                                                 \
+    }                                                              \
   }
 
 #define ASTRAITS_REFCNT(type, name, allow_handles, allow_script_create) \
@@ -45,33 +46,35 @@ struct ASTraits<ObjectProxy<T> > {
     static const bool handle = allow_handles;         \
     static const bool create = allow_script_create;   \
     static const bool has_ref_cnt = true;             \
+    static const bool objref = true;                  \
     static std::string get_name(void) {               \
       return name;                                    \
     }                                                 \
   }
 
 
-ASTRAITS(void, "void", false, true);
-ASTRAITS(bool, "bool", false, true);
-ASTRAITS(signed char, "int8", false, true);
-ASTRAITS(signed short, "int16", false, true);
-ASTRAITS(signed long, "int", false, true);
-ASTRAITS(signed long long, "int64", false, true);
-ASTRAITS(unsigned char, "uint8", false, true);
-ASTRAITS(unsigned short, "uint16", false, true);
-ASTRAITS(unsigned long, "uint", false, true);
-ASTRAITS(unsigned long long, "uint64", false, true);
-ASTRAITS(float, "float", false, true);
-ASTRAITS(double, "double", false, true);
-ASTRAITS(signed int, "int", false, true);
-ASTRAITS(unsigned int, "uint", false, true);
-ASTRAITS(long double, "double", false, true);
-ASTRAITS(wchar_t, "int16", false, true);
+ASTRAITS(void, "void", false, true, false);
+ASTRAITS(bool, "bool", false, true, false);
+ASTRAITS(signed char, "int8", false, true, false);
+ASTRAITS(signed short, "int16", false, true, false);
+ASTRAITS(signed long, "int", false, true, false);
+ASTRAITS(signed long long, "int64", false, true, false);
+ASTRAITS(unsigned char, "uint8", false, true, false);
+ASTRAITS(unsigned short, "uint16", false, true, false);
+ASTRAITS(unsigned long, "uint", false, true, false);
+ASTRAITS(unsigned long long, "uint64", false, true, false);
+ASTRAITS(float, "float", false, true, false);
+ASTRAITS(double, "double", false, true, false);
+ASTRAITS(signed int, "int", false, true, false);
+ASTRAITS(unsigned int, "uint", false, true, false);
+ASTRAITS(long double, "double", false, true, false);
+ASTRAITS(wchar_t, "int16", false, true, false);
 #if CHAR_MAX == UCHAR_MAX
-  ASTRAITS(char, "uint8", false, true);
+  ASTRAITS(char, "uint8", false, true, false);
 #else
-  ASTRAITS(char, "int8", false, true);
+  ASTRAITS(char, "int8", false, true, false);
 #endif
+ASTRAITS(std::string, "string", false, true, false);
 
 template <typename T>
 struct ASArg
