@@ -12,6 +12,8 @@ ENDIF(NEL3D_LIBRARY AND NEL3D_INCLUDE_DIRS)
 FIND_PATH(NEL3D_INCLUDE_DIRS
   nel/3d/u_driver.h
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/include
+  $ENV{ProgramFiles}/NeL/include
   $ENV{NEL3D_DIR}/include
   /usr/local/include
   /usr/include
@@ -22,8 +24,10 @@ FIND_PATH(NEL3D_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NEL3D_LIBRARY
-  NAMES nel3d nel3d_r
+  NAMES nel3d nel3d_r nel3d_d
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/lib
+  $ENV{ProgramFiles}/NeL/lib
   $ENV{NEL3D_DIR}/lib
   /usr/local/lib
   /usr/lib
