@@ -9,8 +9,10 @@ IF(NELSNDDRV_LIBRARY)
 ENDIF(NELSNDDRV_LIBRARY)
 
 FIND_LIBRARY(NELSNDDRV_LIBRARY
-  NAMES nelsnd_lowlevel nelsnd_lowlevel_r
+  NAMES nelsnd_lowlevel nelsnd_lowlevel_r nelsnd_lowlevel_d
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/lib
+  $ENV{ProgramFiles}/NeL/lib
   $ENV{NELSNDDRV_DIR}/lib
   /usr/local/lib
   /usr/lib

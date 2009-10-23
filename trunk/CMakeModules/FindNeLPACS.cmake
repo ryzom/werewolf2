@@ -12,6 +12,8 @@ ENDIF(NELPACS_LIBRARY AND NELPACS_INCLUDE_DIRS)
 FIND_PATH(NELPACS_INCLUDE_DIRS
   nel/pacs/u_global_retriever.h
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/include
+  $ENV{ProgramFiles}/NeL/include
   $ENV{NELPACS_DIR}/include
   /usr/local/include
   /usr/include
@@ -22,8 +24,10 @@ FIND_PATH(NELPACS_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELPACS_LIBRARY
-  NAMES nelpacs nelpacs_r
+  NAMES nelpacs nelpacs_r nelpacs_d
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/lib
+  $ENV{ProgramFiles}/NeL/lib
   $ENV{NELPACS_DIR}/lib
   /usr/local/lib
   /usr/lib

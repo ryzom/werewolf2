@@ -12,6 +12,8 @@ ENDIF(NELSOUND_LIBRARY AND NELSOUND_INCLUDE_DIRS)
 FIND_PATH(NELSOUND_INCLUDE_DIRS
   nel/sound/u_audio_mixer.h
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/include
+  $ENV{ProgramFiles}/NeL/include
   $ENV{NELSOUND_DIR}/include
   /usr/local/include
   /usr/include
@@ -22,8 +24,10 @@ FIND_PATH(NELSOUND_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELSOUND_LIBRARY
-  NAMES nelsound nelsound_r
+  NAMES nelsound nelsound_r nelsound_d
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/lib
+  $ENV{ProgramFiles}/NeL/lib
   $ENV{NELSOUND_DIR}/lib
   /usr/local/lib
   /usr/lib

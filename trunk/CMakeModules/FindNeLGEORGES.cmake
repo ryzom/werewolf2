@@ -12,6 +12,8 @@ ENDIF(NELGEORGES_LIBRARY AND NELGEORGES_INCLUDE_DIRS)
 FIND_PATH(NELGEORGES_INCLUDE_DIRS
   nel/georges/u_form_loader.h
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/include
+  $ENV{ProgramFiles}/NeL/include
   $ENV{NELGEORGES_DIR}/include
   /usr/local/include
   /usr/include
@@ -22,8 +24,10 @@ FIND_PATH(NELGEORGES_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELGEORGES_LIBRARY
-  NAMES nelgeorges nelgeorges_r
+  NAMES nelgeorges nelgeorges_r nelgeorges_d
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/lib
+  $ENV{ProgramFiles}/NeL/lib
   $ENV{NELGEORGES_DIR}/lib
   /usr/local/lib
   /usr/lib

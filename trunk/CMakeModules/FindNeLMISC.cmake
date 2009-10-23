@@ -12,6 +12,8 @@ ENDIF(NELMISC_LIBRARY AND NELMISC_INCLUDE_DIRS)
 FIND_PATH(NELMISC_INCLUDE_DIRS
   nel/misc/types_nl.h
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/include
+  $ENV{ProgramFiles}/NeL/include
   $ENV{NELMISC_DIR}/include
   /usr/local/include
   /usr/include
@@ -19,12 +21,13 @@ FIND_PATH(NELMISC_INCLUDE_DIRS
   /opt/local/include
   /opt/csw/include
   /opt/include
-  c:/Program Files/NeL/include
 )
 
 FIND_LIBRARY(NELMISC_LIBRARY
-  NAMES nelmisc nelmisc_r
+  NAMES nelmisc nelmisc_r nelmisc_d
   PATHS
+  [HKEY_LOCAL_MACHINE\\SOFTWARE\\NeL\\NeL;]/lib
+  $ENV{ProgramFiles}/NeL/lib
   $ENV{NELMISC_DIR}/lib
   /usr/local/lib
   /usr/lib
@@ -35,7 +38,6 @@ FIND_LIBRARY(NELMISC_LIBRARY
   /opt/csw/lib
   /opt/lib
   /usr/freeware/lib64
-  c:/Program Files/NeL/lib
 )
 
 IF(NELMISC_LIBRARY AND NELMISC_INCLUDE_DIRS)

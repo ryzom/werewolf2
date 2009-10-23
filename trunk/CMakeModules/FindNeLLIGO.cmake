@@ -22,7 +22,7 @@ FIND_PATH(NELLIGO_INCLUDE_DIRS
 )
 
 FIND_LIBRARY(NELLIGO_LIBRARY
-  NAMES nelligo nelligo_r
+  NAMES nelligo nelligo_rd
   PATHS
   $ENV{NELLIGO_DIR}/lib
   /usr/local/lib
