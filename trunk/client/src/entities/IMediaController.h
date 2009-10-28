@@ -38,7 +38,6 @@ extern "C"
 //
 // System Includes
 //
-#include <boost/python.hpp>
 
 //
 // NeL Includes
@@ -60,31 +59,6 @@ public:
 	virtual void update() = 0;
 	virtual void init() = 0;
 	virtual const char* getControllerName() = 0;
-};
-
-class IMediaControllerWrap : public IMediaController, public boost::python::wrapper<IMediaController> {
-public:
-	const char* getControllerName() {
-		return boost::python::call<const char*>(this->get_override("getControllerName").ptr());
-	}
-
-	void update() {
-		return boost::python::call<void>(this->get_override("update").ptr());
-	}
-
-	void init() {
-		return boost::python::call<void>(this->get_override("init").ptr());
-	}
-
-	static void init_script_class() {
-		using namespace boost::python::api;
-		using namespace boost::python;
-		class_<IMediaControllerWrap, boost::noncopyable, bases<WWCOMMON::IDirtyPropagator> > imcw("IMediaController", no_init);
-		imcw.def("update", pure_virtual(&IMediaController::update));
-		imcw.def("init", pure_virtual(&IMediaController::init));
-		imcw.def("getControllerName", pure_virtual(&IMediaController::getControllerName));
-		imcw.add_property("name", imcw.attr("getControllerName"));	
-	}
 };
 
 }; // END NAMESPACE WWCLIENT
