@@ -44,6 +44,11 @@
 //
 #include "CUserPaths.h"
 
+// This is needed to look up the user's own home directory.
+#ifdef NL_OS_WINDOWS
+#include "shlobj.h"
+#endif
+
 //
 // Namespaces
 //
@@ -54,11 +59,12 @@ std::string CUserPaths::getHomeDir() {
 #if defined(NL_OS_WINDOWS)
 	std::string homeDir;
 	// Returns something like:
-	// C:\\Documents and Settings\\myuser\\Application Data\\
+	// C:\\Documents and Settings\\myuser\\Application Data
 	TCHAR szAppData[MAX_PATH];
-	SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, szAppData);
+	SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szAppData);
 
 	homeDir.assign(szAppData);
+	homeDir += "\\";
 	return homeDir;
 #elif defined(NL_OS_UNIX)
 	char *home = getenv("HOME");
