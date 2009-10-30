@@ -53,7 +53,7 @@ namespace WWSCRIPT {
 
 class PropertyMap : public NLMISC::CRefCount {
 public:
-	typedef CHashMap<const char*, IProperty*, strltpred_hash_compare, streqpred_hash_compare> propMap;
+	typedef CHashMap<const char*, IProperty*, strltpred_hash_compare> propMap;
 
 	PropertyMap() {};
 	PropertyMap(std::string file);

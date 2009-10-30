@@ -61,7 +61,7 @@ public:
 	ScriptFunction(TScriptFunction func, Script* parent);
 	~ScriptFunction();
 
-	typedef CHashMap<const char*, ScriptArg*, strltpred_hash_compare, streqpred_hash_compare> ArgMap;
+	typedef CHashMap<const char*, ScriptArg*, strltpred_hash_compare> ArgMap;
 	// typedef std::pair<const char*, ScriptArg*> argPair;
 
 	const std::string& getName() const;

@@ -57,7 +57,7 @@ public:
 
 	~Script();
 
-	typedef CHashMap<const char*, ScriptFunction*, strltpred_hash_compare, streqpred_hash_compare> functionMap;
+	typedef CHashMap<const char*, ScriptFunction*, strltpred_hash_compare> functionMap;
 	// typedef std::pair<const char*, ScriptFunction*> functionPair;
 
 	const std::string& getName() const;

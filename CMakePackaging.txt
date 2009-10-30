@@ -1,0 +1,75 @@
+cpack_add_install_type(Full DISPLAY_NAME "Full Install")
+cpack_add_install_type(Developer DISPLAY_NAME "Developer Install")
+cpack_add_install_type(Runtime DISPLAY_NAME "Runtime Files")
+
+cpack_add_component_group(Drivers 
+  EXPANDED 
+  DESCRPTION "The drivers needed to run NeL-based software.")
+cpack_add_component_group(Samples 
+  EXPANDED 
+  DESCRPTION "Sample applications and configurations demonstrating NeL.")
+cpack_add_component_group(Tools 
+  EXPANDED 
+  DESCRPTION "Tools for NeL development and media creation.")
+
+
+
+###############
+#             #
+# Development #
+#             #
+###############
+cpack_add_component(libraries
+  DISPLAY_NAME "Libraries"
+  DESCRIPTION "Libraries used to build programs with NeL"
+  GROUP Development
+  INSTALL_TYPES Full Developer)
+cpack_add_component(headers
+  DISPLAY_NAME "C++ Headers"
+  DESCRIPTION "C++ headers used to build programs with NeL"
+  GROUP Development
+  INSTALL_TYPES Full Developer)
+
+#########
+#       #
+# Tools #
+#       #
+#########
+cpack_add_component(toolsmisc
+  DISPLAY_NAME "Misc Tools"
+  DESCRIPTION "Misc. NeL Tools"
+  GROUP Tools
+  INSTALL_TYPES Full Runtime)
+
+###########
+#         #
+# Samples #
+#         #
+###########
+cpack_add_component(samples
+  DISPLAY_NAME "Werewolf Samples"
+  DESCRIPTION "Sample applications demonstrating the WW libraries."
+  GROUP Samples
+  INSTALL_TYPES Full)
+
+############
+#          #
+# Services #
+#          #
+############
+cpack_add_component(services
+  DISPLAY_NAME "Werewolf Services"
+  DESCRIPTION "Services necessary to run Werewolf shards."
+  GROUP Services
+  INSTALL_TYPES Full)
+  
+###########
+#         #
+# Clients #
+#         #
+###########
+cpack_add_component(clients
+  DISPLAY_NAME "Werewolf Clients"
+  DESCRIPTION "Clients necessary to play the Werewolf game."
+  GROUP Clients
+  INSTALL_TYPES Full)

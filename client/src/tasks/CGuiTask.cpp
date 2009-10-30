@@ -50,6 +50,8 @@ using namespace NL3D;
 namespace WWCLIENT {
 
 void CGuiTask::init() {
+	nlinfo("Loading NeL CEGUI Renderer.");
+
 	// Load the CEGUI renderer and get a handle to the library.
 	if(!m_DriverLib.loadLibrary("nelceguirenderer", true, true , true)) {
 		nlerror("Failed to load NeL CEGUI Renderer library.");
@@ -57,9 +59,17 @@ void CGuiTask::init() {
 	NELRENDERER_CREATE_PROC createNelRenderer = reinterpret_cast<NELRENDERER_CREATE_PROC>(m_DriverLib.getSymbolAddress(NELRENDERER_CREATE_PROC_NAME));
 
 	// create the CEGUI renderer.
-	m_GuiRenderer = createNelRenderer(&C3DTask::instance().driver(), true);
+	try {
+		m_GuiRenderer = createNelRenderer(&C3DTask::instance().driver(), true);
+	} catch(CEGUI::GenericException &e) {
+		nlerror("Caught CEGUI Exception during renderer creation: %s", e.getMessage().c_str());
+	}
 
-	m_GuiSystem = new CEGUI::System(m_GuiRenderer);
+	try {
+		m_GuiSystem = new CEGUI::System(m_GuiRenderer);
+	} catch(CEGUI::GenericException &e) {
+		nlerror("Caught CEGUI Exception during System creation: %s", e.getMessage().c_str());
+	}
 
 	CEGUI::NeLRenderer *rndr = (CEGUI::NeLRenderer *)m_GuiRenderer;
 	rndr->activateInput();
@@ -86,6 +96,8 @@ void CGuiTask::init() {
 		WindowManager::getSingleton().getWindow("LandscapeProgress")->hide();
 		WindowManager::getSingleton().getWindow("GameTask/Chatbox")->hide();
 		WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
+	} catch(CEGUI::GenericException &e) {
+		nlinfo("Caught CEGUI Exception during System creation: %s", e.getMessage().c_str());
 	} catch(CEGUI::Exception &e) {	// catch to prevent exit (errors will be logged).
 		nlinfo("Failed to initialize CEGUI system: %s", e.getMessage().c_str());
 	}
