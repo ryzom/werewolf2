@@ -47,6 +47,8 @@
 #include "wwscript/ScriptEngine/ScriptManager.h"
 #include "wwscript/ScriptBindings/ScriptBinding.h"
 #include "wwscript/GlobalProperty/IProperty.h"
+#include "wwcommon/CGameSpawnRequestEvent.h"
+#include "wwcommon/CGameUnspawnRequestEvent.h"
 
 //#include "bindclassutil.h"
 #include "registrar.h"
@@ -56,7 +58,6 @@
 //
 
 //       class          , name     , handle, create
-// TODO: add this back if/when I fix the autobinder.
 ASTRAITS(NLMISC::CMatrix, "CMatrix", true, true, true);
 ASTRAITS(NLMISC::CVector, "CVector", true, true, true);
 
@@ -79,15 +80,16 @@ public:
 			asFUNCTIONPR(ScriptNelBindery::NelInfo,(std::string&),void), 
 			asCALL_CDECL);
 
-		/* autobinder.	*/
-		REGISTER_TYPE(NLMISC::CMatrix, engine);	
-		r = engine->REGISTER_OBJECT_METHOD(NLMISC::CMatrix, "identity", &NLMISC::CMatrix::identity);
-		nlassert(r >= 0);
-		nlinfo("Binding CMatrix");
-		//r = engine->RegisterObjectType("CMatrix", sizeof(NLMISC::CMatrix), asOBJ_REF); assert(r>=0);
-		//r = engine->RegisterGlobalProperty("const CMatrix Identity", &NLMISC::CMatrix::Identity); assert(r>=0);
+		bindCVector();
+		bindCMatrix();
 
+		nlinfo("Done binding.");
+		return true;
+	}
 
+	void bindCVector() {
+		int r;
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
 		nlinfo("Binding CVector");
 		/* Autobinder */
 		REGISTER_TYPE(NLMISC::CVector, engine);
@@ -96,9 +98,22 @@ public:
 		r = engine->REGISTER_OBJECT_METHOD(NLMISC::CVector, "isNull", &NLMISC::CVector::isNull); nlassert(r >= 0);
 		nlinfo("registering property x");
 		r = engine->RegisterObjectProperty("CVector", "float x", offsetof(NLMISC::CVector,x)); nlassert(r >= 0);
+		r = engine->RegisterObjectProperty("CVector", "float y", offsetof(NLMISC::CVector,y)); nlassert(r >= 0);
+		r = engine->RegisterObjectProperty("CVector", "float z", offsetof(NLMISC::CVector,z)); nlassert(r >= 0);
+	}
 
-		nlinfo("Done binding.");
-		return true;
+	void bindCMatrix() {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding CMatrix");
+		REGISTER_TYPE(NLMISC::CMatrix, engine);	
+		r = engine->REGISTER_OBJECT_METHOD(NLMISC::CMatrix, "identity", &NLMISC::CMatrix::identity); nlassert(r >= 0);
+		r = engine->RegisterObjectMethod("CMatrix", "void setScale(float)", asMETHODPR(NLMISC::CMatrix,setScale, (float), void ), asCALL_THISCALL); assert(r>=0);
+		//r = engine->RegisterObjectMethod("CMatrix", "void setScale(CVector &in)", asMETHODPR(NLMISC::CMatrix,setScale, (NLMISC::CVector &), void ), asCALL_THISCALL); assert(r>=0);
+		r = engine->RegisterObjectMethod("CMatrix", "void getPos(CVector &in)", asMETHODPR(NLMISC::CMatrix,getPos, (NLMISC::CVector &) const, void ), asCALL_THISCALL); assert(r>=0);
+		//r = engine->RegisterObjectBehaviour("CMatrix", asBEHAVE_MULTIPLY, "CMatrix f(CMatrix &in)", asMETHODPR(NLMISC::CMatrix,operator *, (NLMISC::CMatrix &), NLMISC::CMatrix), asCALL_THISCALL); assert(r>=0);
+		//r = engine->RegisterObjectBehaviour("CMatrix", asBEHAVE_MUL_ASSIGN, "CMatrix f(CMatrix &in)", asMETHODPR(NLMISC::CMatrix,operator *=, (NLMISC::CMatrix &in), NLMISC::CMatrix), asCALL_THISCALL); assert(r>=0);
+		r = engine->RegisterObjectMethod("CMatrix", "void setCoefficient(float, int, int)", asMETHODPR(NLMISC::CMatrix,setCoefficient, (float, sint, sint), void ), asCALL_THISCALL); assert(r>=0);
 	}
 };
 

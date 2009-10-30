@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<FORM Version="0.0" State="modified">
+	<STRUCT>
+		<ATOM Name="Name" Value="ExampleScript"/>
+		<ATOM Name="Source" Value="exampleScript.as"/>
+		<ATOM Name="Section" Value="general"/>
+		<ARRAY Name="Functions">
+			<STRUCT>
+				<ATOM Name="FunctionName" Value="getFoobar"/>
+				<ATOM Name="ReturnType" Value="void"/>
+			</STRUCT>
+			<STRUCT>
+				<ATOM Name="FunctionName" Value="testArguments"/>
+				<ATOM Name="ReturnType" Value="void"/>
+				<ARRAY Name="Arguments">
+					<STRUCT>
+						<ATOM Name="ArgumentName" Value="matrix"/>
+						<ATOM Name="ArgumentType" Value="OBJECT"/>
+						<ATOM Name="ArgumentId" Value="1"/>
+						<ATOM Name="BindingMap" Value="LOCAL"/>
+						<ATOM Name="BindingProperty" Value="matrix"/>
+					</STRUCT>
+				</ARRAY>
+			</STRUCT>
+			<STRUCT>
+				<ATOM Name="FunctionName" Value="testVectors"/>
+				<ATOM Name="ReturnType" Value="void"/>
+				<ARRAY Name="Arguments">
+					<STRUCT>
+						<ATOM Name="ArgumentName" Value="testVec"/>
+						<ATOM Name="ArgumentType" Value="OBJECT"/>
+						<ATOM Name="ArgumentId" Value="1"/>
+						<ATOM Name="BindingMap" Value="LOCAL"/>
+						<ATOM Name="BindingProperty" Value="testVec"/>
+					</STRUCT>
+				</ARRAY>
+			</STRUCT>
+		</ARRAY>
+	</STRUCT>
+	<STRUCT/>
+	<STRUCT/>
+	<STRUCT/>
+	<STRUCT/>
+</FORM>

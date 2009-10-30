@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<DFN>
+	<ELEMENT Name="Name" Type="Type" Filename="string.typ"/>
+	<ELEMENT Name="Source" Type="Type" Filename="string.typ"/>
+	<ELEMENT Name="Section" Type="Type" Filename="scriptsection.typ"/>
+	<ELEMENT Name="Functions" Type="Dfn" Filename="functions.dfn" Array="true"/>
+</DFN>

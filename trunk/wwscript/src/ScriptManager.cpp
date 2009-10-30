@@ -47,6 +47,7 @@
 // private.
 #include "angelscript/scriptstring.h"
 #include "bindery/ScriptNelBindery.h"
+#include "bindery/ScriptWwcommonEventBindery.h"
 
 //
 // Namespaces
@@ -118,6 +119,9 @@ bool ScriptManager::initializeScripts() {
 	nlinfo("Initializing NeL Bindery");
 	ScriptNelBindery nelBindery;
 	nelBindery.bindObjects();
+
+	ScriptWwcommonEventBindery wwEventBindery;
+	wwEventBindery.bindObjects();
 
 	nlinfo("Creating script objects from loader.");
 	// Now go throught the list of scripts and create them.

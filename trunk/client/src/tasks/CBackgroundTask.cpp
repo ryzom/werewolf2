@@ -74,8 +74,10 @@ void CBackgroundTask::render() {
 
 void CBackgroundTask::release() {
 	if(m_Background) {
-		C3DTask::instance().driver().deleteTextureFile(m_Background);
-		m_Background = 0;
+		nlinfo("Deleting background image.");
+		//C3DTask::instance().driver().deleteTextureFile(m_Background);
+		//m_Background = 0;
+		// TODO figure out why this crashes.
 	}
 }
 

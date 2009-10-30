@@ -90,7 +90,7 @@ public:
 
 		ScriptArg::eType find(std::string name) const;
 
-		typedef CHashMap<const char *, ScriptArg::eType, strltpred_hash_compare, streqpred_hash_compare> TypeMap;
+		typedef CHashMap<const char *, ScriptArg::eType, strltpred_hash_compare> TypeMap;
 //		typedef std::pair<const char*, ScriptArg::eType> typePair;
 
 	private:
