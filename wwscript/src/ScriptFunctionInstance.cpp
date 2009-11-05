@@ -85,12 +85,26 @@ void ScriptFunctionInstance::execute() {
 	prepare();
 	for(ScriptFunctionInstance::argInstMap::iterator iter = begin(); iter != end(); iter++) {
 		if(!iter->second->isSet()) {
-			std::cout << "Execution failed : argument " << iter->second->getName() << " not set!" << std::endl;
+			nlinfo("Execution failed : argument %s not set!" , iter->second->getName().c_str());
 			return;
 		}
 		iter->second->setScriptArg(m_context);
 	}
-	m_context->Execute();
+	int result = m_context->Execute();
+	switch(result) {
+		case asERROR:
+			nlwarning("Script execution errored.");
+			break;
+		case asEXECUTION_ABORTED:
+			nlwarning("Script execution aborted.");
+			break;
+		case asEXECUTION_SUSPENDED:
+			nlwarning("Script execution suspended.");
+			break;
+		case asEXECUTION_EXCEPTION:
+			nlwarning("Exception in '%s': '%s'", m_function->getName().c_str(),m_context->GetExceptionString());
+			break;
+	}
 	m_executed = true;
 }
 
