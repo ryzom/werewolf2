@@ -23,8 +23,8 @@
  * MA 02111-1307, USA.
  */
 
-#ifndef __IPROPERTY_H__
-#define __IPROPERTY_H__
+#ifndef __COMMONPROPERTY_H__
+#define __COMMONPROPERTY_H__
 
 //
 // Standard Includes
@@ -51,12 +51,12 @@
 
 namespace WWCOMMON {
 
-class IProperty : public IDirtyPropagator {
+class CommonProperty : public IDirtyPropagator {
 protected:
-	IProperty(const char* name);
+	CommonProperty(const char* name);
 
 public:
-	virtual ~IProperty();
+	virtual ~CommonProperty();
 
 	bool makeInputConnection(IDirtyPropagator *input) {
 		return false;
@@ -77,4 +77,4 @@ private:
 
 }; // END OF NAMESPACE WWCOMMON
 
-#endif // __IPROPERTY_H__
+#endif // __COMMONPROPERTY_H__

@@ -47,13 +47,13 @@
 
 namespace WWCOMMON {
 
-IProperty::IProperty(const char* name) : IDirtyPropagator(), m_Name(name) {
+CommonProperty::CommonProperty(const char* name) : IDirtyPropagator(), m_Name(name) {
 }
 
-IProperty::~IProperty() {
+CommonProperty::~CommonProperty() {
 }
 
-const char* IProperty::getName() {
+const char* CommonProperty::getName() {
 	return m_Name;
 }
 
