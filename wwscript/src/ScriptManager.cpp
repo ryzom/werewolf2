@@ -45,7 +45,7 @@
 #include "wwscript/ScriptEngine/ScriptLoader.h"
 
 // private.
-#include "angelscript/scriptstring.h"
+#include "angelscript/scriptstdstring.h"
 #include "bindery/ScriptNelBindery.h"
 #include "bindery/ScriptWwcommonEventBindery.h"
 
@@ -71,7 +71,8 @@ void ScriptManager::initialize() {
 	asCOutStream out;
 	//m_engine->SetCommonMessageStream(&out);
 	m_engine->SetMessageCallback(asMETHOD(asCOutStream,Callback), &out, asCALL_THISCALL);
-	RegisterScriptString(m_engine);
+	//RegisterScriptString(m_engine);
+	RegisterStdString(m_engine);
 };
 
 //ScriptManager::~ScriptManager() {
