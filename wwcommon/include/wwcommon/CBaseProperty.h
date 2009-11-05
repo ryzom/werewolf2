@@ -41,7 +41,7 @@
 //
 // Werewolf Includes
 //
-#include "IProperty.h"
+#include "wwcommon/IProperty.h"
 
 //
 // Namespaces
@@ -50,9 +50,9 @@
 namespace WWCOMMON {
 
 template <class T>
-class CBaseProperty : public IProperty {
+class CBaseProperty : public CommonProperty {
 public:
-	CBaseProperty(const char* name) : IProperty(name) { ; }
+	CBaseProperty(const char* name) : CommonProperty(name) { ; }
 	virtual ~CBaseProperty() { ; }
 
 	T& getValue() { return m_Value; }
