@@ -7,6 +7,7 @@ TARGET_LINK_LIBRARIES(scriptsample	${PLATFORM_LINKFLAGS}
 								${LIBXML2_LIBRARIES} 
 								${NELMISC_LIBRARY} 
 								${NELGEORGES_LIBRARY} 
+								${NELPACS_LIBRARY} 
 								wwcommon
 								wwscript)
 IF(WIN32)
