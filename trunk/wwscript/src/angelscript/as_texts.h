@@ -49,6 +49,7 @@
 #define TXT_BOTH_MUST_BE_SAME             "Both expressions must have the same type"
 #define TXT_BOTH_CONDITIONS_MUST_CALL_CONSTRUCTOR "Both conditions must call constructor"
 
+#define TXT_CALLING_NONCONST_METHOD_ON_TEMP "A non-const method is called on temporary object. Changes to the object may be lost."
 #define TXT_CANNOT_CALL_CONSTRUCTOR_IN_LOOPS "Can't call a constructor in loops"
 #define TXT_CANNOT_CALL_CONSTRUCTOR_IN_SWITCH "Can't call a constructor in switch"
 #define TXT_CANNOT_CALL_CONSTRUCTOR_TWICE "Can't call a constructor multiple times"
@@ -60,12 +61,14 @@
 #define TXT_CANT_RETURN_VALUE             "Can't return value when return type is 'void'"
 #define TXT_CHANGE_SIGN                   "Implicit conversion changed sign of value"
 #define TXT_COMPILING_s                   "Compiling %s"
+#define TXT_COMPOUND_ASGN_WITH_PROP       "Compound assignments with property accessors are not allowed"
 #define TXT_CONST_NOT_PRIMITIVE           "Only primitives may be declared as const"
 #define TXT_CONSTRUCTOR_NAME_ERROR        "The constructor name must be the same as the class"
 
 #define TXT_DATA_TYPE_CANT_BE_s           "Data type can't be '%s'"
 #define TXT_DEFAULT_MUST_BE_LAST          "The default case must be the last one"
 #define TXT_DESTRUCTOR_MAY_NOT_HAVE_PARM  "The destructor must not have any parameters"
+#define TXT_DUPLICATE_SWITCH_CASE         "Duplicate switch case"
 
 #define TXT_ELSE_WITH_EMPTY_STATEMENT     "Else with empty statement"
 #define TXT_EMPTY_SWITCH                  "Empty switch statement"
@@ -90,6 +93,8 @@
 #define TXT_FUNCTION_IN_GLOBAL_EXPR       "Function calls are not allowed in global expressions"
 #define TXT_FUNCTION_ALREADY_EXIST        "A function with the same name and parameters already exist"
 #define TXT_FUNCTION_s_NOT_FOUND          "Function '%s' not found"
+
+#define TXT_GET_SET_ACCESSOR_TYPE_MISMATCH_FOR_s "The property '%s' has mismatching types for the get and set accessors"
 
 #define TXT_HANDLE_ASSIGNMENT             "The rvalue is implicitly converted to handle in order to perform handle assignment"
 #define TXT_HANDLE_COMPARISON             "The operand is implicitly converted to handle in order to compare them"
@@ -119,6 +124,8 @@
 #define TXT_MISSING_IMPLEMENTATION_OF_s             "Missing implementation of '%s'"
 #define TXT_MORE_THAN_ONE_MATCHING_OP               "Found more than one matching operator"
 #define TXT_MULTIPLE_MATCHING_SIGNATURES_TO_s       "Multiple matching signatures to '%s'"
+#define TXT_MULTIPLE_PROP_GET_ACCESSOR_FOR_s        "Found multiple get accessors for property '%s'"
+#define TXT_MULTIPLE_PROP_SET_ACCESSOR_FOR_s        "Found multiple set accessors for property '%s'"
 #define TXT_MULTILINE_STRINGS_NOT_ALLOWED           "Multiline strings are not allowed in this application"
 #define TXT_MUST_BE_OBJECT                          "Only objects have constructors"
 #define TXT_s_MUST_BE_SENT_BY_REF                   "'%s' must be sent by reference"
@@ -137,10 +144,12 @@
 #define TXT_NO_APPROPRIATE_INDEX_OPERATOR   "No appropriate indexing operator found"
 #define TXT_NO_CONVERSION_s_TO_s            "No conversion from '%s' to '%s' available."
 #define TXT_NO_CONVERSION_s_TO_MATH_TYPE    "No conversion from '%s' to math type available."
+#define TXT_NO_DEFAULT_CONSTRUCTOR_FOR_s    "No default constructor for object of type '%s'."
 #define TXT_NO_DEFAULT_COPY_OP              "There is no copy operator for this type available."
 #define TXT_NO_MATCHING_SIGNATURES_TO_s     "No matching signatures to '%s'"
 #define TXT_NO_MATCHING_OP_FOUND_FOR_TYPE_s "No matching operator that takes the type '%s' found"
 #define TXT_NO_MATCHING_OP_FOUND_FOR_TYPES_s_AND_s "No matching operator that takes the types '%s' and '%s' found"
+#define TXT_NON_CONST_METHOD_ON_CONST_OBJ   "Non-const method call on read-only object reference"
 #define TXT_NOT_ALL_PATHS_RETURN            "Not all paths return a value"
 #define TXT_s_NOT_AVAILABLE_FOR_s           "'%s' is not available for '%s'"
 #define TXT_s_NOT_DECLARED                  "'%s' is not declared"
@@ -160,6 +169,8 @@
 #define TXT_PARAMETER_CANT_BE_s           "Parameter type can't be '%s'"
 #define TXT_POSSIBLE_LOSS_OF_PRECISION    "Conversion from double to float, possible loss of precision"
 #define TXT_PROPERTY_CANT_BE_CONST        "Class properties cannot be declared as const"
+#define TXT_PROPERTY_HAS_NO_GET_ACCESSOR  "The property has no get accessor"
+#define TXT_PROPERTY_HAS_NO_SET_ACCESSOR  "The property has no set accessor"
 
 #define TXT_REF_IS_READ_ONLY              "Reference is read-only"
 #define TXT_REF_IS_TEMP                   "Reference is temporary"
@@ -193,6 +204,9 @@
 #define TXT_SCOPE_REQUIRE_REL_BEHAVIOUR      "A scoped reference type must have the release behaviour"
 #define TXT_REF_REQUIRE_ADD_REL_BEHAVIOUR    "A reference type must have the addref and release behaviours"
 #define TXT_NON_POD_REQUIRE_CONSTR_DESTR_BEHAVIOUR "A non-pod value type must have the constructor and destructor behaviours"
+#define TXT_DONT_SUPPORT_TYPE_s_BY_VAL    "Don't support passing type '%s' by value to application"
+#define TXT_CANNOT_PASS_TYPE_s_BY_VAL     "Can't pass type '%s' by value unless the application type is informed in the registration"
+#define TXT_CANNOT_RET_TYPE_s_BY_VAL      "Can't return type '%s' by value unless the application type is informed in the registration"
 
 // Internal names
 

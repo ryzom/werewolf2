@@ -35,8 +35,6 @@
 // A class for storing object type information
 //
 
-// TODO: Need a public GetTypeId() for the asIObjectType interface
-
 
 #include <stdio.h>
 
@@ -67,14 +65,14 @@ asCObjectType::asCObjectType(asCScriptEngine *engine)
 	acceptRefSubType = true;
 }
 
-void asCObjectType::AddRef()
+int asCObjectType::AddRef()
 {
-	refCount.atomicInc();
+	return refCount.atomicInc();
 }
 
-void asCObjectType::Release()
+int asCObjectType::Release()
 {
-	refCount.atomicDec();
+	return refCount.atomicDec();
 }
 
 int asCObjectType::GetRefCount()
@@ -146,28 +144,48 @@ bool asCObjectType::DerivesFrom(const asCObjectType *objType) const
 	return false;
 }
 
+// interface
 const char *asCObjectType::GetName() const
 {
 	return name.AddressOf();
 }
 
+// interface
 asDWORD asCObjectType::GetFlags() const
 {
 	return flags;
 }
 
+// interface
 asUINT asCObjectType::GetSize() const
 {
 	return size;
 }
 
-#ifdef AS_DEPRECATED
-// deprecated since 2009-02-26, 2.16.0
-asIObjectType *asCObjectType::GetSubType() const
+// interface
+int asCObjectType::GetTypeId() const
 {
-	return subType;
+	// We need a non const pointer to create the asCDataType object.
+	// We're not breaking anything here because this function is not
+	// modifying the object, so this const cast is safe.
+	asCObjectType *ot = const_cast<asCObjectType*>(this);
+
+	return engine->GetTypeIdFromDataType(asCDataType::CreateObject(ot, false));
 }
-#endif
+
+// interface
+int asCObjectType::GetSubTypeId() const
+{
+	// TODO: template: This method should allow indexing multiple template subtypes
+
+	if( flags & asOBJ_TEMPLATE )
+	{
+		return engine->GetTypeIdFromDataType(templateSubType);
+	}
+
+	// Only template types have sub types
+	return asERROR;
+}
 
 int asCObjectType::GetInterfaceCount() const
 {
@@ -322,6 +340,7 @@ int asCObjectType::GetBehaviourCount() const
 	if( beh.gcGetFlag )              count++;
 	if( beh.gcEnumReferences )       count++;
 	if( beh.gcReleaseAllReferences ) count++; 
+	if( beh.templateCallback )       count++;
 
 	count += (int)beh.constructors.GetLength();
 	count += (int)beh.operators.GetLength() / 2;
@@ -380,6 +399,12 @@ int asCObjectType::GetBehaviourByIndex(asUINT index, asEBehaviours *outBehaviour
 	{
 		if( outBehaviour ) *outBehaviour = asBEHAVE_RELEASEREFS;
 		return beh.gcReleaseAllReferences;
+	}
+
+	if( beh.templateCallback && count++ == (int)index )
+	{
+		if( outBehaviour ) *outBehaviour = asBEHAVE_TEMPLATE_CALLBACK;
+		return beh.templateCallback;
 	}
 
 	if( index - count < beh.constructors.GetLength() )

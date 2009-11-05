@@ -44,7 +44,7 @@
 #include "as_string_util.h"
 #include "as_outputbuffer.h"
 #include "as_texts.h"
-#include "as_scriptstruct.h"
+#include "as_scriptobject.h"
 
 BEGIN_AS_NAMESPACE
 
@@ -79,9 +79,9 @@ asCBuilder::~asCBuilder()
 	{
 		if( globVariables[n] )
 		{
-			if( globVariables[n]->node )
+			if( globVariables[n]->nextNode )
 			{
-				globVariables[n]->node->Destroy(engine);
+				globVariables[n]->nextNode->Destroy(engine);
 			}
 
 			asDELETE(globVariables[n],sGlobalVariableDescription);
@@ -298,7 +298,7 @@ void asCBuilder::ParseScripts()
 				if( node->nodeType == snFunction )
 				{
 					node->DisconnectParent();
-					RegisterScriptFunction(module->GetNextFunctionId(), node, decl->script, decl->objType, true);
+					RegisterScriptFunction(engine->GetNextScriptFunctionId(), node, decl->script, decl->objType, true);
 				}
 
 				node = next;
@@ -326,7 +326,7 @@ void asCBuilder::ParseScripts()
 				if( node->nodeType == snFunction )
 				{
 					node->DisconnectParent();
-					RegisterScriptFunction(module->GetNextFunctionId(), node, decl->script, decl->objType);
+					RegisterScriptFunction(engine->GetNextScriptFunctionId(), node, decl->script, decl->objType);
 				}
 
 				node = next;
@@ -352,7 +352,7 @@ void asCBuilder::ParseScripts()
 
 				if( node->nodeType == snFunction )
 				{
-					RegisterScriptFunction(module->GetNextFunctionId(), node, scripts[n], 0, false, true);
+					RegisterScriptFunction(engine->GetNextScriptFunctionId(), node, scripts[n], 0, false, true);
 				}
 				else if( node->nodeType == snGlobalVar )
 				{
@@ -549,7 +549,7 @@ asCGlobalProperty *asCBuilder::GetGlobalProperty(const char *prop, bool *isCompi
 			if( module )
 			{
 				// Find the config group for the global property
-				asCConfigGroup *group = engine->FindConfigGroupForGlobalVar((*props)[n]->index);
+				asCConfigGroup *group = engine->FindConfigGroupForGlobalVar((*props)[n]->id);
 				if( !group || group->HasModuleAccess(module->name.AddressOf()) )
 					return (*props)[n];
 			}
@@ -881,18 +881,19 @@ int asCBuilder::RegisterGlobalVar(asCScriptNode *node, asCScriptCode *file)
 		// TODO: Give error message if wrong
 		asASSERT(!gvar->datatype.IsReference());
 
-		gvar->node = 0;
+		gvar->idNode = n;
+		gvar->nextNode = 0;
 		if( n->next &&
 			(n->next->nodeType == snAssignment ||
 			 n->next->nodeType == snArgList    ||
 			 n->next->nodeType == snInitList     ) )
 		{
-			gvar->node = n->next;
+			gvar->nextNode = n->next;
 			n->next->DisconnectParent();
 		}
 
 		gvar->property = module->AllocateGlobalProperty(name.AddressOf(), gvar->datatype);
-		gvar->index    = gvar->property->index;
+		gvar->index    = gvar->property->id;
 
 		n = n->next;
 	}
@@ -1030,10 +1031,10 @@ void asCBuilder::CompileGlobalVariables()
 			if( compilingPrimitives && !gvar->datatype.IsPrimitive() )
 				continue;
 
-			if( gvar->node )
+			if( gvar->nextNode )
 			{
 				int r, c;
-				gvar->script->ConvertPosToRowCol(gvar->node->tokenPos, &r, &c);
+				gvar->script->ConvertPosToRowCol(gvar->nextNode->tokenPos, &r, &c);
 				asCString str = gvar->datatype.Format();
 				str += " " + gvar->name;
 				str.Format(TXT_COMPILING_s, str.AddressOf());
@@ -1043,7 +1044,7 @@ void asCBuilder::CompileGlobalVariables()
 			if( gvar->isEnumValue )
 			{
 				int r;
-				if( gvar->node )
+				if( gvar->nextNode )
 				{
 					asCCompiler comp(engine);
 
@@ -1051,7 +1052,7 @@ void asCBuilder::CompileGlobalVariables()
 					asCDataType saveType;
 					saveType = gvar->datatype;
 					gvar->datatype = asCDataType::CreatePrimitive(ttInt, true);
-					r = comp.CompileGlobalVariable(this, gvar->script, gvar->node, gvar);
+					r = comp.CompileGlobalVariable(this, gvar->script, gvar->nextNode, gvar);
 					gvar->datatype = saveType;
 				}
 				else
@@ -1101,7 +1102,7 @@ void asCBuilder::CompileGlobalVariables()
 			{
 				// Compile the global variable
 				asCCompiler comp(engine);
-				int r = comp.CompileGlobalVariable(this, gvar->script, gvar->node, gvar);
+				int r = comp.CompileGlobalVariable(this, gvar->script, gvar->nextNode, gvar);
 				if( r >= 0 )
 				{
 					// Compilation succeeded
@@ -1200,8 +1201,8 @@ void asCBuilder::CompileGlobalVariables()
 		objectType->enumValues.PushLast(e);
 
 		// Destroy the gvar property
-		if( gvar->node )
-			gvar->node->Destroy(engine);
+		if( gvar->nextNode )
+			gvar->nextNode->Destroy(engine);
 		if( gvar->property )
 			asDELETE(gvar->property, asCGlobalProperty);
 
@@ -1636,7 +1637,7 @@ int asCBuilder::CreateVirtualFunction(asCScriptFunction *func, int idx)
 	vf->returnType = func->returnType;
 	vf->parameterTypes = func->parameterTypes;
 	vf->inOutFlags = func->inOutFlags;
-	vf->id = module->GetNextFunctionId();
+	vf->id = engine->GetNextScriptFunctionId();
 	vf->scriptSectionIdx = func->scriptSectionIdx;
 	vf->isReadOnly = func->isReadOnly;
 	vf->objectType = func->objectType;
@@ -1664,8 +1665,10 @@ asCObjectProperty *asCBuilder::AddPropertyToClass(sClassDeclaration *decl, const
 		propSize = dt.GetSizeOnStackDWords()*4;
 		if( !dt.IsObjectHandle() )
 		{
-			if( dt.GetSizeInMemoryBytes() == 0 && file && node )
+			if( !dt.CanBeInstanciated() )
 			{
+				asASSERT( file && node );
+
 				int r, c;
 				file->ConvertPosToRowCol(node->tokenPos, &r, &c);
 				asCString str;
@@ -1726,7 +1729,7 @@ bool asCBuilder::DoesMethodExist(asCObjectType *objType, int methodId)
 
 void asCBuilder::AddDefaultConstructor(asCObjectType *objType, asCScriptCode *file)
 {
-	int funcId = module->GetNextFunctionId();
+	int funcId = engine->GetNextScriptFunctionId();
 
 	asCDataType returnType = asCDataType::CreatePrimitive(ttVoid, false);
 	asCArray<asCDataType> parameterTypes;
@@ -1751,7 +1754,7 @@ void asCBuilder::AddDefaultConstructor(asCObjectType *objType, asCScriptCode *fi
 	func->funcId  = funcId;
 
 	// Add a default factory as well
-	funcId = module->GetNextFunctionId();
+	funcId = engine->GetNextScriptFunctionId();
 	objType->beh.factory = funcId;
 	objType->beh.factories[0] = funcId;
 	returnType = asCDataType::CreateObjectHandle(objType, false);
@@ -1829,9 +1832,9 @@ int asCBuilder::RegisterEnum(asCScriptNode *node, asCScriptCode *file)
 			globVariables.PushLast(gvar);
 
 			gvar->script		  = file;
-			gvar->node			  = asnNode;
+			gvar->idNode          = 0;
+			gvar->nextNode		  = asnNode;
 			gvar->name			  = name;
-			gvar->property        = asNEW(asCGlobalProperty);
 			gvar->datatype		  = type;
 			// No need to allocate space on the global memory stack since the values are stored in the asCObjectType
 			gvar->index			  = 0;
@@ -1840,10 +1843,12 @@ int asCBuilder::RegisterEnum(asCScriptNode *node, asCScriptCode *file)
 			gvar->isEnumValue     = true;
 			gvar->constantValue   = 0xdeadbeef;
 
-			// Add script variable to engine
+			// Allocate dummy property so we can compile the value. 
+			// This will be removed later on so we don't add it to the engine.
+			gvar->property        = asNEW(asCGlobalProperty);
 			gvar->property->name  = name;
 			gvar->property->type  = gvar->datatype;
-			gvar->property->index = gvar->index;
+			gvar->property->id    = 0;
 
 			tmp = tmp->next;
 		}
@@ -2071,7 +2076,7 @@ int asCBuilder::RegisterScriptFunction(int funcID, asCScriptNode *node, asCScrip
 				objType->beh.constructors[0] = funcID;
 
 				// Register the default factory as well
-				objType->beh.factory = module->GetNextFunctionId();
+				objType->beh.factory = engine->GetNextScriptFunctionId();
 				objType->beh.factories[0] = objType->beh.factory;
 
 				asCDataType dt = asCDataType::CreateObjectHandle(objType, false);
@@ -2090,7 +2095,7 @@ int asCBuilder::RegisterScriptFunction(int funcID, asCScriptNode *node, asCScrip
 
 				// TODO: This is almost identical to above if block. Should be reduced to common code.
 				// Register the factory as well
-				int factoryId = module->GetNextFunctionId();
+				int factoryId = engine->GetNextScriptFunctionId();
 				objType->beh.factories.PushLast(factoryId);
 
 				asCDataType dt = asCDataType::CreateObjectHandle(objType, false);
@@ -2197,17 +2202,17 @@ int asCBuilder::RegisterImportedFunction(int importID, asCScriptNode *node, asCS
 				}
 			}
 		}
-
 	}
 
 	// Read the module name as well
 	n = node->firstChild->next;
-	int moduleNameString = module->AddConstantString(&file->code[n->tokenPos+1], n->tokenLength-2);
+	asCString moduleName;
+	moduleName.Assign(&file->code[n->tokenPos+1], n->tokenLength-2);
 
 	node->Destroy(engine);
 
 	// Register the function
-	module->AddImportedFunction(importID, name.AddressOf(), returnType, parameterTypes.AddressOf(), inOutFlags.AddressOf(), (asUINT)parameterTypes.GetLength(), moduleNameString);
+	module->AddImportedFunction(importID, name.AddressOf(), returnType, parameterTypes.AddressOf(), inOutFlags.AddressOf(), (asUINT)parameterTypes.GetLength(), moduleName);
 
 	return 0;
 }

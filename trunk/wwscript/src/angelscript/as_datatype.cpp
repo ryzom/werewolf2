@@ -280,7 +280,7 @@ bool asCDataType::CanBeInstanciated() const
 		 (objectType->flags & asOBJ_REF) &&        // It's a ref type and
 		 ((objectType->flags & asOBJ_NOHANDLE) ||  // the ref type doesn't support handles or
 		  (!IsObjectHandle() &&                    // it's not a handle and
-		   objectType->beh.factory == 0))) )       // the ref type cannot be instanciated
+		   objectType->beh.factories.GetLength() == 0))) ) // the ref type cannot be instanciated
 		return false;
 
 	return true;
@@ -525,7 +525,7 @@ int asCDataType::GetSizeInMemoryBytes() const
 
 	// null handle
 	if( tokenType == ttUnrecognizedToken )
-		return 4*PTR_SIZE;
+		return 4*AS_PTR_SIZE;
 
 	return 4;
 }
@@ -543,8 +543,8 @@ int asCDataType::GetSizeOnStackDWords() const
 {
 	int size = tokenType == ttQuestion ? 1 : 0;
 
-	if( isReference ) return PTR_SIZE + size;
-	if( objectType ) return PTR_SIZE + size;
+	if( isReference ) return AS_PTR_SIZE + size;
+	if( objectType ) return AS_PTR_SIZE + size;
 
 	return GetSizeInMemoryDWords() + size;
 }

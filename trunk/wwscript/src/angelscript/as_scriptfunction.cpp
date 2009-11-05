@@ -43,12 +43,14 @@
 #include "as_scriptengine.h"
 #include "as_callfunc.h"
 #include "as_bytecode.h"
+#include "as_texts.h"
 
 BEGIN_AS_NAMESPACE
 
 // internal
 asCScriptFunction::asCScriptFunction(asCScriptEngine *engine, asCModule *mod)
 {
+	refCount.set(1);
 	this->engine           = engine;
 	funcType               = -1;
 	module                 = mod; 
@@ -61,6 +63,7 @@ asCScriptFunction::asCScriptFunction(asCScriptEngine *engine, asCModule *mod)
 	scriptSectionIdx       = -1;
 	dontCleanUpOnException = false;
 	vfTableIdx             = -1;
+	jitFunction            = 0;
 }
 
 // internal
@@ -77,6 +80,17 @@ asCScriptFunction::~asCScriptFunction()
 	{
 		asDELETE(sysFuncIntf,asSSystemFunctionInterface);
 	}
+}
+
+// interface
+int asCScriptFunction::AddRef()
+{
+	return refCount.atomicInc();
+}
+
+int asCScriptFunction::Release()
+{
+	return refCount.atomicDec();
 }
 
 // interface
@@ -121,6 +135,12 @@ bool asCScriptFunction::IsClassMethod() const
 bool asCScriptFunction::IsInterfaceMethod() const
 {
 	return objectType && objectType->IsInterface();
+}
+
+// interface
+bool asCScriptFunction::IsReadOnly() const
+{
+	return isReadOnly;
 }
 
 // internal
@@ -271,11 +291,6 @@ bool asCScriptFunction::IsSignatureEqual(const asCScriptFunction *func) const
 	return true;
 }
 
-#define INTARG(x)    (int(*(x+1)))
-#define PTRARG(x)    (asPTRWORD(*(x+1)))
-#define WORDARG0(x)   (*(((asWORD*)x)+1))
-#define WORDARG1(x)   (*(((asWORD*)x)+2))
-
 // internal
 void asCScriptFunction::AddReferences()
 {
@@ -291,50 +306,52 @@ void asCScriptFunction::AddReferences()
 	}
 
 	// Go through the byte code and add references to all resources used by the function
-	for( asUINT n = 0; n < byteCode.GetLength(); n += asCByteCode::SizeOfType(bcTypes[*(asBYTE*)&byteCode[n]]) )
+	for( asUINT n = 0; n < byteCode.GetLength(); n += asBCTypeSize[asBCInfo[*(asBYTE*)&byteCode[n]].type] )
 	{
 		switch( *(asBYTE*)&byteCode[n] )
 		{
 		// Object types
-		case BC_OBJTYPE:
-		case BC_FREE:
-		case BC_ALLOC:
-		case BC_REFCPY:
+		case asBC_OBJTYPE:
+		case asBC_FREE:
+		case asBC_ALLOC:
+		case asBC_REFCPY:
 			{
-				asCObjectType *objType = (asCObjectType*)(size_t)PTRARG(&byteCode[n]);
+                asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
 				objType->AddRef();
 			}
 			break;
 
 		// Global variables
-		case BC_LDG:
-		case BC_PGA:
-		case BC_PshG4:
-		case BC_SetG4:
-		case BC_CpyVtoG4:
+		case asBC_LDG:
+		case asBC_PGA:
+		case asBC_PshG4:
+		case asBC_SetG4:
+		case asBC_CpyVtoG4:
+			// TODO: global: Need to increase the reference for each global variable
 			if( module )
 			{
-				int gvarId = WORDARG0(&byteCode[n]);
-				asCConfigGroup *group = module->GetConfigGroupByGlobalVarId(gvarId);
+				int gvarIdx = asBC_WORDARG0(&byteCode[n]);
+				asCConfigGroup *group = module->GetConfigGroupByGlobalVarPtrIndex(gvarIdx);
 				if( group != 0 ) group->AddRef();
 			}
 			break;
 
-		case BC_LdGRdR4:
-		case BC_CpyGtoV4:
+		case asBC_LdGRdR4:
+		case asBC_CpyGtoV4:
+			// TODO: global: Need to increase the reference for each global variable
 			if( module )
 			{
-				int gvarId = WORDARG1(&byteCode[n]);
-				asCConfigGroup *group = module->GetConfigGroupByGlobalVarId(gvarId);
+				int gvarIdx = asBC_WORDARG1(&byteCode[n]);
+				asCConfigGroup *group = module->GetConfigGroupByGlobalVarPtrIndex(gvarIdx);
 				if( group != 0 ) group->AddRef();
 			}
 			break;
 
 		// System functions
-		case BC_CALLSYS:
+		case asBC_CALLSYS:
 			if( module )
 			{
-				int funcId = INTARG(&byteCode[n]);
+				int funcId = asBC_INTARG(&byteCode[n]);
 				asCConfigGroup *group = module->engine->FindConfigGroupForFunction(funcId);
 				if( group != 0 ) group->AddRef();
 			}
@@ -358,56 +375,63 @@ void asCScriptFunction::ReleaseReferences()
 	}
 
 	// Go through the byte code and release references to all resources used by the function
-	for( asUINT n = 0; n < byteCode.GetLength(); n += asCByteCode::SizeOfType(bcTypes[*(asBYTE*)&byteCode[n]]) )
+	for( asUINT n = 0; n < byteCode.GetLength(); n += asBCTypeSize[asBCInfo[*(asBYTE*)&byteCode[n]].type] )
 	{
 		switch( *(asBYTE*)&byteCode[n] )
 		{
 		// Object types
-		case BC_OBJTYPE:
-		case BC_FREE:
-		case BC_ALLOC:
-		case BC_REFCPY:
+		case asBC_OBJTYPE:
+		case asBC_FREE:
+		case asBC_ALLOC:
+		case asBC_REFCPY:
 			{
-				asCObjectType *objType = (asCObjectType*)(size_t)PTRARG(&byteCode[n]);
+				asCObjectType *objType = (asCObjectType*)(size_t)asBC_PTRARG(&byteCode[n]);
 				objType->Release();
 			}
 			break;
 
 		// Global variables
-		case BC_LDG:
-		case BC_PGA:
-		case BC_PshG4:
-		case BC_SetG4:
-		case BC_CpyVtoG4:
+		case asBC_LDG:
+		case asBC_PGA:
+		case asBC_PshG4:
+		case asBC_SetG4:
+		case asBC_CpyVtoG4:
+			// TODO: global: Need to decrease the reference for each global variable
 			if( module )
 			{
-				int gvarId = WORDARG0(&byteCode[n]);
-				asCConfigGroup *group = module->GetConfigGroupByGlobalVarId(gvarId);
+				int gvarIdx = asBC_WORDARG0(&byteCode[n]);
+				asCConfigGroup *group = module->GetConfigGroupByGlobalVarPtrIndex(gvarIdx);
 				if( group != 0 ) group->Release();
 			}
 			break;
 
-		case BC_LdGRdR4:
-		case BC_CpyGtoV4:
+		case asBC_LdGRdR4:
+		case asBC_CpyGtoV4:
+			// TODO: global: Need to decrease the reference for each global variable
 			if( module )
 			{
-				int gvarId = WORDARG1(&byteCode[n]);
-				asCConfigGroup *group = module->GetConfigGroupByGlobalVarId(gvarId);
+				int gvarIdx = asBC_WORDARG1(&byteCode[n]);
+				asCConfigGroup *group = module->GetConfigGroupByGlobalVarPtrIndex(gvarIdx);
 				if( group != 0 ) group->Release();
 			}
 			break;
 
 		// System functions
-		case BC_CALLSYS:
+		case asBC_CALLSYS:
 			if( module )
 			{
-				int funcId = INTARG(&byteCode[n]);
+				int funcId = asBC_INTARG(&byteCode[n]);
 				asCConfigGroup *group = module->engine->FindConfigGroupForFunction(funcId);
 				if( group != 0 ) group->Release();
 			}
 			break;
 		}
 	}
+
+	// Release the jit compiled function
+	if( jitFunction )
+		engine->jitCompiler->ReleaseJITFunction(jitFunction);
+	jitFunction = 0;
 }
 
 // interface
@@ -468,6 +492,42 @@ const char *asCScriptFunction::GetConfigGroup() const
 		return 0;
 
 	return group->groupName.AddressOf();
+}
+
+// internal
+void asCScriptFunction::JITCompile()
+{
+    asIJITCompiler *jit = engine->GetJITCompiler();
+    if( !jit )
+        return;
+
+	// Release the previous function, if any
+    if( jitFunction )
+    {
+        engine->jitCompiler->ReleaseJITFunction(jitFunction);
+        jitFunction = 0;
+    }
+
+	// Compile for native system
+	int r = jit->CompileFunction(this, &jitFunction);
+	if( r < 0 )
+	{
+		asASSERT( jitFunction == 0 );
+	}
+}
+
+// interface
+asDWORD *asCScriptFunction::GetByteCode(asUINT *length)
+{
+	if( length )
+		*length = (asUINT)byteCode.GetLength();
+
+	if( byteCode.GetLength() )
+	{
+		return byteCode.AddressOf();
+	}
+
+	return 0;
 }
 
 END_AS_NAMESPACE

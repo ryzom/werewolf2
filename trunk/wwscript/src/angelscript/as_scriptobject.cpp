@@ -35,7 +35,7 @@
 
 #include "as_scriptengine.h"
 
-#include "as_scriptstruct.h"
+#include "as_scriptobject.h"
 #include "as_arrayobject.h"
 
 BEGIN_AS_NAMESPACE
@@ -131,7 +131,7 @@ void RegisterScriptObject(asCScriptEngine *engine)
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_CONSTRUCT, "void f(int&in)", asFUNCTION(ScriptObject_Construct), asCALL_CDECL_OBJLAST); asASSERT( r >= 0 );
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_ADDREF, "void f()", asMETHOD(asCScriptObject,AddRef), asCALL_THISCALL); asASSERT( r >= 0 );
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_RELEASE, "void f()", asMETHOD(asCScriptObject,Release), asCALL_THISCALL); asASSERT( r >= 0 );
-	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_ASSIGNMENT, "int &f(int &in)", asFUNCTION(ScriptObject_Assignment), asCALL_CDECL_OBJLAST); asASSERT( r >= 0 );
+	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_MAX /*assignment*/, "int &f(int &in)", asFUNCTION(ScriptObject_Assignment), asCALL_CDECL_OBJLAST); asASSERT( r >= 0 );
 
 	// Register GC behaviours
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_GETREFCOUNT, "int f()", asMETHOD(asCScriptObject,GetRefCount), asCALL_THISCALL); asASSERT( r >= 0 );
@@ -143,7 +143,7 @@ void RegisterScriptObject(asCScriptEngine *engine)
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_CONSTRUCT, "void f(int&in)", asFUNCTION(ScriptObject_Construct_Generic), asCALL_GENERIC); asASSERT( r >= 0 );
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_ADDREF, "void f()", asFUNCTION(ScriptObject_AddRef_Generic), asCALL_GENERIC); asASSERT( r >= 0 );
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_RELEASE, "void f()", asFUNCTION(ScriptObject_Release_Generic), asCALL_GENERIC); asASSERT( r >= 0 );
-	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_ASSIGNMENT, "int &f(int &in)", asFUNCTION(ScriptObject_Assignment_Generic), asCALL_GENERIC); asASSERT( r >= 0 );
+	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_MAX /*assignment*/, "int &f(int &in)", asFUNCTION(ScriptObject_Assignment_Generic), asCALL_GENERIC); asASSERT( r >= 0 );
 
 	// Register GC behaviours
 	r = engine->RegisterSpecialObjectBehaviour(&engine->scriptTypeBehaviours, asBEHAVE_GETREFCOUNT, "int f()", asFUNCTION(ScriptObject_GetRefCount_Generic), asCALL_GENERIC); asASSERT( r >= 0 );
@@ -328,15 +328,7 @@ bool asCScriptObject::GetFlag()
 	return gcFlag;
 }
 
-#ifdef AS_DEPRECATED
-// deprecated 2009-02-25, 2.16.0
-int asCScriptObject::GetStructTypeId()
-{
-	return GetTypeId();
-}
-#endif
-
-// TODO: Should probably be moved to asIObjectType (or replicated in the asIObjectType)
+// interface
 int asCScriptObject::GetTypeId() const
 {
 	asCDataType dt = asCDataType::CreateObject(objType, false);
@@ -364,7 +356,7 @@ const char *asCScriptObject::GetPropertyName(asUINT prop) const
 	return objType->properties[prop]->name.AddressOf();
 }
 
-void *asCScriptObject::GetPropertyPointer(asUINT prop)
+void *asCScriptObject::GetAddressOfProperty(asUINT prop)
 {
 	if( prop >= objType->properties.GetLength() )
 		return 0;
@@ -529,6 +521,14 @@ void asCScriptObject::CopyHandle(asDWORD *src, asDWORD *dst, asCObjectType *objT
 	if( *dst )
 		engine->CallObjectMethod(*(void**)dst, objType->beh.addref);
 }
+
+#ifdef AS_DEPRECATED
+// deprecated since 2.17.0, 2009-07-29
+void *asCScriptObject::GetPropertyPointer(asUINT prop)
+{
+	return GetAddressOfProperty(prop);
+}
+#endif
 
 END_AS_NAMESPACE
 

@@ -62,8 +62,8 @@ class asCConfigGroup;
 
 struct sBindInfo
 {
-	asDWORD importFrom;
-	int importedFunction;
+	asCString  importFromModule;
+	int        importedFunction;
 };
 
 struct sObjectTypePair
@@ -84,6 +84,10 @@ struct sObjectTypePair
 //               doesn't destroy it, it just means the variable is no longer visible from the module, e.g. for
 //               new function compilations. Only when no more functions are accessing the global variables is
 //               the variable removed.
+
+// TODO: dynamic functions: String constants must be stored in the engine and shared between modules.
+//                          Bound functions must be stored in the engine and shared between modules. 
+//                          This way a script function can be disconnected from a module without breaking.
 
 // TODO: dynamic functions: It must be possible to compile new functions dynamically within the 
 //                          scope of a module. The new functions can be added to the scope of the module, or it can be 
@@ -187,13 +191,14 @@ public:
 
 	bool IsUsed();
 
+    void JITCompile();
+
 	int  AddConstantString(const char *str, size_t length);
 	const asCString &GetConstantString(int id);
 
-	int  GetNextFunctionId();
 	int  AddScriptFunction(int sectionIdx, int id, const char *name, const asCDataType &returnType, asCDataType *params, asETypeModifiers *inOutFlags, int paramCount, bool isInterface, asCObjectType *objType = 0, bool isConstMethod = false, bool isGlobalFunction = false);
 	int  AddScriptFunction(asCScriptFunction *func);
-	int  AddImportedFunction(int id, const char *name, const asCDataType &returnType, asCDataType *params, asETypeModifiers *inOutFlags, int paramCount, int moduleNameStringID);
+	int  AddImportedFunction(int id, const char *name, const asCDataType &returnType, asCDataType *params, asETypeModifiers *inOutFlags, int paramCount, const asCString &moduleName);
 
 	bool CanDeleteAllReferences(asCArray<asCModule*> &modules);
 
@@ -204,17 +209,16 @@ public:
 	bool AreTypesEqual(const asCDataType &a, const asCDataType &b, asCArray<sObjectTypePair> &equals);
 
 	asCScriptFunction *GetImportedFunction(int funcId);
-	asCScriptFunction *GetScriptFunction(int funcId);
 	asCScriptFunction *GetSpecialFunction(int funcId);
 
 	asCObjectType *GetObjectType(const char *type);
-	asCConfigGroup *GetConfigGroupByGlobalVarId(int gvarId);
+	asCConfigGroup *GetConfigGroupByGlobalVarPtrIndex(int index);
 
 	int  GetScriptSectionIndex(const char *name);
 	bool CanDelete();
 
 	asCGlobalProperty *AllocateGlobalProperty(const char *name, const asCDataType &dt);
-	int GetGlobalVarIndex(int propIdx);
+	int GetGlobalVarPtrIndex(int gvarId);
 
 	asCString name;
 
@@ -233,7 +237,7 @@ public:
 	asCArray<asCScriptFunction *>  globalFunctions;
 	// This array holds imported functions in the module
 	asCArray<asCScriptFunction *>  importedFunctions;
-	asCArray<sBindInfo>            bindInformations;
+	asCArray<sBindInfo *>          bindInformations;
 
 	// This array holds the global variables declared in the script
 	asCArray<asCGlobalProperty *>  scriptGlobals;

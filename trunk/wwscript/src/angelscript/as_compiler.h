@@ -65,10 +65,13 @@ struct asSDeferredParam
 
 struct asSExprContext
 {
-	asSExprContext(asCScriptEngine *engine) : bc(engine) {exprNode = 0; origExpr = 0;}
+	asSExprContext(asCScriptEngine *engine) : bc(engine) {exprNode = 0; origExpr = 0; property_get = 0; property_set = 0;}
 
 	asCByteCode bc;
 	asCTypeInfo type;
+	int  property_get;
+	int  property_set;
+	bool property_const; // If the object that is being accessed through property accessor is read-only
 	asCArray<asSDeferredParam> deferredParams;
 	asCScriptNode  *exprNode;
 	asSExprContext *origExpr;
@@ -140,12 +143,15 @@ protected:
 
 	void CompileInitList(asCTypeInfo *var, asCScriptNode *node, asCByteCode *bc);
 
-	void CallDefaultConstructor(asCDataType &type, int offset, asCByteCode *bc, bool isGlobalVar = false);
+	int  CallDefaultConstructor(asCDataType &type, int offset, asCByteCode *bc, asCScriptNode *node, bool isGlobalVar = false);
 	void CallDestructor(asCDataType &type, int offset, asCByteCode *bc);
 	int  CompileArgumentList(asCScriptNode *node, asCArray<asSExprContext *> &args);
 	void MatchFunctions(asCArray<int> &funcs, asCArray<asSExprContext*> &args, asCScriptNode *node, const char *name, asCObjectType *objectType = NULL, bool isConstMethod = false, bool silent = false, bool allowObjectConstruct = true, const asCString &scope = "");
 
 	// Helper functions
+	void ProcessPropertyGetAccessor(asSExprContext *ctx, asCScriptNode *node);
+	int  ProcessPropertySetAccessor(asSExprContext *ctx, asSExprContext *arg, asCScriptNode *node);
+	int  FindPropertyAccessor(const asCString &name, asSExprContext *ctx, asCScriptNode *node);
 	void SwapPostFixOperands(asCArray<asCScriptNode *> &postfix, asCArray<asCScriptNode *> &target);
 	void PrepareTemporaryObject(asCScriptNode *node, asSExprContext *ctx, asCArray<int> *reservedVars);
 	void PrepareOperand(asSExprContext *ctx, asCScriptNode *node);
@@ -153,11 +159,11 @@ protected:
 	void PerformAssignment(asCTypeInfo *lvalue, asCTypeInfo *rvalue, asCByteCode *bc, asCScriptNode *node);
 	bool IsVariableInitialized(asCTypeInfo *type, asCScriptNode *node);
 	void Dereference(asSExprContext *ctx, bool generateCode);
-	bool CompileRefCast(asSExprContext *ctx, const asCDataType &to, bool isExplicit, bool generateCode = true);
+	bool CompileRefCast(asSExprContext *ctx, const asCDataType &to, bool isExplicit, asCScriptNode *node, bool generateCode = true);
 	int  MatchArgument(asCArray<int> &funcs, asCArray<int> &matches, const asCTypeInfo *argType, int paramNum, bool allowObjectConstruct = true);
 	void PerformFunctionCall(int funcId, asSExprContext *out, bool isConstructor = false, asCArray<asSExprContext*> *args = 0, asCObjectType *objTypeForConstruct = 0, bool useVariable = false, int varOffset = 0);
 	void MoveArgsToStack(int funcId, asCByteCode *bc, asCArray<asSExprContext *> &args, bool addOneToOffset);
-	void MakeFunctionCall(asSExprContext *ctx, int funcId, asCObjectType *objectType, asCArray<asSExprContext*> &args, bool useVariable = false, int stackOffset = 0);
+	void MakeFunctionCall(asSExprContext *ctx, int funcId, asCObjectType *objectType, asCArray<asSExprContext*> &args, asCScriptNode *node, bool useVariable = false, int stackOffset = 0);
 	void PrepareFunctionCall(int funcId, asCByteCode *bc, asCArray<asSExprContext *> &args);
 	void AfterFunctionCall(int funcId, asCArray<asSExprContext*> &args, asSExprContext *ctx, bool deferAll);
 	void ProcessDeferredParams(asSExprContext *ctx);
@@ -175,7 +181,10 @@ protected:
 	void ConvertToTempVariableNotIn(asSExprContext *ctx, asCArray<int> *reservedVars);
 	void ConvertToReference(asSExprContext *ctx);
 	void PushVariableOnStack(asSExprContext *ctx, bool asReference);
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
 	int  TokenToBehaviour(int token);
+#endif
 	asCString GetScopeFromNode(asCScriptNode *node);
 
 	void ImplicitConversion(asSExprContext *ctx, const asCDataType &to, asCScriptNode *node, EImplicitConv convType, bool generateCode = true, asCArray<int> *reservedVars = 0, bool allowObjectConstruct = true);
@@ -193,6 +202,8 @@ protected:
 
 	void Error(const char *msg, asCScriptNode *node);
 	void Warning(const char *msg, asCScriptNode *node);
+	void PrintMatchingFuncs(asCArray<int> &funcs, asCScriptNode *node);
+
 
 	void AddVariableScope(bool isBreakScope = false, bool isContinueScope = false);
 	void RemoveVariableScope();

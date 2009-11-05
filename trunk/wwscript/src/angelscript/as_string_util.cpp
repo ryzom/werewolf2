@@ -29,13 +29,13 @@
 
 */
 
+#include "as_config.h"
+
 #include <stdarg.h>     // va_list, va_start(), etc
 #include <stdlib.h>     // strtod(), strtol()
 #include <stdio.h>      // _vsnprintf()
 #include <string.h>     // some compilers declare memcpy() here
 #include <locale.h>     // setlocale()
-
-#include "as_config.h"
 
 #if !defined(AS_NO_MEMORY_H)
 #include <memory.h>
@@ -44,6 +44,7 @@
 #include "as_string.h"
 #include "as_string_util.h"
 
+BEGIN_AS_NAMESPACE
 
 double asStringScanDouble(const char *string, size_t *numScanned)
 {
@@ -123,31 +124,31 @@ int asStringEncodeUTF8(unsigned int value, char *outEncodedBuffer)
 
 	if( value <= 0x7F )
 	{
-		buf[0] = value;
+		buf[0] = static_cast<unsigned char>(value);
 		return 1;
 	}
 	else if( value >= 0x80 && value <= 0x7FF )
 	{
 		// Encode it with 2 characters
-		buf[0] = 0xC0 + (value >> 6);
+		buf[0] = static_cast<unsigned char>(0xC0 + (value >> 6));
 		length = 2;
 	}
-	else if( value >= 0x800 && value <= 0xD7FF || value >= 0xE000 && value <= 0xFFFF )
+	else if( (value >= 0x800 && value <= 0xD7FF) || (value >= 0xE000 && value <= 0xFFFF) )
 	{
 		// Note: Values 0xD800 to 0xDFFF are not valid unicode characters
-		buf[0] = 0xE0 + (value >> 12);
+		buf[0] = static_cast<unsigned char>(0xE0 + (value >> 12));
 		length = 3;
 	}
 	else if( value >= 0x10000 && value <= 0x10FFFF )
 	{
-		buf[0] = 0xF0 + (value >> 18);
+		buf[0] = static_cast<unsigned char>(0xF0 + (value >> 18));
 		length = 4;
 	}
 
 	int n = length-1;
 	for( ; n > 0; n-- )
 	{
-		buf[n] = 0x80 + (value & 0x3F);
+		buf[n] = static_cast<unsigned char>(0x80 + (value & 0x3F));
 		value >>= 6;
 	}
 
@@ -216,3 +217,5 @@ int asStringDecodeUTF8(const char *encodedBuffer, unsigned int *outLength)
 	// The byte sequence isn't a valid UTF-8 byte sequence.
 	return -1;
 }
+
+END_AS_NAMESPACE

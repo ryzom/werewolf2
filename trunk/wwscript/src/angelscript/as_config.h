@@ -191,7 +191,7 @@
 // Use assembler code for the ARM CPU family
 
 // AS_64BIT_PTR
-// Define this to make the engine store all pointers in 64bit words.
+// Define this to make the engine store all pointers in 64bit words. 
 
 // AS_BIG_ENDIAN
 // Define this for CPUs that use big endian memory layout, e.g. PPC
@@ -218,6 +218,8 @@
 // AS_DC      - Sega Dreamcast
 // AS_GC      - Nintendo GameCube
 // AS_WII     - Nintendo Wii
+// AS_IPHONE  - Apple IPhone
+// AS_ANDROID - Android
 
 
 
@@ -270,7 +272,13 @@
 // Some compilers always pass certain objects by reference. GNUC for example does
 // this if the the class has a defined destructor.
 
+// HAS_128_BIT_PRIMITIVES
+// 64bit processors often support 128bit primitives. These may require special
+// treatment when passed in function arguments or returned by functions.
 
+// SPLIT_OBJS_BY_MEMBER_TYPES
+// On some platforms objects with primitive members are split over different
+// register types when passed by value to functions. 
 
 
 
@@ -416,10 +424,17 @@
 	#define STDCALL __attribute__((stdcall))
 	#define ASM_AT_N_T
 
-	// MacOSX
+	// MacOSX and IPhone
 	#ifdef __APPLE__
+
+		// Is this a Mac or an IPhone?
+		#ifdef TARGET_OS_IPHONE
+			#define AS_IPHONE
+		#else
+			#define AS_MAC
+		#endif
+
 		// The sizeof bool is different depending on the target CPU
-		#define AS_MAC
 		#undef AS_SIZEOF_BOOL
 		#if defined(__ppc__)
 			#define AS_SIZEOF_BOOL 4
@@ -429,6 +444,7 @@
 		#else
 			#define AS_SIZEOF_BOOL 1
 		#endif
+
 		#if defined(i386) && !defined(__LP64__)
 			// Support native calling conventions on Mac OS X + Intel 32bit CPU
 			#define AS_X86
@@ -440,12 +456,20 @@
 			#define STDCALL_RETURN_SIMPLE_IN_MEMORY
 		#elif (defined(__ppc__) || defined(__PPC__)) && defined(__LP64__)
 			#define AS_PPC_64
+		#elif (defined(_ARM_) || defined(__arm__))
+			// The IPhone use an ARM processor
+		    #define AS_ARM
+			#define AS_ALIGN
+
+			// TODO: Native calling convention on the IPhone is not available yet. Need to adapt
+            //       the code in as_callfunc_armasm.asm to allow GNU's assembler to compile it.
+			#define AS_MAX_PORTABILITY
 		#else
-			// No support for native calling conventions yet
+			// Unknown CPU type
 			#define AS_MAX_PORTABILITY
 		#endif
 		#define AS_POSIX_THREADS
-		
+ 
 	// Windows
 	#elif defined(WIN32)
 		// On Windows the simple classes are returned in the EAX:EDX registers
@@ -468,14 +492,17 @@
 
 	// Linux
 	#elif defined(__linux__)
-		#define THISCALL_RETURN_SIMPLE_IN_MEMORY
-		#define CDECL_RETURN_SIMPLE_IN_MEMORY
-		#define STDCALL_RETURN_SIMPLE_IN_MEMORY
-		#if defined(__i386__) && !defined(__LP64__)
+		#if defined(i386) && !defined(__LP64__)
+			#define THISCALL_RETURN_SIMPLE_IN_MEMORY
+			#define CDECL_RETURN_SIMPLE_IN_MEMORY
+			#define STDCALL_RETURN_SIMPLE_IN_MEMORY
+
 			// Support native calling conventions on Intel 32bit CPU
 			#define AS_X86
 		#else
 			#define AS_X64_GCC
+			#define HAS_128_BIT_PRIMITIVES
+			#define SPLIT_OBJS_BY_MEMBER_TYPES
 			// STDCALL is not available on 64bit Linux
 			#undef STDCALL
 			#define STDCALL
@@ -516,6 +543,7 @@
 		// Support native calling conventions on PS3
 		#define AS_PS3
 		#define AS_PPC_64
+		#define SPLIT_OBJS_BY_MEMBER_TYPES
 		#define THISCALL_RETURN_SIMPLE_IN_MEMORY
 		#define CDECL_RETURN_SIMPLE_IN_MEMORY
 		#define STDCALL_RETURN_SIMPLE_IN_MEMORY
@@ -538,6 +566,15 @@
 		#undef STDCALL
 		#define STDCALL
 
+    // Android
+	#elif defined(ANDROID)
+		#define AS_ANDROID
+		#define AS_NO_ATOMIC
+        
+		#if (defined(_ARM_) || defined(__arm__))
+		    #define AS_ARM
+			#define AS_ALIGN
+		#endif
 	#endif
 
 	#define I64(x) x##ll
@@ -562,7 +599,7 @@
 #endif
 
 // PowerPC, e.g. Mac, GameCube, PS3, XBox 360, Wii
-#if defined(__PPC__) || defined(__ppc__) || defined(EPPC)
+#if defined(__PPC__) || defined(__ppc__) || defined(_PPC_) || defined(EPPC)
 	#define AS_BIG_ENDIAN
 
 	// Gamecube
@@ -573,7 +610,6 @@
 	// XBox 360
 	#if (_XBOX_VER >= 200 )
 		#define AS_ALIGN
-		#define AS_USE_DOUBLE_AS_FLOAT
 	#endif
 	// PS3
 	#if defined(__PPU__)
@@ -638,11 +674,13 @@
 #define	BCARG_QW(b) ((asQWORD*)&(b)[1])
 
 #ifdef AS_64BIT_PTR
-	#define PTR_SIZE     2
+	#define AS_PTR_SIZE  2
 	#define asPTRWORD    asQWORD
+	#define asBC_RDSPTR  asBC_RDS8
 #else
-	#define PTR_SIZE     1
+	#define AS_PTR_SIZE  1
 	#define asPTRWORD    asDWORD
+	#define asBC_RDSPTR  asBC_RDS4
 #endif
 #define ARG_PTR(b)   ((asPTRWORD*)&b)
 #define BCARG_PTR(b) ((asPTRWORD*)&(b)[1])
