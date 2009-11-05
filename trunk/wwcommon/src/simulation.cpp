@@ -48,17 +48,18 @@
 
 WWCOMMON::IBaseSimulation *Simulation;
 WWCOMMON::IBaseSimulation *getSimulation() {
-        if(Simulation==NULL) {
-			nlinfo("Attempting to create a simulation instance.");
-			try {
-				NLMISC::IClassable *sim = NLMISC::CClassRegistry::create("CSimulationImpl");
-				if(sim==NULL)
-					nlwarning("Registery creation attempt failed.");
-				Simulation = static_cast<WWCOMMON::IBaseSimulation *>(sim);
-			} catch(NLMISC::EUnregisteredClass &e) {
-				nlerror("Failure while registering simulation!!");
-			}
-        }
+	if(Simulation==NULL) {
+		try {
+			NLMISC::IClassable *sim = NLMISC::CClassRegistry::create("CSimulationImpl");
+			if(sim==NULL)
+				nlwarning("Registery creation attempt failed.");
+			Simulation = dynamic_cast<WWCOMMON::IBaseSimulation*>(sim);
+			if(Simulation==NULL)
+				nlwarning("Failed to cast CSimulationImpl to IBaseSimulation.");
+		} catch(NLMISC::EUnregisteredClass &e) {
+			nlerror("Failure while registering simulation!!");
+		}
+	}
 	if(Simulation == NULL)
 		nlwarning("failed to creation a CSimulationImpl");
 	return Simulation;
