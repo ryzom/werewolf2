@@ -109,10 +109,15 @@ void asCConfigGroup::RemoveConfiguration(asCScriptEngine *engine)
 		int index = engine->registeredGlobalProps.IndexOf(globalProps[n]);
 		if( index >= 0 )
 		{
-			asDELETE(engine->registeredGlobalProps[index],asCGlobalProperty);
+			engine->ReleaseGlobalProperty(globalProps[n]);
+
+			// TODO: global: Should compact the registeredGlobalProps array
 			engine->registeredGlobalProps[index] = 0;
 		}
 	}
+
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
 
 	// Remove global behaviours
 	for( n = 0; n < globalBehaviours.GetLength(); n++ )
@@ -124,6 +129,7 @@ void asCConfigGroup::RemoveConfiguration(asCScriptEngine *engine)
 		// Remove the system function as well
 		engine->DeleteScriptFunction(id);
 	}
+#endif
 
 	// Remove global functions
 	for( n = 0; n < scriptFunctions.GetLength(); n++ )

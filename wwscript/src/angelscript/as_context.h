@@ -79,7 +79,7 @@ public:
 	int SetArgDouble(asUINT arg, double value);
 	int SetArgAddress(asUINT arg, void *addr);
 	int SetArgObject(asUINT arg, void *obj);
-	void *GetArgPointer(asUINT arg);
+	void *GetAddressOfArg(asUINT arg);
 
 	int SetObject(void *obj);
 
@@ -91,9 +91,6 @@ public:
 	double  GetReturnDouble();
 	void   *GetReturnAddress();
 	void   *GetReturnObject();
-#ifdef AS_DEPRECATED
-	void   *GetReturnPointer();
-#endif
 	void   *GetAddressOfReturnValue();
 
 	int  Execute();
@@ -121,15 +118,17 @@ public:
 	const char *GetVarName(int varIndex, int stackLevel);
 	const char *GetVarDeclaration(int varIndex, int stackLevel);
 	int         GetVarTypeId(int varIndex, int stackLevel);
-#ifdef AS_DEPRECATED
-	void       *GetVarPointer(int varIndex, int stackLevel);
-#endif
 	void       *GetAddressOfVar(int varIndex, int stackLevel);
 	int         GetThisTypeId(int stackLevel);
     void       *GetThisPointer(int stackLevel);
 
 	void *SetUserData(void *data);
 	void *GetUserData();
+
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-29, 2.17.0
+	void *GetArgPointer(asUINT arg);
+#endif
 
 public:
 	// Internal public functions
@@ -173,19 +172,12 @@ public:
 	bool doAbort;
 	bool externalSuspendRequest;
 	bool isCallingSystemFunction;
-	bool doProcessSuspend;
-
-	asDWORD *byteCode;
 
 	asCScriptFunction *currentFunction;
-	asDWORD *stackFramePointer;
 	bool isStackMemoryNotAllocated;
-
-	asQWORD register1;
 
 	asCArray<size_t> callStack;
 	asCArray<asDWORD *> stackBlocks;
-	asDWORD *stackPointer;
 	int stackBlockSize;
 	int stackIndex;
 
@@ -197,9 +189,6 @@ public:
 
 	int returnValueSize;
 	int argumentsSize;
-
-	void          *objectRegister;
-	asCObjectType *objectType;
 
 	// String function
 	asCScriptFunction *stringFunction;
@@ -216,6 +205,9 @@ public:
 	void *exceptionCallbackObj;
 
 	void *userData;
+
+	// Registers available to JIT compiler functions
+	asSVMRegisters regs;
 };
 
 END_AS_NAMESPACE

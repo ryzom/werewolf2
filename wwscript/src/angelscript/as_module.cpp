@@ -42,6 +42,13 @@
 #include "as_context.h"
 #include "as_texts.h"
 
+// TODO: Need a separate interface for compiling scripts. The asIScriptCompiler
+//       will have a target module, and will allow the compilation of an entire
+//       script or just individual functions within the scope of the module
+// 
+//       With this separation it will be possible to compile the library without
+//       the compiler, thus giving a much smaller binary executable.
+
 BEGIN_AS_NAMESPACE
 
 // internal
@@ -114,6 +121,15 @@ int asCModule::AddScriptSection(const char *name, const char *code, size_t codeL
 	return asSUCCESS;
 }
 
+// internal
+void asCModule::JITCompile()
+{
+    for (unsigned int i = 0; i < scriptFunctions.GetLength(); i++)
+    {
+        scriptFunctions[i]->JITCompile();
+    }
+}
+
 // interface
 int asCModule::Build()
 {
@@ -164,7 +180,9 @@ int asCModule::Build()
 
 	isBuildWithoutErrors = true;
 
-	engine->PrepareEngine();
+    JITCompile();
+
+ 	engine->PrepareEngine();
 	engine->BuildCompleted();
 
 	// Initialize global variables
@@ -340,7 +358,7 @@ void asCModule::InternalReset()
 	// Release bound functions
 	for( n = 0; n < bindInformations.GetLength(); n++ )
 	{
-		int oldFuncID = bindInformations[n].importedFunction;
+		int oldFuncID = bindInformations[n]->importedFunction;
 		if( oldFuncID != -1 )
 		{
 			asCModule *oldModule = engine->GetModuleFromFuncId(oldFuncID);
@@ -350,6 +368,8 @@ void asCModule::InternalReset()
 				oldModule->ReleaseModuleRef();
 			}
 		}
+
+		asDELETE(bindInformations[n], sBindInfo);
 	}
 	bindInformations.SetLength(0);
 
@@ -360,6 +380,7 @@ void asCModule::InternalReset()
 	importedFunctions.SetLength(0);
 
 	// Free global variables
+	// TODO: global: Release references
 	globalVarPointers.SetLength(0);
 
 	isBuildWithoutErrors = true;
@@ -371,9 +392,10 @@ void asCModule::InternalReset()
 	}
 	stringConstants.SetLength(0);
 
+	// Release the global properties declared in the module
 	for( n = 0; n < scriptGlobals.GetLength(); n++ )
 	{
-		asDELETE(scriptGlobals[n],asCGlobalProperty);
+		engine->ReleaseGlobalProperty(scriptGlobals[n]);
 	}
 	scriptGlobals.SetLength(0);
 
@@ -753,21 +775,20 @@ const char *asCModule::GetTypedefByIndex(asUINT index, int *typeId)
 // internal
 int asCModule::AddConstantString(const char *str, size_t len)
 {
-	//  The str may contain null chars, so we cannot use strlen, or strcmp, or strcpy
-	asCString *cstr = asNEW(asCString)(str, len);
+	// The str may contain null chars, so we cannot use strlen, or strcmp, or strcpy
 
 	// TODO: optimize: Improve linear search
 	// Has the string been registered before?
 	for( size_t n = 0; n < stringConstants.GetLength(); n++ )
 	{
-		if( *stringConstants[n] == *cstr )
+		if( stringConstants[n]->Compare(str, len) == 0 )
 		{
-			asDELETE(cstr,asCString);
 			return (int)n;
 		}
 	}
 
 	// No match was found, add the string
+	asCString *cstr = asNEW(asCString)(str, len);
 	stringConstants.PushLast(cstr);
 
 	return (int)stringConstants.GetLength() - 1;
@@ -777,13 +798,6 @@ int asCModule::AddConstantString(const char *str, size_t len)
 const asCString &asCModule::GetConstantString(int id)
 {
 	return *stringConstants[id];
-}
-
-// internal
-// TODO: this can probably be removed
-int asCModule::GetNextFunctionId()
-{
-	return engine->GetNextScriptFunctionId();
 }
 
 // internal
@@ -838,7 +852,7 @@ int asCModule::AddScriptFunction(asCScriptFunction *func)
 
 
 // internal
-int asCModule::AddImportedFunction(int id, const char *name, const asCDataType &returnType, asCDataType *params, asETypeModifiers *inOutFlags, int paramCount, int moduleNameStringID)
+int asCModule::AddImportedFunction(int id, const char *name, const asCDataType &returnType, asCDataType *params, asETypeModifiers *inOutFlags, int paramCount, const asCString &moduleName)
 {
 	asASSERT(id >= 0);
 
@@ -857,19 +871,12 @@ int asCModule::AddImportedFunction(int id, const char *name, const asCDataType &
 
 	importedFunctions.PushLast(func);
 
-	sBindInfo info;
-	info.importedFunction = -1;
-	info.importFrom = moduleNameStringID;
+	sBindInfo *info = asNEW(sBindInfo);
+	info->importedFunction = -1;
+	info->importFromModule = moduleName;
 	bindInformations.PushLast(info);
 
 	return 0;
-}
-
-// internal
-// TODO: This can probably be removed
-asCScriptFunction *asCModule::GetScriptFunction(int funcID)
-{
-	return engine->scriptFunctions[funcID & 0xFFFF];
 }
 
 // internal
@@ -939,7 +946,7 @@ bool asCModule::CanDelete()
 			// Unbind all functions. This will break any circular references
 			for( size_t n = 0; n < bindInformations.GetLength(); n++ )
 			{
-				int oldFuncID = bindInformations[n].importedFunction;
+				int oldFuncID = bindInformations[n]->importedFunction;
 				if( oldFuncID != -1 )
 				{
 					asCModule *oldModule = engine->GetModuleFromFuncId(oldFuncID);
@@ -957,6 +964,13 @@ bool asCModule::CanDelete()
 		return false;
 	}
 
+	// Check if the application is holding on to any references to the function
+	for( size_t n = 0; n < scriptFunctions.GetLength(); n++ )
+	{
+		if( scriptFunctions[n]->refCount.get() > 1 )
+			return false;
+	}
+
 	return true;
 }
 
@@ -972,7 +986,7 @@ bool asCModule::CanDeleteAllReferences(asCArray<asCModule*> &modules)
 	// Check all bound functions for referenced modules
 	for( size_t n = 0; n < bindInformations.GetLength(); n++ )
 	{
-		int funcID = bindInformations[n].importedFunction;
+		int funcID = bindInformations[n]->importedFunction;
 		asCModule *module = engine->GetModuleFromFuncId(funcID);
 
 		// If the module is already in the list don't check it again
@@ -998,21 +1012,22 @@ bool asCModule::CanDeleteAllReferences(asCArray<asCModule*> &modules)
 }
 
 // interface
-int asCModule::BindImportedFunction(int index, int sourceID)
+int asCModule::BindImportedFunction(int index, int sourceId)
 {
 	// First unbind the old function
 	int r = UnbindImportedFunction(index);
 	if( r < 0 ) return r;
 
 	// Must verify that the interfaces are equal
-	asCModule *srcModule = engine->GetModuleFromFuncId(sourceID);
+	asCModule *srcModule = engine->GetModuleFromFuncId(sourceId);
 	if( srcModule == 0 ) return asNO_MODULE;
 
 	asCScriptFunction *dst = GetImportedFunction(index);
 	if( dst == 0 ) return asNO_FUNCTION;
 
-	asCScriptFunction *src = srcModule->GetScriptFunction(sourceID);
-	if( src == 0 ) return asNO_FUNCTION;
+	asCScriptFunction *src = engine->GetScriptFunction(sourceId);
+	if( src == 0 ) 
+		return asNO_FUNCTION;
 
 	// Verify return type
 	if( dst->returnType != src->returnType )
@@ -1030,7 +1045,7 @@ int asCModule::BindImportedFunction(int index, int sourceID)
 	// Add reference to new module
 	srcModule->AddModuleRef();
 
-	bindInformations[index].importedFunction = sourceID;
+	bindInformations[index]->importedFunction = sourceId;
 
 	return asSUCCESS;
 }
@@ -1042,7 +1057,7 @@ int asCModule::UnbindImportedFunction(int index)
 		return asINVALID_ARG;
 
 	// Remove reference to old module
-	int oldFuncID = bindInformations[index].importedFunction;
+	int oldFuncID = bindInformations[index]->importedFunction;
 	if( oldFuncID != -1 )
 	{
 		asCModule *oldModule = engine->GetModuleFromFuncId(oldFuncID);
@@ -1053,7 +1068,7 @@ int asCModule::UnbindImportedFunction(int index)
 		}
 	}
 
-	bindInformations[index].importedFunction = -1;
+	bindInformations[index]->importedFunction = -1;
 	return asSUCCESS;
 }
 
@@ -1076,9 +1091,7 @@ const char *asCModule::GetImportedFunctionSourceModule(int index)
 	if( index >= (int)bindInformations.GetLength() )
 		return 0;
 
-	index = bindInformations[index].importFrom;
-
-	return stringConstants[index]->AddressOf();
+	return bindInformations[index]->importFromModule.AddressOf();
 }
 
 // inteface
@@ -1162,36 +1175,30 @@ asCObjectType *asCModule::GetObjectType(const char *type)
 // internal
 asCGlobalProperty *asCModule::AllocateGlobalProperty(const char *name, const asCDataType &dt)
 {
-	asCGlobalProperty *prop = asNEW(asCGlobalProperty);
-	prop->index      = (int)scriptGlobals.GetLength();
-	prop->name       = name;
-	prop->type       = dt;
+	asCGlobalProperty *prop = engine->AllocateGlobalProperty();
+	prop->name = name;
+	prop->type = dt;
 	scriptGlobals.PushLast(prop);
 
-	// Allocate the memory for this property
-	if( dt.GetSizeOnStackDWords() > 2 )
-	{
-		prop->SetAddressOfValue(asNEWARRAY(asDWORD, dt.GetSizeOnStackDWords()));
-		prop->memoryAllocated = true;
-	}
+	// Allocate the memory for this property based on its type
+	prop->AllocateMemory();
 
 	return prop;
 }
 
 // internal
-int asCModule::GetGlobalVarIndex(int propIdx)
+// TODO: global: This should be local to the script functions
+int asCModule::GetGlobalVarPtrIndex(int gvarId)
 {
-	void *ptr = 0;
-	if( propIdx < 0 )
-		ptr = engine->globalPropAddresses[-int(propIdx) - 1];
-	else
-		// TODO: We can probably remove the 0xFFFF
-		ptr = scriptGlobals[propIdx & 0xFFFF]->GetAddressOfValue();
+	void *ptr = engine->globalProperties[gvarId]->GetAddressOfValue();
 
+	// Check if this pointer has been stored already
 	for( int n = 0; n < (signed)globalVarPointers.GetLength(); n++ )
 		if( globalVarPointers[n] == ptr )
 			return n;
 
+	// TODO: global: add reference
+	// Add the new variable to the array
 	globalVarPointers.PushLast(ptr);
 	return (int)globalVarPointers.GetLength()-1;
 }
@@ -1509,27 +1516,29 @@ int asCModule::LoadByteCode(asIBinaryStream *in)
 	asCRestore rest(this, in, engine);
 	r = rest.Restore();
 
+    JITCompile();
+
 	engine->BuildCompleted();
 
 	return r;
 }
 
 // internal
-asCConfigGroup *asCModule::GetConfigGroupByGlobalVarId(int gvarId)
+asCConfigGroup *asCModule::GetConfigGroupByGlobalVarPtrIndex(int index)
 {
-	void *gvarPtr = globalVarPointers[gvarId];
+	void *gvarPtr = globalVarPointers[index];
 
-	gvarId = 0;
-	for( asUINT g = 0; g < engine->globalPropAddresses.GetLength(); g++ )
+	int gvarId = -1;
+	for( asUINT g = 0; g < engine->registeredGlobalProps.GetLength(); g++ )
 	{
-		if( engine->globalPropAddresses[g] == gvarPtr )
+		if( engine->registeredGlobalProps[g] && engine->registeredGlobalProps[g]->GetAddressOfValue() == gvarPtr )
 		{
-			gvarId = -int(g) - 1;
+			gvarId = engine->registeredGlobalProps[g]->id;
 			break;
 		}
 	}
 
-	if( gvarId < 0 )
+	if( gvarId >= 0 )
 	{
 		// Find the config group from the property id
 		return engine->FindConfigGroupForGlobalVar(gvarId);

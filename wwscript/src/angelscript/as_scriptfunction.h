@@ -44,6 +44,7 @@
 #include "as_string.h"
 #include "as_array.h"
 #include "as_datatype.h"
+#include "as_atomic.h"
 
 BEGIN_AS_NAMESPACE
 
@@ -68,15 +69,20 @@ struct asSSystemFunctionInterface;
 // TODO: Need a method for obtaining the function type, so that the application can differenciate between the types
 //       This should replace the IsClassMethod and IsInterfaceMethod
 
-// TODO: Need a method for obtaining the read-only flag for class methods
-
-// TODO: GetModuleName should be exchanged for GetModule and should return asIScriptModule pointer
+// TODO: GetModuleName should be removed. A function won't belong to a specific module anymore
+//       as the function can be removed from the module, but still remain alive. For example
+//       for dynamically generated functions held by a function pointer.
 
 class asCScriptFunction : public asIScriptFunction
 {
 public:
 	// From asIScriptFunction
 	asIScriptEngine     *GetEngine() const;
+
+	// Memory management
+	int AddRef();
+	int Release();
+
 	const char          *GetModuleName() const;
 	asIObjectType       *GetObjectType() const;
 	const char          *GetObjectName() const;
@@ -87,12 +93,19 @@ public:
 
 	bool                 IsClassMethod() const;
 	bool                 IsInterfaceMethod() const;
+	bool                 IsReadOnly() const;
 
 	int                  GetParamCount() const;
 	int                  GetParamTypeId(int index, asDWORD *flags = 0) const;
 	int                  GetReturnTypeId() const;
 
+	// For JIT compilation
+	asDWORD             *GetByteCode(asUINT *length = 0);
+
 public:
+	//-----------------------------------
+	// Internal methods
+
 	asCScriptFunction(asCScriptEngine *engine, asCModule *mod);
 	~asCScriptFunction();
 
@@ -105,20 +118,27 @@ public:
 	void      ComputeSignatureId();
 	bool      IsSignatureEqual(const asCScriptFunction *func) const;
 
+    void      JITCompile();
+
 	void      AddReferences();
 	void      ReleaseReferences();
 
+public:
+	//-----------------------------------
+	// Properties
+
+	asCAtomic                    refCount;
 	asCScriptEngine             *engine;
 	asCModule                   *module;
 
 	// Function signature
-	asCString                        name;
-	asCDataType                      returnType;
-	asCArray<asCDataType>            parameterTypes;
-	asCArray<asETypeModifiers>       inOutFlags;
-	bool                             isReadOnly;
-	asCObjectType                   *objectType;
-	int                              signatureId;
+	asCString                    name;
+	asCDataType                  returnType;
+	asCArray<asCDataType>        parameterTypes;
+	asCArray<asETypeModifiers>   inOutFlags;
+	bool                         isReadOnly;
+	asCObjectType               *objectType;
+	int                          signatureId;
 
 	int                          id;
 
@@ -139,6 +159,9 @@ public:
 
 	// Used by asFUNC_SYSTEM
 	asSSystemFunctionInterface  *sysFuncIntf;
+
+    // JIT compiled code of this function
+    asJITFunction                jitFunction;
 };
 
 END_AS_NAMESPACE

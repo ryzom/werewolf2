@@ -49,7 +49,7 @@
 #include "as_callfunc.h"
 #include "as_arrayobject.h"
 #include "as_generic.h"
-#include "as_scriptstruct.h"
+#include "as_scriptobject.h"
 #include "as_compiler.h"
 
 BEGIN_AS_NAMESPACE
@@ -130,6 +130,12 @@ AS_API const char * asGetLibraryOptions()
 #ifdef AS_WII
 		"AS_WII "
 #endif
+#ifdef AS_IPHONE
+		"AS_IPHONE "
+#endif
+#ifdef AS_ANDROID
+		"AS_ANDROID "
+#endif
 
 	// CPU family
 #ifdef AS_PPC
@@ -161,13 +167,13 @@ AS_API const char * asGetLibraryOptions()
 AS_API asIScriptEngine *asCreateScriptEngine(asDWORD version)
 {
 	// Verify the version that the application expects
-	if( (version/10000) != ANGELSCRIPT_VERSION_MAJOR )
+	if( (version/10000) != (ANGELSCRIPT_VERSION/10000) )
 		return 0;
 
-	if( (version/100)%100 != ANGELSCRIPT_VERSION_MINOR )
+	if( (version/100)%100 != (ANGELSCRIPT_VERSION/100)%100 )
 		return 0;
 
-	if( (version%100) > ANGELSCRIPT_VERSION_BUILD )
+	if( (version%100) > (ANGELSCRIPT_VERSION%100) )
 		return 0;
 
 	// Verify the size of the types
@@ -247,6 +253,10 @@ int asCScriptEngine::SetEngineProperty(asEEngineProp property, asPWORD value)
 			return asINVALID_ARG;
 		break;
 
+	case asEP_INCLUDE_JIT_INSTRUCTIONS:
+		ep.includeJitInstructions = value ? true : false;
+		break;
+
 	default:
 		return asINVALID_ARG;
 	}
@@ -290,6 +300,9 @@ asPWORD asCScriptEngine::GetEngineProperty(asEEngineProp property)
 
 	case asEP_SCRIPT_SCANNER:
 		return ep.scanner;
+
+	case asEP_INCLUDE_JIT_INSTRUCTIONS:
+		return ep.includeJitInstructions;
 	}
 
 	return 0;
@@ -321,6 +334,7 @@ asCScriptEngine::asCScriptEngine()
 	ep.initGlobalVarsAfterBuild = true;
 	ep.requireEnumScope         = false;
 	ep.scanner                  = 1;         // utf8
+	ep.includeJitInstructions   = false;
 
 	gc.engine = this;
 
@@ -342,6 +356,7 @@ asCScriptEngine::asCScriptEngine()
 	currentGroup = &defaultGroup;
 
 	msgCallback = 0;
+    jitCompiler = 0;
 
 	// Reserve function id 0 for no function
 	scriptFunctions.PushLast(0);
@@ -446,8 +461,7 @@ asCScriptEngine::~asCScriptEngine()
 		}
 	}
 	registeredGlobalProps.SetLength(0);
-	globalPropAddresses.SetLength(0);
-
+	globalProperties.SetLength(0);
 
 	for( n = 0; n < templateTypes.GetLength(); n++ )
 	{
@@ -583,6 +597,7 @@ int asCScriptEngine::WriteMessage(const char *section, int row, int col, asEMsgT
 	// If there is no callback then there's nothing to do
 	if( !msgCallback )
 		return 0;
+
 	asSMessageInfo msg;
 	msg.section = section;
 	msg.row     = row;
@@ -596,6 +611,17 @@ int asCScriptEngine::WriteMessage(const char *section, int row, int col, asEMsgT
 		CallObjectMethod(msgCallbackObj, &msg, &msgCallbackFunc, 0);
 
 	return 0;
+}
+
+int asCScriptEngine::SetJITCompiler(asIJITCompiler *compiler)
+{
+    jitCompiler = compiler;
+    return asSUCCESS;
+}
+
+asIJITCompiler *asCScriptEngine::GetJITCompiler()
+{
+    return jitCompiler;
 }
 
 // interface
@@ -676,15 +702,10 @@ void asCScriptEngine::ClearUnusedTypes()
 		asCModule *mod = scriptModules[n];
 		if( mod )
 		{
-			// Go through all globals
-			asUINT m;
-			for( m = 0; m < mod->scriptGlobals.GetLength() && types.GetLength(); m++ )
-			{
-				if( mod->scriptGlobals[m]->type.GetObjectType() )
-					RemoveTypeAndRelatedFromList(types, mod->scriptGlobals[m]->type.GetObjectType());
-			}
+			// Functions/Methods/Globals are handled after this
 
 			// Go through all type declarations
+			asUINT m;
 			for( m = 0; m < mod->classTypes.GetLength() && types.GetLength(); m++ )
 				RemoveTypeAndRelatedFromList(types, mod->classTypes[m]);
 			for( m = 0; m < mod->enumTypes.GetLength() && types.GetLength(); m++ )
@@ -718,10 +739,10 @@ void asCScriptEngine::ClearUnusedTypes()
 	}
 
 	// Go through all global properties
-	for( n = 0; n < registeredGlobalProps.GetLength() && types.GetLength(); n++ )
+	for( n = 0; n < globalProperties.GetLength() && types.GetLength(); n++ )
 	{
-		if( registeredGlobalProps[n] && registeredGlobalProps[n]->type.GetObjectType() )
-			RemoveTypeAndRelatedFromList(types, registeredGlobalProps[n]->type.GetObjectType());
+		if( globalProperties[n] && globalProperties[n]->type.GetObjectType() )
+			RemoveTypeAndRelatedFromList(types, globalProperties[n]->type.GetObjectType());
 	}
 
 	// All that remains in the list after this can be discarded, since they are no longer used
@@ -883,13 +904,12 @@ asCString asCScriptEngine::GetFunctionDeclaration(int funcID)
 	return str;
 }
 
-asCScriptFunction *asCScriptEngine::GetScriptFunction(int funcID)
+asCScriptFunction *asCScriptEngine::GetScriptFunction(int funcId)
 {
-	int f = funcID & 0xFFFF;
-	if( f >= (int)scriptFunctions.GetLength() )
+	if( funcId < 0 || funcId >= (int)scriptFunctions.GetLength() )
 		return 0;
 
-	return scriptFunctions[f];
+	return scriptFunctions[funcId];
 }
 
 
@@ -904,6 +924,10 @@ asIScriptContext *asCScriptEngine::CreateContext()
 int asCScriptEngine::CreateContext(asIScriptContext **context, bool isInternal)
 {
 	*context = asNEW(asCContext)(this, !isInternal);
+
+	// We need to make sure the engine has been 
+	// prepared before any context is executed
+	PrepareEngine();
 
 	return 0;
 }
@@ -1083,7 +1107,7 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asDWORD 
 		if( flags & (asOBJ_REF | asOBJ_GC | asOBJ_SCOPED) )
 			return ConfigError(asINVALID_ARG);
 
-		// Must have either asOBJ_APP_CLASS, asOBJ_APP_PRIMITIVE, or asOBJ_APP_FLOAT
+		// If the app type is given, we must validate the flags
 		if( flags & asOBJ_APP_CLASS )
 		{
 			// Must not set the primitive or float flag
@@ -1111,11 +1135,11 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asDWORD 
 						 asOBJ_APP_PRIMITIVE) )
 				return ConfigError(asINVALID_ARG);
 		}
-		else
+		else if( flags & (asOBJ_APP_CLASS_CONSTRUCTOR |
+		                  asOBJ_APP_CLASS_DESTRUCTOR  |
+		                  asOBJ_APP_CLASS_ASSIGNMENT) )
 		{
-			// The application type was not informed
-			// TODO: This should be ok, as long as the application doesn't register any functions
-			//       that take the type by value or return it by value using native calling convention
+			// Must not set the class properties, without the class flag
 			return ConfigError(asINVALID_ARG);
 		}
 	}
@@ -1392,7 +1416,7 @@ int asCScriptEngine::RegisterSpecialObjectBehaviour(asCObjectType *objType, asDW
 
 		beh->release = AddBehaviourFunction(func, internal);
 	}
-	else if( behaviour >= asBEHAVE_FIRST_ASSIGN && behaviour <= asBEHAVE_LAST_ASSIGN )
+	else if( behaviour == asBEHAVE_MAX /*assignment*/ )
 	{
 		// Verify that there is exactly one parameter
 		if( func.parameterTypes.GetLength() != 1 )
@@ -1401,6 +1425,7 @@ int asCScriptEngine::RegisterSpecialObjectBehaviour(asCObjectType *objType, asDW
 		if( beh->copy )
 			return ConfigError(asALREADY_REGISTERED);
 
+		// TODO: Store the function id elsewhere since the beh->copy member will be removed
 		beh->copy = AddBehaviourFunction(func, internal);
 
 		beh->operators.PushLast(ttAssignment);
@@ -1464,7 +1489,8 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 	if( datatype == 0 ) return ConfigError(asINVALID_ARG);
 
 	asSSystemFunctionInterface internal;
-	if( behaviour == asBEHAVE_FACTORY )
+	if( behaviour == asBEHAVE_FACTORY ||
+		behaviour == asBEHAVE_TEMPLATE_CALLBACK )
 	{
 		int r = DetectCallingConvention(false, funcPointer, callConv, &internal);
 		if( r < 0 )
@@ -1499,11 +1525,8 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 	if( r < 0 )
 		return ConfigError(r);
 
-	// Verify that the correct config group is used
 	if( type.GetObjectType() == 0 )
 		return ConfigError(asINVALID_TYPE);
-	if( currentGroup->FindType(type.GetObjectType()->name.AddressOf()) == 0 )
-		return ConfigError(asWRONG_CONFIG_GROUP);
 
 	if( type.IsReadOnly() || type.IsReference() )
 		return ConfigError(asINVALID_TYPE);
@@ -1540,7 +1563,7 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 			if( func.parameterTypes[n].GetObjectType() == type.GetObjectType()->templateSubType.GetObjectType() )
 			{
 				// TODO: If unsafe references are allowed, then inout references allow value types
-				if( func.parameterTypes[n].IsObjectHandle() || func.parameterTypes[n].IsReference() && func.inOutFlags[n] == asTM_INOUTREF )
+				if( func.parameterTypes[n].IsObjectHandle() || (func.parameterTypes[n].IsReference() && func.inOutFlags[n] == asTM_INOUTREF) )
 					type.GetObjectType()->acceptValueSubType = false;
 				else if( !func.parameterTypes[n].IsReference() )
 					type.GetObjectType()->acceptRefSubType = false;
@@ -1633,7 +1656,7 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 		// TODO: Verify that the same factory function hasn't been registered already
 
 		// The templates take a hidden parameter with the object type
-		if( type.GetObjectType()->flags & asOBJ_TEMPLATE &&
+		if( (type.GetObjectType()->flags & asOBJ_TEMPLATE) &&
 			(func.parameterTypes.GetLength() == 0 ||
 			 !func.parameterTypes[0].IsReference()) )
 		{
@@ -1641,7 +1664,8 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 		}
 
 		// Store all factory functions in a list
-		if( func.parameterTypes.GetLength() == 0 )
+		if( (func.parameterTypes.GetLength() == 0) ||
+			(func.parameterTypes.GetLength() == 1 && (type.GetObjectType()->flags & asOBJ_TEMPLATE)) )
 		{
 			func.id = beh->factory = AddBehaviourFunction(func, internal);
 			beh->factories.PushLast(beh->factory);
@@ -1682,7 +1706,7 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 
 		func.id = beh->addref = AddBehaviourFunction(func, internal);
 	}
-	else if( behaviour == asBEHAVE_RELEASE)
+	else if( behaviour == asBEHAVE_RELEASE )
 	{
 		// Must be a ref type and must not have asOBJ_NOHANDLE
 		if( !(func.objectType->flags & asOBJ_REF) || (func.objectType->flags & asOBJ_NOHANDLE) )
@@ -1704,6 +1728,29 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 
 		func.id = beh->release = AddBehaviourFunction(func, internal);
 	}
+	else if( behaviour == asBEHAVE_TEMPLATE_CALLBACK )
+	{
+		// Must be a template type 
+		if( !(func.objectType->flags & asOBJ_TEMPLATE) )
+		{
+			WriteMessage("", 0, 0, asMSGTYPE_ERROR, TXT_ILLEGAL_BEHAVIOUR_FOR_TYPE);
+			return ConfigError(asILLEGAL_BEHAVIOUR_FOR_TYPE);
+		}
+
+		if( beh->templateCallback )
+			return ConfigError(asALREADY_REGISTERED);
+
+		// Verify that the return type is bool
+		if( func.returnType != asCDataType::CreatePrimitive(ttBool, false) )
+			return ConfigError(asINVALID_DECLARATION);
+
+		// Verify that there is one parameters
+		if( func.parameterTypes.GetLength() != 1 )
+			return ConfigError(asINVALID_DECLARATION);
+
+		func.id = beh->templateCallback = AddBehaviourFunction(func, internal);
+	}
+#ifdef AS_DEPRECATED
 	else if( behaviour >= asBEHAVE_FIRST_ASSIGN && behaviour <= asBEHAVE_LAST_ASSIGN )
 	{
 		// Verify that the var type is not used
@@ -1744,6 +1791,7 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 			beh->operators.PushLast(func.id);
 		}
 	}
+#endif
 	else if( behaviour == asBEHAVE_INDEX )
 	{
 		// Verify that the var type is not used
@@ -1764,7 +1812,8 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 		func.id = AddBehaviourFunction(func, internal);
 		beh->operators.PushLast(func.id);
 	}
-	// TODO: We also need asBEHAVE_BIT_NOT
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
 	else if( behaviour == asBEHAVE_NEGATE )
 	{
 		// Verify that there are no parameters
@@ -1790,6 +1839,7 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 		func.id = AddBehaviourFunction(func, internal);
 		beh->operators.PushLast(func.id);
 	}
+#endif
 	else if( behaviour >= asBEHAVE_FIRST_GC &&
 		     behaviour <= asBEHAVE_LAST_GC )
 	{
@@ -1858,16 +1908,35 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 		func.id = AddBehaviourFunction(func, internal);
 		beh->operators.PushLast(func.id);
 	}
+	else if( behaviour == asBEHAVE_REF_CAST ||
+	         behaviour == asBEHAVE_IMPLICIT_REF_CAST )
+	{
+		// Verify parameter count
+		if( func.parameterTypes.GetLength() != 0 )
+			return ConfigError(asINVALID_DECLARATION);
+
+		// Verify return type
+		if( !func.returnType.IsObjectHandle() )
+			return ConfigError(asINVALID_DECLARATION);
+
+		// TODO: verify that the same cast is not registered already (cosnt or non-const is treated the same for the return type)
+
+		beh->operators.PushLast(behaviour);
+		func.id = AddBehaviourFunction(func, internal);
+		beh->operators.PushLast(func.id);
+	}
 	else
 	{
-		if( (behaviour >= asBEHAVE_FIRST_DUAL &&
-			 behaviour <= asBEHAVE_LAST_DUAL) ||
-			behaviour == asBEHAVE_REF_CAST )
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
+		if( behaviour >= asBEHAVE_FIRST_DUAL &&
+			behaviour <= asBEHAVE_LAST_DUAL )
 		{
 			WriteMessage("", 0, 0, asMSGTYPE_ERROR, TXT_MUST_BE_GLOBAL_BEHAVIOUR);
 		}
 		else
-			asASSERT(false);
+#endif
+		asASSERT(false);
 
 		return ConfigError(asINVALID_ARG);
 	}
@@ -1877,8 +1946,8 @@ int asCScriptEngine::RegisterObjectBehaviour(const char *datatype, asEBehaviours
 }
 
 
-// TODO: RegisterGlobalBehaviour should be removed once all behaviours are registered to objects
-// interface
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
 int asCScriptEngine::RegisterGlobalBehaviour(asEBehaviours behaviour, const char *decl, const asSFuncPtr &funcPointer, asDWORD callConv)
 {
 	asSSystemFunctionInterface internal;
@@ -1966,14 +2035,18 @@ int asCScriptEngine::RegisterGlobalBehaviour(asEBehaviours behaviour, const char
 	// Return the function id as success
 	return func.id;
 }
+#endif
 
-// interface
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
 int asCScriptEngine::GetGlobalBehaviourCount()
 {
 	return (int)globalBehaviours.operators.GetLength()/2;
 }
+#endif
 
-// interface
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
 int asCScriptEngine::GetGlobalBehaviourByIndex(asUINT index, asEBehaviours *outBehaviour)
 {
 	if( index*2 >= globalBehaviours.operators.GetLength() )
@@ -1984,6 +2057,7 @@ int asCScriptEngine::GetGlobalBehaviourByIndex(asUINT index, asEBehaviours *outB
 
 	return globalBehaviours.operators[index*2+1];
 }
+#endif
 
 int asCScriptEngine::VerifyVarTypeNotInFunction(asCScriptFunction *func)
 {
@@ -2069,15 +2143,13 @@ int asCScriptEngine::RegisterGlobalProperty(const char *declaration, void *point
 		return ConfigError(asINVALID_TYPE);
 
 	// Store the property info
-	asCGlobalProperty *prop = asNEW(asCGlobalProperty);
-	prop->name       = name;
-	prop->type       = type;
-	prop->index      = -1 - (int)globalPropAddresses.GetLength();
+	asCGlobalProperty *prop = AllocateGlobalProperty();
+	prop->name        = name;
+	prop->type        = type;
 
-	// TODO: Reuse slots emptied when removing configuration groups
+	prop->SetRegisteredAddress(pointer);
+	
 	registeredGlobalProps.PushLast(prop);
-	globalPropAddresses.PushLast(pointer);
-
 	currentGroup->globalProps.PushLast(prop);
 
 	// If from another group add reference
@@ -2087,14 +2159,37 @@ int asCScriptEngine::RegisterGlobalProperty(const char *declaration, void *point
 		currentGroup->RefConfigGroup(group);
 	}
 
-	if( type.IsObject() && !type.IsReference() && !type.IsObjectHandle() )
-	{
-		// Create a pointer to a pointer, by storing the object pointer in the global property structure
-		prop->memory = pointer;
-		globalPropAddresses[-prop->index -1] = &prop->memory;
-	}
-
 	return asSUCCESS;
+}
+
+// internal
+asCGlobalProperty *asCScriptEngine::AllocateGlobalProperty()
+{
+	asCGlobalProperty *prop = asNEW(asCGlobalProperty);
+	prop->refCount.set(1);
+
+	// TODO: global: Should first check the availability of a free slot
+	prop->id = (asUINT)globalProperties.GetLength();
+	globalProperties.PushLast(prop);
+
+	return prop;
+}
+
+// internal
+void asCScriptEngine::AddRefToGlobalProperty(asCGlobalProperty *prop)
+{
+	prop->refCount.atomicInc();
+}
+
+// internal
+void asCScriptEngine::ReleaseGlobalProperty(asCGlobalProperty *prop)
+{
+	if( prop->refCount.atomicDec() == 0 )
+	{
+		// TODO: global: Should keep track of free slots
+		globalProperties[prop->id] = 0;
+		asDELETE(prop, asCGlobalProperty);
+	}
 }
 
 // interface
@@ -2129,7 +2224,7 @@ int asCScriptEngine::GetGlobalPropertyByIndex(asUINT index, const char **name, i
 		*isConst = registeredGlobalProps[index]->type.IsReadOnly();
 
 	if( pointer )
-		*pointer = globalPropAddresses[-1 - registeredGlobalProps[index]->index];
+		*pointer = registeredGlobalProps[index]->realAddress;
 
 	return asSUCCESS;
 }
@@ -2158,10 +2253,6 @@ int asCScriptEngine::RegisterObjectMethod(const char *obj, const char *declarati
 	r = bld.ParseDataType(obj, &dt);
 	if( r < 0 )
 		return ConfigError(r);
-
-	// Verify that the correct config group is set.
-	if( currentGroup->FindType(dt.GetObjectType()->name.AddressOf()) == 0 )
-		return ConfigError(asWRONG_CONFIG_GROUP);
 
 	isPrepared = false;
 
@@ -2223,12 +2314,22 @@ int asCScriptEngine::RegisterObjectMethod(const char *obj, const char *declarati
 			if( func->parameterTypes[n].GetObjectType() == func->objectType->templateSubType.GetObjectType() )
 			{
 				// TODO: If unsafe references are allowed, then inout references allow value types
-				if( func->parameterTypes[n].IsObjectHandle() || func->parameterTypes[n].IsReference() && func->inOutFlags[n] == asTM_INOUTREF )
+				if( func->parameterTypes[n].IsObjectHandle() || (func->parameterTypes[n].IsReference() && func->inOutFlags[n] == asTM_INOUTREF) )
 					func->objectType->acceptValueSubType = false;
 				else if( !func->parameterTypes[n].IsReference() )
 					func->objectType->acceptRefSubType = false;
 			}
 		}
+	}
+
+	// TODO: beh.copy member will be removed, so this is not necessary
+	// Is this the default copy behaviour
+	if( func->name == "opAssign" &&
+		func->parameterTypes.GetLength() == 1 &&
+		func->parameterTypes[0].IsEqualExceptRefAndConst(asCDataType::CreateObject(func->objectType, false)) &&
+		func->isReadOnly == false )
+	{
+		func->objectType->beh.copy = func->id;
 	}
 
 	// Return the function id as success
@@ -2561,7 +2662,6 @@ asCModule *asCScriptEngine::GetModule(int id)
 asCModule *asCScriptEngine::GetModuleFromFuncId(int id)
 {
 	if( id < 0 ) return 0;
-	id &= 0xFFFF;
 	if( id >= (int)scriptFunctions.GetLength() ) return 0;
 	asCScriptFunction *func = scriptFunctions[id];
 	if( func == 0 ) return 0;
@@ -2764,6 +2864,19 @@ asCObjectType *asCScriptEngine::GetTemplateInstanceType(asCObjectType *templateT
 	ot->flags     = templateType->flags;
 	ot->size      = templateType->size;
 	ot->name      = templateType->name;
+
+	// Before filling in the methods, call the template instance callback behaviour to validate the type
+	if( templateType->beh.templateCallback )
+	{
+		asCScriptFunction *callback = scriptFunctions[templateType->beh.templateCallback];
+		if( !CallGlobalFunctionRetBool(ot, 0, callback->sysFuncIntf, callback) )
+		{
+			// The type cannot be instanciated
+			asDELETE(ot, asCObjectType);
+			return 0;
+		}
+	}
+
 	ot->methods   = templateType->methods;
 	// Store the real factory in the constructor
 	ot->beh.construct = templateType->beh.factory;
@@ -3157,6 +3270,12 @@ void *asCScriptEngine::CallGlobalFunctionRetPtr(int func)
 	return CallGlobalFunctionRetPtr(s->sysFuncIntf, s);
 }
 
+void *asCScriptEngine::CallGlobalFunctionRetPtr(int func, void *param1)
+{
+	asCScriptFunction *s = scriptFunctions[func];
+	return CallGlobalFunctionRetPtr(s->sysFuncIntf, s, param1);
+}
+
 void *asCScriptEngine::CallGlobalFunctionRetPtr(asSSystemFunctionInterface *i, asCScriptFunction *s)
 {
 	if( i->callConv == ICC_CDECL )
@@ -3172,6 +3291,27 @@ void *asCScriptEngine::CallGlobalFunctionRetPtr(asSSystemFunctionInterface *i, a
 	else
 	{
 		asCGeneric gen(this, s, 0, 0);
+		void (*f)(asIScriptGeneric *) = (void (*)(asIScriptGeneric *))(i->func);
+		f(&gen);
+		return *(void**)gen.GetReturnPointer();
+	}
+}
+
+void *asCScriptEngine::CallGlobalFunctionRetPtr(asSSystemFunctionInterface *i, asCScriptFunction *s, void *param1)
+{
+	if( i->callConv == ICC_CDECL )
+	{
+		void *(*f)(void *) = (void *(*)(void *))(i->func);
+		return f(param1);
+	}
+	else if( i->callConv == ICC_STDCALL )
+	{
+		void *(STDCALL *f)(void *) = (void *(STDCALL *)(void *))(i->func);
+		return f(param1);
+	}
+	else
+	{
+		asCGeneric gen(this, s, 0, (asDWORD*)&param1);
 		void (*f)(asIScriptGeneric *) = (void (*)(asIScriptGeneric *))(i->func);
 		f(&gen);
 		return *(void**)gen.GetReturnPointer();
@@ -3345,7 +3485,7 @@ int asCScriptEngine::GetTypeIdFromDataType(const asCDataType &dt)
 	if( dt.GetObjectType() )
 	{
 		if( dt.GetObjectType()->flags & asOBJ_SCRIPT_OBJECT ) typeId |= asTYPEID_SCRIPTOBJECT;
-		else if( dt.GetObjectType()->flags & asOBJ_TEMPLATE ) typeId |= asTYPEID_SCRIPTARRAY;
+		else if( dt.GetObjectType()->flags & asOBJ_TEMPLATE ) typeId |= asTYPEID_SCRIPTARRAY; // TODO: Should be asTYPEID_TEMPLATE
 		else if( dt.GetObjectType()->flags & asOBJ_ENUM ); // TODO: Should we have a specific bit for this?
 		else typeId |= asTYPEID_APPOBJECT;
 	}
@@ -3472,7 +3612,8 @@ void *asCScriptEngine::CreateScriptObject(int typeId)
 	if( objType->flags & asOBJ_SCRIPT_OBJECT )
 		ptr = ScriptObjectFactory(objType, this);
 	else if( objType->flags & asOBJ_TEMPLATE )
-		ptr = ArrayObjectFactory(objType);
+		// The registered factory is moved to the construct behaviour when the type is instanciated
+		ptr = CallGlobalFunctionRetPtr(objType->beh.construct, objType);
 	else if( objType->flags & asOBJ_REF )
 		ptr = CallGlobalFunctionRetPtr(objType->beh.factory);
 	else
@@ -3509,6 +3650,7 @@ void asCScriptEngine::CopyScriptObject(void *dstObj, void *srcObj, int typeId)
 	if( !dt ) return;
 
 	asCObjectType *objType = dt->GetObjectType();
+	// TODO: beh.copy will be removed, so we need to find the default opAssign method instead
 	if( objType->beh.copy )
 	{
 		CallObjectMethod(dstObj, srcObj, objType->beh.copy);
@@ -3519,6 +3661,8 @@ void asCScriptEngine::CopyScriptObject(void *dstObj, void *srcObj, int typeId)
 	}
 }
 
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
 int asCScriptEngine::CompareScriptObjects(bool &result, int behaviour, void *leftObj, void *rightObj, int typeId)
 {
 	// Make sure the type id is for an object type, and not a primitive or a handle
@@ -3557,6 +3701,7 @@ int asCScriptEngine::CompareScriptObjects(bool &result, int behaviour, void *lef
 	result = false;
 	return asNOT_SUPPORTED;
 }
+#endif
 
 void asCScriptEngine::AddRefScriptObject(void *obj, int typeId)
 {
@@ -3731,6 +3876,9 @@ asCConfigGroup *asCScriptEngine::FindConfigGroupForFunction(int funcId)
 				return configGroups[n];
 		}
 
+#ifdef AS_DEPRECATED
+// deprecated since 2009-07-20, 2.17.0
+
 		// Check global behaviours
 		for( m = 0; m < configGroups[n]->globalBehaviours.GetLength(); m++ )
 		{
@@ -3738,6 +3886,7 @@ asCConfigGroup *asCScriptEngine::FindConfigGroupForFunction(int funcId)
 			if( funcId == globalBehaviours.operators[id] )
 				return configGroups[n];
 		}
+#endif
 	}
 
 	return 0;
@@ -3750,7 +3899,7 @@ asCConfigGroup *asCScriptEngine::FindConfigGroupForGlobalVar(int gvarId)
 	{
 		for( asUINT m = 0; m < configGroups[n]->globalProps.GetLength(); m++ )
 		{
-			if( configGroups[n]->globalProps[m]->index == gvarId )
+			if( configGroups[n]->globalProps[m]->id == gvarId )
 				return configGroups[n];
 		}
 	}
@@ -4158,271 +4307,6 @@ bool asCScriptEngine::IsTemplateType(const char *name)
 
 	return false;
 }
-
-#ifdef AS_DEPRECATED
-
-// deprecated since 2008-12-02, 2.15.0
-asIScriptFunction *asCScriptEngine::GetFunctionDescriptorByIndex(const char *module, int index)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return 0;
-
-	return mod->GetFunctionDescriptorByIndex(index);
-}
-
-// Deprecated since 2008-11-05, 2.15.0
-int asCScriptEngine::GetObjectsInGarbageCollectorCount()
-{
-	asUINT currentSize;
-	gc.GetStatistics(&currentSize, 0, 0);
-	return currentSize;
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::SaveByteCode(const char *module, asIBinaryStream *stream)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->SaveByteCode(stream);
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::LoadByteCode(const char *module, asIBinaryStream *stream)
-{
-	asCModule *mod = GetModule(module, true);
-	if( mod == 0 ) return asNO_MODULE;
-
-	if( mod->IsUsed() )
-	{
-		// Discard this module and get another
-		mod->Discard();
-		mod = GetModule(module, true);
-	}
-
-	return mod->LoadByteCode(stream);
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::GetImportedFunctionCount(const char *module)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetImportedFunctionCount();
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::GetImportedFunctionIndexByDecl(const char *module, const char *decl)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetImportedFunctionIndexByDecl(decl);
-}
-
-// deprecated since 2008-12-01, 2.15.0
-const char *asCScriptEngine::GetImportedFunctionDeclaration(const char *module, int index, int *length)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return 0;
-
-	return mod->GetImportedFunctionDeclaration(index, length);
-}
-
-// deprecated since 2008-12-01, 2.15.0
-const char *asCScriptEngine::GetImportedFunctionSourceModule(const char *module, int index, int *length)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return 0;
-
-	return mod->GetImportedFunctionSourceModule(index, length);
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::BindImportedFunction(const char *module, int index, int funcID)
-{
-	asCModule *dstModule = GetModule(module, false);
-	if( dstModule == 0 ) return asNO_MODULE;
-
-	return dstModule->BindImportedFunction(index, funcID);
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::UnbindImportedFunction(const char *module, int index)
-{
-	asCModule *dstModule = GetModule(module, false);
-	if( dstModule == 0 ) return asNO_MODULE;
-
-	return dstModule->UnbindImportedFunction(index);
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::BindAllImportedFunctions(const char *module)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->BindAllImportedFunctions();
-}
-
-// deprecated since 2008-12-01, 2.15.0
-int asCScriptEngine::UnbindAllImportedFunctions(const char *module)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->UnbindAllImportedFunctions();
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::GetGlobalVarCount(const char *module)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetGlobalVarCount();
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::GetGlobalVarIndexByName(const char *module, const char *name)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetGlobalVarIndexByName(name);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::GetGlobalVarIndexByDecl(const char *module, const char *decl)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetGlobalVarIndexByDecl(decl);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-const char *asCScriptEngine::GetGlobalVarDeclaration(const char *module, int index, int *length)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return 0;
-
-	return mod->GetGlobalVarDeclaration(index, length);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-const char *asCScriptEngine::GetGlobalVarName(const char *module, int index, int *length)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return 0;
-
-	return mod->GetGlobalVarName(index, length);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-void *asCScriptEngine::GetAddressOfGlobalVar(const char *module, int index)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return 0;
-
-	return mod->GetAddressOfGlobalVar(index);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::ResetModule(const char *module)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->ResetGlobalVars();
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::GetFunctionCount(const char *module)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetFunctionCount();
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::GetFunctionIDByIndex(const char *module, int index)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetFunctionIdByIndex(index);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::GetFunctionIDByName(const char *module, const char *name)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetFunctionIdByName(name);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::GetFunctionIDByDecl(const char *module, const char *decl)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->GetFunctionIdByDecl(decl);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::AddScriptSection(const char *module, const char *name, const char *code, size_t codeLength, int lineOffset)
-{
-	asCModule *mod = GetModule(module, true);
-	if( mod == 0 ) return asNO_MODULE;
-
-	// Discard the module if it is in use
-	if( mod->IsUsed() )
-	{
-		mod->Discard();
-
-		// Get another module
-		mod = GetModule(module, true);
-	}
-
-	return mod->AddScriptSection(name, code, (int)codeLength, lineOffset);
-}
-
-// deprecated since 2008-12-02, 2.15.0
-int asCScriptEngine::Build(const char *module)
-{
-	asCModule *mod = GetModule(module, false);
-	if( mod == 0 ) return asNO_MODULE;
-
-	return mod->Build();
-}
-
-// deprecated since 2008-12-03, 2.15.0
-int asCScriptEngine::Discard(const char *module)
-{
-	return DiscardModule(module);
-}
-
-// deprecated since 2008-12-04, 2.15.0
-int asCScriptEngine::GetTypeIdByDecl(const char *module, const char *decl)
-{
-	asCModule *mod = GetModule(module, false);
-
-	asCDataType dt;
-	asCBuilder bld(this, mod);
-	int r = bld.ParseDataType(decl, &dt);
-	if( r < 0 )
-		return asINVALID_TYPE;
-
-	return GetTypeIdFromDataType(dt);
-}
-
-#endif
-
 
 END_AS_NAMESPACE
 

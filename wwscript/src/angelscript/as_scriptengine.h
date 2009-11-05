@@ -92,6 +92,10 @@ public:
 	virtual int ClearMessageCallback();
 	virtual int WriteMessage(const char *section, int row, int col, asEMsgType type, const char *message);
 
+    // JIT Compiler
+    virtual int SetJITCompiler(asIJITCompiler *compiler);
+    virtual asIJITCompiler *GetJITCompiler();
+
 	// Global functions
 	virtual int RegisterGlobalFunction(const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv);
 	virtual int GetGlobalFunctionCount();
@@ -107,13 +111,10 @@ public:
 	virtual int            RegisterObjectProperty(const char *obj, const char *declaration, int byteOffset);
 	virtual int            RegisterObjectMethod(const char *obj, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv);
 	virtual int            RegisterObjectBehaviour(const char *obj, asEBehaviours behaviour, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv);
-	virtual int            RegisterGlobalBehaviour(asEBehaviours behaviour, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv);
 	virtual int            RegisterInterface(const char *name);
 	virtual int            RegisterInterfaceMethod(const char *intf, const char *declaration);
 	virtual int            GetObjectTypeCount();
 	virtual asIObjectType *GetObjectTypeByIndex(asUINT index);
-	virtual int            GetGlobalBehaviourCount();
-	virtual int            GetGlobalBehaviourByIndex(asUINT index, asEBehaviours *outBehaviour);
 	
 	// String factory
 	virtual int RegisterStringFactory(const char *datatype, const asSFuncPtr &factoryFunc, asDWORD callConv);
@@ -159,7 +160,6 @@ public:
 	virtual void              ReleaseScriptObject(void *obj, int typeId);
 	virtual void              AddRefScriptObject(void *obj, int typeId);
 	virtual bool              IsHandleCompatibleWithObject(void *obj, int objTypeId, int handleTypeId);
-	virtual int               CompareScriptObjects(bool &result, int behaviour, void *leftObj, void *rightObj, int typeId);
 
 	// String interpretation
 	virtual asETokenClass ParseToken(const char *string, size_t stringLength = 0, int *tokenLength = 0);
@@ -176,33 +176,11 @@ public:
 	virtual void *GetUserData();
 
 #ifdef AS_DEPRECATED
-	virtual int                AddScriptSection(const char *module, const char *name, const char *code, size_t codeLength, int lineOffset);
-	virtual int                Build(const char *module);
-	virtual int                Discard(const char *module);
-	virtual int                ResetModule(const char *module);
-	virtual int                GetFunctionCount(const char *module);
-	virtual int                GetFunctionIDByIndex(const char *module, int index);
-	virtual int                GetFunctionIDByName(const char *module, const char *name);
-	virtual int                GetFunctionIDByDecl(const char *module, const char *decl);
-	virtual asIScriptFunction *GetFunctionDescriptorByIndex(const char *module, int index);
-	virtual int                GetGlobalVarCount(const char *module);
-	virtual int                GetGlobalVarIndexByName(const char *module, const char *name);
-	virtual int                GetGlobalVarIndexByDecl(const char *module, const char *decl);
-	virtual const char        *GetGlobalVarDeclaration(const char *module, int index, int *length = 0);
-	virtual const char        *GetGlobalVarName(const char *module, int index, int *length = 0);
-	virtual void              *GetAddressOfGlobalVar(const char *module, int index);
-	virtual int                GetTypeIdByDecl(const char *module, const char *decl);
-	virtual int                GetImportedFunctionCount(const char *module);
-	virtual int                GetImportedFunctionIndexByDecl(const char *module, const char *decl);
-	virtual const char        *GetImportedFunctionDeclaration(const char *module, int importIndex, int *length);
-	virtual const char        *GetImportedFunctionSourceModule(const char *module, int importIndex, int *length);
-	virtual int                BindImportedFunction(const char *module, int importIndex, int funcId);
-	virtual int                UnbindImportedFunction(const char *module, int importIndex);
-	virtual int                BindAllImportedFunctions(const char *module);
-	virtual int                UnbindAllImportedFunctions(const char *module);
-	virtual int                GetObjectsInGarbageCollectorCount();
-	virtual int                SaveByteCode(const char *module, asIBinaryStream *out);
-	virtual int                LoadByteCode(const char *module, asIBinaryStream *in);
+	// deprecated since 2009-07-20, 2.17.0
+	virtual int            RegisterGlobalBehaviour(asEBehaviours behaviour, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv);
+	virtual int            GetGlobalBehaviourCount();
+	virtual int            GetGlobalBehaviourByIndex(asUINT index, asEBehaviours *outBehaviour);
+	virtual int            CompareScriptObjects(bool &result, int behaviour, void *leftObj, void *rightObj, int typeId);
 #endif
 
 //===========================================================
@@ -229,7 +207,9 @@ public:
 	void *CallAlloc(asCObjectType *objType);
 	void  CallFree(void *obj);
 	void *CallGlobalFunctionRetPtr(int func);
+	void *CallGlobalFunctionRetPtr(int func, void *param1);
 	void *CallGlobalFunctionRetPtr(asSSystemFunctionInterface *func, asCScriptFunction *desc);
+	void *CallGlobalFunctionRetPtr(asSSystemFunctionInterface *i, asCScriptFunction *s, void *param1);
 	void  CallObjectMethod(void *obj, int func);
 	void  CallObjectMethod(void *obj, void *param, int func);
 	void  CallObjectMethod(void *obj, asSSystemFunctionInterface *func, asCScriptFunction *desc);
@@ -287,6 +267,11 @@ public:
 	asCObjectType *GetTemplateInstanceType(asCObjectType *templateType, asCDataType &subType);
 	bool GenerateNewTemplateFunction(asCObjectType *templateType, asCObjectType *templateInstanceType, asCDataType &subType, asCScriptFunction *templateFunc, asCScriptFunction **newFunc);
 
+	// Global property management
+	asCGlobalProperty *AllocateGlobalProperty();
+	void AddRefToGlobalProperty(asCGlobalProperty *prop);
+	void ReleaseGlobalProperty(asCGlobalProperty *prop);
+
 //===========================================================
 // internal properties
 //===========================================================
@@ -304,7 +289,10 @@ public:
 	asCArray<asCGlobalProperty *>  registeredGlobalProps;
 	asCArray<asCScriptFunction *>  registeredGlobalFuncs;
 	asCScriptFunction             *stringFactory;
+#ifdef AS_DEPRECATED
+	// deprecated since 2009-07-20, 2.17.0
 	asSTypeBehaviour               globalBehaviours;
+#endif
 	bool configFailed;
 
 	// Stores all known object types, both application registered, and script declared
@@ -314,9 +302,9 @@ public:
 	// Store information about template types
 	asCArray<asCObjectType *>      templateTypes;
 
-	// This array stores pointers to each registered global property. It allows the virtual 
-	// machine to directly find the value of the global property using an index into this array.
-	asCArray<void *>               globalPropAddresses;
+	// Stores all global properties, both those registered by application, and those declared by scripts.
+	// The id of a global property is the index in this array.
+	asCArray<asCGlobalProperty *> globalProperties;
 
 	// Stores all functions, i.e. registered functions, script functions, class methods, behaviours, etc.
 	asCArray<asCScriptFunction *> scriptFunctions;
@@ -351,6 +339,8 @@ public:
 	asSSystemFunctionInterface  msgCallbackFunc;
 	void                       *msgCallbackObj;
 
+    asIJITCompiler              *jitCompiler;
+
 	// User data
 	void *userData;
 
@@ -371,6 +361,7 @@ public:
 		bool initGlobalVarsAfterBuild;
 		bool requireEnumScope;
 		int  scanner;
+		bool includeJitInstructions;
 	} ep;
 };
 
