@@ -72,7 +72,6 @@ public:
 	}
 
 	bool bindObjects() {
-		int r;
 		nlinfo("Binding NelInfo");
 		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
 		ScriptManager::getInstance().getEngine()->RegisterGlobalFunction(

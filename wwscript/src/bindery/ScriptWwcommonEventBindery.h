@@ -51,6 +51,10 @@
 #include "wwcommon/CGameUnspawnRequestEvent.h"
 #include "wwcommon/CGameEventServer.h"
 #include "wwcommon/CSobAddEvent.h"
+#include "wwcommon/CSobRemoveEvent.h"
+#include "wwcommon/CSobSpawnEvent.h"
+#include "wwcommon/CSobUnspawnEvent.h"
+#include "wwcommon/CSobStateRequestEvent.h"
 
 //#include "bindclassutil.h"
 //#include "registrar.h"
@@ -109,6 +113,10 @@ public:
 		// Sob Events
 		bindISobEvent();
 		bindCSobAddEvent();
+		bindCSobRemoveEvent();
+		bindCSobSpawnEvent();
+		bindCSobUnspawnEvent();
+		bindCSobStateRequestEvent();
 
 		// Game Event Server
 		bindCGameEventServer();
@@ -274,8 +282,132 @@ public:
 		r = engine->RegisterObjectBehaviour("ISobEvent", asBEHAVE_REF_CAST, "CSobAddEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobEvent,WWCOMMON::CSobAddEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("IGameEvent", asBEHAVE_REF_CAST, "CSobAddEvent@ f()", asFUNCTION((refCast<WWCOMMON::IGameEvent,WWCOMMON::CSobAddEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
 	}
+	void bindCSobRemoveEvent() {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding CSobRemoveEvent");		
+		// Register Object Type
+		r = engine->RegisterObjectType("CSobRemoveEvent", 0, asOBJ_REF); nlassert(r>=0);
+		
+		// Register Behaviors.
+		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_FACTORY, "CSobRemoveEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobRemoveEvent>)), asCALL_CDECL); nlassert(r>=0);
+
+		// Register parents methods.
+		registerISobEvent<WWCOMMON::CSobRemoveEvent>("CSobRemoveEvent");
+
+		// Register object properties.
+		// Note: Currently there are no properties on this event.
+
+		// Register inheritance.
+		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_IMPLICIT_REF_CAST, "ISobEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobRemoveEvent,WWCOMMON::ISobEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_IMPLICIT_REF_CAST, "IGameEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobRemoveEvent,WWCOMMON::IGameEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("ISobEvent", asBEHAVE_REF_CAST, "CSobRemoveEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobEvent,WWCOMMON::CSobRemoveEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("IGameEvent", asBEHAVE_REF_CAST, "CSobRemoveEvent@ f()", asFUNCTION((refCast<WWCOMMON::IGameEvent,WWCOMMON::CSobRemoveEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+	}
+	void bindCSobSpawnEvent() {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding CSobSpawnEvent");		
+		// Register Object Type
+		r = engine->RegisterObjectType("CSobSpawnEvent", 0, asOBJ_REF); nlassert(r>=0);
+		
+		// Register Behaviors.
+		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_FACTORY, "CSobSpawnEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobSpawnEvent>)), asCALL_CDECL); nlassert(r>=0);
+
+		// Register parents methods.
+		registerISobEvent<WWCOMMON::CSobSpawnEvent>("CSobSpawnEvent");
+
+		// Register object properties.
+		r = engine->RegisterObjectProperty("CSobSpawnEvent", "CVector Position", offsetof(WWCOMMON::CSobAddEvent, Position)); nlassert(r>=0);
+		r = engine->RegisterObjectProperty("CSobSpawnEvent", "string EMD", offsetof(WWCOMMON::CSobSpawnEvent, EMD)); nlassert(r>=0);
+
+		// Register inheritance.
+		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_IMPLICIT_REF_CAST, "ISobEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobSpawnEvent,WWCOMMON::ISobEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_IMPLICIT_REF_CAST, "IGameEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobSpawnEvent,WWCOMMON::IGameEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("ISobEvent", asBEHAVE_REF_CAST, "CSobSpawnEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobEvent,WWCOMMON::CSobSpawnEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("IGameEvent", asBEHAVE_REF_CAST, "CSobSpawnEvent@ f()", asFUNCTION((refCast<WWCOMMON::IGameEvent,WWCOMMON::CSobSpawnEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+	}
 
 
+	void bindCSobUnspawnEvent() {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding CSobUnspawnEvent");		
+		// Register Object Type
+		r = engine->RegisterObjectType("CSobUnspawnEvent", 0, asOBJ_REF); nlassert(r>=0);
+		
+		// Register Behaviors.
+		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_FACTORY, "CSobUnspawnEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobUnspawnEvent>)), asCALL_CDECL); nlassert(r>=0);
+
+		// Register parents methods.
+		registerISobEvent<WWCOMMON::CSobUnspawnEvent>("CSobUnspawnEvent");
+
+		// Register object properties.
+		// Note: Currently there are no properties on this event.
+
+		// Register inheritance.
+		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_IMPLICIT_REF_CAST, "ISobEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobUnspawnEvent,WWCOMMON::ISobEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_IMPLICIT_REF_CAST, "IGameEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobUnspawnEvent,WWCOMMON::IGameEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("ISobEvent", asBEHAVE_REF_CAST, "CSobUnspawnEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobEvent,WWCOMMON::CSobUnspawnEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("IGameEvent", asBEHAVE_REF_CAST, "CSobUnspawnEvent@ f()", asFUNCTION((refCast<WWCOMMON::IGameEvent,WWCOMMON::CSobUnspawnEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+	}
+
+
+	void bindCSobStateRequestEvent() {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding CSobStateRequestEvent");		
+		// Register Object Type
+		r = engine->RegisterObjectType("CSobStateRequestEvent", 0, asOBJ_REF); nlassert(r>=0);
+		
+		// Register Behaviors.
+		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_FACTORY, "CSobStateRequestEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
+
+		// Register parents methods.
+		registerISobEvent<WWCOMMON::CSobStateRequestEvent>("CSobStateRequestEvent");
+
+		// Register object properties.
+		r = engine->RegisterObjectProperty("CSobSpawnEvent", "uint32 TargetState", offsetof(WWCOMMON::CSobStateRequestEvent, TargetState)); nlassert(r>=0);
+
+		// Register inheritance.
+		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_IMPLICIT_REF_CAST, "ISobEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobStateRequestEvent,WWCOMMON::ISobEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_IMPLICIT_REF_CAST, "IGameEvent@ f()", asFUNCTION((refCast<WWCOMMON::CSobStateRequestEvent,WWCOMMON::IGameEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("ISobEvent", asBEHAVE_REF_CAST, "CSobStateRequestEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobEvent,WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("IGameEvent", asBEHAVE_REF_CAST, "CSobStateRequestEvent@ f()", asFUNCTION((refCast<WWCOMMON::IGameEvent,WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+	}
+
+	void bindISobStateChangeEvent() {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding ISobStateChangeEvent");		
+		// Register Object Type
+		r = engine->RegisterObjectType("ISobStateChangeEvent", 0, asOBJ_REF); nlassert(r>=0);
+		
+		// Register Behaviors.
+		r = engine->RegisterObjectBehaviour("ISobStateChangeEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("ISobStateChangeEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+		//r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_FACTORY, "CSobStateRequestEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
+
+		// Register parents methods.
+		registerISobEvent<WWCOMMON::ISobStateChangeEvent>("ISobStateChangeEvent");
+
+		// Register object properties.
+		r = engine->RegisterObjectProperty("ISobStateChangeEvent", "uint32 TargetState", offsetof(WWCOMMON::ISobStateChangeEvent, TargetState)); nlassert(r>=0);
+		// TODO: register property: double StateDuration;
+		// Register inheritance.
+		r = engine->RegisterObjectBehaviour("ISobStateChangeEvent", asBEHAVE_IMPLICIT_REF_CAST, "ISobEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobStateChangeEvent,WWCOMMON::ISobEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("ISobStateChangeEvent", asBEHAVE_IMPLICIT_REF_CAST, "IGameEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobStateChangeEvent,WWCOMMON::IGameEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("ISobEvent", asBEHAVE_REF_CAST, "ISobStateChangeEvent@ f()", asFUNCTION((refCast<WWCOMMON::ISobEvent,WWCOMMON::ISobStateChangeEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("IGameEvent", asBEHAVE_REF_CAST, "ISobStateChangeEvent@ f()", asFUNCTION((refCast<WWCOMMON::IGameEvent,WWCOMMON::ISobStateChangeEvent>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+	}
 };
 
 }; // END NAMESPACE WWSCRIPT
