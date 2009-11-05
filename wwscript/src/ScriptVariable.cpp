@@ -187,33 +187,45 @@ bool ScriptVariable::setValueFromBinding() {
 	return m_set;
 }
 
-bool ScriptVariable::setScriptArg(asIScriptContext* context) const {
+bool ScriptVariable::setScriptArg(asIScriptContext* context) const {	
 	if(!isSet() || !isArg())
 		return false;
+	int result;
+
 	switch(m_type) {
 	case ScriptArg::VOID_TYPE:
 		return false;
 	case ScriptArg::INT:
-		context->SetArgDWord(m_id, (asDWORD)m_value.int_val);
+		result = context->SetArgDWord(m_id, (asDWORD)m_value.int_val);
 		break;
 	case ScriptArg::UINT:
-		context->SetArgDWord(m_id, (asDWORD)m_value.uint_val);
+		result = context->SetArgDWord(m_id, (asDWORD)m_value.uint_val);
 		break;
 	case ScriptArg::LONG:
-		context->SetArgDWord(m_id, (asDWORD)m_value.long_val);
+		result = context->SetArgDWord(m_id, (asDWORD)m_value.long_val);
 		break;
 	case ScriptArg::BOOL:
-		context->SetArgDWord(m_id, (asDWORD)m_value.bool_val);
+		result = context->SetArgDWord(m_id, (asDWORD)m_value.bool_val);
 		break;
 	case ScriptArg::FLOAT:
-		context->SetArgFloat(m_id, m_value.float_val);
+		result = context->SetArgFloat(m_id, m_value.float_val);
 		break;
 	case ScriptArg::DOUBLE:
-		context->SetArgDouble(m_id, m_value.double_val);
+		result = context->SetArgDouble(m_id, m_value.double_val);
 		break;
 	default:
-		context->SetArgObject(m_id, m_value.object_val);
+		result = context->SetArgObject(m_id, m_value.object_val);
 		break;
+	}
+
+	if(result <= 0) {
+		if(result == asCONTEXT_NOT_PREPARED)
+			nlinfo("Context not prepared.");
+		else if(result == asINVALID_ARG)
+			nlwarning("Argument is larger than the number of arguments prepared.");
+		else if(result == asINVALID_TYPE)
+			nlwarning("Type is not an valid.");
+		return false;
 	}
 	return true;
 }
