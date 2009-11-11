@@ -57,6 +57,8 @@ public:
 
 	~Script();
 
+	const void recompileScript() const;
+
 	typedef CHashMap<const char*, ScriptFunction*, strltpred_hash_compare> functionMap;
 	// typedef std::pair<const char*, ScriptFunction*> functionPair;
 
@@ -64,6 +66,7 @@ public:
 	const ScriptFunction* getFunction(const char* name) const;
 	functionMap::const_iterator begin() const;
 	functionMap::const_iterator end() const;
+	
 
 private:
 	std::string m_name;

@@ -66,15 +66,16 @@ public:
 
 	const std::string& getName() const;
 	int getId() const;
+	void updateId();
 	const ScriptArg* getArgument(const char* name) const;
 	ArgMap::const_iterator begin() const;
 	ArgMap::const_iterator end() const;
 
 	ScriptArg::eType getRetValType() const;
 	ScriptFunctionInstance* getInstance() const;
-
 private:
 	std::string m_name;
+	Script *m_parent;
 	int m_id;
 	ArgMap m_args;
 	ScriptArg::eType m_return;

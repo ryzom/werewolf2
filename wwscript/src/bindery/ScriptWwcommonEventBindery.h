@@ -55,6 +55,7 @@
 #include "wwcommon/CSobSpawnEvent.h"
 #include "wwcommon/CSobUnspawnEvent.h"
 #include "wwcommon/CSobStateRequestEvent.h"
+#include "wwcommon/ISobStateChangeEvent.h"
 
 //#include "bindclassutil.h"
 //#include "registrar.h"
@@ -71,34 +72,9 @@
 
 namespace WWSCRIPT {
 
-template<class T>
-T &createSingleton() {
-	return T::instance();
-}
-
 WWCOMMON::CGameEventServer &getGameEventServer() {
 	return WWCOMMON::CGameEventServer::instance();
 }
-
-template<class T1, class T2>
-T2* refCast(T1 *t1) {
-	if(!t1) return 0;
-
-	T2 *t2 = dynamic_cast<T2*>(t1);
-	if(t2 != 0) {
-		//t2->addref();
-	}
-	return t2;
-}
-
-class asRefDummy {
-public:
-	void addRef() { };
-	void release() { };
-};
-
-template<class T>
-T *asCreateFactory() { return new T(); }
 
 class ScriptWwcommonEventBindery : public ScriptBinding {
 public:
