@@ -97,6 +97,42 @@ Script::Script(TScriptLoader script) {
 
 }
 
+// TODO need to retroactively update script functions.
+const void Script::recompileScript() const {
+	// load the actual script
+	std::string scriptContent;
+	std::ifstream scriptFile(m_scriptfile.c_str());
+	if(scriptFile.is_open()) {
+		std::stringstream strStream;
+
+		// read in the script.
+		strStream << scriptFile.rdbuf();
+
+		scriptContent = strStream.str();
+
+		// close the file handle.
+		scriptFile.close();	
+	} else {
+		// for some reason was unable to read the script, alert via logging.
+		nlwarning("Unable to load script file %s", m_scriptfile.c_str());
+		return;
+	}
+
+	asIScriptEngine* engine = ScriptManager::getInstance().getEngine();
+	engine->DiscardModule(m_name.c_str());
+	asIScriptModule* mod = engine->GetModule(m_name.c_str(), asGM_CREATE_IF_NOT_EXISTS);
+
+	// Compile the script
+	mod->AddScriptSection(m_section.c_str(), scriptContent.c_str(), scriptContent.size());
+	mod->Build();
+
+	// Update downstream script function IDs.
+	for(functionMap::const_iterator iter = begin(); iter != end(); iter++) {
+		iter->second->updateId();
+	}
+
+}
+
 Script::~Script() {
 	for(functionMap::iterator iter = m_functions.begin(); iter != m_functions.end(); iter++) {
 		delete iter->second;

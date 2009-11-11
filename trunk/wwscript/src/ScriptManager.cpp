@@ -48,6 +48,7 @@
 #include "angelscript/scriptstdstring.h"
 #include "bindery/ScriptNelBindery.h"
 #include "bindery/ScriptWwcommonEventBindery.h"
+#include "bindery/ScriptWwcommonSimulationBindery.h"
 
 //
 // Namespaces
@@ -123,6 +124,9 @@ bool ScriptManager::initializeScripts() {
 
 	ScriptWwcommonEventBindery wwEventBindery;
 	wwEventBindery.bindObjects();
+
+	ScriptWwcommonSimulationBindery wwSimulationBindery;
+	wwSimulationBindery.bindObjects();
 
 	nlinfo("Creating script objects from loader.");
 	// Now go throught the list of scripts and create them.

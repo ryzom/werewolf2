@@ -55,6 +55,7 @@ namespace WWSCRIPT {
 ScriptFunction::ScriptFunction(const TScriptFunction func, Script* parent) {
 	m_name = func.FunctionName;
 	m_return = ScriptArg::Helper::instance().find(func.ReturnType.c_str());
+	m_parent = parent;
 
 	TScriptFunction::ArgumentVector::const_iterator itr=func.Arguments.begin();
 	while(itr != func.Arguments.end()) {
@@ -64,7 +65,7 @@ ScriptFunction::ScriptFunction(const TScriptFunction func, Script* parent) {
 	}
 
 	asIScriptEngine* engine = ScriptManager::getInstance().getEngine();
-	m_id = engine->GetModule(parent->getName().c_str(), asGM_ONLY_IF_EXISTS)->GetFunctionIdByName(m_name.c_str());
+	m_id = engine->GetModule(m_parent->getName().c_str(), asGM_ONLY_IF_EXISTS)->GetFunctionIdByName(m_name.c_str());
 }
 
 ScriptFunction::~ScriptFunction() {
@@ -76,6 +77,11 @@ ScriptFunction::~ScriptFunction() {
 
 int ScriptFunction::getId() const {
 	return m_id;
+}
+
+void ScriptFunction::updateId() {
+	asIScriptEngine* engine = ScriptManager::getInstance().getEngine();
+	m_id = engine->GetModule(m_parent->getName().c_str(), asGM_ONLY_IF_EXISTS)->GetFunctionIdByName(m_name.c_str());
 }
 
 const std::string& ScriptFunction::getName() const {

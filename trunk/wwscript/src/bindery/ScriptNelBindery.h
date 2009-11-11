@@ -90,15 +90,28 @@ public:
 		int r;
 		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
 		nlinfo("Binding CVector");
-		/* Autobinder */
-		REGISTER_TYPE(NLMISC::CVector, engine);
-		r = engine->REGISTER_OBJECT_METHOD(NLMISC::CVector, "norm", &NLMISC::CVector::norm); nlassert(r >= 0);
-		//r = engine->REGISTER_OBJECT_METHOD(NLMISC::CVector, "toString", &NLMISC::CVector::toString); nlassert(r >= 0);
-		r = engine->REGISTER_OBJECT_METHOD(NLMISC::CVector, "isNull", &NLMISC::CVector::isNull); nlassert(r >= 0);
-		nlinfo("registering property x");
+		// Register Object Type
+		r = engine->RegisterObjectType("CVector", sizeof(NLMISC::CVector), asOBJ_REF); nlassert(r>=0);
+		
+		// Register Behaviors
+		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_FACTORY, "CVector @f()", asFUNCTION((asCreateFactory<NLMISC::CVector>)), asCALL_CDECL); nlassert(r>=0);
+		
+		// Register Methods.
+		//r = engine->RegisterObjectMethod("CVector", "void norm()", asMETHODPR(WWCOMMON::CGameEventServer, postEvent, (WWCOMMON::IGameEvent*), void), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "float norm()", asMETHODPR(NLMISC::CVector, norm, (void) const, float), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "string toString()", asMETHOD(NLMISC::CVector, toString), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "bool isNull()", asMETHODPR(NLMISC::CVector, isNull, (void) const, bool), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "void set(float &in,float &in,float &in)", asMETHODPR(NLMISC::CVector, set, (float,float,float), void), asCALL_THISCALL); nlassert(r>=0);
+
+		// Register object properties.
 		r = engine->RegisterObjectProperty("CVector", "float x", offsetof(NLMISC::CVector,x)); nlassert(r >= 0);
 		r = engine->RegisterObjectProperty("CVector", "float y", offsetof(NLMISC::CVector,y)); nlassert(r >= 0);
 		r = engine->RegisterObjectProperty("CVector", "float z", offsetof(NLMISC::CVector,z)); nlassert(r >= 0);
+
+		// Register inheritance.
+		// TODO register CVector inheritance.
 	}
 
 	void bindCMatrix() {
