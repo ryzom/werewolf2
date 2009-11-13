@@ -30,210 +30,13 @@
 #include "wwcommon/CSobMoveEvent.h"
 #include "wwcommon/CSobOrientEvent.h"
 #include "wwcommon/CSobStrafeEvent.h"
+#include "wwcommon/CPerformer.h"
+#include "wwcommon/CSobSpawnEvent.h"
 #include "nel/misc/matrix.h"
 
-class A {
-public:
-    int Foo;
-};
-
-// Make a fake simulation implementation.
-class CSimulationImpl : public WWCOMMON::IBaseSimulation {
-public:
-	NLMISC_DECLARE_CLASS(CSimulationImpl);
-	bool attachUser(uint32 uid, uint32 sobid) { return true; };
-	void detachUser(uint32 uid, uint32 sobid) { };
-	void init() {
-		std::string retBankName, globRetBank;
-		retBankName="snowballs.rbank";
-		globRetBank="snowballs.gr";
-		// pacs stuff.
-		m_RetrieverBank = NLPACS::URetrieverBank::createRetrieverBank(retBankName.c_str());
-		if(m_RetrieverBank == NULL)
-			nlinfo("what the fuck bitch.");
-		m_GlobalRetriever = NLPACS::UGlobalRetriever::createGlobalRetriever(globRetBank.c_str(), m_RetrieverBank);
-
-		nlinfo("Create Move Container.");
-		m_MoveContainer = NLPACS::UMoveContainer::createMoveContainer(m_GlobalRetriever, 100, 100, 6.0);
-		WWCOMMON::IBaseSimulation::init();
-		WWCOMMON::CGameEventServer::instance().setDeltaMultiplier(0.0f);
-	}
-
-	void update() {
-		// Process the basic functions.
-		WWCOMMON::IBaseSimulation::update();
-	}
-
-};
-
-class CScriptedGameEventListener : public WWCOMMON::IGameEventListener {
-public:
-	CScriptedGameEventListener(const WWSCRIPT::ScriptFunction *function) {
-		if(function == NULL) {
-			nlwarning("Invalid function passed to scripted listener.");
-		} else {
-			nlinfo("**** Initializing scripted game event listener ****");
-			m_ScriptFunction = function;
-			WWCOMMON::CGameEventServer::instance().addListener(this,WWCOMMON::CGameEventServer::ALL_TYPES);
-		}
-	}
-
-	virtual bool observePreGameEvent(WWCOMMON::CGameEventServer::EventPtr event) { return true; };
-	virtual bool observePostGameEvent(WWCOMMON::CGameEventServer::EventPtr event) { return true; };
-
-	virtual bool observeGameEvent(WWCOMMON::CGameEventServer::EventPtr event) {
-		// Get a function instance to execute.
-		WWSCRIPT::ScriptFunctionInstance *inst = m_ScriptFunction->getInstance();
-
-		// Pass the event object to the script.
-		inst->getArg("gameEvent")->setValue((WWCOMMON::IGameEvent*)event);
-		inst->execute();
-		
-		// Delete the instance once we're finished.
-		delete inst;
-
-		return true;
-	}
-private:
-	const WWSCRIPT::ScriptFunction *m_ScriptFunction;
-	std::string m_scriptName;
-	std::string m_functionName;
-};
-
-class CScriptedSobEventHandler : public WWCOMMON::ISobHandler {
-public:
-	CScriptedSobEventHandler(const WWSCRIPT::ScriptFunction *function) {
-		nlinfo("**** Initializing scripted game event listener ****");
-		// Save the function.
-		if(function == NULL) {
-			nlwarning("Invalid function passed to scripted listener.");
-		} 	
-		m_ScriptFunction = function;
-		
-		setPriority(0);
-	}
-
-	CScriptedSobEventHandler(std::string scriptName, std::string functionName) {
-		nlinfo("**** Initializing scripted game event listener ****");
-
-		const WWSCRIPT::Script *script = WWSCRIPT::ScriptManager::getInstance().getScript(scriptName.c_str());
-		if(!script) {
-			nlerror("Failed to retrieve: %s", scriptName.c_str());
-			return;
-		}
-		m_ScriptFunction = script->getFunction(functionName.c_str());
-	
-		// Save the function.
-		if(m_ScriptFunction == NULL) {
-			nlwarning("Invalid function passed to scripted listener.");
-		}
-		setPriority(0);
-	}
-
-	void addHandledEvent(uint32 eventid) {
-		m_HandledEvents.push_back(eventid);
-	}
-
-
-	bool handleSobEvent(NLMISC::CSmartPtr<WWCOMMON::ISobEvent> event, WWCOMMON::ISimulationObj* subject) {
-		// Get a function instance to execute.
-		WWSCRIPT::ScriptFunctionInstance *inst = m_ScriptFunction->getInstance();
-
-		// Pass the event object to the script.
-		inst->getArg("sobEvent")->setValue((WWCOMMON::ISobEvent*)event);
-		inst->getArg("sobSubject")->setValue((WWCOMMON::ISimulationObj*)subject);
-		inst->execute();
-		
-		// Delete the instance once we're finished.
-		delete inst;
-
-		return true;
-	}
-
-	eventList *getEventList() {
-		return &m_HandledEvents;
-	}
-private:
-	const WWSCRIPT::ScriptFunction *m_ScriptFunction;
-	eventList m_HandledEvents;
-};
-
-void demonstrateScriptedEventListener() {
-	nlinfo("*** Executing a script event. ***");
-	// Retrieve a copy of our simulation implementation.
-	CSimulationImpl *simulation = dynamic_cast<CSimulationImpl *>(getSimulation());
-
-	// Create and add the scripted event listener.
-	const WWSCRIPT::Script *exampleScr = WWSCRIPT::ScriptManager::getInstance().getScript("ExampleScript");
-	if(!exampleScr) {
-		nlerror("Failed to retrieve: ExampleScript");
-		return;
-	}
-	const WWSCRIPT::ScriptFunction *func = exampleScr->getFunction("handleGameEvent");
-	CScriptedGameEventListener *listener = new CScriptedGameEventListener(func);
-
-	bool running = true;
-	while(running) {
-		simulation->updateTime();
-		simulation->update();
-		int c;
-		if(kbhit()) {
-			c = getch();
-			if (c == KEY_ESC) {
-				nlinfo("Escape pressed, ending script sample!");
-				running=false; // FINSIH
-			} else if (c == KEY_ENTER) {
-				nlinfo("Enter pressed, submit an event to the server.");
-				WWCOMMON::CGameSpawnRequestEvent *spawnEvt = new WWCOMMON::CGameSpawnRequestEvent();
-				spawnEvt->CharacterID=3;
-				WWCOMMON::CGameEventServer::instance().postEvent(spawnEvt);
-			} else if (c == 'r') {
-				// Recompile script.
-				nlinfo("Recompiling script.");
-				exampleScr->recompileScript();				
-			}
-		}
-	}
-}
-
-void demonstrateScriptedSobHandler() {
-	nlinfo("*** Executing a script sob event. ***");
-	// Retrieve a copy of our simulation implementation.
-	CSimulationImpl *simulation = dynamic_cast<CSimulationImpl *>(getSimulation());
-
-	// Create and add the scripted event listener.
-	const WWSCRIPT::Script *exampleScr = WWSCRIPT::ScriptManager::getInstance().getScript("ExampleScript");
-	if(!exampleScr) {
-		nlerror("Failed to retrieve: ExampleScript");
-		return;
-	}
-	const WWSCRIPT::ScriptFunction *func = exampleScr->getFunction("handleSobEvent");
-	CScriptedSobEventHandler *handler = new CScriptedSobEventHandler(func);
-	handler->addHandledEvent(EVENT_ID(CSobMoveEvent));
-
-	bool running = true;
-	while(running) {
-		simulation->updateTime();
-		simulation->update();
-		int c;
-		if(kbhit()) {
-			c = getch();
-			if (c == KEY_ESC) {
-				nlinfo("Escape pressed, ending script sample!");
-				running=false; // FINSIH
-			} else if (c == KEY_ENTER) {
-				nlinfo("Enter pressed, submit an event to the server.");
-				//WWCOMMON::CGameSpawnRequestEvent *spawnEvt = new WWCOMMON::CGameSpawnRequestEvent();
-				//spawnEvt->CharacterID=3;
-				//WWCOMMON::CGameEventServer::instance().postEvent(spawnEvt);
-			} else if (c == 'r') {
-				// Recompile script.
-				nlinfo("Recompiling script.");
-				exampleScr->recompileScript();				
-			}
-		}
-	}
-}
+#include "CScriptedGameEventListener.h"
+#include "CScriptedSobEventHandler.h"
+#include "CSimulationImpl.h"
 
 void demonstrateManualScriptCall() {
 	nlinfo("*** Executing a script manually. ***");
@@ -296,6 +99,60 @@ void demonstrateScriptBinding() {
 	delete vector;
 }
 
+void demonstrateScriptedEventListener() {
+	nlinfo("*** Executing a script event. ***");
+	// Retrieve a copy of our simulation implementation.
+	CSimulationImpl *simulation = dynamic_cast<CSimulationImpl *>(getSimulation());
+
+	// Create and add the scripted event listener.
+	const WWSCRIPT::Script *exampleScr = WWSCRIPT::ScriptManager::getInstance().getScript("ExampleScript");
+	if(!exampleScr) {
+		nlerror("Failed to retrieve: ExampleScript");
+		return;
+	}
+
+	// Create and set up game event listener.
+	const WWSCRIPT::ScriptFunction *gameFunc = exampleScr->getFunction("handleGameEvent");
+	CScriptedGameEventListener *listener = new CScriptedGameEventListener(gameFunc);
+
+	// Create and set up sob event handler.
+	const WWSCRIPT::ScriptFunction *sobFunc = exampleScr->getFunction("handleSobEvent");
+	CScriptedSobEventHandler *handler = new CScriptedSobEventHandler(sobFunc);
+	handler->addHandledEvent(EVENT_ID(CSobMoveEvent));
+
+	bool running = true;
+	while(running) {
+		simulation->updateTime();
+		simulation->update();
+		int c;
+		if(kbhit()) {
+			c = getch();
+			if (c == KEY_ESC) {
+				nlinfo("Escape pressed, ending script sample!");
+				running=false; // FINSIH
+			} else if (c == KEY_ENTER) {
+				nlinfo("Enter pressed, submit an event to the server.");
+				WWCOMMON::CGameSpawnRequestEvent *spawnEvt = new WWCOMMON::CGameSpawnRequestEvent();
+				spawnEvt->CharacterID=3;
+				WWCOMMON::CGameEventServer::instance().postEvent(spawnEvt);
+			} else if (c == 'm') {
+				demonstrateManualScriptCall();
+			} else if (c == 'b') {
+				demonstrateScriptBinding();
+			} else if (c == 'r') {
+				// Recompile script.
+				nlinfo("Recompiling script.");
+				exampleScr->recompileScript();				
+			}
+		}
+	}
+
+	delete listener;
+	delete handler;
+	delete gameFunc;
+	delete sobFunc;
+}
+
 int main(int argc, char **argv) {
 	NLMISC::CApplicationContext myApplicationContext;
 	nlinfo("Starting up script sample application. ");
@@ -305,6 +162,8 @@ int main(int argc, char **argv) {
 	// Register game and simulation object events.
 	WWCOMMON::registerEvents();
 	WWCOMMON::registerCommonFactoryObjects();
+
+	OF_REGISTER(WWCOMMON::CSobFactory, CActor, "sobActor");
 
 	// Register our mock simulation implementation.
 	try	{
@@ -321,8 +180,5 @@ int main(int argc, char **argv) {
 	WWSCRIPT::ScriptManager::getInstance().initialize();
 	WWSCRIPT::ScriptManager::getInstance().initializeScripts();
 
-	demonstrateManualScriptCall();
-	demonstrateScriptBinding();
 	demonstrateScriptedEventListener();
-	demonstrateScriptedSobHandler();
 }

@@ -39,35 +39,93 @@
 //
 #include <nel/misc/types_nl.h>
 #include <nel/misc/debug.h>
+#include <nel/misc/matrix.h>
 
 //
 // Werewolf Includes
 //
 #include "wwscript/ScriptEngine/ScriptManager.h"
+#include "wwscript/ScriptBindings/ScriptBinding.h"
+#include "wwscript/GlobalProperty/IProperty.h"
+#include "wwcommon/CGameSpawnRequestEvent.h"
+#include "wwcommon/CGameUnspawnRequestEvent.h"
+
+//#include "bindclassutil.h"
+#include "registrar.h"
+
 //
 // Namespaces
 //
 
+//       class          , name     , handle, create
+ASTRAITS(NLMISC::CMatrix, "CMatrix", true, true, true);
+ASTRAITS(NLMISC::CVector, "CVector", true, true, true);
+
 namespace WWSCRIPT {
 
-class ScriptNelBindery {
+class ScriptNelBindery : public ScriptBinding {
 public:
+	ScriptNelBindery() { }
+
 	static void NelInfo(std::string &log) {
 		nlinfo(log.c_str());
 	}
 
-private:
-	friend class ScriptManager;
-	ScriptNelBindery() { }
-
-	bool bindNel() {
+	bool bindObjects() {
 		nlinfo("Binding NelInfo");
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
 		ScriptManager::getInstance().getEngine()->RegisterGlobalFunction(
 			"void NelInfo(string&in)", 
 			asFUNCTIONPR(ScriptNelBindery::NelInfo,(std::string&),void), 
 			asCALL_CDECL);
+
+		bindCVector();
+		bindCMatrix();
+
 		nlinfo("Done binding.");
 		return true;
+	}
+
+	void bindCVector() {
+		int r;
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		nlinfo("Binding CVector");
+		// Register Object Type
+		r = engine->RegisterObjectType("CVector", sizeof(NLMISC::CVector), asOBJ_REF); nlassert(r>=0);
+		
+		// Register Behaviors
+		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_FACTORY, "CVector @f()", asFUNCTION((asCreateFactory<NLMISC::CVector>)), asCALL_CDECL); nlassert(r>=0);
+		
+		// Register Methods.
+		//r = engine->RegisterObjectMethod("CVector", "void norm()", asMETHODPR(WWCOMMON::CGameEventServer, postEvent, (WWCOMMON::IGameEvent*), void), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "float norm()", asMETHODPR(NLMISC::CVector, norm, (void) const, float), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "string toString()", asMETHOD(NLMISC::CVector, toString), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "bool isNull()", asMETHODPR(NLMISC::CVector, isNull, (void) const, bool), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "void set(float &in,float &in,float &in)", asMETHODPR(NLMISC::CVector, set, (float,float,float), void), asCALL_THISCALL); nlassert(r>=0);
+
+		// Register object properties.
+		r = engine->RegisterObjectProperty("CVector", "float x", offsetof(NLMISC::CVector,x)); nlassert(r >= 0);
+		r = engine->RegisterObjectProperty("CVector", "float y", offsetof(NLMISC::CVector,y)); nlassert(r >= 0);
+		r = engine->RegisterObjectProperty("CVector", "float z", offsetof(NLMISC::CVector,z)); nlassert(r >= 0);
+
+		// Register inheritance.
+		// TODO register CVector inheritance.
+	}
+
+	void bindCMatrix() {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding CMatrix");
+		REGISTER_TYPE(NLMISC::CMatrix, engine);	
+		r = engine->REGISTER_OBJECT_METHOD(NLMISC::CMatrix, "identity", &NLMISC::CMatrix::identity); nlassert(r >= 0);
+		r = engine->RegisterObjectMethod("CMatrix", "void setScale(float)", asMETHODPR(NLMISC::CMatrix,setScale, (float), void ), asCALL_THISCALL); assert(r>=0);
+		//r = engine->RegisterObjectMethod("CMatrix", "void setScale(CVector &in)", asMETHODPR(NLMISC::CMatrix,setScale, (NLMISC::CVector &), void ), asCALL_THISCALL); assert(r>=0);
+		r = engine->RegisterObjectMethod("CMatrix", "void getPos(CVector &in)", asMETHODPR(NLMISC::CMatrix,getPos, (NLMISC::CVector &) const, void ), asCALL_THISCALL); assert(r>=0);
+		//r = engine->RegisterObjectBehaviour("CMatrix", asBEHAVE_MULTIPLY, "CMatrix f(CMatrix &in)", asMETHODPR(NLMISC::CMatrix,operator *, (NLMISC::CMatrix &), NLMISC::CMatrix), asCALL_THISCALL); assert(r>=0);
+		//r = engine->RegisterObjectBehaviour("CMatrix", asBEHAVE_MUL_ASSIGN, "CMatrix f(CMatrix &in)", asMETHODPR(NLMISC::CMatrix,operator *=, (NLMISC::CMatrix &in), NLMISC::CMatrix), asCALL_THISCALL); assert(r>=0);
+		r = engine->RegisterObjectMethod("CMatrix", "void setCoefficient(float, int, int)", asMETHODPR(NLMISC::CMatrix,setCoefficient, (float, sint, sint), void ), asCALL_THISCALL); assert(r>=0);
 	}
 };
 
