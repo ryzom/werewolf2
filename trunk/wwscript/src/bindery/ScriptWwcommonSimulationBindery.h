@@ -92,13 +92,28 @@ public:
 	void bindCSobManager() {
 		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
 		int r;
-		nlinfo("Binding IBaseSimulation");
+		nlinfo("Binding CSobManagerWhat do");
 		// Register Object Type
 		r = engine->RegisterObjectType("CSobManager", sizeof(WWCOMMON::CSobManager), asOBJ_REF); nlassert(r>=0);
 
 		// Register Behaviors, omit factory behavior so this interface cannot be created.
 		r = engine->RegisterObjectBehaviour("CSobManager", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CSobManager", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+
+	}
+
+	template<class T>
+	void registerIBaseSimulation(std::string typeName) {
+		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
+		int r;
+		r = engine->RegisterObjectMethod(typeName.c_str(), "void update()", asMETHODPR(T, update, (void), void), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "void updateTime()", asMETHODPR(T, updateTime, (void), void), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "double time()", asMETHODPR(T, time, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "double adjustedTime()", asMETHODPR(T, adjustedTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "double deltaTime()", asMETHODPR(T, deltaTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "double smoothDeltaTime()", asMETHODPR(T, smoothDeltaTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "double adjustSimulationTime()", asMETHODPR(T, adjustSimulationTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "CSobManager @getActorManager()", asMETHODPR(T, getActorManager, (void), const WWCOMMON::CSobManager *), asCALL_THISCALL); nlassert(r>=0);	
 
 	}
 
@@ -114,14 +129,7 @@ public:
 		r = engine->RegisterObjectBehaviour("IBaseSimulation", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
 
 		r = engine->RegisterGlobalFunction("IBaseSimulation @getSimulation()", asFUNCTION(getSimulation), asCALL_CDECL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "void update()", asMETHODPR(WWCOMMON::IBaseSimulation, update, (void), void), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "void updateTime()", asMETHODPR(WWCOMMON::IBaseSimulation, updateTime, (void), void), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "double time()", asMETHODPR(WWCOMMON::IBaseSimulation, time, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "double adjustedTime()", asMETHODPR(WWCOMMON::IBaseSimulation, adjustedTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "double deltaTime()", asMETHODPR(WWCOMMON::IBaseSimulation, deltaTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "double smoothDeltaTime()", asMETHODPR(WWCOMMON::IBaseSimulation, smoothDeltaTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "double adjustSimulationTime()", asMETHODPR(WWCOMMON::IBaseSimulation, adjustSimulationTime, (void) const, double), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("IBaseSimulation", "CSobManager @getActorManager()", asMETHODPR(WWCOMMON::IBaseSimulation, getActorManager, (void), const WWCOMMON::CSobManager *), asCALL_THISCALL); nlassert(r>=0);	
+		registerIBaseSimulation<WWCOMMON::IBaseSimulation>("IBaseSimulation");
 	}
 };
 
