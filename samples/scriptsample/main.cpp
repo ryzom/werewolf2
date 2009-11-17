@@ -16,6 +16,8 @@
 #include "wwscript/GlobalProperty/PropertyMap.h"
 #include "wwscript/GlobalProperty/ConstantIntProperty.h"
 #include "wwscript/GlobalProperty/PropertyTemplate.h"
+#include "wwscript/ScriptBindings/ScriptBinding.h"
+#include "wwscript/ScriptBindings/ScriptWwcommonSimulationBindery.h"
 
 #include "wwcommon/CGameEventRegistrar.h"
 #include "wwcommon/CFactoryRegistrar.h"
@@ -38,6 +40,33 @@
 #include "CScriptedSobEventHandler.h"
 #include "CSimulationImpl.h"
 
+class BindScriptSampleObjects : public WWSCRIPT::ScriptBinding {
+public:
+	bool bindObjects() {
+		asIScriptEngine *engine = WWSCRIPT::ScriptManager::getInstance().getEngine();
+		int r;
+		nlinfo("Binding CSimulationImpl");
+
+		// Register Object Type
+		r = engine->RegisterObjectType("CSimulationImpl", sizeof(CSimulationImpl), asOBJ_REF); nlassert(r>=0);
+
+		// Register Behaviors, omit factory behavior so this interface cannot be created.
+		r = engine->RegisterObjectBehaviour("CSimulationImpl", asBEHAVE_ADDREF, "void f()", asMETHOD(WWSCRIPT::asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSimulationImpl", asBEHAVE_RELEASE, "void f()", asMETHOD(WWSCRIPT::asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
+
+		// Register Parent Methods
+		WWSCRIPT::ScriptWwcommonSimulationBindery::registerIBaseSimulation<CSimulationImpl>("CSimulationImpl");
+
+		// Register object methods.
+		r = engine->RegisterObjectMethod("CSimulationImpl", "bool userLogin(uint32 &in,uint32 &in)", asMETHODPR(CSimulationImpl, userLogin, (uint32,uint32), bool), asCALL_THISCALL); nlassert(r>=0);
+
+		// Register inheritance.
+		r = engine->RegisterObjectBehaviour("CSimulationImpl", asBEHAVE_IMPLICIT_REF_CAST, "IBaseSimulation@ f()", asFUNCTION((WWSCRIPT::refCast<CSimulationImpl,WWCOMMON::IBaseSimulation>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("IBaseSimulation", asBEHAVE_REF_CAST, "CSimulationImpl@ f()", asFUNCTION((WWSCRIPT::refCast<WWCOMMON::IBaseSimulation,CSimulationImpl>)), asCALL_CDECL_OBJLAST); nlassert(r>=0);
+
+		return true;
+	}
+};
 void demonstrateManualScriptCall() {
 	nlinfo("*** Executing a script manually. ***");
 
@@ -115,11 +144,6 @@ void demonstrateScriptedEventListener() {
 	const WWSCRIPT::ScriptFunction *gameFunc = exampleScr->getFunction("handleGameEvent");
 	CScriptedGameEventListener *listener = new CScriptedGameEventListener(gameFunc);
 
-	// Create and set up sob event handler.
-	const WWSCRIPT::ScriptFunction *sobFunc = exampleScr->getFunction("handleSobEvent");
-	CScriptedSobEventHandler *handler = new CScriptedSobEventHandler(sobFunc);
-	handler->addHandledEvent(EVENT_ID(CSobMoveEvent));
-
 	bool running = true;
 	while(running) {
 		simulation->updateTime();
@@ -148,9 +172,9 @@ void demonstrateScriptedEventListener() {
 	}
 
 	delete listener;
-	delete handler;
+//	delete handler;
 	delete gameFunc;
-	delete sobFunc;
+//	delete sobFunc;
 }
 
 int main(int argc, char **argv) {
@@ -178,7 +202,12 @@ int main(int argc, char **argv) {
 
 	// Now initialize the scripting system.
 	WWSCRIPT::ScriptManager::getInstance().initialize();
+	// Now add my "client side" bindings.
+	WWSCRIPT::ScriptManager::getInstance().addBindingObj(new BindScriptSampleObjects());
+
 	WWSCRIPT::ScriptManager::getInstance().initializeScripts();
+
+
 
 	demonstrateScriptedEventListener();
 }

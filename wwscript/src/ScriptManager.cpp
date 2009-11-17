@@ -43,12 +43,13 @@
 //
 #include "wwscript/ScriptEngine/ScriptManager.h"
 #include "wwscript/ScriptEngine/ScriptLoader.h"
+#include "wwscript/ScriptBindings/ScriptNelBindery.h"
+#include "wwscript/ScriptBindings/ScriptWwcommonEventBindery.h"
+#include "wwscript/ScriptBindings/ScriptWwcommonSimulationBindery.h"
 
 // private.
 #include "angelscript/scriptstdstring.h"
-#include "bindery/ScriptNelBindery.h"
-#include "bindery/ScriptWwcommonEventBindery.h"
-#include "bindery/ScriptWwcommonSimulationBindery.h"
+
 
 //
 // Namespaces
@@ -76,6 +77,7 @@ void ScriptManager::initialize() {
 	RegisterStdString(m_engine);
 };
 
+// TODO and add script bindings
 //ScriptManager::~ScriptManager() {
 //	for(ScriptManager::scriptMap::iterator iter = m_scripts.begin(); iter != m_scripts.end(); iter++) {
 //		delete iter->second;
@@ -127,6 +129,12 @@ bool ScriptManager::initializeScripts() {
 
 	ScriptWwcommonSimulationBindery wwSimulationBindery;
 	wwSimulationBindery.bindObjects();
+
+	TBindingQueue::iterator itr = m_bindingObjs.begin();
+	while(itr != m_bindingObjs.end()) {
+		(*itr)->bindObjects();	
+		itr++;
+	}
 
 	nlinfo("Creating script objects from loader.");
 	// Now go throught the list of scripts and create them.
