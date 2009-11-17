@@ -103,7 +103,7 @@ public:
 	}
 
 	template<class T>
-	void registerIBaseSimulation(std::string typeName) {
+	static void registerIBaseSimulation(std::string typeName) {
 		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
 		int r;
 		r = engine->RegisterObjectMethod(typeName.c_str(), "void update()", asMETHODPR(T, update, (void), void), asCALL_THISCALL); nlassert(r>=0);

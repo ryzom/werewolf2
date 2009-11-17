@@ -104,6 +104,9 @@ public:
 		m_MoveContainer = NLPACS::UMoveContainer::createMoveContainer(m_GlobalRetriever, 100, 100, 6.0);
 		WWCOMMON::IBaseSimulation::init();
 		WWCOMMON::CGameEventServer::instance().setDeltaMultiplier(0.0f);
+
+		// This should be something else probably. TODO
+		m_RootSob=getNewSob("sobActor", 0);
 	}
 
 	void update() {
@@ -138,6 +141,17 @@ public:
 		// TODO henri:everyone make this data based.
 		//sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_MOTION));
 		//sob->addHandler(WWCOMMON::CSobHandlerFactory::instance().getHandler(WWCOMMON::CSobHandlerFactory::H_MOTION_REQUEST));
+		
+		// Create and set up sob event handler, we'll listen for spawn events.
+		const WWSCRIPT::Script *exampleScr = WWSCRIPT::ScriptManager::getInstance().getScript("ExampleScript");
+		if(!exampleScr) {
+			nlerror("Failed to retrieve: ExampleScript");
+			return false;
+		}
+		const WWSCRIPT::ScriptFunction *sobFunc = exampleScr->getFunction("handleSobEvent");
+		CScriptedSobEventHandler *handler = new CScriptedSobEventHandler(sobFunc);
+		handler->addHandledEvent(EVENT_ID(CSobSpawnEvent));
+		sob->addHandler(handler);
 
 		//sob->addController(new CPerformerDRController(sob, 10.0));
 		//sob->addController(new WWCOMMON::CMotionController(sob));

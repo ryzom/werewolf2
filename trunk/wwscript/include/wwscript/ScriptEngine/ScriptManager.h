@@ -30,6 +30,7 @@
 // Standard Includes
 //
 #include <string>
+#include <deque>
 
 //
 // System Includes
@@ -63,7 +64,8 @@ public:
 		if(msg->type == 2) nlinfo("%s (%d, %d) : %s\n", msg->section, msg->row, msg->col, msg->message);
 	}
 };
- 
+
+class ScriptBinding;
 
 class ScriptManager {
 	NLMISC_SAFE_SINGLETON_DECL(ScriptManager)
@@ -82,6 +84,8 @@ public:
 	scriptMap::const_iterator begin() const;
 	scriptMap::const_iterator end() const;
 
+	void addBindingObj(ScriptBinding *obj) { m_bindingObjs.push_back(obj); }
+
 	ScriptManager() { }
 	//~ScriptManager();
 
@@ -89,6 +93,9 @@ private:
 	
 	asIScriptEngine *m_engine;
 	scriptMap m_scripts;
+
+	typedef std::deque<ScriptBinding *> TBindingQueue;
+	TBindingQueue m_bindingObjs;
 
 	//NLMISC::CApplicationContext m_ApplicationContext;
 };
