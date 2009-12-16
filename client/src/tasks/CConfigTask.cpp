@@ -59,7 +59,7 @@ void CConfigTask::init() {
 			fprintf(fp,strstr.str().c_str());
 			fclose(fp);
 		}
-		m_ConfigFile.load (ConfigFileName);
+		m_ConfigFile.load (ConfigFileName, true);
 		m_FileNames.push_back(ConfigFileName);
 	}	catch (NLMISC::EConfigFile &e) {
 		nlerror(e.what());
