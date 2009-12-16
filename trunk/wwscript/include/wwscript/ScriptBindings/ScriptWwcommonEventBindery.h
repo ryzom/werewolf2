@@ -127,7 +127,7 @@ public:
 		r = engine->RegisterObjectMethod(typeName.c_str(), "uint32 getPlayerID()", asMETHODPR(T, getPlayerID, (void) const, uint32), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectMethod(typeName.c_str(), "void setPlayerID(uint32)", asMETHODPR(T, setPlayerID, (uint32), void), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectMethod(typeName.c_str(), "uint16 getId()", asMETHODPR(T, getId, (void) const, uint16), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod(typeName.c_str(), "string getClassName()", asMETHOD(T, getClassName), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod(typeName.c_str(), "string& getClassName()", asMETHOD(T, getClassName), asCALL_THISCALL); nlassert(r>=0);
 	}
 
 	void bindIGameEvent() {
@@ -154,7 +154,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("CGameSpawnRequestEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CGameSpawnRequestEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CGameSpawnRequestEvent", asBEHAVE_FACTORY, "CGameSpawnRequestEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CGameSpawnRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CGameSpawnRequestEvent", asBEHAVE_FACTORY, "CGameSpawnRequestEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CGameSpawnRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerIGameEvent<WWCOMMON::CGameSpawnRequestEvent>("CGameSpawnRequestEvent");
@@ -177,7 +177,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("CGameUnspawnRequestEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CGameUnspawnRequestEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CGameUnspawnRequestEvent", asBEHAVE_FACTORY, "CGameUnspawnRequestEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CGameUnspawnRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CGameUnspawnRequestEvent", asBEHAVE_FACTORY, "CGameUnspawnRequestEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CGameUnspawnRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerIGameEvent<WWCOMMON::CGameUnspawnRequestEvent>("CGameUnspawnRequestEvent");
@@ -239,7 +239,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("CSobAddEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CSobAddEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CSobAddEvent", asBEHAVE_FACTORY, "CSobAddEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobAddEvent>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobAddEvent", asBEHAVE_FACTORY, "CSobAddEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CSobAddEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerISobEvent<WWCOMMON::CSobAddEvent>("CSobAddEvent");
@@ -268,7 +268,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_FACTORY, "CSobRemoveEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobRemoveEvent>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobRemoveEvent", asBEHAVE_FACTORY, "CSobRemoveEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CSobRemoveEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerISobEvent<WWCOMMON::CSobRemoveEvent>("CSobRemoveEvent");
@@ -292,7 +292,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_FACTORY, "CSobSpawnEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobSpawnEvent>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobSpawnEvent", asBEHAVE_FACTORY, "CSobSpawnEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CSobSpawnEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerISobEvent<WWCOMMON::CSobSpawnEvent>("CSobSpawnEvent");
@@ -319,7 +319,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_FACTORY, "CSobUnspawnEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobUnspawnEvent>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobUnspawnEvent", asBEHAVE_FACTORY, "CSobUnspawnEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CSobUnspawnEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerISobEvent<WWCOMMON::CSobUnspawnEvent>("CSobUnspawnEvent");
@@ -345,7 +345,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_FACTORY, "CSobStateRequestEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_FACTORY, "CSobStateRequestEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerISobEvent<WWCOMMON::CSobStateRequestEvent>("CSobStateRequestEvent");
@@ -370,7 +370,7 @@ public:
 		// Register Behaviors.
 		r = engine->RegisterObjectBehaviour("ISobStateChangeEvent", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("ISobStateChangeEvent", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		//r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_FACTORY, "CSobStateRequestEvent @f()", asFUNCTION((asCreateFactory<WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
+		//r = engine->RegisterObjectBehaviour("CSobStateRequestEvent", asBEHAVE_FACTORY, "CSobStateRequestEvent @f()", asFUNCTION((asCreateFactory0<WWCOMMON::CSobStateRequestEvent>)), asCALL_CDECL); nlassert(r>=0);
 
 		// Register parents methods.
 		registerISobEvent<WWCOMMON::ISobStateChangeEvent>("ISobStateChangeEvent");

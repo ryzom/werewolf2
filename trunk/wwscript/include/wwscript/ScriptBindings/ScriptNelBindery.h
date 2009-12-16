@@ -50,16 +50,9 @@
 #include "wwcommon/CGameSpawnRequestEvent.h"
 #include "wwcommon/CGameUnspawnRequestEvent.h"
 
-//#include "bindclassutil.h"
-#include "registrar.h"
-
 //
 // Namespaces
 //
-
-//       class          , name     , handle, create
-ASTRAITS(NLMISC::CMatrix, "CMatrix", true, true, true);
-ASTRAITS(NLMISC::CVector, "CVector", true, true, true);
 
 namespace WWSCRIPT {
 
@@ -96,12 +89,12 @@ public:
 		// Register Behaviors
 		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_ADDREF, "void f()", asMETHOD(asRefDummy,addRef), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_RELEASE, "void f()", asMETHOD(asRefDummy,release), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_FACTORY, "CVector @f()", asFUNCTION((asCreateFactory<NLMISC::CVector>)), asCALL_CDECL); nlassert(r>=0);
+		r = engine->RegisterObjectBehaviour("CVector", asBEHAVE_FACTORY, "CVector @f()", asFUNCTION((asCreateFactory0<NLMISC::CVector>)), asCALL_CDECL); nlassert(r>=0);
 		
 		// Register Methods.
 		//r = engine->RegisterObjectMethod("CVector", "void norm()", asMETHODPR(WWCOMMON::CGameEventServer, postEvent, (WWCOMMON::IGameEvent*), void), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectMethod("CVector", "float norm()", asMETHODPR(NLMISC::CVector, norm, (void) const, float), asCALL_THISCALL); nlassert(r>=0);
-		r = engine->RegisterObjectMethod("CVector", "string toString()", asMETHOD(NLMISC::CVector, toString), asCALL_THISCALL); nlassert(r>=0);
+		r = engine->RegisterObjectMethod("CVector", "string& toString()", asMETHOD(NLMISC::CVector, toString), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectMethod("CVector", "bool isNull()", asMETHODPR(NLMISC::CVector, isNull, (void) const, bool), asCALL_THISCALL); nlassert(r>=0);
 		r = engine->RegisterObjectMethod("CVector", "void set(float &in,float &in,float &in)", asMETHODPR(NLMISC::CVector, set, (float,float,float), void), asCALL_THISCALL); nlassert(r>=0);
 
@@ -118,14 +111,16 @@ public:
 		asIScriptEngine *engine = ScriptManager::getInstance().getEngine();
 		int r;
 		nlinfo("Binding CMatrix");
-		REGISTER_TYPE(NLMISC::CMatrix, engine);	
-		r = engine->REGISTER_OBJECT_METHOD(NLMISC::CMatrix, "identity", &NLMISC::CMatrix::identity); nlassert(r >= 0);
-		r = engine->RegisterObjectMethod("CMatrix", "void setScale(float)", asMETHODPR(NLMISC::CMatrix,setScale, (float), void ), asCALL_THISCALL); assert(r>=0);
+		r = engine->RegisterObjectType("CMatrix", sizeof(NLMISC::CMatrix), asOBJ_REF); nlassert(r>=0);
+		//REGISTER_TYPE(NLMISC::CMatrix, engine);	
+
+		r = engine->RegisterObjectMethod("CMatrix", "void identity()", asMETHODPR(NLMISC::CMatrix,identity,(void),void), asCALL_THISCALL); nlassert(r >= 0);
+		r = engine->RegisterObjectMethod("CMatrix", "void setScale(float)", asMETHODPR(NLMISC::CMatrix,setScale, (float), void ), asCALL_THISCALL); nlassert(r>=0);
 		//r = engine->RegisterObjectMethod("CMatrix", "void setScale(CVector &in)", asMETHODPR(NLMISC::CMatrix,setScale, (NLMISC::CVector &), void ), asCALL_THISCALL); assert(r>=0);
-		r = engine->RegisterObjectMethod("CMatrix", "void getPos(CVector &in)", asMETHODPR(NLMISC::CMatrix,getPos, (NLMISC::CVector &) const, void ), asCALL_THISCALL); assert(r>=0);
+		r = engine->RegisterObjectMethod("CMatrix", "void getPos(CVector &in)", asMETHODPR(NLMISC::CMatrix,getPos, (NLMISC::CVector &) const, void ), asCALL_THISCALL); nlassert(r>=0);
 		//r = engine->RegisterObjectBehaviour("CMatrix", asBEHAVE_MULTIPLY, "CMatrix f(CMatrix &in)", asMETHODPR(NLMISC::CMatrix,operator *, (NLMISC::CMatrix &), NLMISC::CMatrix), asCALL_THISCALL); assert(r>=0);
 		//r = engine->RegisterObjectBehaviour("CMatrix", asBEHAVE_MUL_ASSIGN, "CMatrix f(CMatrix &in)", asMETHODPR(NLMISC::CMatrix,operator *=, (NLMISC::CMatrix &in), NLMISC::CMatrix), asCALL_THISCALL); assert(r>=0);
-		r = engine->RegisterObjectMethod("CMatrix", "void setCoefficient(float, int, int)", asMETHODPR(NLMISC::CMatrix,setCoefficient, (float, sint, sint), void ), asCALL_THISCALL); assert(r>=0);
+		r = engine->RegisterObjectMethod("CMatrix", "void setCoefficient(float, int, int)", asMETHODPR(NLMISC::CMatrix,setCoefficient, (float, sint, sint), void ), asCALL_THISCALL); nlassert(r>=0);
 	}
 };
 

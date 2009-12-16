@@ -74,7 +74,13 @@ public:
 };
 
 template<class T>
-T *asCreateFactory() { return new T(); }
+T *asCreateFactory0() { return new T(); }
+
+template<class T, typename A>
+T *asCreateFactory1(A a) { return new T(a); }
+
+template<class T, typename A, typename B>
+T *asCreateFactory2(A a, B b) { return new T(a,b); }
 
 class ScriptBinding {
 public:
