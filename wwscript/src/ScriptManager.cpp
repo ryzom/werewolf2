@@ -48,7 +48,8 @@
 #include "wwscript/ScriptBindings/ScriptWwcommonSimulationBindery.h"
 
 // private.
-#include "angelscript/scriptstdstring.h"
+//#include "angelscript/scriptstdstring.h"
+#include "angelscript/scriptstring.h"
 
 
 //
@@ -73,8 +74,8 @@ void ScriptManager::initialize() {
 	asCOutStream out;
 	//m_engine->SetCommonMessageStream(&out);
 	m_engine->SetMessageCallback(asMETHOD(asCOutStream,Callback), &out, asCALL_THISCALL);
-	//RegisterScriptString(m_engine);
-	RegisterStdString(m_engine);
+	RegisterScriptString(m_engine);
+	//RegisterStdString(m_engine);
 };
 
 // TODO and add script bindings
