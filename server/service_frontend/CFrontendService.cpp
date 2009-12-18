@@ -301,9 +301,9 @@ void CFrontendService::sendMessage(NLNET::CMessage msg) {
 void CFrontendService::sendMessage(NLNET::CMessage msg, uint32 sobid) {
 	PlayerMap::iterator itr=m_Players.begin();
 	while(itr != m_Players.end()) {
-		if( (itr->second).SobID == sobid ) {
+		if( (itr->second)->SobID == sobid ) {
 //			nlinfo("Sending message to player: %d", itr->first);
-			sendMessage(msg,(itr->second).Con);
+			sendMessage(msg,(itr->second)->Con);
 		}
 		itr++;
 	}
@@ -313,15 +313,16 @@ void CFrontendService::removePlayer(uint32 plrid) {
 	CPlayer *p = getPlayer(plrid);
 	nldebug("Removing player %d which was using entity %d",plrid,p->SobID);
 	m_Players.erase(plrid);
+	delete p;
 }
 
 uint32 CFrontendService::addPlayer(uint32 uid, NLNET::TSockId con) {
-	m_Players.insert(std::make_pair(uid, CPlayer(0, con)));
+	m_Players.insert(std::make_pair(uid, new CPlayer(0, con)));
 	return uid;
 }
 
 CPlayer *CFrontendService::getPlayer(uint32 id) {
-	return &(m_Players.find(id)->second);
+	return (m_Players.find(id)->second);
 }
 
 MYSQL *CFrontendService::getDatabase() {
