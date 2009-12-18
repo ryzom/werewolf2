@@ -67,7 +67,7 @@ struct CPlayer {
 	/// Data-filling constructor.
 	CPlayer(uint32 sobid, NLNET::TSockId con) : SobID(SobID), Connected(false), Con(con) { };
 	/// Default destructor.
-	~CPlayer() { delete User; };
+	~CPlayer() { if(User) delete User; };
 
 	/// The Simulation Object ID that this player is controlling.
 	uint32 SobID;
@@ -145,7 +145,7 @@ public:
 private:
 	NLNET::CCallbackServer	*m_ClientServer;
 
-	typedef std::map<uint32, CPlayer> PlayerMap;
+	typedef std::map<uint32, CPlayer *> PlayerMap;
 	PlayerMap				m_Players;
 
 	MYSQL					*m_DatabaseConnection;
