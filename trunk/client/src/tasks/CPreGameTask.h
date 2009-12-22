@@ -53,10 +53,21 @@ namespace WWCLIENT {
 // Class
 //
 
+// Forward declarations
+class CEntityMedia;
+
 /// Class to automatically set selection brush and store an object ID.
 class CharItem : public CEGUI::ListboxTextItem {
 public:
 	CharItem(const CEGUI::String& text, WWCOMMON::CCharacterData *character) : ListboxTextItem(text, 0, character) {
+		setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"MultiListSelectionBrush");
+	}
+};
+
+/// Class to automatically set selection brush and store a character type ID.
+class CharTypeItem : public CEGUI::ListboxTextItem {
+public:
+	CharTypeItem(const CEGUI::String& text, CEntityMedia *emd) : ListboxTextItem(text, 0, emd) {
 		setSelectionBrushImage((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"MultiListSelectionBrush");
 	}
 };

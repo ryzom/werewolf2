@@ -65,6 +65,7 @@ void cbChatClient(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackN
 void cbLGCharList(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &netbase);
 void cbSimEventClient(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &clientcb);
 void cbPingRequestClient(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &clientcb);
+void cbCHCR(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &clientcb);
 
 #endif // __CALLBACKS_H__
 

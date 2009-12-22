@@ -75,6 +75,12 @@ public:
 
 	/// Returns a std::vector of character names available to the specified uid.
 	const TCharacterList getListForPlayer(uint32 id);
+
+	/// Adds a new character and returns an updated CCharacterData object with the character ID populated.
+	WWCOMMON::CCharacterData *addCharacter(WWCOMMON::CCharacterData *charData);
+
+	/// Retrieve a character object by Character ID.
+	WWCOMMON::CCharacterData *getCharacter(uint32 id);
 private:
 
 };

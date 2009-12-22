@@ -74,8 +74,9 @@
  */
 NLNET::TCallbackItem ClientCallbackArray[] = {
 	{ "LGCL",			cbLGCharList			},
+	{ "CH_CR",			cbCHCR					},
 	{ "EVT",			cbSimEventClient		},
-	{ "CHAT",			cbChatClient	},
+	{ "CHAT",			cbChatClient			},
 	{ "PINGREQ",		cbPingRequestClient		},
 };
 

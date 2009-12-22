@@ -98,6 +98,24 @@ void cbLGCharList(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackN
 	}
 }
 
+void cbCH_CR_ACK(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &clientcb) {
+	nlinfo("receiving character creation acknowledgement.");
+	std::string reason;
+	WWCOMMON::CCharacterData charData;
+	msgin.serial(reason);
+	if(!reason.empty()) {
+		nlwarning("Failed to create character on server!");
+		return;
+	}
+
+	msgin.serial(charData);
+	
+	CPreGameTask::instance().insertCharacter(charData);
+
+	CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->show();
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/PreGameTask/CreateChar")->hide();
+}
+
 void cbSimEventServer(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &clientcb) {
 	WWCOMMON::IGameEvent *gameEvent;
 	msgin.serialPolyPtr(gameEvent);
@@ -130,6 +148,7 @@ NLNET::TCallbackItem ClientCallbackArray[] = {
 	{ "CHAT", cbChat },
 	{ "IDENTIFICATION", cbIdentification },
 	{ "LGCL", cbLGCharList },
+	{ "CH_CR_ACK", cbCH_CR_ACK },
 	{ "EVT",		cbSimEventServer },
 	{ "PINGACK", cbPingAck },
 };

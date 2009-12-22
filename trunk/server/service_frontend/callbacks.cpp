@@ -204,6 +204,45 @@ void cbLGCharList(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackN
 	fs->sendMessage(msgout,from);
 }
 
+/**
+ * \brief Receive the CH_CR - or character creation - request from the client.
+ *
+ * Receive the CH_CR - or character creation - request from the client. This request
+ * message has two data points: CharacterType and CharacterName, respectively. The
+ * character type specifies the EMD that this character uses. The name specifies the name
+ * of the character.
+ */
+void cbCHCR(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &netBase) {
+	// Retrieve the user ID.
+	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
+	uint32 uid=(uint32)from->appId();
+
+	// Extract the EMD and character name.
+	std::string emd;
+	std::string charName;
+	msgin.serial(emd);
+	msgin.serial(charName);
+
+	// Populate a new character 
+	WWCOMMON::CCharacterData *charData = new WWCOMMON::CCharacterData();
+	charData->EmdType = emd;
+	charData->Name = charName;
+	charData->UserID = uid;
+	charData->Online = false;
+	
+	charData = CCharacterManager::instance().addCharacter(charData);
+
+	std::string reason;
+	NLNET::CMessage msgout("CH_CR_ACK");
+	// Validate that this addition succeeded.
+	if(!charData)
+		reason = "Unable to add new character.";
+	msgout.serial(reason);
+	msgout.serial(*charData);
+
+	// Send character creation message back to the client.
+	fs->sendMessage(msgout,from);
+}
 
 void cbSimEventClient(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &clientcb) {
 	WWCOMMON::IGameEvent *gameEvent;
