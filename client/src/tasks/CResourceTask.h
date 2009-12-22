@@ -169,6 +169,13 @@ public:
 	std::string getMesh(std::string name);
 	void preloadEMD();
 	CEntityMedia getEMD(std::string name);
+
+	/**
+	 * \brief Return the entity media map.
+	 *
+	 * \todo Change this to return a pointer, when the emd map grows copying the map will suck.
+	 */
+	entityMediaMap getEntityMediaMap() { return m_EMDMap; }
 private:
 	std::string			m_CacheDirectory;
 	bool						m_CRCUpToDate;

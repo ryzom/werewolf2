@@ -41,6 +41,7 @@
 #include "tasks/CBackgroundTask.h"
 #include "tasks/CNetworkTask.h"
 #include "tasks/CGameTask.h"
+#include "tasks/CResourceTask.h"
 #include <wwcommon/CTaskManager.h>
 #include <wwcommon/CGameSpawnRequestEvent.h>
 #include <wwcommon/IGameEvent.h>
@@ -88,15 +89,80 @@ bool handleCharSelectBtn(const CEGUI::EventArgs& e) {
 	return true;
 }
 
+/// Handles when the connect button is pressed.
+bool handleCharSelectCreateBtn(const CEGUI::EventArgs& e) {
+	CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/PreGameTask/CreateChar")->show();
+	return true;
+}
+
+/// Handles when the connect button is pressed.
+bool handleCharCreateCreateBtn(const CEGUI::EventArgs& e) {
+	// TODO craft the message to the server to create the character.
+	//werewolf/PreGameTask/CreateChar/CharNameBox
+	//werewolf/PreGameTask/CreateChar/CharTypesList
+
+	// Get the listbox containing the EMD type.
+	CEGUI::Listbox *lbox=(CEGUI::Listbox *)CEGUI::WindowManager::getSingleton().getWindow("werewolf/PreGameTask/CreateChar/CharTypesList");
+
+	// if there aren't any character types selected, just purge the event and continue on.
+	if(lbox->getSelectedCount() <= 0)
+		return true;
+
+	CEGUI::ListboxTextItem *lboxItem = static_cast<CEGUI::ListboxTextItem *>(lbox->getFirstSelectedItem());
+
+	nlinfo("user selected EMD: %s", lboxItem->getText().c_str());
+
+	CEGUI::Editbox *editbox = (CEGUI::Editbox *)CEGUI::WindowManager::getSingleton().getWindow("werewolf/PreGameTask/CreateChar/CharNameBox");
+	std::string charName = editbox->getText().c_str();
+	std::string charType = lboxItem->getText().c_str();
+
+	NLNET::CMessage msgout("CH_CR"); // Character Create
+	msgout.serial(charType);
+	msgout.serial(charName);
+
+	nlinfo("sending %s / %s to server.", charType.c_str(), charName.c_str());
+
+	CNetworkTask::instance().send(msgout);
+
+	// We won't hide this and show the character selection until we receive the message back from the server.
+	// So look for that in the CH_CR_ACK message.
+
+	return true;
+}
+
+
 //
 // Class
 //
 
 void CPreGameTask::init() {
 	try {
-		// show the character selector to the world.
-		CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->show();
-		CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar/ConnectBTN")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharSelectBtn);
+		using namespace CEGUI;
+		nlinfo("Register Pre-Game Task Window Events.");
+		CEGUI::WindowManager &wndMgr = CEGUI::WindowManager::getSingleton();
+		
+		// Reveal the character creation screen, hide the selection screen and subscribe events.
+		wndMgr.getWindow("PreGameTask/SelectChar")->show();
+		wndMgr.getWindow("PreGameTask/SelectChar/ConnectBTN")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharSelectBtn);
+		wndMgr.getWindow("PreGameTask/SelectChar/CreateChar")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharSelectCreateBtn);
+		wndMgr.getWindow("werewolf/PreGameTask/CreateChar/CharCreateBtn")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharCreateCreateBtn);
+
+		// Retrieve the Listbox object.
+		Listbox *lbox=static_cast<Listbox *>(wndMgr.getWindow("werewolf/PreGameTask/CreateChar/CharTypesList"));
+
+		// Iterate through the entity media map and add the available character types to the listbox.
+		entityMediaMap emdMap = CResourceTask::instance().getEntityMediaMap();
+		entityMediaMap::iterator itr = emdMap.begin();
+		while(itr != emdMap.end()) {
+			CEntityMedia media = itr->second;
+			nlinfo("Need to add '%s' to the character type box.", media.Name.c_str());
+			lbox->addItem(new CharTypeItem(media.Name.c_str(), &media) );
+			itr++;
+		}
+
+		nlinfo("Number of items in listbox: %d", lbox->getItemCount());
+
 	} catch(CEGUI::UnknownObjectException &e) {
 		nlinfo("Received object exception: %s", e.getMessage().c_str());
 	}

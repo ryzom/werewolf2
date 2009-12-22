@@ -96,6 +96,9 @@ void CGuiTask::init() {
 		WindowManager::getSingleton().getWindow("LandscapeProgress")->hide();
 		WindowManager::getSingleton().getWindow("GameTask/Chatbox")->hide();
 		WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->hide();
+		WindowManager::getSingleton().getWindow("werewolf/PreGameTask/CreateChar")->hide();
+		WindowManager::getSingleton().getWindow("werewolf/OptionsDlg")->hide();
+
 	} catch(CEGUI::GenericException &e) {
 		nlinfo("Caught CEGUI Exception during System creation: %s", e.getMessage().c_str());
 	} catch(CEGUI::Exception &e) {	// catch to prevent exit (errors will be logged).

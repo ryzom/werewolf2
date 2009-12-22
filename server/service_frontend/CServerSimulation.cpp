@@ -123,6 +123,8 @@ bool CSimulationImpl::userLogin(uint32 uid, uint32 objid) {
 		return false;
 	}
 
+	WWCOMMON::CCharacterData *charData = CCharacterManager::instance().getCharacter(objid);
+
 	// create the sob and add it to the manager.
 	CActor *sob=dynamic_cast<CActor *>(initSob("sobActor"));
 
@@ -157,9 +159,12 @@ bool CSimulationImpl::userLogin(uint32 uid, uint32 objid) {
 	event->SourceID = sob->getSobId();
 	event->TargetID = sob->getSobId();
 	event->Position = sob->getPosition();
-	event->EMD = "sphere guy";
+	event->EMD = charData->EmdType;
 
 	WWCOMMON::CGameEventServer::instance().postEvent(event);
+
+	if(charData)
+		delete charData;
 
 	return true;
 }

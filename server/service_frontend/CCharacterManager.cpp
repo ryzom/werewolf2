@@ -179,3 +179,84 @@ bool CCharacterManager::setOffline(uint32 objectID) {
 
 	return true;
 }
+
+WWCOMMON::CCharacterData *CCharacterManager::addCharacter(WWCOMMON::CCharacterData *charData) {
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	sint32 nbrow;
+	std::string qry = "INSERT INTO characters (userid,charname,active,emdtype) values (" +
+		NLMISC::toString(charData->UserID) + "," +
+		"'"+charData->Name+"'," +
+		NLMISC::toString((uint32)(0)) + "," +
+		"'"+charData->EmdType+"')";
+
+	std::string reason=sqlQuery(qry , nbrow, row, result);
+
+	if(!reason.empty()) {
+		nlinfo("SQL Query Failed: %s", reason.c_str());	
+		return false;
+	}
+
+	qry = "SELECT MAX(characterid) FROM characters WHERE userid="
+		+NLMISC::toString(charData->UserID)+" AND charname='"
+		+charData->Name+"'";
+
+	reason = sqlQuery( qry , nbrow, row, result);
+
+	if(!reason.empty()) {
+		nlinfo("SQL Query Failed: %s", reason.c_str());	
+		return false;
+	}
+
+	if(nbrow != 1) {
+		nlwarning("Unable to find the new character we added!");
+		return NULL;
+	}
+
+	// Map the character ID we retrieved:
+	NLMISC::fromString(row[0], charData->CharacterID);
+
+	return charData;
+
+}
+
+WWCOMMON::CCharacterData *CCharacterManager::getCharacter(uint32 id) {
+	WWCOMMON::CCharacterData *character = new WWCOMMON::CCharacterData();
+	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
+	std::string reason;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	sint32 nbrow;
+
+
+	reason = sqlQuery(
+		"SELECT characterid,userid,charname,active,emdtype FROM characters WHERE characterid=" +
+		NLMISC::toString(id), nbrow, row, result);
+
+	if(!reason.empty()) {
+		nlinfo("SQL Query Failed: %s", reason.c_str());	
+		return NULL; // TODO throw an exception instead?
+	}
+
+	if(nbrow == 0) {
+		nlinfo("No characters found for id: %d", id);
+		return NULL; // TODO throw an exception instead?
+
+	}
+
+	if(nbrow > 1) {
+		nlinfo("Too many characters found: %d", nbrow);
+		return NULL;
+	}
+
+	NLMISC::fromString(row[0], character->CharacterID);
+	NLMISC::fromString(row[1], character->UserID);
+	character->Name=row[2];
+	NLMISC::fromString(row[3], character->Online);
+	character->EmdType=row[4];
+		
+		
+	nlinfo("Pushing back %s to character list for %d", character->Name.c_str(), id);
+
+	return character;
+}
