@@ -1,6 +1,6 @@
 FILE(GLOB SRC *.cpp *.h)
 
-ADD_EXECUTABLE(script_cegui_sample ${SRC})
+ADD_EXECUTABLE(script_cegui_sample WIN32 ${SRC})
 
 ADD_DEFINITIONS(-DCEGUI_DATA_DIR="\\"${NL_SHARE_PREFIX}/games/werewolf/data/\\"")
 
@@ -19,7 +19,8 @@ TARGET_LINK_LIBRARIES(script_cegui_sample
 						wwscript)
 IF(WIN32)
   SET_TARGET_PROPERTIES(script_cegui_sample PROPERTIES 
-	LINK_FLAGS "/NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS"
+	LINK_FLAGS_DEBUG "/NODEFAULTLIB:libc;libcmt;libcmtd;msvcrt"
+	LINK_FLAGS_RELEASE "/NODEFAULTLIB:libc;libcmt;libcmtd;msvcrtd"
 	PROJECT_LABEL "Samples: CEGUI Script Demo")
 ENDIF(WIN32)
 ADD_DEFINITIONS(${LIBXML2_DEFINITIONS})
