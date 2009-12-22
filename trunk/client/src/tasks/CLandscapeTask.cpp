@@ -71,6 +71,7 @@ void CLandscapeTask::init() {
 	// show the loading progress window.
 	CEGUI::FrameWindow *wnd=(CEGUI::FrameWindow *)CEGUI::WindowManager::getSingleton().getWindow("LandscapeProgress");
 	wnd->show();
+	CEGUI::MouseCursor::getSingleton().hide();
 
 	// get the zones loading list for the debug window.
 	//m_DebugZonesList=(CEGUI::MultiLineEditbox *)CEGUI::WindowManager::getSingleton().getWindow("GameTask/DebugZones");
@@ -192,6 +193,7 @@ void CLandscapeTask::init() {
 	C3DTask::instance().driver().enableFog(fogEnable);
 
 	wnd->hide();
+	CEGUI::MouseCursor::getSingleton().show();
 }
 
 void CLandscapeTask::update() {
