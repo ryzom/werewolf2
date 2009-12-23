@@ -89,8 +89,10 @@ void onConnectionClient(NLNET::TSockId from, const NLNET::CLoginCookie &cookie) 
 	// Add new client to the list of player managed by this FrontEnd
 	fs->addPlayer(id, from);
 	from->setAppId((uint64)id);
-	CPlayer *plr=fs->getPlayer(id);
-	plr->User = CUserManager::instance().getUser(id);
+
+	CUser *user = CUserManager::instance().getUserById(id);
+	user->UserConnection.Con = from;
+
 	
 	// Output: send the IDENTIFICATION number to the new connected client
 	NLNET::CMessage msgout("IDENTIFICATION");
@@ -117,10 +119,9 @@ void onConnectionClient(NLNET::TSockId from, const NLNET::CLoginCookie &cookie) 
  */
 void onDisconnectClient(NLNET::TSockId from, void *arg ) {
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
-	//CServerSimulation *server=(CServerSimulation *)getSimulation();
 
 	uint32 id=(uint32)from->appId();
-	CPlayer *plr=fs->getPlayer(id);
+	CUser *user = CUserManager::instance().getUserById(id);
 
 	nlinfo( "A client with uniq Id %u has disconnected", id );
 
@@ -129,12 +130,14 @@ void onDisconnectClient(NLNET::TSockId from, void *arg ) {
 
 	// unspawn the sob.
 	WWCOMMON::CGameUnspawnRequestEvent *evt = new WWCOMMON::CGameUnspawnRequestEvent();
-	evt->SobID = plr->SobID;
+	evt->SobID = user->SobID;
 	WWCOMMON::CGameEventServer::instance().postEvent(evt);
 
 	// Get the connected player's ID.
-	CCharacterManager::instance().setOffline(plr->CharacterID);
-	plr->Connected=false;
+	CCharacterManager::instance().setOffline(user->CharacterID);
+	user->UserState=CUser::UserStateOffline;
+	CUserManager::instance().saveUser(user);
+	
 
 	// remove the player from the local player list
 	fs->removePlayer(id);
@@ -179,6 +182,12 @@ struct TCharList {
 void cbLGCharList(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase &netbase) {
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
 	uint32 uid=(uint32)from->appId();
+
+	CUser *user=CUserManager::instance().getUserById(uid);
+
+	// Set the User's state to character selection.
+	user->UserState = CUser::UserStateCharSelect;
+	CUserManager::instance().saveUser(user);
 
 	nlinfo("Received request for a character list.");
 	// Part 1: number of elements

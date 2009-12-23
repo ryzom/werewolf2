@@ -42,7 +42,7 @@
 //
 #include <nel/misc/types_nl.h>
 #include <nel/misc/stream.h>
-
+#include <nel/net/buf_net_base.h>
 //
 // Werewolf Includes
 //	
@@ -56,21 +56,89 @@
  * \brief Contains network-level user information.
  */
 struct CUser {
-	/// Data-filling constructor.
-	CUser(uint32 uid, uint32 plrallowed) : UserID(uid), CharactersAllowed(plrallowed) { };
+	/// An enum that defines the various states that a user can be in.
+	enum EUserState {
+		UserStateOffline = 0,
+		UserStateCharSelect = 1,
+		UserStateCharCreate = 2,
+		UserStatePlaying = 3
+	};
+
+
+	struct CUserConnection {
+		/// Holds the connection for this client.
+		NLNET::TSockId  Con;
+	};
+
+	/// Data-filling constructor, default UserState to UserStateOffline
+	CUser(uint32 uid, uint32 plrallowed) : UserID(uid), 
+		CharactersAllowed(plrallowed), 
+		UserState(UserStateOffline), 
+		SobID(0), 
+		CharacterID(0) {  };
+
+	/// Data-filling constructor
+	CUser(uint32 uid, uint32 plrallowed, EUserState userState) : UserID(uid), 
+			CharactersAllowed(plrallowed), 
+			UserState(userState), 
+			SobID(0), 
+			CharacterID(0)  { };
 
 	/// Default destructor.
 	~CUser() { };
+	
 
 	/// The userid of this player.
 	uint32 UserID;
 
 	/// The Simulation Object ID that this player is controlling.
 	uint32 CharactersAllowed;
+
+	/// This is the character that this player logged in as.
+	uint32 CharacterID;
+
+	/// The Simulation Object ID that this player is controlling.
+	uint32 SobID;
+
+	/// The online status of the user.
+	EUserState UserState;
+
+	CUserConnection UserConnection;
+
+	/// Get if the user is connect to a frontend.
+	bool isConnected() { if(UserState != UserStateOffline) return true; return false; }
+
+	/// Convert UserState from string.
+	static EUserState convertUserStateFromString(std::string userState) {
+		if(userState == "CharSelect") {
+			 return UserStateCharSelect;
+		} else if(userState == "CharCreate") {
+			return UserStateCharCreate;
+		} else if(userState == "Playing") {
+			return UserStatePlaying;
+		} else { // Always default to offline.
+			return UserStateOffline;
+		}
+	}
+
+	/// Convert UserState to string.
+	static std::string convertUserStateToString(EUserState userState) {
+		if(userState == UserStateCharSelect) {
+			 return "CharSelect";
+		} else if(userState == UserStateCharCreate) {
+			return "CharCreate";
+		} else if(userState == UserStatePlaying) {
+			return "Playing";
+		} else { // Always default to offline.
+			return "Offline";
+		}
+	}
 };
 
 class CUserManager : public WWCOMMON::ISingleton<CUserManager> {
 public:
+	/// The default maximum number of characters a user can have.
+	const static int USERMANAGER_DEFAULT_MAX_CHARACTERS = 2;
 	/// Initialize the user manager.
 	void init();
 
@@ -80,7 +148,9 @@ public:
 	 * \param id The UserID to find.
 	 * \return The CUser the id represents.
 	 */
-	CUser *getUser(uint32 uid);
+	CUser *getUserById(uint32 uid);
+
+	CUser *getUserBySobId(uint32 sobid);
 
 	/**
 	 * \brief Creates a new user object.
@@ -96,8 +166,14 @@ public:
 	 * \return Whether the user was saved or not.
 	 */
 	bool saveUser(CUser *user);
-private:
 
+private:
+	CUser *getUserFromList(uint32 uid);
+	CUser *getUserFromDatabase(uint32 uid);
+	bool isUserInList(uint32 uid);
+
+	typedef std::list<CUser *> TUserList;
+	TUserList m_Users;
 };
 
 #endif // __CUSERMANAGER_H__
