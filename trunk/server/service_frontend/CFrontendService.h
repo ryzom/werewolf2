@@ -65,24 +65,24 @@ std::string sqlQuery(const std::string &query, sint32 &nbRow, MYSQL_ROW &firstRo
  */
 struct CPlayer {
 	/// Data-filling constructor.
-	CPlayer(uint32 sobid, NLNET::TSockId con) : SobID(SobID), Connected(false), Con(con) { };
+	CPlayer(uint32 sobid, NLNET::TSockId con) : Con(con) { };
 	/// Default destructor.
-	~CPlayer() { if(User) delete User; };
+	~CPlayer() { };
 
 	/// The Simulation Object ID that this player is controlling.
-	uint32 SobID;
+	//uint32 SobID;
 
 	/// Whether this player is connected to the game.
-	bool Connected;
+	//bool Connected;
 
 	/// Holds the connection for this client.
 	NLNET::TSockId  Con;
 
 	/// This is the character that this player logged in as.
-	uint32 CharacterID;
+	//uint32 CharacterID;
 
 	/// The user object associated with this connection.
-	CUser *User;
+	//CUser *User;
 };
 
 /**

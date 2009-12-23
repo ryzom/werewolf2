@@ -134,9 +134,9 @@ bool CSimulationImpl::userLogin(uint32 uid, uint32 objid) {
 		return false;
 	}
 
-	// get the player and save the sobid.
-	CPlayer *plr=fs->getPlayer(uid);
-	plr->SobID=sob->getSobId();
+	// get the user and save the sobid.
+	CUser *user = CUserManager::instance().getUserById(uid);
+	user->SobID=sob->getSobId();
 
 	// set it's properties
 	//sob->setProp("foo", "bar");
