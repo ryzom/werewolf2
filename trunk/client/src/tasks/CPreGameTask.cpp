@@ -131,6 +131,12 @@ bool handleCharCreateCreateBtn(const CEGUI::EventArgs& e) {
 	return true;
 }
 
+bool handleCharCreateCancelBtn(const CEGUI::EventArgs& e) {
+	CEGUI::WindowManager::getSingleton().getWindow("PreGameTask/SelectChar")->show();
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/PreGameTask/CreateChar")->hide();
+	return true;
+}
+
 
 //
 // Class
@@ -147,6 +153,10 @@ void CPreGameTask::init() {
 		wndMgr.getWindow("PreGameTask/SelectChar/ConnectBTN")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharSelectBtn);
 		wndMgr.getWindow("PreGameTask/SelectChar/CreateChar")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharSelectCreateBtn);
 		wndMgr.getWindow("werewolf/PreGameTask/CreateChar/CharCreateBtn")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharCreateCreateBtn);
+		wndMgr.getWindow("werewolf/PreGameTask/CreateChar/CharCreateCnclBtn")->subscribeEvent(CEGUI::PushButton::EventClicked, handleCharCreateCancelBtn);
+
+
+		
 
 		// Retrieve the Listbox object.
 		Listbox *lbox=static_cast<Listbox *>(wndMgr.getWindow("werewolf/PreGameTask/CreateChar/CharTypesList"));
