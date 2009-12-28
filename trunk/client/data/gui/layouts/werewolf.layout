@@ -40,21 +40,21 @@
             <Property Name="SizingEnabled" Value="False" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.0029615,0},{0.00143472,0},{0.402962,0},{0.229699,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0060865,0},{0.00503184,0},{0.406087,0},{0.233296,0}}" />
             <Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/FPS" >
                 <Property Name="Text" Value="FPS:" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,-31.4},{0.25,35},{0.85,50.6},{0.45,30.2}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0550782,0},{0.517896,0},{0.906641,0},{0.717896,0}}" />
             </Window>
             <Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/Position" >
                 <Property Name="Text" Value="Pos:" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,-31.4},{0.48,38.08},{0.85,51.6},{0.68,30.28}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0550782,0},{0.753148,0},{0.908594,0},{0.958402,0}}" />
             </Window>
             <Window Type="TaharezLook/StaticText" Name="GameTask/DebugWindow/Zone" >
                 <Property Name="Text" Value="Zone: " />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,-33.4},{0.7,-68.8},{0.85,50.6},{0.9,-76.6}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.057031,0},{0.264012,0},{0.906641,0},{0.464013,0}}" />
             </Window>
         </Window>
         <Window Type="TaharezLook/FrameWindow" Name="LandscapeProgress" >
