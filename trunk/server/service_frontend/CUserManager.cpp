@@ -206,7 +206,8 @@ bool CUserManager::saveUser(CUser *user) {
 		nlinfo("User already in database. Update it.");
 		std::string query = "UPDATE users SET "
 					" plrallowed="+NLMISC::toString(user->CharactersAllowed) +
-					" state='"+CUser::convertUserStateToString(user->UserState)+"' " +
+					",state='"+CUser::convertUserStateToString(user->UserState)+"'" +
+					",sobid="+NLMISC::toString(user->SobID) + " " +
 				    "WHERE userid="+NLMISC::toString(user->UserID);
 
 		reason = sqlQuery(query, nbrow, row, result);

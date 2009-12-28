@@ -70,6 +70,9 @@ public:
 	/// Flag someone as offline
 	bool setOffline(uint32 objectID);
 
+	/// Get the number of characters created for a given player.
+	uint32 getPlayerCharacterCount(uint32 uid);
+
 	/// Find out if a character objId belongs to a player.
 	bool isPlayers(uint32 objid, uint32 id);
 
