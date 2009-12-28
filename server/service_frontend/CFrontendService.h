@@ -111,7 +111,7 @@ public:
 	 */
 	void sendMessage(NLNET::CMessage msg, uint32 sobid);
 
-	void removePlayer(uint32 plrid);
+	//void removePlayer(uint32 plrid);
 
 	/**
 	 * \brief Register a player to an ID as active in the map.
@@ -120,7 +120,7 @@ public:
 	 * \param plr The player object.
 	 * \return The userid registered.
 	 */
-	uint32	addPlayer(uint32 uid, NLNET::TSockId con);
+	//uint32	addPlayer(uint32 uid, NLNET::TSockId con);
 
 	/**
 	 * \brief Get a player.
@@ -128,7 +128,7 @@ public:
 	 * \param id The UserID to find.
 	 * \return The CPlayer the id represents.
 	 */
-	CPlayer *getPlayer(uint32 id);
+	//CPlayer *getPlayer(uint32 id);
 
 	/**
 	 * \brief Save a player to the users table.

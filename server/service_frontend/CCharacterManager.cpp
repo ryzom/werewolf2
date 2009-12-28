@@ -165,6 +165,28 @@ bool CCharacterManager::setOnline(uint32 objectID) {
 	return true;
 }
 
+uint32 CCharacterManager::getPlayerCharacterCount(uint32 uid) {
+	std::string reason;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	sint32 nbrow;
+
+	uint32 characterCount = 0;
+
+	reason = sqlQuery( "SELECT COUNT(characterid) FROM characters WHERE userid=" + NLMISC::toString(uid), 
+		nbrow, row, result);
+
+	if(!reason.empty()) {
+		nlinfo("SQL Query Failed: %s", reason.c_str());	
+		return false;
+	}
+
+	if(nbrow == 1)
+		NLMISC::fromString(row[0], characterCount);
+
+	return characterCount;
+}
+
 bool CCharacterManager::setOffline(uint32 objectID) {
 	MYSQL_RES *result;
 	MYSQL_ROW row;

@@ -87,7 +87,7 @@ void onConnectionClient(NLNET::TSockId from, const NLNET::CLoginCookie &cookie) 
 	nlinfo("The client with unique Id %u is connected", id);
 
 	// Add new client to the list of player managed by this FrontEnd
-	fs->addPlayer(id, from);
+	//fs->addPlayer(id, from);
 	from->setAppId((uint64)id);
 
 	CUser *user = CUserManager::instance().getUserById(id);
@@ -140,7 +140,7 @@ void onDisconnectClient(NLNET::TSockId from, void *arg ) {
 	
 
 	// remove the player from the local player list
-	fs->removePlayer(id);
+	//fs->removePlayer(id);
 }
 
 /**
@@ -225,29 +225,39 @@ void cbCHCR(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase
 	// Retrieve the user ID.
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
 	uint32 uid=(uint32)from->appId();
-
-	// Extract the EMD and character name.
-	std::string emd;
-	std::string charName;
-	msgin.serial(emd);
-	msgin.serial(charName);
-
-	// Populate a new character 
-	WWCOMMON::CCharacterData *charData = new WWCOMMON::CCharacterData();
-	charData->EmdType = emd;
-	charData->Name = charName;
-	charData->UserID = uid;
-	charData->Online = false;
-	
-	charData = CCharacterManager::instance().addCharacter(charData);
-
 	std::string reason;
 	NLNET::CMessage msgout("CH_CR_ACK");
-	// Validate that this addition succeeded.
-	if(!charData)
-		reason = "Unable to add new character.";
-	msgout.serial(reason);
-	msgout.serial(*charData);
+
+	CUser *user = CUserManager::instance().getUserById(uid);
+	if(user->CharactersAllowed >= CCharacterManager::instance().getPlayerCharacterCount(uid)) {
+		nlwarning("Player (%d) at or past maximum allowed characters (%d).",
+			uid, CCharacterManager::instance().getPlayerCharacterCount(uid) );
+		reason = "You may only have " + NLMISC::toString(user->CharactersAllowed) + " characters.";
+		msgout.serial(reason);
+
+	} else {
+		// Extract the EMD and character name.
+		std::string emd;
+		std::string charName;
+		msgin.serial(emd);
+		msgin.serial(charName);
+
+		// Populate a new character 
+		WWCOMMON::CCharacterData *charData = new WWCOMMON::CCharacterData();
+		charData->EmdType = emd;
+		charData->Name = charName;
+		charData->UserID = uid;
+		charData->Online = false;
+	
+		charData = CCharacterManager::instance().addCharacter(charData);
+
+		// Validate that this addition succeeded.
+		if(!charData)
+			reason = "Unable to add new character.";
+		nlinfo("Adding new character for player %d", uid);
+		msgout.serial(reason);
+		msgout.serial(*charData);
+	}
 
 	// Send character creation message back to the client.
 	fs->sendMessage(msgout,from);
@@ -258,7 +268,7 @@ void cbSimEventClient(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallb
 	msgin.serialPolyPtr(gameEvent);
 	gameEvent->setPlayerID((uint32)from->appId());
 
-//	nlinfo("Got event: %s", gameEvent->getClassName().c_str());
+	nlinfo("Got event: %s", gameEvent->getClassName().c_str());
 	WWCOMMON::CGameEventServer::instance().postEvent(gameEvent);
 }
 

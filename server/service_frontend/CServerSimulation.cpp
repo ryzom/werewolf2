@@ -109,6 +109,11 @@ bool CSimulationImpl::userLogout(uint32 sobid) {
 	nlinfo("Removing sob %d from simulation.", sobid);
 	m_ActorManager->removeSob(sob);
 
+	// Get the user and set the Sob ID to zero (0).
+	CUser *user = CUserManager::instance().getUserById(sob->getPlayerId());
+	user->SobID=0;
+	CUserManager::instance().saveUser(user);
+
 	delete sob;
 
 	return true;
@@ -137,6 +142,8 @@ bool CSimulationImpl::userLogin(uint32 uid, uint32 objid) {
 	// get the user and save the sobid.
 	CUser *user = CUserManager::instance().getUserById(uid);
 	user->SobID=sob->getSobId();
+	user->CharacterID = charData->CharacterID;
+	CUserManager::instance().saveUser(user);
 
 	// set it's properties
 	//sob->setProp("foo", "bar");
@@ -179,6 +186,9 @@ bool CSimulationImpl::attachUser(uint32 uid, uint32 sobid) {
 	} else {
 		// we will set up a control state here later. but for now just associate the uid.
 		sob->m_PlrId=uid;
+		CUser *user = CUserManager::instance().getUserById(uid);
+		user->SobID=sobid;
+		CUserManager::instance().saveUser(user);
 		return true;
 	}
 }
@@ -193,7 +203,11 @@ void CSimulationImpl::detachUser(uint32 uid, uint32 sobid) {
 		nlinfo("Detaching user from simulation of sob: %d", sob->getSobId());
 
 		// reset the player id.
+		CUser *user = CUserManager::instance().getUserById(uid);
+		user->SobID=0;
+		CUserManager::instance().saveUser(user);
 		sob->m_PlrId=0;
+		
 	}
 }
 
