@@ -117,7 +117,12 @@
             <Window Type="TaharezLook/Button" Name="PreGameTask/SelectChar/ConnectBTN" >
                 <Property Name="Text" Value="Connect" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.703857,0},{0.138889,0},{0.947998,0},{0.256944,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.717529,0},{0.130895,0},{0.96167,0},{0.24895,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="PreGameTask/SelectChar/CreateChar" >
+                <Property Name="Text" Value="Create Character" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0409665,0},{0.128937,0},{0.285107,0},{0.246991,0}}" />
             </Window>
         </Window>
         <Window Type="TaharezLook/FrameWindow" Name="werewolf/OptionsDlg" >
@@ -192,6 +197,44 @@
                 <Property Name="Text" Value="Save" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.717054,0},{0.928356,0},{0.967054,0},{0.981272,0}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/FrameWindow" Name="werewolf/PreGameTask/CreateChar" >
+            <Property Name="Text" Value="Create Character" />
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.195312,0},{0.28729,0},{0.632812,0},{0.615228,0}}" />
+            <Window Type="TaharezLook/StaticText" Name="werewolf/PreGameTask/CreateChar/" >
+                <Property Name="Text" Value="Character Name" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.084375,0},{0.241726,0},{0.400446,0},{0.381415,0}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="werewolf/PreGameTask/CreateChar/1" >
+                <Property Name="Text" Value="Character Type" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.090625,0},{0.421223,0},{0.399107,0},{0.570504,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Editbox" Name="werewolf/PreGameTask/CreateChar/CharNameBox" >
+                <Property Name="MaxTextLength" Value="1073741823" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.252758,0},{0.964285,0},{0.397242,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Listbox" Name="werewolf/PreGameTask/CreateChar/CharTypesList" >
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.451786,0},{0.429497,0},{0.967856,0},{0.834824,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="werewolf/PreGameTask/CreateChar/CharCreateBtn" >
+                <Property Name="Text" Value="Create Character" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5875,0},{0.862519,0},{0.969643,0},{0.979129,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="werewolf/PreGameTask/CreateChar/CharCreateCnclBtn" >
+                <Property Name="Text" Value="Cancel" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.021429,0},{0.861331,0},{0.403572,0},{0.977941,0}}" />
             </Window>
         </Window>
     </Window>
