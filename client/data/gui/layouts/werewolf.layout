@@ -87,18 +87,17 @@
             <Property Name="TitlebarFont" Value="Commonwealth-10" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.25,160},{0.79,379.2},{0.75,480},{0.99,475.2}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0101562,0},{0.807988,0},{0.566407,0},{0.987603,0}}" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Window Type="TaharezLook/Listbox" Name="GameTask/Chatbox/ChatList" >
-                <Property Name="Text" Value="d" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.04,12.8},{0.25,24},{0.96,307.2},{0.75,72}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0362605,0},{0.301984,0},{0.956261,0},{0.783003,0}}" />
             </Window>
             <Window Type="TaharezLook/Editbox" Name="GameTask/Chatbox/ChatEDT" >
                 <Property Name="Text" Value=" " />
                 <Property Name="MaxTextLength" Value="1073741823" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.04,12.8},{0.8,76.8},{0.96,307.2},{0.95,91.2}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03375,0},{0.829616,0},{0.95375,0},{0.95,4}}" />
             </Window>
         </Window>
         <Window Type="TaharezLook/FrameWindow" Name="PreGameTask/SelectChar" >

@@ -44,6 +44,7 @@
 #include <wwcommon/IGameEvent.h>
 #include <wwcommon/CGameEventServer.h>
 #include <wwcommon/CSobStateRequestEvent.h>
+#include <wwcommon/CGameChatEvent.h>
 #include "tasks/CNetworkTask.h"
 
 //
@@ -63,7 +64,12 @@ namespace WWCLIENT {
 CLocalObjectView::CLocalObjectView(WWCOMMON::ISimulationObj *owner) {
 	// save the owner.
 	m_OwnerSob = owner;
-	WWCOMMON::CGameEventServer::instance().addListener(this,EVENT_ID(CSobStateRequestEvent),owner->getSobId(), WWCOMMON::CGameEventServer::POST_EVENT);
+
+	// Create a vector of sob events we'll be sending.
+	std::vector<uint16> sobEvents;
+	sobEvents.push_back(EVENT_ID(CSobStateRequestEvent));
+
+	WWCOMMON::CGameEventServer::instance().addListener(this, sobEvents, owner->getSobId(), WWCOMMON::CGameEventServer::POST_EVENT);
 }
 
 CLocalObjectView::~CLocalObjectView() {
@@ -79,7 +85,7 @@ bool CLocalObjectView::observePreGameEvent(WWCOMMON::CGameEventServer::EventPtr 
 }
 
 bool CLocalObjectView::observePostGameEvent(WWCOMMON::CGameEventServer::EventPtr event) {
-//	nlinfo("Received event type: %d", event->getId());
+	//nlinfo("Received event type: %d", event->getClassName().c_str());
 
 	WWCOMMON::IGameEvent *evt = event.getPtr();
 	if(evt == NULL)

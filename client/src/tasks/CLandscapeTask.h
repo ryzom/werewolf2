@@ -121,7 +121,7 @@ public:
 
 	void setProgressBar(CEGUI::ProgressBar *progbar) { m_ProgBar=progbar; m_BaseProgress=m_ProgBar->getProgress(); }
 	virtual void progress(float progressValue) {
-		float val=(getCropedValue(progressValue)*0.1f)+m_BaseProgress;
+		float val=(getCropedValue(progressValue)*0.2f)+m_BaseProgress;
 		CLandscapeTask::instance().updateProgressBar( val, val, "Loading landscape zones..." );
 	}
 

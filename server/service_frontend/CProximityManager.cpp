@@ -64,6 +64,7 @@ CProximityManager::~CProximityManager() {
 
 void CProximityManager::addSob(WWCOMMON::CPerformer *sob) {
 	m_Grid->insert(sob, getSobPosition(sob));
+	registerSobForUpdate(sob);
 }
 
 void CProximityManager::removeSob(WWCOMMON::CPerformer* sob) {

@@ -57,6 +57,7 @@
 #include "tasks/CConfigTask.h"
 #include "tasks/CResourceTask.h"
 #include "views/CPerformer3DView.h"
+#include "views/CPerformerChatView.h"
 
 #include <wwcommon/CSobHandlerFactory.h>
 #include <wwcommon/CMotionController.h>
@@ -143,8 +144,15 @@ void CSimulationImpl::spawnSelf(WWCOMMON::CSobSpawnEvent *event) {
 
 	sob->setPosition(event->Position);
 	sob->setGlobalPosition(event->Position);
+	
+	// Add the presentation view for 3D ifno.
 	CEntityMedia emd = CResourceTask::instance().getEMD(event->EMD);
 	WWCOMMON::IView* view = new CPerformer3DView(sob, emd);
+	view->show();
+	sob->addView(view);
+
+	// Add the presentationv iew for chat info.
+	view = new CPerformerChatView(sob);
 	view->show();
 	sob->addView(view);
 

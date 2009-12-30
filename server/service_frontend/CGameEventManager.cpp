@@ -41,8 +41,11 @@
 //	
 #include "CGameEventManager.h"
 #include <wwcommon/CGameEventServer.h>
+#include <wwcommon/CGameChatEvent.h>
+#include <wwcommon/CSobChatEvent.h>
 #include "CServerSimulation.h"
 #include "CFrontendService.h"
+#include "CUserManager.h"
 
 //
 // Namespaces
@@ -52,6 +55,7 @@ CGameEventManager::CGameEventManager() {
 	std::vector<uint16> events;
 	events.push_back(EVENT_ID(CGameSpawnRequestEvent));
 	events.push_back(EVENT_ID(CGameUnspawnRequestEvent));
+	events.push_back(EVENT_ID(CGameChatEvent));
 	WWCOMMON::CGameEventServer::instance().addListener(this, events, WWCOMMON::CGameEventServer::EVENT);
 
 	events.clear();
@@ -80,6 +84,8 @@ bool CGameEventManager::observeGameEvent(WWCOMMON::CGameEventServer::EventPtr ev
 		spawn(dynamic_cast<WWCOMMON::CGameSpawnRequestEvent*>(event.getPtr()));
 	} else if(event->getId() == EVENT_ID(CGameUnspawnRequestEvent)) {
 		postUnspawn(dynamic_cast<WWCOMMON::CGameUnspawnRequestEvent*>(event.getPtr()));
+	} else if(event->getId() == EVENT_ID(CGameChatEvent)) {
+		chat(dynamic_cast<WWCOMMON::CGameChatEvent*>(event.getPtr()));
 	}
 	return true;
 }
@@ -98,4 +104,24 @@ void CGameEventManager::postUnspawn(WWCOMMON::CGameUnspawnRequestEvent *event) {
 void CGameEventManager::unspawn(WWCOMMON::CSobUnspawnEvent *event) {
 	// TODO henri:everyone persist sob here
 	getServerSimulation()->userLogout(event->TargetID);
+}
+
+void CGameEventManager::chat(WWCOMMON::CGameChatEvent *event) {
+	CUser *user = CUserManager::instance().getUserById(event->getPlayerID());
+	uint32 playerSobId = user->SobID;
+	
+	// First we need to validate that the user chatting owns the sob chatting.
+	if(event->SourceSobID != user->SobID) {
+		nlwarning("User %d attempted to chat as someone else.", user->UserID);
+		return;
+	}
+
+	// TODO add some logic here, maybe a script that checks to see if the sob CAN chat.
+	nlinfo("relaying sob chat event from %d to %d: %s", event->SourceSobID, event->TargetSobID, event->ChatMessage.c_str());
+	WWCOMMON::CSobChatEvent *chatEvent = new WWCOMMON::CSobChatEvent();
+	chatEvent->SourceID = event->SourceSobID;
+	chatEvent->TargetID = event->TargetSobID;
+	chatEvent->ChatChannel = event->ChatChannel;
+	chatEvent->ChatMessage = event->ChatMessage;
+	WWCOMMON::CGameEventServer::instance().postEvent(chatEvent);
 }

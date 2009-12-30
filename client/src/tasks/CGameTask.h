@@ -43,6 +43,7 @@
 
 #include "wwcommon/ITask.h"
 #include "wwcommon/ISingleton.h"
+#include <wwcommon/CGameChatEvent.h>
 
 //
 // Namespaces
@@ -72,6 +73,7 @@ public:
 	
 	// network related calls
 	void recvChat(std::string chatmsg);
+	void recvChat(WWCOMMON::CGameChatEvent *event);
 	void parseConsole(std::string chatmsg);
 
 private:
