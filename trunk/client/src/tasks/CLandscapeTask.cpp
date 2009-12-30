@@ -159,7 +159,7 @@ void CLandscapeTask::init() {
 	 */
 	updateProgressBar( 0.6f, 0.6f, "Loading instance groups...");
 	CConfigFile::CVar igv = ConfigFile.getVar("InstanceGroups");
-	for (sint32 i = 0; i < igv.size (); i++) {
+	for(uint32 i = 0; i < igv.size(); i++) {
 		UInstanceGroup *inst = UInstanceGroup::createInstanceGroup (igv.asString (i));
 		if (inst == NULL) {
 			nlwarning ("Instance group '%s' not found", igv.asString (i).c_str ());

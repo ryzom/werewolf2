@@ -55,6 +55,7 @@
 #include "wwcommon/CTaskManager.h"
 
 #include "wwcommon/ITask.h"
+#include <wwcommon/CGameChatEvent.h>
 
 #include "CSimulationImpl.h"
 
@@ -161,8 +162,18 @@ void CGameTask::stop() {
 }
 
 void CGameTask::recvChat(std::string chatmsg) {
-	CEGUI::Listbox *listbox=(CEGUI::Listbox *)CEGUI::WindowManager::getSingleton().getWindow("GameTask/Chatbox/ChatList");
-	listbox->addItem(new IntroListItem(chatmsg));
+	nlinfo("retrieving chat list box.");
+	CEGUI::Listbox *listbox=static_cast<CEGUI::Listbox *>(CEGUI::WindowManager::getSingleton().getWindow("GameTask/Chatbox/ChatList"));
+	if(!listbox)
+		nlwarning("Unable to cast GameTask/Chatbox/ChatList to CEGUI::Listbox.");
+	nlinfo("inserting new listbox item.");
+	listbox->addItem(new IntroListItem(chatmsg.c_str()));
+	
+	nlinfo("added new chat item to box.");
+}
+
+void CGameTask::recvChat(WWCOMMON::CGameChatEvent *event) {
+	recvChat(event->ChatMessage);
 }
 
 }; // END NAMESPACE WWCLIENT

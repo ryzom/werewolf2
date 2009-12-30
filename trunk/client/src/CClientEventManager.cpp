@@ -45,8 +45,10 @@
 #include <wwcommon/CGameSpawnRequestEvent.h>
 #include <wwcommon/CGameUnspawnRequestEvent.h>
 #include <wwcommon/CSobStateRequestEvent.h>
+#include <wwcommon/CGameChatEvent.h>
 #include "tasks/CNetworkTask.h"
 #include "tasks/CPreGameTask.h"
+#include "tasks/CGameTask.h"
 #include "CSimulationImpl.h"
 
 //
@@ -62,6 +64,7 @@ CClientEventManager::CClientEventManager() {
 	events.push_back(EVENT_ID(CSobSpawnEvent));
 	events.push_back(EVENT_ID(CSobAddEvent));
 	events.push_back(EVENT_ID(CSobRemoveEvent));
+	events.push_back(EVENT_ID(CGameChatEvent));
 	WWCOMMON::CGameEventServer::instance().addListener(this, events, WWCOMMON::CGameEventServer::EVENT);
 }
 

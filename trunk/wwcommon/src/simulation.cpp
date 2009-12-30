@@ -25,6 +25,8 @@
 #include "wwcommon/CSobOrientEvent.h"
 #include "wwcommon/CSobMoveEvent.h"
 #include "wwcommon/CSobDREvent.h"
+#include "wwcommon/CSobChatEvent.h"
+#include "wwcommon/CGameChatEvent.h"
 
 // Objects we're registering in here (temporary.)
 #include "wwcommon/CStateManager.h"
@@ -69,6 +71,7 @@ void WWCOMMON::registerEvents() {
 
 	/// Register the event with the class registry.
 	
+	// Common sob events.
 	WWCOMMON_REGISTER_EVENT(ISobStateChangeEvent);	
 	WWCOMMON_REGISTER_EVENT(ISobEvent);	
 	WWCOMMON_REGISTER_EVENT(CSobUnspawnEvent);
@@ -76,10 +79,15 @@ void WWCOMMON::registerEvents() {
 	WWCOMMON_REGISTER_EVENT(CSobSpawnEvent);
 	WWCOMMON_REGISTER_EVENT(CSobRemoveEvent);
 	WWCOMMON_REGISTER_EVENT(CSobAddEvent);
+	WWCOMMON_REGISTER_EVENT(CSobChatEvent);
 
+	// Global game events.
 	WWCOMMON_REGISTER_EVENT(IGameEvent);
 	WWCOMMON_REGISTER_EVENT(CGameUnspawnRequestEvent);
 	WWCOMMON_REGISTER_EVENT(CGameSpawnRequestEvent);
+	WWCOMMON_REGISTER_EVENT(CGameChatEvent);
+
+	// Motion sob events.
 	WWCOMMON_REGISTER_EVENT(CSobStrafeEvent);
 	WWCOMMON_REGISTER_EVENT(CSobOrientEvent);
 	WWCOMMON_REGISTER_EVENT(CSobMoveEvent);

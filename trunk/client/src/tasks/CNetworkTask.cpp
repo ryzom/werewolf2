@@ -48,6 +48,7 @@
 
 #include "wwcommon/IGameEvent.h"
 #include "wwcommon/CCharacterData.h"
+#include "wwcommon/CGameChatEvent.h"
 #include "CSimulationImpl.h"
 
 //
@@ -237,9 +238,19 @@ void CNetworkTask::setSelfId(uint32 id) {
 // sending game messages
 void CNetworkTask::sendChat(std::string chatLine) {
 	nlinfo("Sending chat message to server: %s", chatLine.c_str());
-	NLNET::CMessage msgout("CHAT");
-	msgout.serial(chatLine);
-	m_Client->send(msgout);
+	//NLNET::CMessage msgout("CHAT");
+	//msgout.serial(chatLine);
+	//m_Client->send(msgout);
+
+	nlinfo("Creating cgamechatevent.");
+	WWCOMMON::CGameChatEvent *evt = new WWCOMMON::CGameChatEvent();
+	evt->SourceSobID = getClientSimulation()->getSelfSob()->getSobId();
+	evt->TargetSobID = 0; // Public.
+	evt->ChatChannel = 0; // Public.
+	evt->ChatMessage = chatLine;
+	
+	nlinfo("sending game chat event to game event server.");
+	WWCOMMON::CGameEventServer::instance().postEvent(evt);
 }
 
 void CNetworkTask::send(NLNET::CMessage msgout) {

@@ -9,6 +9,8 @@ SOURCE_GROUP("Events\\Sob Events" FILES		CSobAddEvent.cpp
 											../include/wwcommon/CSobAddEvent.h											
 											CSobRemoveEvent.cpp
 											../include/wwcommon/CSobRemoveEvent.h
+											CSobChatEvent.cpp
+											../include/wwcommon/CSobChatEvent.h	
 											CSobSpawnEvent.cpp
 											../include/wwcommon/CSobSpawnEvent.h
 											CSobStateRequestEvent.cpp
@@ -36,7 +38,9 @@ SOURCE_GROUP("Events\\Game Events" FILES	CGameEventServer.cpp
 											CGameUnspawnRequestEvent.cpp
 											../include/wwcommon/CGameUnspawnRequestEvent.h
 											IGameEvent.cpp
-											../include/wwcommon/IGameEvent.h)
+											../include/wwcommon/IGameEvent.h
+											CGameChatEvent.cpp
+											../include/wwcommon/CGameChatEvent.h)
 
 IF(NOT WIN32)
   ADD_LIBRARY(wwcommon SHARED ${SRC})

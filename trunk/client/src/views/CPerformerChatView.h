@@ -1,10 +1,10 @@
 /**
- * \file CGAMEEVENTMANAGER.H
- * \date June 2006
- * \author Henri Kuuste
+ * \file CPerformerChatView.h
+ * \date December 2009
+ * \author Matt Raykowski
  */
 
-/* Copyright, 2006 Werewolf
+/* Copyright, 2004 Werewolf
  *
  * This file is part of Werewolf.
  * Werewolf is free software; you can redistribute it and/or modify
@@ -23,8 +23,8 @@
  * MA 02111-1307, USA.
  */
 
-#ifndef __CGAMEEVENTMANAGER_H__
-#define __CGAMEEVENTMANAGER_H__
+#ifndef __CPERFORMERCHATVIEW_H__
+#define __CPERFORMERCHATVIEW_H__
 
 //
 // Standard Includes
@@ -33,40 +33,45 @@
 //
 // System Includes
 //
+#include <string>
 
 //
 // NeL Includes
 //
-#include <nel/misc/types_nl.h>
 
 //
 // Werewolf Includes
 //	
-#include <wwcommon/ISingleton.h>
+#include <wwcommon/IView.h>
+#include <wwcommon/CPerformer.h>
+#include "entities/CEntityMedia.h"
 #include <wwcommon/IGameEventListener.h>
-#include <wwcommon/IGameEvent.h>
-#include <wwcommon/CGameSpawnRequestEvent.h>
-#include <wwcommon/CGameUnspawnRequestEvent.h>
-#include <wwcommon/CSobUnspawnEvent.h>
-#include <wwcommon/CGameChatEvent.h>
 
 //
 // Namespaces
 //
 
-class CGameEventManager : public WWCOMMON::ISingleton<CGameEventManager>, WWCOMMON::IGameEventListener {
+namespace WWCLIENT {
+
+class CPerformerChatView : public WWCOMMON::IView, public WWCOMMON::IGameEventListener {
+private:
+	static const char* m_Name;
+	WWCOMMON::CPerformer* m_performer;
+
 public:
-	CGameEventManager();
-	~CGameEventManager();
+	CPerformerChatView(WWCOMMON::CPerformer* performer);
+	virtual ~CPerformerChatView();
+
+	void update();
+	void render();
+
+	const char* getViewName();
 
 	bool observePreGameEvent(WWCOMMON::CGameEventServer::EventPtr event);
 	bool observePostGameEvent(WWCOMMON::CGameEventServer::EventPtr event);
 	bool observeGameEvent(WWCOMMON::CGameEventServer::EventPtr event);
-
-	void spawn(WWCOMMON::CGameSpawnRequestEvent *event);
-	void postUnspawn(WWCOMMON::CGameUnspawnRequestEvent *event);
-	void unspawn(WWCOMMON::CSobUnspawnEvent *event);
-	void chat(WWCOMMON::CGameChatEvent *event);
 };
 
-#endif // __CGAMEEVENTMANAGER_H__
+}; // END NAMESPACE WWCLIENT
+
+#endif // __CPERFORMERCHATVIEW_H__

@@ -44,6 +44,8 @@
 #include <wwcommon/IGameEvent.h>
 #include <wwcommon/CGameEventServer.h>
 #include <wwcommon/CSobStateRequestEvent.h>
+#include <wwcommon/CGameChatEvent.h>
+#include <wwcommon/CSobChatEvent.h>
 #include "CProximityManager.h"
 
 //
@@ -64,6 +66,7 @@ CServerObjectView::CServerObjectView(WWCOMMON::ISimulationObj *owner) {
 	// save the owner.
 	m_OwnerSob = owner;
 	std::vector<uint32> ids;
+	ids.push_back(0); // Always add "0" or "global" to the list.
 	ids.push_back(owner->getSobId());
 	WWCOMMON::CGameEventServer::instance().addListener(this, ids, WWCOMMON::CGameEventServer::POST_EVENT);
 
@@ -170,7 +173,15 @@ bool CServerObjectView::observePostGameEvent(WWCOMMON::CGameEventServer::EventPt
 		return true;
 	} else if(event->getId() == EVENT_ID(CSobStateRequestEvent)) {
 		return true;
-	} 
+	}
+
+	if(event->getId() == EVENT_ID(CGameChatEvent)) {
+		nlinfo("sov processing game chat event.");
+	} else if(event->getId() == EVENT_ID(CSobChatEvent)) {
+		
+		WWCOMMON::CSobChatEvent *chatEvent = dynamic_cast<WWCOMMON::CSobChatEvent *>(event.getPtr());
+		nlinfo("sov processing sob chat event: %s", chatEvent->ChatMessage.c_str());
+	}
 
 	CFrontendService *fs=(CFrontendService *)NLNET::IService::getInstance();
 
