@@ -69,7 +69,7 @@ void CConfigTask::init() {
 	 * @todo In CConfigFile::init() move the search path crap to the ResourceManager
 	 */
 	CConfigFile::CVar &v = CConfigTask::instance().configFile().getVar("Path");
-	for (int i = 0; i < v.size(); i++)
+	for(uint32 i = 0; i < v.size(); i++)
 		CPath::addSearchPath (v.asString(i), true, false);
 }
 
