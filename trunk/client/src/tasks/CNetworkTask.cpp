@@ -197,6 +197,52 @@ NLNET::CCallbackClient *CNetworkTask::getClient() {
 	return m_Client;
 }
 
+std::string CNetworkTask::connectToLoginServer(std::string user, std::string pass) {
+	// Convert password to a ucstring, encrypt it and retrieve the encrypted version.
+	ucstring pwd = ucstring(pass);
+	NLMISC::CHashKeyMD5 hk = NLMISC::getMD5((uint8*)pwd.c_str(), pwd.size());
+	std::string cpwd = hk.toString();
+
+	// Get the login host and client application name from the config file.
+	std::string lshost = CConfigTask::instance().configFile().getVar("LoginHost").asString();
+	std::string clientapp = CConfigTask::instance().configFile().getVar("ClientApplication").asString();
+
+	// Use the Login Client to connect directly with the LS.
+	std::string result = NLNET::CLoginClient::authenticate(lshost, user, cpwd, clientapp);
+	
+	// Abort if there's a problem.
+	if (!result.empty()) return result;
+
+	// Otherwise populate the shard list.
+	for(uint i = 0; i < NLNET::CLoginClient::ShardList.size(); ++i)
+	{
+		nldebug("Shard '%u' '%s' '%u'", NLNET::CLoginClient::ShardList[i].Id, NLNET::CLoginClient::ShardList[i].Name.toString().c_str(), NLNET::CLoginClient::ShardList[i].NbPlayers);
+		// Populate the info.
+		CShard shard;
+		shard.ShardName = NLNET::CLoginClient::ShardList[i].Name.toString();
+		shard.ShardNbPlayers = NLNET::CLoginClient::ShardList[i].NbPlayers;
+		shard.ShardId = NLNET::CLoginClient::ShardList[i].Id;
+		m_ShardList.push_back(shard);
+	}
+
+	return "";
+}
+
+std::string CNetworkTask::connectToShard(uint shardid) {
+	std::string reason, cookie, addr;
+
+	NLNET::CLoginClient::wantToConnectToShard(shardid, addr, cookie);
+	
+	// If there was a problem stop and return that reason.
+	if(!reason.empty()) return reason;
+
+	// Otherwise set the cookie and address information.
+	setLoginCookie(cookie);
+	setShardIp(addr);
+
+	return "";
+}
+
 std::string CNetworkTask::connect() {
 	// connect to the frontend.
 	//release(); // drop the callback client.
