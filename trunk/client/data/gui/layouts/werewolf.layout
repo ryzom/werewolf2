@@ -10,28 +10,28 @@
             <Property Name="SizingEnabled" Value="False" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.375,240},{0.25,120},{0.675,432},{0.65,312}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.375,0},{0.25,0},{0.675,0},{0.65,0}}" />
             <Property Name="DragMovingEnabled" Value="False" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/PlayOff" >
                 <Property Name="Text" Value="Play Offline" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.25,48},{0.2,38.4},{0.75,144},{0.3,57.6}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.2,0},{0.75,0},{0.3,0}}" />
             </Window>
             <Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/PlayOn" >
                 <Property Name="Text" Value="Play Online" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.25,48},{0.4,76.8},{0.75,144},{0.5,96}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.4,0},{0.75,0},{0.5,0}}" />
             </Window>
             <Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/Options" >
                 <Property Name="Text" Value="Options" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.25,48},{0.6,115.2},{0.75,144},{0.7,134.4}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.6,0},{0.75,0},{0.7,0}}" />
             </Window>
             <Window Type="TaharezLook/Button" Name="IntroTask/MainMenu/Quit" >
                 <Property Name="Text" Value="Quit Game" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.25,48},{0.8,153.6},{0.75,144},{0.9,172.8}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.8,0},{0.75,0},{0.9,0}}" />
             </Window>
         </Window>
         <Window Type="TaharezLook/FrameWindow" Name="GameTask/DebugWindow" >
@@ -234,6 +234,71 @@
                 <Property Name="Text" Value="Cancel" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.021429,0},{0.861331,0},{0.403572,0},{0.977941,0}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/FrameWindow" Name="werewolf/NetworkTask/ConnectLS" >
+            <Property Name="Text" Value="Connect to Werewolf" />
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.260937,0},{0.217026,0},{0.510938,0},{0.467026,0}}" />
+            <Window Type="TaharezLook/Editbox" Name="werewolf/NetworkTask/ConnectLS/UserDL" >
+                <Property Name="MaxTextLength" Value="1073741823" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.25,0},{0.95,0},{0.4,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Editbox" Name="werewolf/NetworkTask/ConnectLS/PassDL" >
+                <Property Name="MaxTextLength" Value="1073741823" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.45,0},{0.95,0},{0.6,0}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="werewolf/NetworkTask/ConnectLS/UserTXT" >
+                <Property Name="Text" Value="Username:" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.25,0},{0.45,0},{0.4,0}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="werewolf/NetworkTask/ConnectLS/PassTXT" >
+                <Property Name="Text" Value="Password:" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.45,0},{0.45,0},{0.6,0}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="werewolf/NetworkTask/ConnectLS/StatusTXT" >
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.65,0},{0.95,0},{0.8,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="werewolf/NetworkTask/ConnectLS/ConnectBTN" >
+                <Property Name="Text" Value="Connect..." />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,0},{0.8,0},{0.95,0},{0.95,0}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/FrameWindow" Name="werewolf/NetworkTask/ShardList" >
+            <Property Name="Text" Value="Choose Shard..." />
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.190625,0},{0.156834,0},{0.764063,0},{0.634652,0}}" />
+            <Window Type="TaharezLook/MultiColumnList" Name="werewolf/NetworkTask/ShardList/ShardMCL" >
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.4,0},{0.95,0},{0.9,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="werewolf/NetworkTask/ShardList/ConnectBTN" >
+                <Property Name="Text" Value="Connect" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.75,0},{0.15,0},{0.95,0},{0.25,0}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="werewolf/NetworkTask/ShardList/StatusTXT" >
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.3,0},{0.95,0},{0.35,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="werewolf/NetworkTask/ShardList/RefreshBTN" >
+                <Property Name="Text" Value="Refresh" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.15,0},{0.25,0},{0.25,0}}" />
             </Window>
         </Window>
     </Window>
