@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <Imageset Name="TaharezLook" Imagefile="TaharezLook.tga" NativeHorzRes="800" NativeVertRes="600" AutoScaled="true" >
     <Image Name="MenuTop" XPos="171" YPos="204" Width="1" Height="2" />
@@ -36,7 +36,7 @@
     <Image Name="TooltipMiddle" XPos="72" YPos="171" Width="6" Height="6" />
     <Image Name="VertScrollTop" XPos="182" YPos="2" Width="20" Height="8" />
     <Image Name="WindowTopEdge" XPos="9" YPos="68" Width="23" Height="1" />
-    <Image Name="WindowTopLeft" XPos="2" YPos="68" Width="5" Height="24" />
+    <Image Name="WindowTopLeft" XPos="2" YPos="68" Width="6" Height="24" />
     <Image Name="CheckboxNormal" XPos="110" YPos="2" Width="12" Height="12" />
     <Image Name="ListboxTopLeft" XPos="41" YPos="78" Width="7" Height="7" />
     <Image Name="MenuBottomLeft" XPos="166" YPos="213" Width="2" Height="3" />
@@ -48,8 +48,8 @@
     <Image Name="TooltipTopEdge" XPos="72" YPos="160" Width="6" Height="4" />
     <Image Name="TooltipTopLeft" XPos="61" YPos="160" Width="4" Height="4" />
     <Image Name="VertSliderBody" XPos="234" YPos="2" Width="9" Height="48" />
-    <Image Name="WindowLeftEdge" XPos="6" YPos="95" Width="1" Height="22" />
-    <Image Name="WindowTopRight" XPos="34" YPos="68" Width="5" Height="24" />
+    <Image Name="WindowLeftEdge" XPos="2" YPos="95" Width="5" Height="22" />
+    <Image Name="WindowTopRight" XPos="33" YPos="68" Width="6" Height="24" />
     <Image Name="AltProgressHalf" XPos="109" YPos="89" Width="4" Height="5" />
     <Image Name="AltProgressLeft" XPos="71" YPos="88" Width="8" Height="12" />
     <Image Name="ComboboxListTop" XPos="148" YPos="48" Width="8" Height="8" />
@@ -70,7 +70,7 @@
     <Image Name="SpinnerUpNormal" XPos="68" YPos="110" Width="10" Height="6" />
     <Image Name="TooltipLeftEdge" XPos="61" YPos="171" Width="4" Height="6" />
     <Image Name="TooltipTopRight" XPos="85" YPos="160" Width="5" Height="4" />
-    <Image Name="WindowRightEdge" XPos="34" YPos="95" Width="1" Height="22" />
+    <Image Name="WindowRightEdge" XPos="34" YPos="95" Width="5" Height="22" />
     <Image Name="AltProgressRight" XPos="91" YPos="88" Width="8" Height="12" />
     <Image Name="ButtonLeftNormal" XPos="68" YPos="20" Width="12" Height="16" />
     <Image Name="ButtonLeftPushed" XPos="68" YPos="38" Width="12" Height="16" />
