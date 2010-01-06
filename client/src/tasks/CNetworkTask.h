@@ -67,8 +67,8 @@ public:
 	virtual void release();
 	virtual void stop();
 	virtual std::string name() { return "CNetworkTask"; }
-//	std::string connectToLoginServer(std::string user, std::string pass);
-//	std::string connectToShard(uint shardid);
+	std::string connectToLoginServer(std::string user, std::string pass);
+	std::string connectToShard(uint shardid);
 	std::string connect();
 	void setSelfId(uint32 id);
 
@@ -89,18 +89,19 @@ public:
 	/**
 	 * \brief Shard information.
 	 */
-//	struct CShard {
-//		CShard() { ShardNbPlayers = 0; }
-//		CShard(const std::string &name, uint8 nbp, uint32 sid) {
-//			ShardName=name;
-//			ShardNbPlayers=nbp;
-//			ShardId=sid;
-//		}
-//		std::string ShardName;
-//		uint8		ShardNbPlayers;
-//		uint32		ShardId;
-//	};
-//	std::vector<CShard> getShardList() { return m_ShardList; }
+	struct CShard {
+		CShard() { ShardNbPlayers = 0; }
+		CShard(const std::string &name, uint8 nbp, uint32 sid) {
+			ShardName=name;
+			ShardNbPlayers=nbp;
+			ShardId=sid;
+		}
+		std::string ShardName;
+		uint8		ShardNbPlayers;
+		uint32		ShardId;
+	};
+	typedef std::vector<CShard> TShardList;
+	TShardList getShardList() { return m_ShardList; }
 
 //	void cbVLP(NLNET::CMessage msgin);
 //	void cbSCS(NLNET::CMessage msgin);
@@ -132,7 +133,7 @@ private:
 	/**
 	 * \brief Contains a list of all shards available.
 	 */
-//	std::vector<CShard>		m_ShardList;
+	TShardList		m_ShardList;
 };
 
 }; // END NAMESPACE WWCLIENT
