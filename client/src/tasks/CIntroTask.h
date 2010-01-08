@@ -85,15 +85,29 @@ public:
 	 */
 	void initWindows();
 
+	// Main Menu event handlers.
 	void handlePlayOffline();
 	void handlePlayOnline();
+	void handleMainMenuOptions();
+	
+	// Network LS Connection event handlers.
 	void handleConnect();
-	void handleConnectShard();
 	void handleUserAccept();
+
+	// Shard Connection event handlers.
+	void handleConnectShard();
+	
+	// Options Menu event handlers
+	void handleOptionsCancel();
+	void handleOptionsSave();
+	
 
 	virtual std::string name() { return "CIntroTask"; }
 private:
 	uint32 ServerId;
+
+	bool m_InitializedOptionsDlg;
+	void initializeOptionsDlg();
 };
 
 }; // END NAMESPACE WWCLIENT

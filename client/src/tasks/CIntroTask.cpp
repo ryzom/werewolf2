@@ -90,6 +90,21 @@ bool handleConnectShardBtn(const CEGUI::EventArgs& e) {
 	return true;
 }
 
+bool handleMainMenuOptionsBtn(const CEGUI::EventArgs &e) {
+	CIntroTask::instance().handleMainMenuOptions();
+	return true;
+}
+
+bool handleOptionsCancelBtn(const CEGUI::EventArgs &e) {
+	CIntroTask::instance().handleOptionsCancel();
+	return true;
+}
+
+bool handleOptionsSaveBtn(const CEGUI::EventArgs &e) {
+	CIntroTask::instance().handleOptionsSave();
+	return true;
+}
+
 // intro task
 void CIntroTask::reset() {
 	;
@@ -99,6 +114,7 @@ void CIntroTask::init() {
 	WWCOMMON::CTaskManager::instance().add(CBackgroundTask::instance(), 59);
 	// not using autologin, at least not right now
 	//m_AutoLogin = CConfigTask::instance().configFile().getVar("AutoLogin").asInt();
+	m_InitializedOptionsDlg = false;
 
 	initWindows();
 	reset();
@@ -128,6 +144,10 @@ void CIntroTask::initWindows() {
 		subscribeEvent(CEGUI::PushButton::EventClicked, handlePlayOnlineBtn);
 	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/PlayOff")->
 		subscribeEvent(CEGUI::PushButton::EventClicked, handlePlayOfflineBtn);
+	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu/Options")->
+		subscribeEvent(CEGUI::PushButton::EventClicked, handleMainMenuOptionsBtn);
+
+	
 
 	// Set up LS Connection event subscriptions
 	CEGUI::WindowManager::getSingleton().getWindow("werewolf/NetworkTask/ConnectLS/ConnectBTN")->
@@ -136,6 +156,12 @@ void CIntroTask::initWindows() {
 		subscribeEvent(CEGUI::Editbox::EventTextAccepted, handleUserAcceptBtn);
 	CEGUI::WindowManager::getSingleton().getWindow("werewolf/NetworkTask/ShardList/ConnectBTN")->
 		subscribeEvent(CEGUI::PushButton::EventClicked, handleConnectShardBtn);
+
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/CancelBtn")->
+		subscribeEvent(CEGUI::PushButton::EventClicked, handleOptionsCancelBtn);
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/OptionsSaveBtn")->
+		subscribeEvent(CEGUI::PushButton::EventClicked, handleOptionsSaveBtn);
+
 }
 
 void CIntroTask::error(string &reason) {
@@ -208,35 +234,24 @@ void CIntroTask::handleConnect() {
 		return;
 	}
 
-	nlinfo("assume we're here because we conected fine and have a shard list.");
 	// If there was no problem we'll populate the shard list and let the user choose a shard.
 	CEGUI::WindowManager::getSingleton().getWindow("werewolf/NetworkTask/ConnectLS")->hide();
 
-	nlinfo("get the MCL.");
 	CEGUI::MultiColumnList *mcl=dynamic_cast<CEGUI::MultiColumnList *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/NetworkTask/ShardList/ShardMCL"));
-	nlinfo("get the shard iterator.");
 	CNetworkTask::TShardList shards = CNetworkTask::instance().getShardList();
 	CNetworkTask::TShardList::iterator shardItr = shards.begin();
 	uint32 i=0;
-	nlinfo("start iterating shards.");
 	while(shardItr != shards.end()) {
-		nlinfo("iterating shard: %s", (*shardItr).ShardName.c_str());
 		mcl->addRow();
-		nlinfo("setting items: id.");
 		mcl->setItem(new IntroListItem(NLMISC::toString((*shardItr).ShardId)), 0, i);
-		nlinfo("setting items: name.");
 		mcl->setItem(new IntroListItem(NLMISC::toString((*shardItr).ShardName)), 1, i);
-		nlinfo("setting items: nb plrs.");
 		mcl->setItem(new IntroListItem(NLMISC::toString((*shardItr).ShardNbPlayers)), 2, i);
-		nlinfo("increase iterations.");
 		i++;
 		shardItr++;
 	}
-	nlinfo("set mcl selection modes.");
+
 	mcl->setSelectionMode(CEGUI::MultiColumnList::RowMultiple);
 	mcl->setSelectionMode(CEGUI::MultiColumnList::RowSingle);
-
-	nlinfo("show shard list window.");
 	CEGUI::WindowManager::getSingleton().getWindow("werewolf/NetworkTask/ShardList")->show();
 }
 
@@ -275,5 +290,165 @@ void CIntroTask::handleUserAccept() {
 	CEGUI::WindowManager::getSingleton().getWindow("werewolf/NetworkTask/ConnectLS/PassDL")->activate();
 }
 
+
+void CIntroTask::handleMainMenuOptions() {
+	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->hide();
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg")->show();
+
+	if(!m_InitializedOptionsDlg)
+		initializeOptionsDlg();
+
+	// Set the configured resolution as the default item
+	uint32 currentWidth = CConfigTask::instance().configFile().getVar("ScreenWidth").asInt();
+	uint32 currentHeight = CConfigTask::instance().configFile().getVar("ScreenHeight").asInt();
+	uint32 currentDepth = CConfigTask::instance().configFile().getVar("ScreenDepth").asInt();
+
+	std::string currentModeText = NLMISC::toString(currentWidth) + "x" + NLMISC::toString(currentHeight) + "x" + NLMISC::toString(currentDepth);
+	CEGUI::Combobox *resCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/ResCombo"));
+	resCombo->setText(currentModeText.c_str());
+
+	// Set the AA default value.
+	sint8 curAA = CConfigTask::instance().configFile().getVar("AntiAlias").asInt();
+	CEGUI::Combobox *aaCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/AACombo"));
+	if(curAA == -1) aaCombo->setText((CEGUI::utf8*)"None");
+	if(curAA ==  0) aaCombo->setText((CEGUI::utf8*)"Max");
+	if(curAA ==  2) aaCombo->setText((CEGUI::utf8*)"2x Sample");
+	if(curAA ==  4) aaCombo->setText((CEGUI::utf8*)"4x Sample");
+
+	// Set the fullscreen checkbox.
+	CEGUI::Checkbox *fsCheck = dynamic_cast<CEGUI::Checkbox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/FullscreenChk"));
+	bool fullscreen = CConfigTask::instance().configFile().getVar("Fullscreen").asBool();
+	fsCheck->setSelected(fullscreen);
+
+	// Set the default driver selection.
+	CEGUI::Combobox *drvCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/DriverCombo"));
+	if(CConfigTask::instance().configFile().getVar("OpenGL").asBool())
+		drvCombo->setText("OpenGL");
+	else
+		drvCombo->setText("Direct3D");
+
+	// Set the fullscreen checkbox.
+	CEGUI::Checkbox *soundCheck = dynamic_cast<CEGUI::Checkbox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/SoundTab/EnableSoundBox"));
+	bool soundOn = CConfigTask::instance().configFile().getVar("EnableSound").asBool();
+	soundCheck->setSelected(soundOn);
+
+	CEGUI::Combobox *sndDrvCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/SoundTab/SoundDriverCombo"));
+	std::string cfgSoundDriver = CConfigTask::instance().configFile().getVar("SoundDriver").asString();
+	if(	cfgSoundDriver == "OpenAL" ||
+		cfgSoundDriver == "DirectSound" ||
+		cfgSoundDriver == "XAudio2" ||
+		cfgSoundDriver == "FMOD") {
+		sndDrvCombo->setText(cfgSoundDriver.c_str());
+	} else {
+		nlwarning("Invalid sound driver configuration name in configuration file! '%s'", cfgSoundDriver.c_str());
+	}
+}
+
+void CIntroTask::initializeOptionsDlg() {
+	// Get the combo box with the video modes.
+	CEGUI::Combobox *resCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/ResCombo"));
+
+	// Populate available graphics modes.
+	std::vector<NL3D::UDriver::CMode> modesAvailable;
+	NL3D::UDriver::CMode currentMode;
+	
+	C3DTask::instance().driver().getCurrentScreenMode(currentMode);
+	C3DTask::instance().driver().getModes(modesAvailable);
+
+	// First inject all available modes.
+	std::vector<NL3D::UDriver::CMode>::iterator modeIterator = modesAvailable.begin();
+	while(modeIterator != modesAvailable.end()) {
+		NL3D::UDriver::CMode mode = (*modeIterator);
+		std::string modeText = NLMISC::toString(mode.Width) + "x" + NLMISC::toString(mode.Height) + "x" + NLMISC::toString(mode.Depth);
+		CEGUI::ListboxTextItem *item = new CEGUI::ListboxTextItem(modeText.c_str(), 0, &mode);
+		resCombo->addItem(item);
+		modeIterator++;
+	}
+	resCombo->setReadOnly(true);
+	
+
+	// Insert values into the AACombo box.
+	CEGUI::Combobox *aaCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/AACombo"));
+	aaCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"None"));
+	aaCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"2x Sample"));
+	aaCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"4x Sample"));
+	aaCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"Max"));
+	aaCombo->setReadOnly(true);
+
+	// Populate the driver dropdown.
+	CEGUI::Combobox *drvCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/DriverCombo"));
+	drvCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"OpenGL"));
+	drvCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"Direct3D"));
+	drvCombo->setReadOnly(true);
+
+	// Set up the sound drivers.
+	CEGUI::Combobox *sndDrvCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/SoundTab/SoundDriverCombo"));
+	sndDrvCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"OpenAL"));
+#ifdef NL_OS_WINDOWS
+	sndDrvCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"DirectSound"));
+	sndDrvCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"XAudio2"));
+#endif // NL_OS_WINDOWS
+	sndDrvCombo->addItem(new CEGUI::ListboxTextItem((CEGUI::utf8*)"FMOD"));
+	sndDrvCombo->setReadOnly(true);
+
+	m_InitializedOptionsDlg=true;
+}
+
+void CIntroTask::handleOptionsSave() {
+	CEGUI::Combobox *drvCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/DriverCombo"));
+	CEGUI::ListboxItem *item = drvCombo->getSelectedItem();
+	if(item) { // Only process this if we made a selection.
+		std::string driverName = drvCombo->getSelectedItem()->getText().c_str();
+		uint8 drv = 0;
+		if(drvCombo->getSelectedItem()->getText() == "OpenGL") {
+			drv = 1;
+		} else if(drvCombo->getSelectedItem()->getText() == "Direct3D") {
+			drv = 0;
+		} else {
+			nlwarning("Invalid driver selection made in options dialog: %s", drvCombo->getSelectedItem()->getText().c_str());
+		}
+		CConfigTask::instance().configFile().getVar("OpenGL").setAsInt(drv);
+	}
+
+	CEGUI::Combobox *aaCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/AACombo"));
+	sint8 curAA = -1;
+	if(aaCombo->getText()=="None") curAA = -1;
+	if(aaCombo->getText()=="Max") curAA =  0;
+	if(aaCombo->getText()=="2x Sample") curAA =  2;
+	if(aaCombo->getText()=="4x Sample") curAA =  4;
+	CConfigTask::instance().configFile().getVar("AntiAlias").setAsInt(curAA);
+
+	CEGUI::Checkbox *fsCheck = dynamic_cast<CEGUI::Checkbox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/VidTab/FullscreenChk"));
+	bool fullscreen = fsCheck->isSelected();
+	CConfigTask::instance().configFile().getVar("Fullscreen").setAsInt((int)fullscreen);
+
+	CEGUI::Checkbox *soundCheck = dynamic_cast<CEGUI::Checkbox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/SoundTab/EnableSoundBox"));
+	bool soundOn = soundCheck->isSelected();
+	CConfigTask::instance().configFile().getVar("EnableSound").setAsInt((int)soundOn);	
+
+	CEGUI::Combobox *sndDrvCombo = dynamic_cast<CEGUI::Combobox *>(CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg/SoundTab/SoundDriverCombo"));
+	item = sndDrvCombo->getSelectedItem();
+	if(item) {
+		std::string soundDriverName = sndDrvCombo->getSelectedItem()->getText().c_str();
+		if(	soundDriverName == "OpenAL" ||
+			soundDriverName == "DirectSound" ||
+			soundDriverName == "XAudio2" ||
+			soundDriverName == "FMOD") {
+				CConfigTask::instance().configFile().getVar("SoundDriver").setAsString(soundDriverName);
+		} else {
+			nlwarning("Invalid sound driver type '%s' chosen!", soundDriverName.c_str());
+		}
+	}
+
+	nlinfo("Saving configuration file changes!");
+	CConfigTask::instance().configFile().save();
+	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->show();
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg")->hide();
+}
+
+void CIntroTask::handleOptionsCancel() {
+	CEGUI::WindowManager::getSingleton().getWindow("IntroTask/MainMenu")->show();
+	CEGUI::WindowManager::getSingleton().getWindow("werewolf/OptionsDlg")->hide();
+}
 
 }; // END NAMESPACE WWCLIENT
