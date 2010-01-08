@@ -105,7 +105,8 @@ void C3DTask::init() {
 	if (!m_Driver->setDisplay (UDriver::CMode(m_ScreenWidth, m_ScreenHeight,
 			CConfigTask::instance().configFile().getVar("ScreenDepth").asInt(),
 			CConfigTask::instance().configFile().getVar("Fullscreen").asInt()==0,
-			CConfigTask::instance().configFile().getVar("ScreenFrequency").asInt()))) {
+			CConfigTask::instance().configFile().getVar("ScreenFrequency").asInt(),
+			CConfigTask::instance().configFile().getVar("AntiAlias").asInt()))) {
 		nlwarning ("Can't set display mode %d %d %d %d %d", m_ScreenWidth, m_ScreenHeight,
 			CConfigTask::instance().configFile().getVar("ScreenDepth").asInt(),
 			CConfigTask::instance().configFile().getVar("Fullscreen").asInt(),
