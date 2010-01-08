@@ -56,14 +56,11 @@ namespace WWCLIENT {
 const char* CPerformerChatView::m_Name = "CHAT";
 
 CPerformerChatView::CPerformerChatView(WWCOMMON::CPerformer* performer) : m_performer(performer) {
-	std::vector<uint32> sobs;
-	sobs.push_back(0); // always catch globals.
-	sobs.push_back(performer->getSobId());
-
+	// Add the sob chat event in, we need all of them.
 	std::vector<uint16> events;
 	events.push_back(WWCOMMON::CSobChatEvent::CSobChatEventID);
 
-	WWCOMMON::CGameEventServer::instance().addListener(this, events, sobs, WWCOMMON::CGameEventServer::POST_EVENT);
+	WWCOMMON::CGameEventServer::instance().addListener(this, events, WWCOMMON::CGameEventServer::POST_EVENT);
 }
 
 CPerformerChatView::~CPerformerChatView() {
@@ -94,6 +91,13 @@ bool CPerformerChatView::observePostGameEvent(WWCOMMON::CGameEventServer::EventP
 		nlinfo("received sob chat event!!!");
 		WWCOMMON::CSobChatEvent *chatEvent = dynamic_cast<WWCOMMON::CSobChatEvent *>(event.getPtr());
 		nlinfo("chatting: %d to %d : %s", chatEvent->SourceID, chatEvent->TargetID, chatEvent->ChatMessage.c_str());
+
+		// Only process events originated from me.
+		if(chatEvent->SourceID == m_performer->getSobId()) {
+			// Wow. I didn't communicate any character specific information to the client?
+		}
+
+		// or a specific person
 	}
 	return true;
 }
