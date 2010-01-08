@@ -229,10 +229,11 @@ void cbCHCR(NLNET::CMessage &msgin, NLNET::TSockId from, NLNET::CCallbackNetBase
 	NLNET::CMessage msgout("CH_CR_ACK");
 
 	CUser *user = CUserManager::instance().getUserById(uid);
-	if(user->CharactersAllowed >= CCharacterManager::instance().getPlayerCharacterCount(uid)) {
-		nlwarning("Player (%d) at or past maximum allowed characters (%d).",
-			uid, CCharacterManager::instance().getPlayerCharacterCount(uid) );
-		reason = "You may only have " + NLMISC::toString(user->CharactersAllowed) + " characters.";
+	uint32 allowed = user->CharactersAllowed;
+	uint32 inuse = CCharacterManager::instance().getPlayerCharacterCount(uid);
+	if(inuse >= allowed) {
+		nlwarning("Player (%d) at or past maximum allowed characters (%d/%d).", uid, inuse, allowed );
+		reason = "You may only have " + NLMISC::toString(allowed) + " characters.";
 		msgout.serial(reason);
 
 	} else {
