@@ -75,9 +75,9 @@
 					return $db_home;
 				}
 			}
-			$node_file = 'cms/nodes/' . $path . '.php';
+			$node_file = 'ww_cms/nodes/' . $path . '.php';
 			$real = realpath(dirname(__FILE__));
-			if (file_exists($real . '/' . $node_file) && realpath(substr(realpath($real . '/' . $node_file),0,strlen($real . '/nodes/'))) == realpath($real . '/nodes/')) {
+			if (file_exists($real . '/' . $node_file) && realpath(substr(realpath($real . '/' . $node_file),0,strlen($real . '/ww_cms/nodes/'))) == realpath($real . '/ww_cms/nodes/')) {
 				return $this->node_load_file($real . '/' . $node_file);
 			} else {
 				return $this->node_load_database($path);
