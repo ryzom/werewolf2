@@ -199,9 +199,11 @@ NLNET::CCallbackClient *CNetworkTask::getClient() {
 
 std::string CNetworkTask::connectToLoginServer(std::string user, std::string pass) {
 	// Convert password to a ucstring, encrypt it and retrieve the encrypted version.
-	ucstring pwd = ucstring(pass);
-	NLMISC::CHashKeyMD5 hk = NLMISC::getMD5((uint8*)pwd.c_str(), pwd.size());
+	//ucstring pwd = ucstring(pass);
+	NLMISC::CHashKeyMD5 hk = NLMISC::getMD5((uint8*)pass.c_str(), pass.size());
 	std::string cpwd = hk.toString();
+
+	nlinfo("Password hashed to MD5: '%s' %s", pass.c_str(), cpwd.c_str());
 
 	// Get the login host and client application name from the config file.
 	std::string lshost = CConfigTask::instance().configFile().getVar("LoginHost").asString();
