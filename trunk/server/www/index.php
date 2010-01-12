@@ -20,9 +20,9 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<title>Werewolf</title>
-		<link rel="icon" href="style/favicon.ico" type="image/x-icon">
-		<link rel="shortcut icon" href="style/favicon.ico" type="image/x-icon">
-		<link rel="stylesheet" type="text/css" href="/werewolf/style/style.css">
+		<link rel="icon" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/style/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/style/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/style/style.css">
 	</head>
 	<body>
 		<div id="center">
