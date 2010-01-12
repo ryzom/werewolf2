@@ -1,4 +1,7 @@
 <?php
+	$phpself = basename(__FILE__);
+	$_SERVER['PHP_SELF'] = substr($_SERVER['PHP_SELF'],0,strpos($_SERVER['PHP_SELF'],$phpself)) . $phpself;
+
 	require_once('includes/topaz/topaz.php');
 
 	$topaz = new Topaz;
@@ -17,12 +20,14 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<title>Werewolf</title>
+		<link rel="icon" href="style/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="style/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="/werewolf/style/style.css">
 	</head>
 	<body>
 		<div id="center">
 			<div id="header">
-				<h1><a href="/werewolf/"><img src="/werewolf/style/logo.png"></a></h1>
+				<h1><a href="<?php echo dirname($_SERVER['PHP_SELF']) . '/'; ?>"><img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/style/logo.png"></a></h1>
 			</div>
 			<div id="menu">
 				<h2>Menu</h2>
