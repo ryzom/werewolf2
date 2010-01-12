@@ -46,6 +46,7 @@
 #include <wwcommon/CSobChatEvent.h>
 #include "CSimulationImpl.h"
 #include "entities/CAnimationController.h"
+#include "tasks/CGameTask.h"
 
 //
 // Namespaces
@@ -95,6 +96,14 @@ bool CPerformerChatView::observePostGameEvent(WWCOMMON::CGameEventServer::EventP
 		// Only process events originated from me.
 		if(chatEvent->SourceID == m_performer->getSobId()) {
 			// Wow. I didn't communicate any character specific information to the client?
+			// TODO fix this, add property information to SOBs
+			std::stringstream strstr;
+			strstr << "You said, \"" << chatEvent->ChatMessage << "\"";
+			CGameTask::instance().recvChat(strstr.str());
+		} else {
+			std::stringstream strstr;
+			strstr << "They (" << chatEvent->SourceID << ") said, \"" << chatEvent->ChatMessage << "\"";
+			CGameTask::instance().recvChat(strstr.str());
 		}
 
 		// or a specific person
