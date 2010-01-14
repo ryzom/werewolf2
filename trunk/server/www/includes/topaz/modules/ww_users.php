@@ -100,5 +100,13 @@
 			$result = $this->parent->mysql->query("SELECT Privilege,ExtendedPrivilege FROM user WHERE Login='" . $this->parent->mysql->escape(utf8_encode($username)) . "'");
 			return $this->parent->mysql->fetch_object($result);
 		}
+
+		function user_password($username,$password) {
+			$result = $this->parent->mysql->query("UPDATE user SET Password='" . md5($password) . "' WHERE Login='" . $this->parent->mysql->escape(utf8_encode($username)) . "'");
+			if ($result === false) {
+				return false;
+			}
+			return true;
+		}
 	}
 ?>
