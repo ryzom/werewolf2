@@ -43,7 +43,7 @@ hr {
 	background: #000000;
 }
 #menu {
-	width: 120px;
+	width: 100px;
 	padding: 5px;
 	position: absolute;
 }
@@ -64,4 +64,8 @@ hr {
 #content {
 	width: 618px;
 	margin-left: 120px;
+}
+
+.odd {
+	background: #222222;
 }
