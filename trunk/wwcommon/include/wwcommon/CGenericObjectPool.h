@@ -152,7 +152,7 @@ void CGenericObjectPool<T>::initialize(uint32 initialSize, uint32 minSize,
 	m_GrowthStep=growthStep;
 	m_AllocationType=allocType;
 
-	m_AllObjects = new CGenericObjectPool<T>::Holder*[initialSize];
+	m_AllObjects = new typename CGenericObjectPool<T>::Holder*[initialSize];
 	m_CurrentSize = initialSize;
 	if(m_AllocationType == CGenericObjectPool<T>::ALLOC_LAZY) {
 		// initialize to NULL
@@ -220,7 +220,7 @@ void CGenericObjectPool<T>::growObjectQueue() {
 	uint32 newObjSize = m_CurrentSize + growthNum;
 	nlinfo("Growing pool by %d. New size %d.", growthNum, newObjSize);
 	ObjectList newObjList;
-	newObjList = new CGenericObjectPool<T>::Holder*[newObjSize];
+	newObjList = new typename CGenericObjectPool<T>::Holder*[newObjSize];
 
 	// Copy over existing pointers. 
 	memcpy(newObjList,m_AllObjects,sizeof(CGenericObjectPool<T>::Holder*)*m_CurrentSize);
@@ -230,7 +230,7 @@ void CGenericObjectPool<T>::growObjectQueue() {
 	
 	if(m_AllocationType == CGenericObjectPool<T>::ALLOC_LAZY) {
 		// Fill new part with NULL
-		memset(&m_AllObjects[m_CurrentSize], 0, sizeof(CGenericObjectPool<T>::Holder*)*growthNum);
+		memset(&m_AllObjects[m_CurrentSize], 0, sizeof(typename CGenericObjectPool<T>::Holder*)*growthNum);
 		// TODO henri:everyone is there a better way to add these to the free list?
 		for(uint32 i=m_CurrentSize ; i<newObjSize ; ++i) {
 			m_ObjectPool.push_back(i);
@@ -247,7 +247,7 @@ void CGenericObjectPool<T>::growObjectQueue() {
 
 template<class T>
 typename CGenericObjectPool<T>::Holder* CGenericObjectPool<T>::createObject(uint32 idx) {
-	CGenericObjectPool<T>::Holder *oh = new CGenericObjectPool<T>::Holder();
+	typename CGenericObjectPool<T>::Holder *oh = new CGenericObjectPool<T>::Holder();
 	oh->setObj(new T());
 	oh->setIdx(idx);
 	return oh;
