@@ -95,11 +95,11 @@ CRangeGrid2D<T>::CRangeGrid2D(float sideLength, uint numSideCells)
 	: m_SideLength(sideLength), m_NumSideCells(numSideCells), m_CellWidth(sideLength/numSideCells) {
 	// TODO henri:evertone calculate the initial size of the pool based on max players and stuff.
 	m_CellPool.initialize(50, 0, CRangeGrid2D<T>::CellPool::GROWTH_PERCENT, 25, CRangeGrid2D<T>::CellPool::ALLOC_LAZY);
-	m_Grid = new CRangeGrid2D<T>::DataListHolderPtr*[m_NumSideCells];
+	m_Grid = new typename CRangeGrid2D<T>::DataListHolderPtr*[m_NumSideCells];
 	for (uint i = 0; i < m_NumSideCells; ++i) {
 	        m_Grid[i] = new CRangeGrid2D<T>::DataListHolderPtr[m_NumSideCells];
 			// fill with NULL
-			memset(&m_Grid[i][0], 0, m_NumSideCells*sizeof(CRangeGrid2D<T>::DataListHolderPtr));
+			memset(&m_Grid[i][0], 0, m_NumSideCells*sizeof(typename CRangeGrid2D<T>::DataListHolderPtr));
 	}
 }
 
@@ -241,7 +241,7 @@ typename CRangeGrid2D<T>::List CRangeGrid2D<T>::getRange(Position pos, float rad
 
 template <class T>
 void CRangeGrid2D<T>::insert(T data, Position pos) {
-	CRangeGrid2D<T>::DataListHolderPtr cell = m_Grid[pos.x][pos.y];
+	typename CRangeGrid2D<T>::DataListHolderPtr cell = m_Grid[pos.x][pos.y];
 	if(cell == NULL) {
 		cell = &m_CellPool.checkout();
 		m_Grid[pos.x][pos.y] = cell;
@@ -252,7 +252,7 @@ void CRangeGrid2D<T>::insert(T data, Position pos) {
 
 template <class T>
 void CRangeGrid2D<T>::remove(T data, Position pos) {
-	CRangeGrid2D<T>::DataListHolderPtr cell = m_Grid[pos.x][pos.y];
+	typename CRangeGrid2D<T>::DataListHolderPtr cell = m_Grid[pos.x][pos.y];
 	if(cell == NULL)
 		return;
 	typename CRangeGrid2D<T>::DataList::iterator iter = (*cell)->begin();
