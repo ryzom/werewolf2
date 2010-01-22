@@ -130,46 +130,53 @@
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.310859,0},{0.0991392,0},{0.724729,0},{0.812554,0}}" />
-            <Window Type="TaharezLook/TabControl" Name="werewolf/OptionsDlg/" >
+            <Window Type="TaharezLook/TabControl" Name="werewolf/OptionsDlg/TabContainer" >
                 <Property Name="TabHeight" Value="{0,29.0292}" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="TabPanePosition" Value="Top" />
                 <Property Name="UnifiedAreaRect" Value="{{0.0279235,0},{0.0870593,0},{0.964992,0},{0.909328,0}}" />
                 <Window Type="DefaultWindow" Name="werewolf/OptionsDlg/VidTab" >
                     <Property Name="Text" Value="Video" />
+                    <Property Name="Visible" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                     <Property Name="UnifiedAreaRect" Value="{{0.0025454,0},{-0.00244575,0},{1.00255,0},{0.997554,0}}" />
                     <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/VidTab/ResLabel" >
                         <Property Name="Text" Value="Screen Resolution" />
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.0276427,0},{0.0383058,0},{0.585636,0},{0.104874,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.173079,0},{0.5,0},{0.273079,0}}" />
                     </Window>
                     <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/VidTab/AALabel" >
                         <Property Name="Text" Value="Anti-Aliasing" />
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.0276425,0},{0.136135,0},{0.585636,0},{0.202704,0}}" />
-                    </Window>
-                    <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/VidTab/ShadowLabel" >
-                        <Property Name="Text" Value="Shadows" />
-                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.0385539,0},{0.231244,0},{0.591456,0},{0.297813,0}}" />
-                    </Window>
-                    <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/VidTab/ShadersLabel" >
-                        <Property Name="Text" Value="Shaders" />
-                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.0392836,0},{0.321461,0},{0.594732,0},{0.388029,0}}" />
-                    </Window>
-                    <Window Type="TaharezLook/Checkbox" Name="werewolf/OptionsDlg/VidTab/AACheckBox" >
-                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.627627,0},{0.138856,0},{0.877627,0},{0.202979,0}}" />
-                    </Window>
-                    <Window Type="TaharezLook/Checkbox" Name="werewolf/OptionsDlg/VidTab/ShadowsCheckBox" >
-                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.633447,0},{0.231519,0},{0.883447,0},{0.295642,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.293079,0},{0.5,0},{0.393079,0}}" />
                     </Window>
                     <Window Type="TaharezLook/Combobox" Name="werewolf/OptionsDlg/VidTab/ResCombo" >
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.629086,0},{0.0355838,0},{0.879086,0},{0.107044,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.55,0},{0.173079,0},{0.95,0},{0.752945,0}}" />
+                        <Property Name="MaxEditTextLength" Value="1073741823" />
+                    </Window>
+                    <Window Type="TaharezLook/Combobox" Name="werewolf/OptionsDlg/VidTab/AACombo" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.55,0},{0.293079,0},{0.95,0},{0.688202,0}}" />
+                        <Property Name="MaxEditTextLength" Value="1073741823" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/VidTab/FullscreenTXT" >
+                        <Property Name="Text" Value="Fullscreen" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.413079,0},{0.5,0},{0.513079,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Checkbox" Name="werewolf/OptionsDlg/VidTab/FullscreenChk" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.55,0},{0.413079,0},{0.95,0},{0.513079,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/VidTab/DriverTXT" >
+                        <Property Name="Text" Value="Driver" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.05,0},{0.5,0},{0.15,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Combobox" Name="werewolf/OptionsDlg/VidTab/DriverCombo" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.55,0},{0.05,0},{0.95,0},{0.339314,0}}" />
                         <Property Name="MaxEditTextLength" Value="1073741823" />
                     </Window>
                 </Window>
@@ -181,9 +188,27 @@
                 </Window>
                 <Window Type="DefaultWindow" Name="werewolf/OptionsDlg/SoundTab" >
                     <Property Name="Text" Value="Sound" />
-                    <Property Name="Visible" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.00201444,0},{0,0},{1.00201,0},{1,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/SoundTab/EnableSoundTXT" >
+                        <Property Name="Text" Value="Enable Sound" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.05,0},{0.5,0},{0.15,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="werewolf/OptionsDlg/SoundTab/SoundDriverTXT" >
+                        <Property Name="Text" Value="Sound Driver" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.2,0},{0.5,0},{0.3,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Checkbox" Name="werewolf/OptionsDlg/SoundTab/EnableSoundBox" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.55,0},{0.05,0},{0.95,0},{0.15,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Combobox" Name="werewolf/OptionsDlg/SoundTab/SoundDriverCombo" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.55,0},{0.2,0},{0.95,0},{0.75,0}}" />
+                        <Property Name="MaxEditTextLength" Value="1073741823" />
+                    </Window>
                 </Window>
                 <Window Type="DefaultWindow" Name="werewolf/OptionsDlg/MiscTab" >
                     <Property Name="Text" Value="Misc" />
@@ -192,10 +217,15 @@
                     <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
                 </Window>
             </Window>
-            <Window Type="TaharezLook/Button" Name="werewolf/OptionsDlg/OptionsSave" >
+            <Window Type="TaharezLook/Button" Name="werewolf/OptionsDlg/OptionsSaveBtn" >
                 <Property Name="Text" Value="Save" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.717054,0},{0.928356,0},{0.967054,0},{0.981272,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.717054,0},{0.93,0},{0.967054,0},{0.98,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="werewolf/OptionsDlg/CancelBtn" >
+                <Property Name="Text" Value="Cancel" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.064088,0},{0.93,0},{0.314085,0},{0.98,0}}" />
             </Window>
         </Window>
         <Window Type="TaharezLook/FrameWindow" Name="werewolf/PreGameTask/CreateChar" >
