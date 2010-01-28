@@ -39,4 +39,4 @@ ENDIF(WIN32)
 ADD_DEFINITIONS(${LIBXML2_DEFINITIONS})
 
 INSTALL(TARGETS ww_frontend RUNTIME DESTINATION sbin COMPONENT services)
-INSTALL(FILES service_frontend.cfg DESTINATION share/werewolf/ COMPONENT services)
+INSTALL(FILES service_frontend.cfg DESTINATION etc/werewolf/ COMPONENT services)
