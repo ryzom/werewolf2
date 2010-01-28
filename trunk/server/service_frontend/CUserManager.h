@@ -72,17 +72,17 @@ struct CUser {
 
 	/// Data-filling constructor, default UserState to UserStateOffline
 	CUser(uint32 uid, uint32 plrallowed) : UserID(uid), 
-		CharactersAllowed(plrallowed), 
 		UserState(UserStateOffline), 
-		SobID(0), 
-		CharacterID(0) {  };
+		CharactersAllowed(plrallowed), 
+		CharacterID(0),
+		SobID(0) { };
 
 	/// Data-filling constructor
 	CUser(uint32 uid, uint32 plrallowed, EUserState userState) : UserID(uid), 
-			CharactersAllowed(plrallowed), 
 			UserState(userState), 
-			SobID(0), 
-			CharacterID(0)  { };
+			CharactersAllowed(plrallowed), 
+			CharacterID(0),
+			SobID(0) { };
 
 	/// Default destructor.
 	~CUser() { };
@@ -90,6 +90,9 @@ struct CUser {
 
 	/// The userid of this player.
 	uint32 UserID;
+
+	/// The online status of the user.
+	EUserState UserState;
 
 	/// The Simulation Object ID that this player is controlling.
 	uint32 CharactersAllowed;
@@ -99,9 +102,6 @@ struct CUser {
 
 	/// The Simulation Object ID that this player is controlling.
 	uint32 SobID;
-
-	/// The online status of the user.
-	EUserState UserState;
 
 	CUserConnection UserConnection;
 
