@@ -51,9 +51,10 @@ MACRO(NL_SETUP_DEFAULT_OPTIONS)
   ###
   # Optional support
   ###
-  OPTION(BUILD_CLIENT       "Build Werewolf Client"                               OFF)
-  OPTION(BUILD_SERVER       "Build Werewolf Server"                               OFF)
+  OPTION(BUILD_CLIENT       "Build Werewolf Client"                               ON )
+  OPTION(BUILD_SERVER       "Build Werewolf Server"                               ON )
   OPTION(BUILD_TOOLS        "Build Werewolf Tools"                                OFF)
+  OPTION(BUILD_SAMPLES      "Build Werewolf Samples"                              OFF)
 
 ENDMACRO(NL_SETUP_DEFAULT_OPTIONS)
 
