@@ -1,5 +1,5 @@
 /**
- * \file CGeneralInterpolato.h
+ * \file CGeneralInterpolator.h
  * \date May 2005
  * \author Matt Raykowski
  * \author Henri Kuuste
