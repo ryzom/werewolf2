@@ -141,10 +141,15 @@ Script::~Script() {
 }
 
 const ScriptFunction* Script::getFunction(const char* name) const {
-	Script::functionMap::const_iterator iter = m_functions.find(name);
-	if(iter == m_functions.end())
-		return NULL;
-	return iter->second;
+	Script::functionMap::const_iterator iter = m_functions.begin();
+	while(iter != m_functions.end()) {
+		if(strcmp(iter->first, name)==0)
+			return iter->second;
+		iter++;
+	}
+
+	nlwarning("Unable to find function '%s'!", name);
+	return NULL;
 }
 
 const std::string& Script::getName() const {

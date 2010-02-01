@@ -101,13 +101,15 @@ Script* ScriptManager::loadScript(std::string file, const char* section) {
 }
 
 const Script* ScriptManager::getScript(const char* name) const {
-	ScriptManager::scriptMap::const_iterator iter = m_scripts.find(name);
-	if(iter == m_scripts.end()) {
-		nlwarning("*** Script name '%s' not found!", name);
-		// TODO throw exception instead
-		return NULL;
+	ScriptManager::scriptMap::const_iterator iter = m_scripts.begin();
+	while(iter != m_scripts.end()) {
+		if(strcmp(iter->first, name) == 0)
+			return (iter->second);
+		iter++;
 	}
-	return iter->second;
+
+	nlwarning("*** Script name '%s' not found!", name);
+	return NULL;
 }
 
 bool ScriptManager::initializeScripts() {
