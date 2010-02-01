@@ -89,10 +89,15 @@ const std::string& ScriptFunction::getName() const {
 }
 
 const ScriptArg* ScriptFunction::getArgument(const char* name) const {
-	ScriptFunction::ArgMap::const_iterator iter = m_args.find(name);
-	if(iter == m_args.end())
-		return NULL;
-	return iter->second;
+	ScriptFunction::ArgMap::const_iterator iter = m_args.begin();
+	while(iter != m_args.end()) {
+		if(strcmp(iter->first, name) == 0)
+			return iter->second;
+		iter++;
+	}
+
+	nlwarning("Unable to find script argument '%s'!", name);
+	return NULL;
 }
 
 ScriptFunctionInstance* ScriptFunction::getInstance() const {
