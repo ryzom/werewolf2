@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<DFN Revision="$Revision$" State="modified">
+  <ELEMENT Name="AreaY" Type="Type" Filename="int.typ"/>
+  <ELEMENT Name="AreaX" Type="Type" Filename="int.typ"/>
+  <LOG>Thu Feb 04 09:17:17 2010 (Matt) Dfn Structure = </LOG>
+</DFN>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<DFN>
+  <ELEMENT Name="Name" Type="Type" Filename="string.typ"/>
+  <ELEMENT Name="Description" Type="Type" Filename="string.typ"/>
+  <ELEMENT Name="Parents" Type="Type" Filename="string.typ" Array="true"/>
+  <ELEMENT Name="MeshGroups" Type="Dfn" Filename="meshgrouptemplate.dfn" Array="true"/>
+  <ELEMENT Name="AnimationLayers" Type="Dfn" Filename="animlayertemplate.dfn" Array="true"/>
+</DFN>

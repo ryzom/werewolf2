@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<DFN>
+	<ELEMENT Name="FunctionName" Type="Type" Filename="string.typ"/>
+	<ELEMENT Name="ReturnType" Type="Type" Filename="returntype.typ"/>
+	<ELEMENT Name="Arguments" Type="Dfn" Filename="arguments.dfn" Array="true"/>
+</DFN>

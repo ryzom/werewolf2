@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<DFN Revision="$Revision$" State="modified">
+  <ELEMENT Name="ComponentScript" Type="Type" Filename="string.typ"/>
+  <ELEMENT Name="ComponentName" Type="Type" Filename="string.typ"/>
+  <LOG>Thu Feb 04 09:13:26 2010 (Matt) Dfn Structure = </LOG>
+</DFN>
