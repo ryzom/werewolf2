@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<DFN>
+	<ELEMENT Name="ArgumentName" Type="Type" Filename="string.typ"/>
+	<ELEMENT Name="ArgumentType" Type="Type" Filename="string.typ"/>
+	<ELEMENT Name="ArgumentId" Type="Type" Filename="int.typ"/>
+	<ELEMENT Name="BindingMap" Type="Type" Filename="string.typ"/>
+	<ELEMENT Name="BindingProperty" Type="Type" Filename="string.typ"/>
+</DFN>

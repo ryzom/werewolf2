@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<DFN>
+  <ELEMENT Name="AnimLayerName" Type="Type" Filename="string.typ"/>
+  <ELEMENT Name="AnimationGroups" Type="Dfn" Filename="animgroup.dfn" Array="true"/>
+</DFN>

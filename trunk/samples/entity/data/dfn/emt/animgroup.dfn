@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<DFN>
+  <ELEMENT Name="AnimGroupName" Type="Type" Filename="string.typ"/>
+  <ELEMENT Name="WrapMode" Type="Type" Filename="animwrapmode.typ"/>
+  <ELEMENT Name="AnimCycles" Type="Type" Filename="int.typ"/>
+  <ELEMENT Name="AnimGroupClips" Type="Dfn" Filename="animgroupclip.dfn" Array="true"/>
+  <ELEMENT Name="Selector" Type="Type" Filename="string.typ"/>
+</DFN>

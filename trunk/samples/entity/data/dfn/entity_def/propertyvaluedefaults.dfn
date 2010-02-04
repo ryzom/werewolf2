@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<DFN Revision="$Revision$" State="modified">
+  <ELEMENT Name="PropertyValue" Type="DfnPointer"/>
+  <COMMENTS>This represents the default values for a property (if the property is a non-primitive.)</COMMENTS>
+  <LOG>Thu Feb 04 09:01:01 2010 (Matt) Dfn Structure = 
+Thu Feb 04 09:01:01 2010 (Matt) Header Comments = This represents the default values for a property (if the property is a non-primitive.)</LOG>
+</DFN>
