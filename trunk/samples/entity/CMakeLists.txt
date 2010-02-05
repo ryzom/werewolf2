@@ -1,6 +1,16 @@
 FILE(GLOB SRC *.cpp *.h)
 
+FILE(GLOB ENTITY_DFN data\dfn\entity_def\*.dfn)
+FILE(GLOB ENTITY_PROP_DFN data\dfn\entity_def\properties\*.dfn)
+FILE(GLOB GEORGES_TYPES data\basics\*.typ)
+FILE(GLOB ENTITIES data\*.entity_def)
+
 ADD_EXECUTABLE(entitysample		${SRC})
+
+SOURCE_GROUP(Data\\Basic_Types ${GEORGES_TYPES})
+SOURCE_GROUP(Data\\Entity_Definitions ${ENTITY_DFN})
+SOURCE_GROUP(Data\\Entity_Property_Definitions ${ENTITY_PROP_DFN})
+SOURCE_GROUP(Data ${ENTITIES})
 
 INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR} ${NEL_INCLUDE_DIR} ${CMAKE_SOURCE_DIR}/wwscript/include)
 TARGET_LINK_LIBRARIES(entitysample	${PLATFORM_LINKFLAGS} 
