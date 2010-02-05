@@ -82,7 +82,7 @@ NL_SETUP_BUILD()
 
 NL_CONFIGURE_CHECKS()
 
-FIND_PACKAGE(NeL COMPONENTS nelmisc nelgeorges nel3d nelnet nelpacs REQUIRED)
+FIND_PACKAGE(NeL COMPONENTS nelmisc nelgeorges nel3d nelnet nelpacs nelligo nelsound nelsnd_lowlevel REQUIRED)
 FIND_PACKAGE(NeLNS COMPONENTS naming_service login_service welcome_service nel_launcher_qt)
 
 ###

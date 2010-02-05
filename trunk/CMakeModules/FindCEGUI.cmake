@@ -38,6 +38,21 @@ FIND_LIBRARY(CEGUI_LIBRARY
   /usr/freeware/lib64
 )
 
+FIND_LIBRARY(CEGUI_LIBRARY_DEBUG
+  NAMES CEGUIBase_d
+  PATHS
+  $ENV{CEGUI_DIR}/lib
+  /usr/local/lib
+  /usr/lib
+  /usr/local/X11R6/lib
+  /usr/X11R6/lib
+  /sw/lib
+  /opt/local/lib
+  /opt/csw/lib
+  /opt/lib
+  /usr/freeware/lib64
+)
+
 GET_FILENAME_COMPONENT(CEGUI_LIB_DIR ${CEGUI_LIBRARY} PATH CACHE)
 
 IF(CEGUI_LIBRARY AND CEGUI_INCLUDE_DIRS)

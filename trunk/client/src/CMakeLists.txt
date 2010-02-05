@@ -36,21 +36,22 @@ ENDIF(UNIX)
 
 
 INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR} ${NEL_INCLUDE_DIR} ${CEGUI_INCLUDE_DIRS} ${PNG_INCLUDE_DIR})
-TARGET_LINK_LIBRARIES(werewolf	${PLATFORM_LINKFLAGS} 
+TARGET_LINK_LIBRARIES(werewolf	optimized {NELMISC_LIBRARY}		debug ${NELMISC_LIBRARY_DEBUG} 
+								optimized ${NELPACS_LIBRARY}	debug ${NELPACS_LIBRARY_DEBUG}
+								optimized ${NELNET_LIBRARY}		debug ${NELNET_LIBRARY_DEBUG} 
+								optimized ${NELSOUND_LIBRARY}	debug ${NELSOUND_LIBRARY_DEBUG} 
+								optimized ${NELSNDDRV_LIBRARY}	debug ${NELSNDDRV_LIBRARY_DEBUG} 
+								optimized ${NELLIGO_LIBRARY}	debug ${NELLIGO_LIBRARY_DEBUG} 
+								optimized ${NELGEORGES_LIBRARY}	debug ${NELGEORGES_LIBRARY_DEBUG} 
+								optimized ${NEL3D_LIBRARY}		debug ${NEL3D_LIBRARY_DEBUG}
+								optimized ${CEGUI_LIBRARY}		debug ${CEGUI_LIBRARY_DEBUG} 
+								${PLATFORM_LINKFLAGS} 
 								${LIBXML2_LIBRARIES} 
-								${NELMISC_LIBRARY} 
-								${NELPACS_LIBRARY} 
-								${NELNET_LIBRARY} 
-								${NELSOUND_LIBRARY} 
-								${NELSNDDRV_LIBRARY} 
-								${NELLIGO_LIBRARY} 
-								${NELGEORGES_LIBRARY} 
-								${NEL3D_LIBRARY} 
 								${JPEG_LIBRARY} 
 								${FREETYPE_LIBRARY} 
+								${PNG_LIBRARIES}
 								wwcommon 
-								${CEGUI_LIBRARY} 
-								${PNG_LIBRARIES})
+								wwscript)
 IF(WIN32)
   SET_TARGET_PROPERTIES(werewolf PROPERTIES 
 	LINK_FLAGS_DEBUG "/NODEFAULTLIB:libc;libcmt;libcmtd;msvcrt"
