@@ -9,11 +9,47 @@
 #include <nel/georges/u_form_loader.h>
 #include <nel/georges/load_form.h>
 
-class TEntityProperty {
+class TEntityProperty : public NLMISC::IClassable {
 public:
+	NLMISC_DECLARE_CLASS(TEntityProperty);
+
+	virtual void serial(NLMISC::IStream &f) { }
+};
+
+class TEntityBasicStringProperty : public TEntityProperty {
+public:
+	NLMISC_DECLARE_CLASS(TEntityBasicStringProperty);
+
+	TEntityBasicStringProperty() {};
+	TEntityBasicStringProperty(std::string stringName, std::string stringValue) : StringName(stringName), StringValue(stringValue) { };
+
 	void serial(NLMISC::IStream &f) {
-		// Nothing here yet.
+		if(f.isReading()) {
+			f.serial(StringName);
+			f.serial(StringValue);
+		} else {
+			f.serial(StringName);
+			f.serial(StringValue);
+		}
 	}
+
+	std::string StringName;
+	std::string StringValue;
+};
+
+class TEntityAreaTriggerProperty : public TEntityProperty {
+	void serial(NLMISC::IStream &f) {
+		if(f.isReading()) {
+			f.serial(AreaX);
+			f.serial(AreaY);
+		} else {
+			f.serial(AreaX);
+			f.serial(AreaY);
+		}
+	}
+
+	uint AreaX;
+	uint AreaY;
 };
 
 class TEntityComponent {
@@ -41,6 +77,12 @@ public:
 		else
 			processComponents(components);
 
+		NLGEORGES::UFormElm *properties;
+		res=root.getNodeByName(&properties, ".Properties");
+		if(res==false || components==NULL)
+			nlinfo("No properties loaded for entity definition type: '%s'", Type.c_str());
+		else
+			processProperties(properties);
 
 	}
 
@@ -69,15 +111,53 @@ public:
 		}
 	}
 
+	void processProperties(NLGEORGES::UFormElm *properties) {
+		uint numProperties;
+		properties->getArraySize(numProperties);
+
+		for(uint idx=0 ; idx<numProperties ; idx++) {
+			TEntityProperty *aProperty = NULL;
+
+			// Get the current property element.
+			NLGEORGES::UFormElm *property;
+			properties->getArrayNode(&property, idx);
+
+			// Now get the name of the definition that defines this property.
+			std::string dfnName;
+			property->getDfnName(dfnName);
+
+			// Now that we know which definition formats this property
+			// we know how to create it and process it.
+			if(dfnName == "basic_string.dfn") {
+				std::string stringName;
+				std::string stringValue;
+
+				property->getValueByName(stringName, ".StringName");
+				property->getValueByName(stringValue, ".StringValue");
+				aProperty = new TEntityBasicStringProperty(stringName, stringValue);
+				
+			} else if(dfnName == "area_trigger_property.dfn") {
+				nlinfo("need to implement the area trigger prperty stuff.");
+			} else {
+				/* more to come later */
+				nlwarning("Unknown property definition type specified in entity definition '%s'", Type.c_str());
+			}
+
+			// Add it to the list of properties for this entity definition.
+			EntityProperties.push_back(aProperty);
+		}
+	}
+
 	void serial(NLMISC::IStream &f) {
 		if(f.isReading()) {
 			f.serial(Type);
 			f.serialCont(EntityComponents);
-			f.serialCont(EntityProperties);
+			//f.serialPolyCont(EntityProperties);
+			f.serialContPtr(EntityProperties);
 		} else {
 			f.serial(Type);
 			f.serialCont(EntityComponents);
-			f.serialCont(EntityProperties);
+			//f.serialCont(EntityProperties);
 		}
 	}
 
@@ -86,7 +166,7 @@ public:
 
 	std::string Type;
 
-	typedef std::vector<TEntityProperty> PropertiesVector;
+	typedef std::vector<TEntityProperty *> PropertiesVector;
 	PropertiesVector EntityProperties;
 
 	typedef std::vector<TEntityComponent> ComponentsVector;
@@ -100,6 +180,10 @@ void main() {
 	NLMISC::CApplicationContext context;
 
 	NLMISC::CPath::addSearchPath("data", true, false);
+
+	// Register property classes.
+	NLMISC_REGISTER_CLASS(TEntityProperty);
+	NLMISC_REGISTER_CLASS(TEntityBasicStringProperty);
 
 	// Contains all of the sheets loaded.
 	typedef std::map<std::string, TEntityDefEntry> TEntityDefinitions;
