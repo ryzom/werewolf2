@@ -48,4 +48,13 @@ void EntityDefManager::build(Entity *entity, std::string entity_def) {
 		entity->AddComponent(component.ComponentName, component.ComponentName);
 		compItr++;
 	}
+
+	// Next we'll begin updating components.
+	TEntityDefEntry::PropertiesVector::iterator propItr = definition.EntityProperties.begin();
+	while(propItr != definition.EntityProperties.end()) {
+		TEntityProperty *prop = (*propItr);
+
+		prop->build(entity);
+		propItr++;
+	}
 }

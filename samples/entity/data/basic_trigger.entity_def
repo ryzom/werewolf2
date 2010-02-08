@@ -3,22 +3,13 @@
   <STRUCT>
     <ARRAY Name="Properties">
       <STRUCT>
-        <ARRAY Name="PropertyValues">
-          <STRUCT>
-            <VSTRUCT DfnName="area_trigger_property.dfn" Name="PropertyValue">
-              <ATOM Name="AreaY" Value="0"/>
-              <ATOM Name="AreaX" Value="0"/>
-            </VSTRUCT>
-          </STRUCT>
-          <STRUCT>
-            <VSTRUCT DfnName="basic_string.dfn" Name="PropertyValue">
-              <ATOM Name="StringName" Value="Description"/>
-              <ATOM Name="StringValue" Value="This is a basic area trigger."/>
-            </VSTRUCT>
-          </STRUCT>
-        </ARRAY>
-        <ATOM Name="PropertyClassName" Value="CAreaTriggerProperty"/>
-        <ATOM Name="PropertyName" Value="AreaTrigger"/>
+        <STRUCT Name="PropertyValues">
+          <ATOM Name="PropertyName" Value="AreaTrigger"/>
+          <VSTRUCT DfnName="area_trigger_property.dfn" Name="PropertyValue">
+            <ATOM Name="AreaY" Value="1.0"/>
+            <ATOM Name="AreaX" Value="1.0"/>
+          </VSTRUCT>
+        </STRUCT>
       </STRUCT>
     </ARRAY>
     <ARRAY Name="Components">
@@ -48,5 +39,9 @@ Thu Feb 04 09:45:29 2010 (Matt) .Properties[0].PropertyValues[1].PropertyValue.S
 Thu Feb 04 09:45:29 2010 (Matt) .Properties[0].PropertyValues[1].PropertyValue.StringValue = This is a basic area trigger.
 Thu Feb 04 09:45:29 2010 (Matt) formName Resized = 2
 Thu Feb 04 09:46:09 2010 (Matt) .Properties[0].PropertyValues[0].PropertyValue.AreaX = 0
-Thu Feb 04 09:46:09 2010 (Matt) .Properties[0].PropertyValues[0].PropertyValue.AreaY = 0</LOG>
+Thu Feb 04 09:46:09 2010 (Matt) .Properties[0].PropertyValues[0].PropertyValue.AreaY = 0
+Mon Feb 08 12:26:30 2010 (Matt) .Properties[0].PropertyValues.PropertyName = AreaTrigger
+Mon Feb 08 12:26:30 2010 (Matt) .Properties[0].PropertyValues.PropertyValue = area_trigger_property.dfn
+Mon Feb 08 12:26:30 2010 (Matt) .Properties[0].PropertyValues.PropertyValue.AreaX = 1.0
+Mon Feb 08 12:26:30 2010 (Matt) .Properties[0].PropertyValues.PropertyValue.AreaY = 1.0</LOG>
 </FORM>

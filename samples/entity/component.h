@@ -13,6 +13,7 @@ public:
 
 	std::string GetName() { return m_name; };
 	void Update(int deltaTime) { };
+	void Render() { };
 
 //	virtual void RequestCommands(std::vector<T_String> &requestCommands, ServerPlayer *player) {};
 //	virtual void ExecuteCommand(const T_String &command, ServerPlayer *player) {};

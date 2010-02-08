@@ -20,10 +20,6 @@ void main() {
 
 	NLMISC::CPath::addSearchPath("data", true, false);
 
-	// Register property classes.
-	NLMISC_REGISTER_CLASS(TEntityProperty);
-	NLMISC_REGISTER_CLASS(TEntityBasicStringProperty);
-
 	// Register all of the component classes.
 	ComponentFactory::getInstance().RegisterComponent("Health", ComponentHealth::Create);
 
@@ -32,5 +28,10 @@ void main() {
 	
 	Entity *ent = new Entity();
 	EntityDefManager::getInstance().build(ent, "laurelin_shopkeeper");
+	
+	nlinfo("Current Max Health is: %d", ent->GetProperty<int>("MaxHealth").Get());
+
 	ent->GetProperty<int>("MaxHealth") = 100;
+
+	nlinfo("Current Max Health is: %d", ent->GetProperty<int>("MaxHealth").Get());
 }

@@ -11,6 +11,7 @@ public:
 	}
 
 	void Update(int deltaTime) { };
+	void Render() { };
 
 	static Component *Create(Entity* entity, const std::string &name) { return dynamic_cast<Component *>(new ComponentHealth(entity, name)); }
 

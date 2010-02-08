@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <DFN Revision="$Revision$" State="modified">
-  <ELEMENT Name="PropertyValues" Type="Dfn" Filename="propertyvaluedefaults.dfn" Array="true"/>
-  <ELEMENT Name="PropertyClassName" Type="Type" Filename="string.typ"/>
-  <ELEMENT Name="PropertyName" Type="Type" Filename="string.typ"/>
+  <ELEMENT Name="PropertyValues" Type="Dfn" Filename="propertyvaluedefaults.dfn" Array="false"/>
   <LOG>Thu Feb 04 09:10:02 2010 (Matt) Dfn Structure = 
 Thu Feb 04 09:28:18 2010 (Matt) Dfn Structure = 
 Thu Feb 04 09:28:29 2010 (Matt) Dfn Structure = 
-Thu Feb 04 09:28:33 2010 (Matt) Dfn Structure = </LOG>
+Thu Feb 04 09:28:33 2010 (Matt) Dfn Structure = 
+Mon Feb 08 10:38:41 2010 (Matt) Dfn Structure = </LOG>
 </DFN>
