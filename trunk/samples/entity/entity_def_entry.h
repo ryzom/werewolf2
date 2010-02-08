@@ -1,17 +1,29 @@
 #ifndef WW_ENTITY_DEF_ENTRY_H
 #define WW_ENTITY_DEF_ENTRY_H
 
-class TEntityProperty : public NLMISC::IClassable {
+#include <string>
+#include <vector>
+
+#include <nel/misc/types_nl.h>
+#include <nel/misc/app_context.h>
+#include <nel/misc/stream.h>
+
+#include <nel/georges/u_form.h>
+#include <nel/georges/u_form_elm.h>
+
+class Entity;
+
+class TEntityProperty {
 public:
-	NLMISC_DECLARE_CLASS(TEntityProperty);
 
 	virtual void serial(NLMISC::IStream &f) { }
+
+	virtual void build(Entity *) { };
 	std::string Type;
 };
 
 class TEntityBasicStringProperty : public TEntityProperty {
 public:
-	NLMISC_DECLARE_CLASS(TEntityBasicStringProperty);
 
 	TEntityBasicStringProperty() {};
 	TEntityBasicStringProperty(std::string stringName, std::string stringValue) : StringName(stringName), StringValue(stringValue) { };
@@ -28,6 +40,28 @@ public:
 
 	std::string StringName;
 	std::string StringValue;
+};
+
+class TEntityBasicIntegerProperty : public TEntityProperty {
+public:
+
+	TEntityBasicIntegerProperty() {};
+	TEntityBasicIntegerProperty(std::string integerName, int integerValue) : IntegerName(integerName), IntegerValue(integerValue) { };
+
+	void serial(NLMISC::IStream &f) {
+		if(f.isReading()) {
+			f.serial(IntegerName);
+			f.serial(IntegerValue);
+		} else {
+			f.serial(IntegerName);
+			f.serial(IntegerValue);
+		}
+	}
+
+	void build(Entity *entity);
+
+	std::string IntegerName;
+	int IntegerValue;
 };
 
 class TEntityAreaTriggerProperty : public TEntityProperty {
@@ -72,7 +106,7 @@ public:
 
 		NLGEORGES::UFormElm *properties;
 		res=root.getNodeByName(&properties, ".Properties");
-		if(res==false || components==NULL)
+		if(res==false || properties==NULL)
 			nlinfo("No properties loaded for entity definition type: '%s'", Type.c_str());
 		else
 			processProperties(properties);
@@ -108,36 +142,52 @@ public:
 		uint numProperties;
 		properties->getArraySize(numProperties);
 
+		nlinfo("processing %d properties", numProperties);
+
 		for(uint idx=0 ; idx<numProperties ; idx++) {
 			TEntityProperty *aProperty = NULL;
+			std::string propertyName;
 
-			// Get the current property element.
+			// Get the current property element.			
 			NLGEORGES::UFormElm *property;
+			NLGEORGES::UFormElm *propertyHolder;
+			NLGEORGES::UFormElm *propertyValue;
 			properties->getArrayNode(&property, idx);
+			property->getNodeByName(&propertyHolder, ".PropertyValues");
+			propertyHolder->getValueByName(propertyName, ".PropertyName");
+			propertyHolder->getNodeByName(&propertyValue, ".PropertyValue");
 
 			// Now get the name of the definition that defines this property.
 			std::string dfnName;
-			property->getDfnName(dfnName);
-
+			propertyValue->getDfnName(dfnName);
+			nlinfo("dfn name is %s", dfnName.c_str());
 			// Now that we know which definition formats this property
 			// we know how to create it and process it.
 			if(dfnName == "basic_string.dfn") {
-				std::string stringName;
 				std::string stringValue;
 
-				property->getValueByName(stringName, ".StringName");
-				property->getValueByName(stringValue, ".StringValue");
-				aProperty = new TEntityBasicStringProperty(stringName, stringValue);
-				aProperty->Type = dfnName;	
+				propertyValue->getValueByName(stringValue, ".StringValue");
+				aProperty = new TEntityBasicStringProperty(propertyName, stringValue);
+				aProperty->Type = dfnName;
+			} else if(dfnName == "basic_integer.dfn") {
+				int integerValue;
+
+				propertyValue->getValueByName(integerValue, ".IntValue");
+				aProperty = new TEntityBasicIntegerProperty(propertyName, integerValue);
+				aProperty->Type = dfnName;
 			} else if(dfnName == "area_trigger_property.dfn") {
 				nlinfo("need to implement the area trigger prperty stuff.");
+			
 			} else {
 				/* more to come later */
 				nlwarning("Unknown property definition type specified in entity definition '%s'", Type.c_str());
 			}
 
-			// Add it to the list of properties for this entity definition.
-			EntityProperties.push_back(aProperty);
+			if(aProperty != NULL) {
+				// Add it to the list of properties for this entity definition.
+				EntityProperties.push_back(aProperty);
+				nlinfo("pushed property back.");
+			}
 		}
 	}
 
