@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "component.h"
+class Component;
 
 class ComponentContainer {
 public:

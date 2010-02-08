@@ -2,8 +2,9 @@
 #define WW_ENTITY_H
 
 #include "component_container.h"
+#include "property_container.h"
 
-class Entity : public ComponentContainer {
+class Entity : public ComponentContainer, public PropertyContainer {
 public:
 	virtual ~Entity() { };
 };
