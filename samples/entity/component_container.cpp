@@ -1,6 +1,7 @@
 #include "component_container.h"
 #include "component_factory.h"
 #include "entity.h"
+#include "component.h"
 
 ComponentContainer::~ComponentContainer() {
 	ComponentVector::iterator itr=m_components.begin();

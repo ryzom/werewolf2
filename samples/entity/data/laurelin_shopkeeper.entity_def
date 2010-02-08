@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<FORM Revision="$Revision$" State="modified">
+  <STRUCT>
+    <ARRAY Name="Properties">
+    </ARRAY>
+    <ARRAY Name="Components">
+      <STRUCT>
+        <ATOM Name="ComponentName" Value="Health"/>
+      </STRUCT>
+    </ARRAY>
+    <ATOM Name="Type" Value="laurelin_shopkeeper"/>
+  </STRUCT>
+  <STRUCT/>
+  <STRUCT/>
+  <STRUCT/>
+  <STRUCT/>
+  <LOG>Thu Feb 04 09:40:16 2010 (Matt) .Properties[0].PropertyClassName = CAreaTriggerProperty
+Thu Feb 04 09:40:16 2010 (Matt) .Properties[0].PropertyName = AreaTrigger
+Thu Feb 04 09:40:16 2010 (Matt) .Properties[0].PropertyValues[0].PropertyValue = area_trigger_property.dfn
+Thu Feb 04 09:40:16 2010 (Matt) .Properties[0].PropertyValues[1].PropertyValue = basic_string.dfn
+Thu Feb 04 09:40:16 2010 (Matt) .Properties[0].PropertyValues[1].PropertyValue.StringValue = 
+Thu Feb 04 09:40:16 2010 (Matt) formName Deleted = 
+Thu Feb 04 09:40:16 2010 (Matt) formName Resized = 2
+Thu Feb 04 09:42:10 2010 (Matt) .Properties[0].PropertyValues[0].PropertyValue.AreaX = 0
+Thu Feb 04 09:42:10 2010 (Matt) .Type = AreaTrigger
+Thu Feb 04 09:42:24 2010 (Matt) .Components[0].ComponentName = AreaTrigger
+Thu Feb 04 09:42:24 2010 (Matt) formName Resized = 1
+Thu Feb 04 09:45:29 2010 (Matt) .Properties[0].PropertyValues[1].PropertyValue = basic_string.dfn
+Thu Feb 04 09:45:29 2010 (Matt) .Properties[0].PropertyValues[1].PropertyValue.StringName = Description
+Thu Feb 04 09:45:29 2010 (Matt) .Properties[0].PropertyValues[1].PropertyValue.StringValue = This is a basic area trigger.
+Thu Feb 04 09:45:29 2010 (Matt) formName Resized = 2
+Thu Feb 04 09:46:09 2010 (Matt) .Properties[0].PropertyValues[0].PropertyValue.AreaX = 0
+Thu Feb 04 09:46:09 2010 (Matt) .Properties[0].PropertyValues[0].PropertyValue.AreaY = 0</LOG>
+</FORM>
