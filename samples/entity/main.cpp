@@ -15,6 +15,16 @@
 
 #include "component_health.h"
 
+/*
+ * TODO
+ *
+ * * Entity Aliases
+ * * Component-to-Entity-Links (e.g. use alias so that the area trigger component can link to the gate entity.)
+ * * Components as sob event handlers (receive events for their sobs.)
+ * * "Generate" a world from a list of entities and property values
+ * ** Expand this to pull entites and properties from a DB using Soci.
+ *
+ */
 void main() {
 	NLMISC::CApplicationContext context;
 
@@ -34,4 +44,8 @@ void main() {
 	ent->GetProperty<int>("MaxHealth") = 100;
 
 	nlinfo("Current Max Health is: %d", ent->GetProperty<int>("MaxHealth").Get());
+
+	EntityEvent event;
+	Component *component = ent->GetComponent("Health");
+	component->handleEvent(event, ent);
 }
