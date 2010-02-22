@@ -13,6 +13,8 @@ public:
 	void Update(int deltaTime) { };
 	void Render() { };
 
+	bool handleEvent(EntityEvent event, Entity *subject);
+
 	static Component *Create(Entity* entity, const std::string &name) { return dynamic_cast<Component *>(new ComponentHealth(entity, name)); }
 
 protected:

@@ -2,6 +2,7 @@
 #include "component_factory.h"
 #include "entity.h"
 #include "component.h"
+#include "entity_exceptions.h"
 
 ComponentContainer::~ComponentContainer() {
 	ComponentVector::iterator itr=m_components.begin();
@@ -14,29 +15,45 @@ ComponentContainer::~ComponentContainer() {
 };
 
 Component *ComponentContainer::AddComponent(const std::string &componentType, const std::string &componentName) {
-	Component *component = GetComponent(componentName);
-	if(component == NULL)
+	Component *component = NULL;
+	
+	// Try and retrieve the component. If it isn't there (exception) then create it and add it.
+	try {
+		component = GetComponent(componentName);
+	} catch(EComponentNotFound) {
 		component = ComponentFactory::getInstance().CreateComponent(dynamic_cast<Entity*>(this), componentType, componentName);
+		m_components.push_back(component);
+	}
 	return component;
 };
 
 bool ComponentContainer::HasComponent(const std::string &componentName) {
-	Component *component = GetComponent(componentName);
-	if(component)
+	try {
+		Component *component = GetComponent(componentName);
 		return true;
+	} catch(EComponentNotFound) { }
+
 	return false;
 };
 
 Component *ComponentContainer::GetComponent(const std::string &componentName) {
 	// Prevent adding the same component multiple times.
+	Component *component = NULL;
+	bool componentFound = false;
 	ComponentVector::iterator itr=m_components.begin();
 	while(itr != m_components.end()) {
-		Component *component = (*itr);
-		if(component->GetName() == componentName)
-			return component;
+		component = (*itr);
+		if(component->GetName() == componentName) {
+			componentFound=true;
+			break;
+		}
 		itr++;
 	}
-	return NULL;
+
+	if(!componentFound)
+		throw EComponentNotFound("Unable to find component '%s' in component contaner.");
+
+	return component;
 };
 
 void ComponentContainer::UpdateComponents(int deltaTime) {
