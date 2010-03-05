@@ -16,13 +16,13 @@ class ComponentFactory {
 
 	NLMISC_SAFE_SINGLETON_DECL(ComponentFactory);
 public:
-	typedef Component*(* ComponentCreator)(Entity* entity, const std::string &name);
+	typedef Component*(* ComponentCreator)(const std::string &name);
 
 	void RegisterComponent(const std::string &type, ComponentCreator functor);
-	Component *CreateComponent(Entity *entity, const std::string &componentType, const std::string &componentName);
+	Component *GetComponent(const std::string &componentType);
 private:
-	typedef std::map<std::string, ComponentCreator> ComponentCreatorMap;
-	ComponentCreatorMap m_creators;
+	typedef CHashMap<std::string, Component*> TComponentMap;
+	TComponentMap m_components;
 };
 
 #endif // WW_COMPONENT_FACTORY_H

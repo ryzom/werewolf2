@@ -11,7 +11,7 @@ public:
 	ComponentContainer() { };
 	virtual ~ComponentContainer();
 
-	Component *AddComponent(const std::string &componentType, const std::string &componentName);
+	Component *AddComponent(const std::string &componentName);
 
 	bool HasComponent(const std::string &componentName);
 
@@ -22,8 +22,6 @@ public:
 	typedef std::vector<Component*> ComponentVector;
 	ComponentVector &GetComponents() { return m_components; }
 
-	//void RequestCommandsFromComponents(std::vector<std::string> &requestCommands, ServerPlayer *player);
-	//void ExecuteCommandOnComponents(const std::string &command, ServerPlayer *player);
 protected:
 	ComponentVector m_components;
 };

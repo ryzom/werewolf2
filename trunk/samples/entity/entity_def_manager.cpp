@@ -45,7 +45,7 @@ void EntityDefManager::build(Entity *entity, std::string entity_def) {
 	while(compItr != definition.EntityComponents.end()) {
 		TEntityComponent component = (*compItr);
 		
-		entity->AddComponent(component.ComponentName, component.ComponentName);
+		entity->AddComponent(component.ComponentName);
 		compItr++;
 	}
 
