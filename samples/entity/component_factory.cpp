@@ -1,26 +1,19 @@
 #include "component_factory.h"
+#include "component.h"
+#include "entity_exceptions.h"
 
 NLMISC_SAFE_SINGLETON_IMPL(ComponentFactory)
 
-Component *ComponentFactory::CreateComponent(Entity *entity, 
-											 const std::string &componentType, 
-											 const std::string &componentName) {
-	ComponentCreatorMap::iterator itr = m_creators.find(componentType);
-	if(itr == m_creators.end())
-		throw NLMISC::Exception("Unable to create component '" + componentType + "'");
-
-	ComponentCreator creator = itr->second;
-
-	if(componentName.empty())
-		return creator(entity, componentType);
-	else
-		return creator(entity, componentName);
+void ComponentFactory::RegisterComponent(const std::string &type, ComponentCreator functor) {
+	m_components.insert(TComponentMap::value_type(type, functor(type)));
 }
 
-void ComponentFactory::RegisterComponent(const std::string &type, ComponentCreator functor) {
-	if(m_creators.find(type) == m_creators.end()) {
-		std::pair<std::string, ComponentCreator> value(type, functor);
-		m_creators.insert(value);
-	}
+Component *ComponentFactory::GetComponent(const std::string &componentType) {
+	//// Find the controller by id, make sure we can find it.
+	TComponentMap::const_iterator itr = m_components.find(componentType);
+	if( itr == m_components.end())
+		throw EComponentNotRegistered("Unable to create component '" + componentType + "'");
 
+	// return a pointer to the component.
+	return (itr->second);
 }

@@ -6,19 +6,18 @@
 
 class ComponentHealth : public Component {
 public:
-	ComponentHealth(Entity* entity, const std::string &name) : Component(entity, name) {
-		m_maxHealth = entity->AddProperty<int>("MaxHealth", 0);
-	}
+	ComponentHealth(const std::string &name) : Component(name) { };
 
 	void Update(int deltaTime) { };
 	void Render() { };
 
+	void ApplyEntity(Entity *entity) {
+		entity->AddProperty<int>("MaxHealth", 0);
+	}
+
 	bool handleEvent(EntityEvent event, Entity *subject);
 
-	static Component *Create(Entity* entity, const std::string &name) { return dynamic_cast<Component *>(new ComponentHealth(entity, name)); }
-
-protected:
-	Property<int> m_maxHealth;
+	static Component *Create(const std::string &name) { return dynamic_cast<Component *>(new ComponentHealth(name)); }
 };
 
 #endif // WW_COMPONENT_HEALTH_H

@@ -14,14 +14,19 @@ ComponentContainer::~ComponentContainer() {
 	m_components.clear();
 };
 
-Component *ComponentContainer::AddComponent(const std::string &componentType, const std::string &componentName) {
+Component *ComponentContainer::AddComponent(const std::string &componentName) {
 	Component *component = NULL;
 	
 	// Try and retrieve the component. If it isn't there (exception) then create it and add it.
 	try {
 		component = GetComponent(componentName);
 	} catch(EComponentNotFound) {
-		component = ComponentFactory::getInstance().CreateComponent(dynamic_cast<Entity*>(this), componentType, componentName);
+		// Retrieve the component object.
+		component = ComponentFactory::getInstance().GetComponent(componentName);
+		
+		// Apply this to the entity requesting.
+		component->ApplyEntity(dynamic_cast<Entity*>(this));
+
 		m_components.push_back(component);
 	}
 	return component;

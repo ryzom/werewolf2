@@ -12,4 +12,10 @@ public:
 	EComponentNotFound(const std::string &str) : NLMISC::Exception( str ) {}
 };
 
+class EComponentNotRegistered : public NLMISC::Exception {
+public:
+	EComponentNotRegistered() : NLMISC::Exception("Component not registered") { }
+	EComponentNotRegistered(const std::string &str) : NLMISC::Exception( str ) {}
+};
+
 #endif // WW_ENTITY_EXCEPTIONS_H
